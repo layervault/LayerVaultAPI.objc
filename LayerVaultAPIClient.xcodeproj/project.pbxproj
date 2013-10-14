@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E3EE4372F41464092ECABA3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC355E76CC44E6D9CB2F3D5 /* libPods.a */; };
 		3E365A01569A453EA485DF09 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC355E76CC44E6D9CB2F3D5 /* libPods.a */; };
 		C9546E97180C366C00C56AC1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9546E96180C366C00C56AC1 /* SystemConfiguration.framework */; };
 		C9546E99180C367500C56AC1 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9546E98180C367500C56AC1 /* CoreServices.framework */; };
@@ -83,6 +84,7 @@
 			files = (
 				C95CD2E3180B5F9500007F9B /* Cocoa.framework in Frameworks */,
 				C95CD2E2180B5F9500007F9B /* XCTest.framework in Frameworks */,
+				0E3EE4372F41464092ECABA3 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,9 +206,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C95CD2F3180B5F9500007F9B /* Build configuration list for PBXNativeTarget "LayerVaultAPIClientTests" */;
 			buildPhases = (
+				D5C3D259BD6F41C8B15F73A9 /* Check Pods Manifest.lock */,
 				C95CD2DC180B5F9500007F9B /* Sources */,
 				C95CD2DD180B5F9500007F9B /* Frameworks */,
 				C95CD2DE180B5F9500007F9B /* Resources */,
+				695AAA4EDBB94D5AB9D662EF /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -290,7 +294,37 @@
 			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		695AAA4EDBB94D5AB9D662EF /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		A18C875876C24CA0AD024C27 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D5C3D259BD6F41C8B15F73A9 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -404,7 +438,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -436,7 +470,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -471,6 +505,7 @@
 		};
 		C95CD2F4180B5F9500007F9B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1BAD6C02976A444C9AA9C4E2 /* Pods.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/LayerVaultAPIClient.app/Contents/MacOS/LayerVaultAPIClient";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -493,6 +528,7 @@
 		};
 		C95CD2F5180B5F9500007F9B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1BAD6C02976A444C9AA9C4E2 /* Pods.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/LayerVaultAPIClient.app/Contents/MacOS/LayerVaultAPIClient";
 				COMBINE_HIDPI_IMAGES = YES;
