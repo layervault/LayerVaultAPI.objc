@@ -12,21 +12,31 @@
 
 @implementation LVTHTTPClient
 
-- (instancetype)initWithBaseURL:(NSURL *)url
+- (instancetype)initWithBaseURL:(NSURL *)url token:(NSString *)token
 {
     self = [super initWithBaseURL:url];
     if (self) {
         [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
         [self setDefaultHeader:@"Accept" value:@"application/json"];
-        [self setDefaultHeader:@"Authorization" value:@"Bearer e4d1af3fff20e0cd257a2a09b0ca9f001f058f4b66fe6d269f31bbdef615b9d1"];
+        if ([token length] > 0) {
+            [self setDefaultHeader:@"Authorization"
+                             value:[NSString stringWithFormat:@"Bearer %@", token]];
+        }
     }
     return self;
 }
 
 
-- (instancetype)init
+- (instancetype)initWithToken:(NSString *)token
 {
-    return [self initWithBaseURL:[NSURL URLWithString:@"https://layervault.com/api/v1/"]];
+    return [self initWithBaseURL:[NSURL URLWithString:@"https://layervault.com/api/v1/"]
+                           token:token];
+}
+
+
+- (instancetype)initWithBaseURL:(NSURL *)url
+{
+    return [self initWithBaseURL:url token:nil];
 }
 
 

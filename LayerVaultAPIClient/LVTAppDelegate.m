@@ -18,7 +18,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    self.client = [LVTHTTPClient new];
+    self.client = [[LVTHTTPClient alloc] initWithToken:@"87043616ba2462339ee11548c00e37b14a3480b06ed7532108d6d30e52065f59"];
 
     [self.client getMyInfo:^(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation) {
         NSLog(@"user: %@", user);

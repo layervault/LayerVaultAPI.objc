@@ -12,6 +12,10 @@
 
 @interface LVTHTTPClient : AFHTTPClient
 
+- (instancetype)initWithBaseURL:(NSURL *)url token:(NSString *)token;
+
+- (instancetype)initWithToken:(NSString *)token;
+
 - (void)getMyInfo:(void (^)(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation))myInfoBlock;
 
 @end
