@@ -8,9 +8,10 @@
 
 #import <AFNetworking/AFNetworking.h>
 
+@class LVTUser;
+
 @interface LVTHTTPClient : AFHTTPClient
 
-- (void)getMyInfoWithSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-                     failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+- (void)getMyInfo:(void (^)(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation))myInfoBlock;
 
 @end

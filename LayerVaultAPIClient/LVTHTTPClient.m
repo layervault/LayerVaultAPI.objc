@@ -7,6 +7,8 @@
 //
 
 #import "LVTHTTPClient.h"
+#import <Mantle/Mantle.h>
+#import "LVTUser.h"
 
 @implementation LVTHTTPClient
 
@@ -28,13 +30,24 @@
 }
 
 
-- (void)getMyInfoWithSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
-                     failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+- (void)getMyInfo:(void (^)(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation))myInfoBlock;
 {
     [self getPath:@"me"
        parameters:nil
-          success:success
-          failure:failure];
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              if (myInfoBlock) {
+                  NSError *error = nil;
+                  LVTUser *user = [MTLJSONAdapter modelOfClass:LVTUser.class
+                                            fromJSONDictionary:responseObject
+                                                         error:&error];
+                  myInfoBlock(user, error, operation);
+              }
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              if (myInfoBlock) {
+                  myInfoBlock(nil, error, operation);
+              }
+          }];
 }
 
 @end

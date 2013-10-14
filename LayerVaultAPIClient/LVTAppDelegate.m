@@ -8,6 +8,7 @@
 
 #import "LVTAppDelegate.h"
 #import "LVTHTTPClient.h"
+#import "LVTUser.h"
 
 @interface LVTAppDelegate ()
 @property (nonatomic) LVTHTTPClient *client;
@@ -19,15 +20,11 @@
 {
     self.client = [LVTHTTPClient new];
 
-    [self.client
-     getMyInfoWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-         NSLog(@"operation: %@", operation);
-         NSLog(@"responseObject: %@", responseObject);
-     }
-     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-         NSLog(@"operation: %@", operation);
-         NSLog(@"error: %@", error);
-     }];
+    [self.client getMyInfo:^(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation) {
+        NSLog(@"user: %@", user);
+        NSLog(@"error: %@", error);
+        NSLog(@"operation: %@", operation);
+    }];
 }
 
 @end
