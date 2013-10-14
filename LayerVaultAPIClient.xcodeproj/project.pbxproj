@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3E365A01569A453EA485DF09 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC355E76CC44E6D9CB2F3D5 /* libPods.a */; };
+		C9546E97180C366C00C56AC1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9546E96180C366C00C56AC1 /* SystemConfiguration.framework */; };
+		C9546E99180C367500C56AC1 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9546E98180C367500C56AC1 /* CoreServices.framework */; };
 		C95CD2C3180B5F9500007F9B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C95CD2C2180B5F9500007F9B /* Cocoa.framework */; };
 		C95CD2CD180B5F9500007F9B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C95CD2CB180B5F9500007F9B /* InfoPlist.strings */; };
 		C95CD2CF180B5F9500007F9B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C95CD2CE180B5F9500007F9B /* main.m */; };
@@ -36,6 +38,8 @@
 /* Begin PBXFileReference section */
 		1BAD6C02976A444C9AA9C4E2 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		3FC355E76CC44E6D9CB2F3D5 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9546E96180C366C00C56AC1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		C9546E98180C367500C56AC1 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		C95CD2BF180B5F9500007F9B /* LayerVaultAPIClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LayerVaultAPIClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C95CD2C2180B5F9500007F9B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		C95CD2C5180B5F9500007F9B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -66,6 +70,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9546E99180C367500C56AC1 /* CoreServices.framework in Frameworks */,
+				C9546E97180C366C00C56AC1 /* SystemConfiguration.framework in Frameworks */,
 				C95CD2C3180B5F9500007F9B /* Cocoa.framework in Frameworks */,
 				3E365A01569A453EA485DF09 /* libPods.a in Frameworks */,
 			);
@@ -106,6 +112,8 @@
 		C95CD2C1180B5F9500007F9B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C9546E98180C367500C56AC1 /* CoreServices.framework */,
+				C9546E96180C366C00C56AC1 /* SystemConfiguration.framework */,
 				C95CD2C2180B5F9500007F9B /* Cocoa.framework */,
 				C95CD2E1180B5F9500007F9B /* XCTest.framework */,
 				C95CD2C4180B5F9500007F9B /* Other Frameworks */,
