@@ -137,15 +137,15 @@
 		C95CD2C8180B5F9500007F9B /* LayerVaultAPIClient */ = {
 			isa = PBXGroup;
 			children = (
+				C95CD2DA180B5F9500007F9B /* Images.xcassets */,
 				C95CD2D4180B5F9500007F9B /* LVTAppDelegate.h */,
 				C95CD2D5180B5F9500007F9B /* LVTAppDelegate.m */,
 				C95CD2F6180B687D00007F9B /* LVTHTTPClient.h */,
 				C95CD2F7180B687D00007F9B /* LVTHTTPClient.m */,
-				C95CD2D7180B5F9500007F9B /* MainMenu.xib */,
-				C95CD2DA180B5F9500007F9B /* Images.xcassets */,
-				C95CD2C9180B5F9500007F9B /* Supporting Files */,
 				C95CD2F9180B71B000007F9B /* LVTUser.h */,
 				C95CD2FA180B71B000007F9B /* LVTUser.m */,
+				C95CD2D7180B5F9500007F9B /* MainMenu.xib */,
+				C95CD2C9180B5F9500007F9B /* Supporting Files */,
 			);
 			path = LayerVaultAPIClient;
 			sourceTree = "<group>";
