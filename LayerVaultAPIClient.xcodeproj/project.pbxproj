@@ -16,7 +16,6 @@
 		C95CD2CF180B5F9500007F9B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C95CD2CE180B5F9500007F9B /* main.m */; };
 		C95CD2D3180B5F9500007F9B /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C95CD2D1180B5F9500007F9B /* Credits.rtf */; };
 		C95CD2D6180B5F9500007F9B /* LVTAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C95CD2D5180B5F9500007F9B /* LVTAppDelegate.m */; };
-		C95CD2D9180B5F9500007F9B /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C95CD2D7180B5F9500007F9B /* MainMenu.xib */; };
 		C95CD2DB180B5F9500007F9B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C95CD2DA180B5F9500007F9B /* Images.xcassets */; };
 		C95CD2E2180B5F9500007F9B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C95CD2E1180B5F9500007F9B /* XCTest.framework */; };
 		C95CD2E3180B5F9500007F9B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C95CD2C2180B5F9500007F9B /* Cocoa.framework */; };
@@ -24,6 +23,7 @@
 		C95CD2ED180B5F9500007F9B /* LayerVaultAPIClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C95CD2EC180B5F9500007F9B /* LayerVaultAPIClientTests.m */; };
 		C95CD2F8180B687D00007F9B /* LVTHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = C95CD2F7180B687D00007F9B /* LVTHTTPClient.m */; };
 		C95CD2FB180B71B000007F9B /* LVTUser.m in Sources */ = {isa = PBXBuildFile; fileRef = C95CD2FA180B71B000007F9B /* LVTUser.m */; };
+		C96C0813180C7D9D000149E3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C96C0812180C7D9D000149E3 /* MainMenu.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,7 +53,6 @@
 		C95CD2D2180B5F9500007F9B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		C95CD2D4180B5F9500007F9B /* LVTAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LVTAppDelegate.h; sourceTree = "<group>"; };
 		C95CD2D5180B5F9500007F9B /* LVTAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LVTAppDelegate.m; sourceTree = "<group>"; };
-		C95CD2D8180B5F9500007F9B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		C95CD2DA180B5F9500007F9B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		C95CD2E0180B5F9500007F9B /* LayerVaultAPIClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LayerVaultAPIClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C95CD2E1180B5F9500007F9B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -64,6 +63,7 @@
 		C95CD2F7180B687D00007F9B /* LVTHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVTHTTPClient.m; sourceTree = "<group>"; };
 		C95CD2F9180B71B000007F9B /* LVTUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVTUser.h; sourceTree = "<group>"; };
 		C95CD2FA180B71B000007F9B /* LVTUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVTUser.m; sourceTree = "<group>"; };
+		C96C0812180C7D9D000149E3 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,7 +144,7 @@
 				C95CD2F7180B687D00007F9B /* LVTHTTPClient.m */,
 				C95CD2F9180B71B000007F9B /* LVTUser.h */,
 				C95CD2FA180B71B000007F9B /* LVTUser.m */,
-				C95CD2D7180B5F9500007F9B /* MainMenu.xib */,
+				C96C0812180C7D9D000149E3 /* MainMenu.xib */,
 				C95CD2C9180B5F9500007F9B /* Supporting Files */,
 			);
 			path = LayerVaultAPIClient;
@@ -264,7 +264,7 @@
 				C95CD2CD180B5F9500007F9B /* InfoPlist.strings in Resources */,
 				C95CD2DB180B5F9500007F9B /* Images.xcassets in Resources */,
 				C95CD2D3180B5F9500007F9B /* Credits.rtf in Resources */,
-				C95CD2D9180B5F9500007F9B /* MainMenu.xib in Resources */,
+				C96C0813180C7D9D000149E3 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -386,14 +386,6 @@
 				C95CD2D2180B5F9500007F9B /* en */,
 			);
 			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
-		C95CD2D7180B5F9500007F9B /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C95CD2D8180B5F9500007F9B /* Base */,
-			);
-			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
 		C95CD2E9180B5F9500007F9B /* InfoPlist.strings */ = {
