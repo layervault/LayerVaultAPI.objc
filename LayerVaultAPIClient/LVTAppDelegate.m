@@ -7,12 +7,27 @@
 //
 
 #import "LVTAppDelegate.h"
+#import "LVTHTTPClient.h"
+
+@interface LVTAppDelegate ()
+@property (nonatomic) LVTHTTPClient *client;
+@end
 
 @implementation LVTAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    // Insert code here to initialize your application
+    self.client = [LVTHTTPClient new];
+
+    [self.client
+     getMyInfoWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+         NSLog(@"operation: %@", operation);
+         NSLog(@"responseObject: %@", responseObject);
+     }
+     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         NSLog(@"operation: %@", operation);
+         NSLog(@"error: %@", error);
+     }];
 }
 
 @end

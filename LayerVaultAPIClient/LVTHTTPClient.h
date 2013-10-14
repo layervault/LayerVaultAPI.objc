@@ -10,7 +10,7 @@
 
 @interface LVTHTTPClient : AFHTTPClient
 
-- (void)getMyInfoWithSuccess:(void (^)(AFHTTPRequestOperation *, id))success
-                     failure:(void (^)(AFHTTPRequestOperation *, NSError *))failure;
+- (void)getMyInfoWithSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                     failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
 
 @end

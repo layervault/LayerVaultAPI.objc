@@ -16,7 +16,7 @@
     if (self) {
         [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
         [self setDefaultHeader:@"Accept" value:@"application/json"];
-        [self setAuthorizationHeaderWithToken:@"Bearer e4d1af3fff20e0cd257a2a09b0ca9f001f058f4b66fe6d269f31bbdef615b9d1"];
+        [self setDefaultHeader:@"Authorization" value:@"Bearer e4d1af3fff20e0cd257a2a09b0ca9f001f058f4b66fe6d269f31bbdef615b9d1"];
     }
     return self;
 }
@@ -28,8 +28,8 @@
 }
 
 
-- (void)getMyInfoWithSuccess:(void (^)(AFHTTPRequestOperation *, id))success
-                     failure:(void (^)(AFHTTPRequestOperation *, NSError *))failure
+- (void)getMyInfoWithSuccess:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                     failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
     [self getPath:@"me"
        parameters:nil
