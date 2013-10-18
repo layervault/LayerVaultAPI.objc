@@ -9,6 +9,7 @@
 #import <AFOAuth2Client/AFOAuth2Client.h>
 
 @class LVTUser;
+@class RACSignal;
 
 @interface LVTHTTPClient : AFOAuth2Client
 
@@ -17,5 +18,7 @@
 - (instancetype)initWithClientID:(NSString *)clientID secret:(NSString *)secret;
 
 - (void)authenticateWithBlock:(void (^)(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation))myInfoBlock;
+
+- (RACSignal *)fetchUserInfo;
 
 @end
