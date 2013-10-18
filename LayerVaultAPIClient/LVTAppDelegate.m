@@ -39,7 +39,11 @@
     AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:self.client.serviceProviderIdentifier];
     if (credential) {
         [self.client setAuthorizationHeaderWithCredential:credential];
-        [self.client getMyInfo:nil];
+        [self.client authenticateWithBlock:^(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation) {
+            if (!user && error) {
+                [AFOAuthCredential deleteCredentialWithIdentifier:self.client.serviceProviderIdentifier];
+            }
+        }];
     }
     else {
         

@@ -37,7 +37,7 @@
                           secret:secret];
 }
 
-- (void)getMyInfo:(void (^)(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation))myInfoBlock;
+- (void)authenticateWithBlock:(void (^)(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation))myInfoBlock;
 {
     [self getPath:@"me"
        parameters:nil
