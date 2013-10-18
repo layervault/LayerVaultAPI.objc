@@ -65,6 +65,7 @@
 		C95CD2FA180B71B000007F9B /* LVTUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVTUser.m; sourceTree = "<group>"; };
 		C96C0812180C7D9D000149E3 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		C96C0814180C7F23000149E3 /* LVTUserTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVTUserTest.m; sourceTree = "<group>"; };
+		C9DFB7191810C973002B941B /* LVConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LVConstants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				C95CD2DA180B5F9500007F9B /* Images.xcassets */,
+				C9DFB7191810C973002B941B /* LVConstants.h */,
 				C95CD2D4180B5F9500007F9B /* LVTAppDelegate.h */,
 				C95CD2D5180B5F9500007F9B /* LVTAppDelegate.m */,
 				C95CD2F6180B687D00007F9B /* LVTHTTPClient.h */,
