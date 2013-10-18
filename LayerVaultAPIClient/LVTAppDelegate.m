@@ -29,7 +29,10 @@
     self.client = [[LVTHTTPClient alloc] initWithClientID:LVClientID
                                                    secret:LVClientSecret];
 
+    @weakify(self);
+    
     [RACObserve(self.client, user) subscribeNext:^(LVTUser *user) {
+        @strongify(self);
         if (user.email) {
             [self.loggedInLabel setStringValue:user.email];
             NSLog(@"logged in as: %@", user);
@@ -39,7 +42,6 @@
         }
     }];
 
-    @weakify(self);
     [RACObserve(self, credential) subscribeNext:^(AFOAuthCredential *credential) {
         @strongify(self);
         if (credential) {
