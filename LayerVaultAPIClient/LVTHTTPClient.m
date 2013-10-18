@@ -8,56 +8,56 @@
 
 #import "LVTHTTPClient.h"
 #import <Mantle/Mantle.h>
+#import <AFNetworking/AFJSONRequestOperation.h>
 #import "LVTUser.h"
+
+
+@interface LVTHTTPClient ()
+@property (nonatomic, copy) LVTUser *user;
+@end
+
 
 @implementation LVTHTTPClient
 
-- (instancetype)initWithBaseURL:(NSURL *)url token:(NSString *)token
+- (instancetype)initWithBaseURL:(NSURL *)url clientID:(NSString *)clientID secret:(NSString *)secret
 {
-    self = [super initWithBaseURL:url];
+    self = [super initWithBaseURL:url clientID:clientID secret:secret];
     if (self) {
         [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
         [self setDefaultHeader:@"Accept" value:@"application/json"];
-        if ([token length] > 0) {
-            [self setDefaultHeader:@"Authorization"
-                             value:[NSString stringWithFormat:@"Bearer %@", token]];
-        }
     }
     return self;
 }
 
 
-- (instancetype)initWithToken:(NSString *)token
+- (instancetype)initWithClientID:(NSString *)clientID secret:(NSString *)secret
 {
     return [self initWithBaseURL:[NSURL URLWithString:@"https://layervault.com/api/v1/"]
-                           token:token];
+                        clientID:clientID
+                          secret:secret];
 }
-
-
-- (instancetype)initWithBaseURL:(NSURL *)url
-{
-    return [self initWithBaseURL:url token:nil];
-}
-
 
 - (void)getMyInfo:(void (^)(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation))myInfoBlock;
 {
     [self getPath:@"me"
        parameters:nil
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              NSError *error = nil;
+              LVTUser *user = [MTLJSONAdapter modelOfClass:LVTUser.class
+                                        fromJSONDictionary:responseObject
+                                                     error:&error];
+              self.user = user;
               if (myInfoBlock) {
-                  NSError *error = nil;
-                  LVTUser *user = [MTLJSONAdapter modelOfClass:LVTUser.class
-                                            fromJSONDictionary:responseObject
-                                                         error:&error];
                   myInfoBlock(user, error, operation);
               }
           }
           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              self.user = nil;
               if (myInfoBlock) {
                   myInfoBlock(nil, error, operation);
               }
           }];
 }
+
 
 @end

@@ -6,15 +6,15 @@
 //  Copyright (c) 2013 codecaffeine. All rights reserved.
 //
 
-#import <AFNetworking/AFNetworking.h>
+#import <AFOAuth2Client/AFOAuth2Client.h>
 
 @class LVTUser;
 
-@interface LVTHTTPClient : AFHTTPClient
+@interface LVTHTTPClient : AFOAuth2Client
 
-- (instancetype)initWithBaseURL:(NSURL *)url token:(NSString *)token;
+@property (readonly, nonatomic, copy) LVTUser *user;
 
-- (instancetype)initWithToken:(NSString *)token;
+- (instancetype)initWithClientID:(NSString *)clientID secret:(NSString *)secret;
 
 - (void)getMyInfo:(void (^)(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation))myInfoBlock;
 
