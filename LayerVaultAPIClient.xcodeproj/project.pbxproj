@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0E3EE4372F41464092ECABA3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC355E76CC44E6D9CB2F3D5 /* libPods.a */; };
 		3E365A01569A453EA485DF09 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC355E76CC44E6D9CB2F3D5 /* libPods.a */; };
+		C9497F83181AFF82005C8FFC /* LVTOrganization.m in Sources */ = {isa = PBXBuildFile; fileRef = C9497F82181AFF82005C8FFC /* LVTOrganization.m */; };
 		C9546E97180C366C00C56AC1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9546E96180C366C00C56AC1 /* SystemConfiguration.framework */; };
 		C9546E99180C367500C56AC1 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9546E98180C367500C56AC1 /* CoreServices.framework */; };
 		C95CD2C3180B5F9500007F9B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C95CD2C2180B5F9500007F9B /* Cocoa.framework */; };
@@ -40,6 +41,8 @@
 /* Begin PBXFileReference section */
 		1BAD6C02976A444C9AA9C4E2 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		3FC355E76CC44E6D9CB2F3D5 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9497F81181AFF82005C8FFC /* LVTOrganization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVTOrganization.h; sourceTree = "<group>"; };
+		C9497F82181AFF82005C8FFC /* LVTOrganization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVTOrganization.m; sourceTree = "<group>"; };
 		C9546E96180C366C00C56AC1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C9546E98180C367500C56AC1 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		C95CD2BF180B5F9500007F9B /* LayerVaultAPIClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LayerVaultAPIClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -149,6 +152,8 @@
 				C95CD2FA180B71B000007F9B /* LVTUser.m */,
 				C96C0812180C7D9D000149E3 /* MainMenu.xib */,
 				C95CD2C9180B5F9500007F9B /* Supporting Files */,
+				C9497F81181AFF82005C8FFC /* LVTOrganization.h */,
+				C9497F82181AFF82005C8FFC /* LVTOrganization.m */,
 			);
 			path = LayerVaultAPIClient;
 			sourceTree = "<group>";
@@ -350,6 +355,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C95CD2CF180B5F9500007F9B /* main.m in Sources */,
+				C9497F83181AFF82005C8FFC /* LVTOrganization.m in Sources */,
 				C95CD2FB180B71B000007F9B /* LVTUser.m in Sources */,
 				C95CD2F8180B687D00007F9B /* LVTHTTPClient.m in Sources */,
 				C95CD2D6180B5F9500007F9B /* LVTAppDelegate.m in Sources */,
