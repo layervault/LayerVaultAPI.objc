@@ -17,7 +17,11 @@
 
 - (instancetype)initWithClientID:(NSString *)clientID secret:(NSString *)secret;
 
-- (void)authenticateWithBlock:(void (^)(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation))myInfoBlock;
+- (void)authenticateWithBlock:(void (^)(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation))block;
+
+- (void)getMeWithBlock:(void (^)(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation))block;
+
+- (RACSignal *)requestAuthorizationWithEmail:(NSString *)email password:(NSString *)password;
 
 - (RACSignal *)fetchUserInfo;
 
