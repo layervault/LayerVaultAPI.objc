@@ -9,6 +9,7 @@
 #import <AFOAuth2Client/AFOAuth2Client.h>
 
 @class LVTUser;
+@class LVTOrganization;
 @class RACSignal;
 
 @interface LVTHTTPClient : AFOAuth2Client
@@ -20,6 +21,9 @@
 - (void)authenticateWithBlock:(void (^)(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation))block;
 
 - (void)getMeWithBlock:(void (^)(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation))block;
+
+- (void)getOrganizationWithName:(NSString *)orgName
+                          block:(void (^)(LVTOrganization *organization, NSError *error, AFHTTPRequestOperation *operation))block;
 
 - (RACSignal *)requestAuthorizationWithEmail:(NSString *)email password:(NSString *)password;
 

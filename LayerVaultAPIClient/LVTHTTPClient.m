@@ -9,9 +9,10 @@
 #import "LVTHTTPClient.h"
 #import <Mantle/Mantle.h>
 #import <AFNetworking/AFJSONRequestOperation.h>
-#import "LVTUser.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <Mantle/EXTScope.h>
+#import "LVTUser.h"
+#import "LVTOrganization.h"
 
 
 @interface LVTHTTPClient ()
@@ -61,6 +62,28 @@
                                                      error:&error];
               if (block) {
                   block(user, error, operation);
+              }
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              if (block) {
+                  block(nil, error, operation);
+              }
+          }];
+}
+
+
+- (void)getOrganizationWithName:(NSString *)orgName
+                          block:(void (^)(LVTOrganization *organization, NSError *error, AFHTTPRequestOperation *operation))block
+{
+    [self getPath:orgName
+       parameters:nil
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              NSError *error = nil;
+              LVTOrganization *org = [MTLJSONAdapter modelOfClass:LVTOrganization.class
+                                        fromJSONDictionary:responseObject
+                                                     error:&error];
+              if (block) {
+                  block(org, error, operation);
               }
           }
           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
