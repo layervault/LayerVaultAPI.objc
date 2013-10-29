@@ -35,7 +35,7 @@
 
 - (instancetype)initWithClientID:(NSString *)clientID secret:(NSString *)secret
 {
-    return [self initWithBaseURL:[NSURL URLWithString:@"https://layervault.com/api/v1/"]
+    return [self initWithBaseURL:[NSURL URLWithString:@"https://api.layervault.com/api/v1/"]
                         clientID:clientID
                           secret:secret];
 }
