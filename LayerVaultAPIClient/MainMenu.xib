@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1070" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -650,14 +650,14 @@
         <window title="LayerVaultAPIClient" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="371">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="335" y="390" width="261" height="182"/>
+            <rect key="contentRect" x="335" y="390" width="261" height="265"/>
             <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
             <view key="contentView" id="372">
-                <rect key="frame" x="0.0" y="0.0" width="261" height="182"/>
+                <rect key="frame" x="0.0" y="0.0" width="261" height="265"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Knr-r2-fAv">
-                        <rect key="frame" x="20" y="81" width="221" height="22"/>
+                        <rect key="frame" x="20" y="164" width="221" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Email" drawsBackground="YES" id="Jau-eS-6oM">
                             <font key="font" metaFont="system"/>
@@ -666,8 +666,11 @@
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yHV-6v-7eC">
-                        <rect key="frame" x="14" y="13" width="233" height="32"/>
+                        <rect key="frame" x="14" y="96" width="233" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="XEH-HG-H3d"/>
+                        </constraints>
                         <buttonCell key="cell" type="push" title="Login" alternateTitle="Logging In…" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="a06-Z5-pQd">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -677,7 +680,7 @@
                         </connections>
                     </button>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mI9-Br-0O4">
-                        <rect key="frame" x="17" y="145" width="227" height="17"/>
+                        <rect key="frame" x="17" y="228" width="227" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Logged in as" id="d6F-86-gHy">
                             <font key="font" metaFont="systemBold"/>
@@ -686,7 +689,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="674-ue-Vz3">
-                        <rect key="frame" x="32" y="120" width="196" height="17"/>
+                        <rect key="frame" x="32" y="203" width="196" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Not logged in" id="iSR-w5-GAm">
                             <font key="font" metaFont="system"/>
@@ -695,14 +698,14 @@
                         </textFieldCell>
                     </textField>
                     <box autoresizesSubviews="NO" verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="nF7-YK-9fl">
-                        <rect key="frame" x="12" y="109" width="237" height="5"/>
+                        <rect key="frame" x="12" y="192" width="237" height="5"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <font key="titleFont" metaFont="system"/>
                     </box>
                     <secureTextField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IKv-xu-H6Q">
-                        <rect key="frame" x="20" y="49" width="221" height="22"/>
+                        <rect key="frame" x="20" y="132" width="221" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Password" drawsBackground="YES" usesSingleLineMode="YES" id="E25-3W-tYB">
                             <font key="font" metaFont="system"/>
@@ -713,25 +716,79 @@
                             </allowedInputSourceLocales>
                         </secureTextFieldCell>
                     </secureTextField>
+                    <box autoresizesSubviews="NO" verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="juj-c5-9W3">
+                        <rect key="frame" x="12" y="80" width="237" height="5"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <font key="titleFont" metaFont="system"/>
+                    </box>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FGw-de-Tef">
+                        <rect key="frame" x="163" y="46" width="84" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Org" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Zjj-Xt-wmx">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="orgPressed:" target="494" id="kjo-pi-NNm"/>
+                        </connections>
+                    </button>
+                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sUR-DQ-aIq">
+                        <rect key="frame" x="20" y="52" width="143" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="pmb-fF-dnn">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="n97-7N-jdi">
+                        <rect key="frame" x="20" y="20" width="143" height="22"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="LbV-Do-fkA">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QgB-ou-pby">
+                        <rect key="frame" x="163" y="13" width="84" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Project" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aQ6-X4-Bry">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="projectPressed:" target="494" id="uiz-Tr-Cgu"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="FGw-de-Tef" firstAttribute="top" secondItem="juj-c5-9W3" secondAttribute="bottom" constant="8" id="2Vt-jT-qdp"/>
                     <constraint firstAttribute="trailing" secondItem="nF7-YK-9fl" secondAttribute="trailing" constant="20" symbolic="YES" id="3Ed-9w-xxu"/>
                     <constraint firstItem="yHV-6v-7eC" firstAttribute="leading" secondItem="372" secondAttribute="leading" constant="20" symbolic="YES" id="4eE-9l-Ctw"/>
+                    <constraint firstItem="FGw-de-Tef" firstAttribute="leading" secondItem="QgB-ou-pby" secondAttribute="leading" id="8Oe-tW-4GY"/>
                     <constraint firstItem="674-ue-Vz3" firstAttribute="top" secondItem="mI9-Br-0O4" secondAttribute="bottom" constant="8" symbolic="YES" id="Cnb-3H-iFf"/>
+                    <constraint firstItem="juj-c5-9W3" firstAttribute="top" secondItem="yHV-6v-7eC" secondAttribute="bottom" constant="20" symbolic="YES" id="EBq-bR-yZx"/>
+                    <constraint firstAttribute="trailing" secondItem="juj-c5-9W3" secondAttribute="trailing" constant="12" id="Gjv-L6-gEH"/>
                     <constraint firstAttribute="trailing" secondItem="Knr-r2-fAv" secondAttribute="trailing" constant="20" symbolic="YES" id="K2i-eW-sH6"/>
                     <constraint firstItem="yHV-6v-7eC" firstAttribute="top" secondItem="IKv-xu-H6Q" secondAttribute="bottom" constant="8" symbolic="YES" id="KAK-i1-gil"/>
+                    <constraint firstItem="juj-c5-9W3" firstAttribute="leading" secondItem="372" secondAttribute="leading" constant="12" id="Kaq-xB-A3y"/>
                     <constraint firstItem="Knr-r2-fAv" firstAttribute="top" secondItem="nF7-YK-9fl" secondAttribute="bottom" constant="8" symbolic="YES" id="KeC-oF-8v9"/>
                     <constraint firstAttribute="trailing" secondItem="yHV-6v-7eC" secondAttribute="trailing" constant="20" symbolic="YES" id="LU2-uq-aAz"/>
                     <constraint firstItem="IKv-xu-H6Q" firstAttribute="leading" secondItem="372" secondAttribute="leading" constant="20" symbolic="YES" id="Tfn-D3-rVM"/>
                     <constraint firstAttribute="trailing" secondItem="674-ue-Vz3" secondAttribute="trailing" constant="36" id="Ukb-xH-CtZ"/>
                     <constraint firstItem="674-ue-Vz3" firstAttribute="leading" secondItem="372" secondAttribute="leading" constant="35" id="VUK-Cl-gzu"/>
+                    <constraint firstItem="QgB-ou-pby" firstAttribute="top" secondItem="FGw-de-Tef" secondAttribute="bottom" constant="12" symbolic="YES" id="c2J-Cn-6CZ"/>
                     <constraint firstItem="Knr-r2-fAv" firstAttribute="leading" secondItem="372" secondAttribute="leading" constant="20" symbolic="YES" id="dwL-YZ-1YB"/>
                     <constraint firstAttribute="trailing" secondItem="mI9-Br-0O4" secondAttribute="trailing" constant="20" symbolic="YES" id="g2O-rw-dIO"/>
-                    <constraint firstAttribute="bottom" secondItem="yHV-6v-7eC" secondAttribute="bottom" constant="20" symbolic="YES" id="hMn-G8-r5W"/>
                     <constraint firstItem="IKv-xu-H6Q" firstAttribute="top" secondItem="Knr-r2-fAv" secondAttribute="bottom" constant="10" symbolic="YES" id="jGu-db-TrZ"/>
+                    <constraint firstItem="FGw-de-Tef" firstAttribute="trailing" secondItem="QgB-ou-pby" secondAttribute="trailing" id="kix-aC-OjA"/>
                     <constraint firstItem="nF7-YK-9fl" firstAttribute="leading" secondItem="372" secondAttribute="leading" constant="20" symbolic="YES" id="lrO-Xu-jph"/>
                     <constraint firstItem="nF7-YK-9fl" firstAttribute="top" secondItem="674-ue-Vz3" secondAttribute="bottom" constant="8" symbolic="YES" id="nA2-8j-Lit"/>
                     <constraint firstItem="mI9-Br-0O4" firstAttribute="top" secondItem="372" secondAttribute="top" constant="20" symbolic="YES" id="oSK-cj-i1a"/>
+                    <constraint firstAttribute="trailing" secondItem="FGw-de-Tef" secondAttribute="trailing" constant="20" symbolic="YES" id="pkN-vN-b4m"/>
                     <constraint firstAttribute="trailing" secondItem="IKv-xu-H6Q" secondAttribute="trailing" constant="20" symbolic="YES" id="qId-MG-yOp"/>
                     <constraint firstItem="mI9-Br-0O4" firstAttribute="leading" secondItem="372" secondAttribute="leading" constant="20" symbolic="YES" id="yHg-l7-j7y"/>
                 </constraints>
@@ -742,7 +799,11 @@
                 <outlet property="emailField" destination="Knr-r2-fAv" id="nTu-cq-Yxd"/>
                 <outlet property="loggedInLabel" destination="674-ue-Vz3" id="DrM-yU-D5Q"/>
                 <outlet property="loginButton" destination="yHV-6v-7eC" id="uiF-tA-00I"/>
+                <outlet property="orgButton" destination="FGw-de-Tef" id="Lb4-r9-kSh"/>
+                <outlet property="orgTextField" destination="sUR-DQ-aIq" id="Fgs-tg-JW3"/>
                 <outlet property="passwordField" destination="IKv-xu-H6Q" id="nWl-bf-oli"/>
+                <outlet property="projectButton" destination="QgB-ou-pby" id="Ndm-X6-QBU"/>
+                <outlet property="projectTextField" destination="n97-7N-jdi" id="mRs-wT-9fR"/>
                 <outlet property="window" destination="371" id="532"/>
             </connections>
         </customObject>

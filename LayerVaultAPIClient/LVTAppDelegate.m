@@ -20,6 +20,11 @@
 @property (weak) IBOutlet NSSecureTextField *passwordField;
 @property (weak) IBOutlet NSButton *loginButton;
 @property (nonatomic) AFOAuthCredential *credential;
+@property (nonatomic) LVTUser *user;
+@property (weak) IBOutlet NSTextField *orgTextField;
+@property (weak) IBOutlet NSButton *orgButton;
+@property (weak) IBOutlet NSTextField *projectTextField;
+@property (weak) IBOutlet NSButton *projectButton;
 @end
 
 @implementation LVTAppDelegate
@@ -28,81 +33,82 @@
 {
     self.client = [[LVTHTTPClient alloc] initWithClientID:LVClientID
                                                    secret:LVClientSecret];
+    self.credential = [AFOAuthCredential retrieveCredentialWithIdentifier:self.client.serviceProviderIdentifier];
 
     @weakify(self);
-    
-    [RACObserve(self.client, user) subscribeNext:^(LVTUser *user) {
-        @strongify(self);
-        if (user.email) {
-            [self.loggedInLabel setStringValue:user.email];
-            NSLog(@"logged in as: %@", user);
-        }
-        else {
-            self.loggedInLabel.stringValue = NSLocalizedString(@"Not Logged In", nil);
-        }
-    }];
-
     [RACObserve(self, credential) subscribeNext:^(AFOAuthCredential *credential) {
         @strongify(self);
+        BOOL invalidCredential = !credential;
+        self.emailField.enabled = invalidCredential;
+        [self.emailField becomeFirstResponder];
+        self.passwordField.enabled = invalidCredential;
+
         if (credential) {
-            if (credential.isExpired) {
-                @weakify(self);
+            if (credential.expired) {
                 [self.client authenticateUsingOAuthWithPath:@"/oauth/token"
                                                refreshToken:credential.refreshToken
-                                                    success:^(AFOAuthCredential *credential) {
+                                                    success:^(AFOAuthCredential *refreshedCredential) {
                                                         @strongify(self);
-                                                        self.credential = credential;
+                                                        self.credential = refreshedCredential;
                                                     }
                                                     failure:^(NSError *error) {
                                                         @strongify(self);
                                                         self.credential = nil;
                                                     }];
+
             }
             else {
+                @weakify(self);
                 [AFOAuthCredential storeCredential:credential
                                     withIdentifier:self.client.serviceProviderIdentifier];
-
-                [self.emailField setEnabled:NO];
-                self.emailField.stringValue = @"";
-                [self.passwordField setEnabled:NO];
-                self.passwordField.stringValue = @"";
-                [self.loginButton setEnabled:NO];
-                
-                [[self.client fetchUserInfo] subscribeError:^(NSError *error) {
-                    self.credential = nil;
+                [self.client setAuthorizationHeaderWithCredential:credential];
+                [self.client getMeWithBlock:^(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation) {
+                    @strongify(self);
+                    self.user = user;
                 }];
             }
         }
         else {
             [AFOAuthCredential deleteCredentialWithIdentifier:self.client.serviceProviderIdentifier];
-            [self.emailField setEnabled:YES];
-            [self.emailField becomeFirstResponder];
-            [self.passwordField setEnabled:YES];
-            [self.loginButton setEnabled:YES];
         }
     }];
 
+    RACSignal *loginEnabledSignal =
+    [RACSignal combineLatest:@[self.emailField.rac_textSignal, self.passwordField.rac_textSignal]
+                      reduce:^(NSString *email, NSString *password){
+                          return @(email.length > 0 && password.length > 0);
+                      }];
 
-    self.credential = [AFOAuthCredential retrieveCredentialWithIdentifier:self.client.serviceProviderIdentifier];
+    [loginEnabledSignal subscribeNext:^(NSNumber *enabled) {
+        @strongify(self);
+        [self.loginButton setEnabled:[enabled boolValue]];
+    }];
+
+    RAC(self, loggedInLabel.stringValue) = [RACObserve(self, user) map:^id(LVTUser *user) {
+        return user.email ?: [NSNull null];
+    }];
 }
 
 - (IBAction)loginPressed:(NSButton *)sender
 {
-    @weakify(self)
-    [self.client authenticateUsingOAuthWithPath:@"/oauth/token"
-                                       username:self.emailField.stringValue
-                                       password:self.passwordField.stringValue
-                                          scope:nil
-                                        success:^(AFOAuthCredential *credential) {
-                                            @strongify(self);
-                                            NSLog(@"I have a token! %@", credential);
-                                            self.credential = credential;
-                                        }
-                                        failure:^(NSError *error) {
-                                            @strongify(self);
-                                            self.credential = nil;
-                                        }];
+    RAC(self, credential) = [self.client requestAuthorizationWithEmail:self.emailField.stringValue
+                                                              password:self.passwordField.stringValue];
 }
 
+
+- (IBAction)orgPressed:(NSButton *)sender
+{
+    [self.client getOrganizationWithName:self.orgTextField.stringValue
+                                   block:^(LVTOrganization *organization,
+                                           NSError *error,
+                                           AFHTTPRequestOperation *operation) {
+                                       NSLog(@"organization: %@", organization);
+                                   }];
+}
+
+
+- (IBAction)projectPressed:(NSButton *)sender
+{
+}
 
 @end
