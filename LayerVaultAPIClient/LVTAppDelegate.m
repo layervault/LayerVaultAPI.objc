@@ -19,12 +19,12 @@
 @property (weak) IBOutlet NSTextField *emailField;
 @property (weak) IBOutlet NSSecureTextField *passwordField;
 @property (weak) IBOutlet NSButton *loginButton;
-@property (nonatomic) AFOAuthCredential *credential;
-@property (nonatomic) LVTUser *user;
 @property (weak) IBOutlet NSTextField *orgTextField;
 @property (weak) IBOutlet NSButton *orgButton;
 @property (weak) IBOutlet NSTextField *projectTextField;
 @property (weak) IBOutlet NSButton *projectButton;
+@property (nonatomic) AFOAuthCredential *credential;
+@property (nonatomic) LVTUser *user;
 @end
 
 @implementation LVTAppDelegate
