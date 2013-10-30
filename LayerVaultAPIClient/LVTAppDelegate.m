@@ -43,6 +43,11 @@
         [self.emailField becomeFirstResponder];
         self.passwordField.enabled = invalidCredential;
 
+        [self.orgTextField setEnabled:!!credential];
+        [self.orgButton setEnabled:!!credential];
+        [self.projectTextField setEnabled:!!credential];
+        [self.projectButton setEnabled:!!credential];
+
         if (credential) {
             if (credential.expired) {
                 [self.client authenticateUsingOAuthWithPath:@"/oauth/token"
