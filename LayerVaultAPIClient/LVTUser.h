@@ -13,4 +13,5 @@
 @property (readonly, nonatomic, copy) NSString *firstName;
 @property (readonly, nonatomic, copy) NSString *lastName;
 @property (readonly, nonatomic, getter = isAdmin) BOOL admin;
+@property (readonly, nonatomic, copy) NSArray *organizations;
 @end

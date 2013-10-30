@@ -7,23 +7,29 @@
 //
 
 #import "LVTUser.h"
+#import "LVTOrganization.h"
 
 @implementation LVTUser
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey
 {
-    return @{
-             @"email": @"email",
+    return @{@"email": @"email",
              @"firstName": @"first_name",
              @"lastName": @"last_name",
-             @"admin": @"is_admin"
-             };
+             @"admin": @"is_admin",
+             @"organizations": @"organizations"};
 }
 
 
 + (NSValueTransformer *)adminJSONTransformer
 {
     return [NSValueTransformer valueTransformerForName:MTLBooleanValueTransformerName];
+}
+
+
++ (NSValueTransformer *)organizationsJSONTransformer
+{
+    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVTOrganization.class];
 }
 
 
