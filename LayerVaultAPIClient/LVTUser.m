@@ -8,6 +8,7 @@
 
 #import "LVTUser.h"
 #import "LVTOrganization.h"
+#import "LVTProject.h"
 
 @implementation LVTUser
 
@@ -17,7 +18,8 @@
              @"firstName": @"first_name",
              @"lastName": @"last_name",
              @"admin": @"is_admin",
-             @"organizations": @"organizations"};
+             @"organizations": @"organizations",
+             @"projects": @"projects"};
 }
 
 
@@ -32,5 +34,10 @@
     return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVTOrganization.class];
 }
 
+
++ (NSValueTransformer *)projectsJSONTransformer
+{
+    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVTProject.class];
+}
 
 @end
