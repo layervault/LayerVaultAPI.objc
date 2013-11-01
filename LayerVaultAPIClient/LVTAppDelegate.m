@@ -9,20 +9,19 @@
 #import "LVTAppDelegate.h"
 #import "LVTHTTPClient.h"
 #import "LVTUser.h"
+#import "LVTOrganization.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "LVConstants.h"
 #import <Mantle/EXTScope.h>
 
-@interface LVTAppDelegate ()
+@interface LVTAppDelegate () <NSTableViewDataSource, NSTableViewDelegate>
 @property (nonatomic) LVTHTTPClient *client;
 @property (weak) IBOutlet NSTextField *loggedInLabel;
 @property (weak) IBOutlet NSTextField *emailField;
 @property (weak) IBOutlet NSSecureTextField *passwordField;
 @property (weak) IBOutlet NSButton *loginButton;
-@property (weak) IBOutlet NSTextField *orgTextField;
-@property (weak) IBOutlet NSButton *orgButton;
-@property (weak) IBOutlet NSTextField *projectTextField;
-@property (weak) IBOutlet NSButton *projectButton;
+@property (weak) IBOutlet NSTableView *projectsTableView;
+@property (weak) IBOutlet NSTableView *organizationsTableView;
 @property (nonatomic) AFOAuthCredential *credential;
 @property (nonatomic) LVTUser *user;
 @end
@@ -42,11 +41,6 @@
         self.emailField.enabled = invalidCredential;
         [self.emailField becomeFirstResponder];
         self.passwordField.enabled = invalidCredential;
-
-        [self.orgTextField setEnabled:!!credential];
-        [self.orgButton setEnabled:!!credential];
-        [self.projectTextField setEnabled:!!credential];
-        [self.projectButton setEnabled:!!credential];
 
         if (credential) {
             if (credential.expired) {
@@ -70,6 +64,8 @@
                 [self.client getMeWithBlock:^(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation) {
                     @strongify(self);
                     self.user = user;
+                    [self.organizationsTableView reloadData];
+                    [self.projectsTableView reloadData];
                 }];
             }
         }
@@ -101,19 +97,36 @@
 }
 
 
-- (IBAction)orgPressed:(NSButton *)sender
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-    [self.client getOrganizationWithName:self.orgTextField.stringValue
-                                   block:^(LVTOrganization *organization,
-                                           NSError *error,
-                                           AFHTTPRequestOperation *operation) {
-                                       NSLog(@"organization: %@", organization);
-                                   }];
+    NSInteger numberOfRows = 0;
+    if (tableView == self.organizationsTableView) {
+        numberOfRows = self.user.organizations.count;
+    }
+    else if (tableView == self.projectsTableView) {
+        numberOfRows = 0;
+    }
+    return numberOfRows;
 }
 
 
-- (IBAction)projectPressed:(NSButton *)sender
+- (NSView *)tableView:(NSTableView *)tableView
+   viewForTableColumn:(NSTableColumn *)tableColumn
+                  row:(NSInteger)row
 {
+    NSTableCellView *cellView = nil;
+    LVTOrganization *org = self.user.organizations[row];
+    if ([tableColumn.identifier isEqualToString:@"Organizations"]) {
+        cellView = [tableView makeViewWithIdentifier:@"OrganizationCell"
+                                               owner:self];
+        [cellView.textField setStringValue:org.name];
+    }
+    else if ([tableColumn.identifier isEqualToString:@"Projects"]) {
+        cellView = [tableView makeViewWithIdentifier:@"ProjectCell"
+                                               owner:self];
+    }
+    return cellView;
 }
+
 
 @end
