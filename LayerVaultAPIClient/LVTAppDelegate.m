@@ -10,8 +10,9 @@
 #import "LVTHTTPClient.h"
 #import "LVTUser.h"
 #import "LVTOrganization.h"
-#import <ReactiveCocoa/ReactiveCocoa.h>
+#import "LVTProject.h"
 #import "LVConstants.h"
+#import <ReactiveCocoa/ReactiveCocoa.h>
 #import <Mantle/EXTScope.h>
 
 @interface LVTAppDelegate () <NSTableViewDataSource, NSTableViewDelegate>
@@ -104,7 +105,7 @@
         numberOfRows = self.user.organizations.count;
     }
     else if (tableView == self.projectsTableView) {
-        numberOfRows = 0;
+        numberOfRows = self.user.projects.count;
     }
     return numberOfRows;
 }
@@ -115,8 +116,8 @@
                   row:(NSInteger)row
 {
     NSTableCellView *cellView = nil;
-    LVTOrganization *org = self.user.organizations[row];
     if ([tableColumn.identifier isEqualToString:@"Organizations"]) {
+        LVTOrganization *org = self.user.organizations[row];
         cellView = [tableView makeViewWithIdentifier:@"OrganizationCell"
                                                owner:self];
         [cellView.textField setStringValue:org.name];
@@ -124,6 +125,8 @@
     else if ([tableColumn.identifier isEqualToString:@"Projects"]) {
         cellView = [tableView makeViewWithIdentifier:@"ProjectCell"
                                                owner:self];
+        LVTProject *project = self.user.projects[row];
+        [cellView.textField setStringValue:project.name];
     }
     return cellView;
 }
