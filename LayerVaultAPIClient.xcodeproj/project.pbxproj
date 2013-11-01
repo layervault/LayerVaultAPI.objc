@@ -27,6 +27,8 @@
 		C96C0813180C7D9D000149E3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C96C0812180C7D9D000149E3 /* MainMenu.xib */; };
 		C96C0815180C7F23000149E3 /* LVTUserTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C96C0814180C7F23000149E3 /* LVTUserTest.m */; };
 		C96C0816180C810F000149E3 /* LVTUser.m in Sources */ = {isa = PBXBuildFile; fileRef = C95CD2FA180B71B000007F9B /* LVTUser.m */; };
+		C97ABFA71824510600728106 /* LVTJSONWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C97ABFA51824510600728106 /* LVTJSONWindowController.m */; };
+		C97ABFA81824510600728106 /* LVTJSONWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C97ABFA61824510600728106 /* LVTJSONWindowController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +73,9 @@
 		C95CD2FA180B71B000007F9B /* LVTUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVTUser.m; sourceTree = "<group>"; };
 		C96C0812180C7D9D000149E3 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		C96C0814180C7F23000149E3 /* LVTUserTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVTUserTest.m; sourceTree = "<group>"; };
+		C97ABFA41824510600728106 /* LVTJSONWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVTJSONWindowController.h; sourceTree = "<group>"; };
+		C97ABFA51824510600728106 /* LVTJSONWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVTJSONWindowController.m; sourceTree = "<group>"; };
+		C97ABFA61824510600728106 /* LVTJSONWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LVTJSONWindowController.xib; sourceTree = "<group>"; };
 		C9DFB7191810C973002B941B /* LVConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LVConstants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -151,6 +156,9 @@
 				C95CD2D5180B5F9500007F9B /* LVTAppDelegate.m */,
 				C95CD2F6180B687D00007F9B /* LVTHTTPClient.h */,
 				C95CD2F7180B687D00007F9B /* LVTHTTPClient.m */,
+				C97ABFA41824510600728106 /* LVTJSONWindowController.h */,
+				C97ABFA51824510600728106 /* LVTJSONWindowController.m */,
+				C97ABFA61824510600728106 /* LVTJSONWindowController.xib */,
 				C9497F81181AFF82005C8FFC /* LVTOrganization.h */,
 				C9497F82181AFF82005C8FFC /* LVTOrganization.m */,
 				C9497F84181B1340005C8FFC /* LVTProject.h */,
@@ -275,6 +283,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C95CD2CD180B5F9500007F9B /* InfoPlist.strings in Resources */,
+				C97ABFA81824510600728106 /* LVTJSONWindowController.xib in Resources */,
 				C95CD2DB180B5F9500007F9B /* Images.xcassets in Resources */,
 				C95CD2D3180B5F9500007F9B /* Credits.rtf in Resources */,
 				C96C0813180C7D9D000149E3 /* MainMenu.xib in Resources */,
@@ -363,6 +372,7 @@
 				C9497F83181AFF82005C8FFC /* LVTOrganization.m in Sources */,
 				C9497F86181B1340005C8FFC /* LVTProject.m in Sources */,
 				C95CD2FB180B71B000007F9B /* LVTUser.m in Sources */,
+				C97ABFA71824510600728106 /* LVTJSONWindowController.m in Sources */,
 				C95CD2F8180B687D00007F9B /* LVTHTTPClient.m in Sources */,
 				C95CD2D6180B5F9500007F9B /* LVTAppDelegate.m in Sources */,
 			);
