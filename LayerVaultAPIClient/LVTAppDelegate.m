@@ -12,8 +12,10 @@
 #import "LVTOrganization.h"
 #import "LVTProject.h"
 #import "LVConstants.h"
+#import "LVTJSONWindowController.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <Mantle/EXTScope.h>
+#import <Mantle/Mantle.h>
 
 @interface LVTAppDelegate () <NSTableViewDataSource, NSTableViewDelegate>
 @property (weak) IBOutlet NSTextField *emailField;
@@ -25,6 +27,8 @@
 @property (nonatomic) LVTHTTPClient *client;
 @property (nonatomic) AFOAuthCredential *credential;
 @property (nonatomic) LVTUser *user;
+
+@property (nonatomic) LVTJSONWindowController *jsonWindowController;
 @end
 
 @implementation LVTAppDelegate
@@ -34,6 +38,12 @@
     self.client = [[LVTHTTPClient alloc] initWithClientID:LVClientID
                                                    secret:LVClientSecret];
     self.credential = [AFOAuthCredential retrieveCredentialWithIdentifier:self.client.serviceProviderIdentifier];
+
+    [self.projectsTableView setTarget:self];
+    [self.projectsTableView setDoubleAction:@selector(doubleClickedTable:)];
+    [self.organizationsTableView setTarget:self];
+    [self.organizationsTableView setDoubleAction:@selector(doubleClickedTable:)];
+
 
     @weakify(self);
     [RACObserve(self, credential) subscribeNext:^(AFOAuthCredential *credential) {
@@ -65,6 +75,9 @@
                 [self.client getMeWithBlock:^(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation) {
                     @strongify(self);
                     self.user = user;
+                    if (!user) {
+                        self.credential = nil;
+                    }
                 }];
             }
         }
@@ -125,14 +138,7 @@
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-    NSInteger numberOfRows = 0;
-    if (tableView == self.organizationsTableView) {
-        numberOfRows = self.user.organizations.count;
-    }
-    else if (tableView == self.projectsTableView) {
-        numberOfRows = self.user.projects.count;
-    }
-    return numberOfRows;
+    return [self dataSourceForTableView:tableView].count;
 }
 
 
@@ -156,5 +162,32 @@
     return cellView;
 }
 
+
+- (NSArray *)dataSourceForTableView:(NSTableView *)tableView
+{
+    NSArray *dataSource = nil;
+    if (tableView == self.organizationsTableView) {
+        dataSource = self.user.organizations;
+    }
+    else if (tableView == self.projectsTableView) {
+        dataSource = self.user.projects;
+    }
+    return dataSource;
+}
+
+- (void)doubleClickedTable:(NSTableView *)tableView
+{
+    NSArray *dataSource = [self dataSourceForTableView:tableView];
+    id selectedObject = [dataSource objectAtIndex:tableView.selectedRow];
+    if ([selectedObject conformsToProtocol:@protocol(MTLJSONSerializing)] && [selectedObject isKindOfClass:[MTLModel class]]) {
+        MTLModel<MTLJSONSerializing> *jsonObject = (MTLModel<MTLJSONSerializing> *)selectedObject;
+
+        if (!self.jsonWindowController) {
+            self.jsonWindowController = [[LVTJSONWindowController alloc] initWithWindowNibName:@"LVTJSONWindowController"];
+        }
+        self.jsonWindowController.json = [MTLJSONAdapter JSONDictionaryFromModel:jsonObject];
+        [self.jsonWindowController showWindow:nil];
+    }
+}
 
 @end
