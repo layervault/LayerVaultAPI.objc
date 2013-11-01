@@ -16,13 +16,13 @@
 #import <Mantle/EXTScope.h>
 
 @interface LVTAppDelegate () <NSTableViewDataSource, NSTableViewDelegate>
-@property (nonatomic) LVTHTTPClient *client;
-@property (weak) IBOutlet NSTextField *loggedInLabel;
 @property (weak) IBOutlet NSTextField *emailField;
 @property (weak) IBOutlet NSSecureTextField *passwordField;
 @property (weak) IBOutlet NSButton *loginButton;
 @property (weak) IBOutlet NSTableView *projectsTableView;
 @property (weak) IBOutlet NSTableView *organizationsTableView;
+
+@property (nonatomic) LVTHTTPClient *client;
 @property (nonatomic) AFOAuthCredential *credential;
 @property (nonatomic) LVTUser *user;
 @end
@@ -65,36 +65,61 @@
                 [self.client getMeWithBlock:^(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation) {
                     @strongify(self);
                     self.user = user;
-                    [self.organizationsTableView reloadData];
-                    [self.projectsTableView reloadData];
                 }];
             }
         }
         else {
+            self.user = nil;
             [AFOAuthCredential deleteCredentialWithIdentifier:self.client.serviceProviderIdentifier];
         }
     }];
 
     RACSignal *loginEnabledSignal =
-    [RACSignal combineLatest:@[self.emailField.rac_textSignal, self.passwordField.rac_textSignal]
-                      reduce:^(NSString *email, NSString *password){
-                          return @(email.length > 0 && password.length > 0);
-                      }];
+    [RACSignal
+     combineLatest:@[RACObserve(self, credential),
+                     self.emailField.rac_textSignal,
+                     self.passwordField.rac_textSignal]
+     reduce:^(AFOAuthCredential *credential,
+              NSString *email,
+              NSString *password){
+         return @(credential || (!credential && email.length > 0 && password.length > 0));
+     }];
 
     [loginEnabledSignal subscribeNext:^(NSNumber *enabled) {
         @strongify(self);
         [self.loginButton setEnabled:[enabled boolValue]];
     }];
 
-    RAC(self, loggedInLabel.stringValue) = [RACObserve(self, user) map:^id(LVTUser *user) {
-        return user.email ?: [NSNull null];
+    RAC(self, loginButton.title) = [RACObserve(self, credential)
+                                          map:^NSString *(AFOAuthCredential *credential) {
+                                              return credential ? @"Logout" : @"Login";
+                                          }];
+
+    RAC(self, emailField.stringValue) = [RACObserve(self, user)
+                                         map:^NSString *(LVTUser *user) {
+                                             return user.email ?: @"";
+                                         }];
+
+    RAC(self, passwordField.stringValue) = [RACObserve(self, credential)
+                                            map:^NSString *(AFOAuthCredential *credential) {
+                                                return credential ? @"••••••••" : @"";
+                                            }];
+
+    [RACObserve(self, user) subscribeNext:^(LVTUser *user) {
+        [self.organizationsTableView reloadData];
+        [self.projectsTableView reloadData];
     }];
 }
 
 - (IBAction)loginPressed:(NSButton *)sender
 {
-    RAC(self, credential) = [self.client requestAuthorizationWithEmail:self.emailField.stringValue
-                                                              password:self.passwordField.stringValue];
+    if (self.credential) {
+        self.credential = nil;
+    }
+    else {
+        RAC(self, credential) = [self.client requestAuthorizationWithEmail:self.emailField.stringValue
+                                                                  password:self.passwordField.stringValue];
+    }
 }
 
 
