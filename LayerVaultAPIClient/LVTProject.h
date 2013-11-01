@@ -8,7 +8,9 @@
 
 #import <Mantle/Mantle.h>
 
-@interface LVTProject : MTLModel
+@interface LVTProject : MTLModel <MTLJSONSerializing>
+
+@property (readonly, nonatomic, copy) NSString *name;
 @property (readonly, nonatomic, copy) NSString *path;
 @property (readonly, nonatomic, copy) NSURL *fileURL;
 @property (readonly, nonatomic) NSDate *dateUpdated;
@@ -17,4 +19,5 @@
 @property (readonly, nonatomic, copy) NSURL *url;
 @property (readonly, nonatomic, copy) NSURL *shortURL;
 @property (readonly, nonatomic, copy) NSString *organizationPermalink;
+
 @end

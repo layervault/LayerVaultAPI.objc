@@ -28,6 +28,7 @@
               @"md5": @"md5",
               @"url": @"full_url",
               @"shortURL": @"shortened_url",
+              @"name": @"name",
               @"organizationPermalink": @"organization_permalink"};
 }
 
