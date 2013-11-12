@@ -17,6 +17,17 @@
 #import <Mantle/EXTScope.h>
 #import <Mantle/Mantle.h>
 
+
+NSString *const emailRegEx =
+@"(?:[a-z0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[a-z0-9!#$%\\&'*+/=?\\^_`{|}"
+@"~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\"
+@"x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-"
+@"z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5"
+@"]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-"
+@"9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21"
+@"-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
+
+
 @interface LVTAppDelegate () <NSTableViewDataSource, NSTableViewDelegate>
 @property (weak) IBOutlet NSTextField *emailField;
 @property (weak) IBOutlet NSSecureTextField *passwordField;
@@ -85,6 +96,10 @@
             self.user = nil;
             [AFOAuthCredential deleteCredentialWithIdentifier:self.client.serviceProviderIdentifier];
         }
+    } error:^(NSError *error) {
+        NSLog(@"error: %@", error);
+    } completed:^{
+        NSLog(@"completed");
     }];
 
     RACSignal *loginEnabledSignal =
@@ -95,7 +110,8 @@
      reduce:^(AFOAuthCredential *credential,
               NSString *email,
               NSString *password){
-         return @(credential || (!credential && email.length > 0 && password.length > 0));
+         BOOL validEmail = [[NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegEx] evaluateWithObject:email];
+         return @(credential || (!credential && validEmail && password.length > 0));
      }];
 
     [loginEnabledSignal subscribeNext:^(NSNumber *enabled) {
@@ -126,7 +142,7 @@
 
 - (IBAction)loginPressed:(NSButton *)sender
 {
-    if (self.credential) {
+    if (self.credential) { // Button was "logout"
         self.credential = nil;
     }
     else {
