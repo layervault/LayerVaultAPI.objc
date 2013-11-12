@@ -7,12 +7,12 @@
 //
 
 #import "LVTAppDelegate.h"
-#import "LVTHTTPClient.h"
-#import "LVTUser.h"
-#import "LVTOrganization.h"
-#import "LVTProject.h"
 #import "LVConstants.h"
 #import "LVTJSONWindowController.h"
+#import <layervault_objc_client/LVTHTTPClient.h>
+#import <layervault_objc_client/LVTUser.h>
+#import <layervault_objc_client/LVTOrganization.h>
+#import <layervault_objc_client/LVTProject.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <Mantle/EXTScope.h>
 #import <Mantle/Mantle.h>

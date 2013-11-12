@@ -7,10 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0E3EE4372F41464092ECABA3 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC355E76CC44E6D9CB2F3D5 /* libPods.a */; };
-		3E365A01569A453EA485DF09 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC355E76CC44E6D9CB2F3D5 /* libPods.a */; };
-		C9497F83181AFF82005C8FFC /* LVTOrganization.m in Sources */ = {isa = PBXBuildFile; fileRef = C9497F82181AFF82005C8FFC /* LVTOrganization.m */; };
-		C9497F86181B1340005C8FFC /* LVTProject.m in Sources */ = {isa = PBXBuildFile; fileRef = C9497F85181B1340005C8FFC /* LVTProject.m */; };
+		79E7C166F5FB463C917E703B /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F324AAFB3C2B45E5828793CE /* libPods.a */; };
 		C9546E97180C366C00C56AC1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9546E96180C366C00C56AC1 /* SystemConfiguration.framework */; };
 		C9546E99180C367500C56AC1 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9546E98180C367500C56AC1 /* CoreServices.framework */; };
 		C95CD2C3180B5F9500007F9B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C95CD2C2180B5F9500007F9B /* Cocoa.framework */; };
@@ -22,13 +19,11 @@
 		C95CD2E2180B5F9500007F9B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C95CD2E1180B5F9500007F9B /* XCTest.framework */; };
 		C95CD2E3180B5F9500007F9B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C95CD2C2180B5F9500007F9B /* Cocoa.framework */; };
 		C95CD2EB180B5F9500007F9B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C95CD2E9180B5F9500007F9B /* InfoPlist.strings */; };
-		C95CD2F8180B687D00007F9B /* LVTHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = C95CD2F7180B687D00007F9B /* LVTHTTPClient.m */; };
-		C95CD2FB180B71B000007F9B /* LVTUser.m in Sources */ = {isa = PBXBuildFile; fileRef = C95CD2FA180B71B000007F9B /* LVTUser.m */; };
 		C96C0813180C7D9D000149E3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C96C0812180C7D9D000149E3 /* MainMenu.xib */; };
 		C96C0815180C7F23000149E3 /* LVTUserTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C96C0814180C7F23000149E3 /* LVTUserTest.m */; };
-		C96C0816180C810F000149E3 /* LVTUser.m in Sources */ = {isa = PBXBuildFile; fileRef = C95CD2FA180B71B000007F9B /* LVTUser.m */; };
 		C97ABFA71824510600728106 /* LVTJSONWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C97ABFA51824510600728106 /* LVTJSONWindowController.m */; };
 		C97ABFA81824510600728106 /* LVTJSONWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C97ABFA61824510600728106 /* LVTJSONWindowController.xib */; };
+		E086014E1E16439B9766784A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F324AAFB3C2B45E5828793CE /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,12 +37,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1BAD6C02976A444C9AA9C4E2 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
-		3FC355E76CC44E6D9CB2F3D5 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		C9497F81181AFF82005C8FFC /* LVTOrganization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVTOrganization.h; sourceTree = "<group>"; };
-		C9497F82181AFF82005C8FFC /* LVTOrganization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVTOrganization.m; sourceTree = "<group>"; };
-		C9497F84181B1340005C8FFC /* LVTProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVTProject.h; sourceTree = "<group>"; };
-		C9497F85181B1340005C8FFC /* LVTProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVTProject.m; sourceTree = "<group>"; };
+		001552D06C6544049C8B206C /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		C9546E96180C366C00C56AC1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C9546E98180C367500C56AC1 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		C95CD2BF180B5F9500007F9B /* LayerVaultAPIClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LayerVaultAPIClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -67,16 +57,13 @@
 		C95CD2E1180B5F9500007F9B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		C95CD2E8180B5F9500007F9B /* LayerVaultAPIClientTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LayerVaultAPIClientTests-Info.plist"; sourceTree = "<group>"; };
 		C95CD2EA180B5F9500007F9B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		C95CD2F6180B687D00007F9B /* LVTHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVTHTTPClient.h; sourceTree = "<group>"; };
-		C95CD2F7180B687D00007F9B /* LVTHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVTHTTPClient.m; sourceTree = "<group>"; };
-		C95CD2F9180B71B000007F9B /* LVTUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVTUser.h; sourceTree = "<group>"; };
-		C95CD2FA180B71B000007F9B /* LVTUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVTUser.m; sourceTree = "<group>"; };
 		C96C0812180C7D9D000149E3 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		C96C0814180C7F23000149E3 /* LVTUserTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVTUserTest.m; sourceTree = "<group>"; };
 		C97ABFA41824510600728106 /* LVTJSONWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVTJSONWindowController.h; sourceTree = "<group>"; };
 		C97ABFA51824510600728106 /* LVTJSONWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVTJSONWindowController.m; sourceTree = "<group>"; };
 		C97ABFA61824510600728106 /* LVTJSONWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LVTJSONWindowController.xib; sourceTree = "<group>"; };
 		C9DFB7191810C973002B941B /* LVConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LVConstants.h; sourceTree = "<group>"; };
+		F324AAFB3C2B45E5828793CE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,7 +74,7 @@
 				C9546E99180C367500C56AC1 /* CoreServices.framework in Frameworks */,
 				C9546E97180C366C00C56AC1 /* SystemConfiguration.framework in Frameworks */,
 				C95CD2C3180B5F9500007F9B /* Cocoa.framework in Frameworks */,
-				3E365A01569A453EA485DF09 /* libPods.a in Frameworks */,
+				E086014E1E16439B9766784A /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,7 +84,7 @@
 			files = (
 				C95CD2E3180B5F9500007F9B /* Cocoa.framework in Frameworks */,
 				C95CD2E2180B5F9500007F9B /* XCTest.framework in Frameworks */,
-				0E3EE4372F41464092ECABA3 /* libPods.a in Frameworks */,
+				79E7C166F5FB463C917E703B /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,7 +98,7 @@
 				C95CD2E6180B5F9500007F9B /* LayerVaultAPIClientTests */,
 				C95CD2C1180B5F9500007F9B /* Frameworks */,
 				C95CD2C0180B5F9500007F9B /* Products */,
-				1BAD6C02976A444C9AA9C4E2 /* Pods.xcconfig */,
+				001552D06C6544049C8B206C /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -132,7 +119,7 @@
 				C95CD2C2180B5F9500007F9B /* Cocoa.framework */,
 				C95CD2E1180B5F9500007F9B /* XCTest.framework */,
 				C95CD2C4180B5F9500007F9B /* Other Frameworks */,
-				3FC355E76CC44E6D9CB2F3D5 /* libPods.a */,
+				F324AAFB3C2B45E5828793CE /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -154,17 +141,9 @@
 				C9DFB7191810C973002B941B /* LVConstants.h */,
 				C95CD2D4180B5F9500007F9B /* LVTAppDelegate.h */,
 				C95CD2D5180B5F9500007F9B /* LVTAppDelegate.m */,
-				C95CD2F6180B687D00007F9B /* LVTHTTPClient.h */,
-				C95CD2F7180B687D00007F9B /* LVTHTTPClient.m */,
 				C97ABFA41824510600728106 /* LVTJSONWindowController.h */,
 				C97ABFA51824510600728106 /* LVTJSONWindowController.m */,
 				C97ABFA61824510600728106 /* LVTJSONWindowController.xib */,
-				C9497F81181AFF82005C8FFC /* LVTOrganization.h */,
-				C9497F82181AFF82005C8FFC /* LVTOrganization.m */,
-				C9497F84181B1340005C8FFC /* LVTProject.h */,
-				C9497F85181B1340005C8FFC /* LVTProject.m */,
-				C95CD2F9180B71B000007F9B /* LVTUser.h */,
-				C95CD2FA180B71B000007F9B /* LVTUser.m */,
 				C96C0812180C7D9D000149E3 /* MainMenu.xib */,
 				C95CD2C9180B5F9500007F9B /* Supporting Files */,
 			);
@@ -208,11 +187,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C95CD2F0180B5F9500007F9B /* Build configuration list for PBXNativeTarget "LayerVaultAPIClient" */;
 			buildPhases = (
-				A18C875876C24CA0AD024C27 /* Check Pods Manifest.lock */,
+				62406F3DB79946C3AC93C6D9 /* Check Pods Manifest.lock */,
 				C95CD2BB180B5F9500007F9B /* Sources */,
 				C95CD2BC180B5F9500007F9B /* Frameworks */,
 				C95CD2BD180B5F9500007F9B /* Resources */,
-				27BECB2FDAA648329D03DE41 /* Copy Pods Resources */,
+				1BE62652FAA74A8BA10966B3 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -301,7 +280,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		27BECB2FDAA648329D03DE41 /* Copy Pods Resources */ = {
+		1BE62652FAA74A8BA10966B3 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -314,6 +293,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		62406F3DB79946C3AC93C6D9 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		695AAA4EDBB94D5AB9D662EF /* Copy Pods Resources */ = {
@@ -329,21 +323,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A18C875876C24CA0AD024C27 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		D5C3D259BD6F41C8B15F73A9 /* Check Pods Manifest.lock */ = {
@@ -369,11 +348,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C95CD2CF180B5F9500007F9B /* main.m in Sources */,
-				C9497F83181AFF82005C8FFC /* LVTOrganization.m in Sources */,
-				C9497F86181B1340005C8FFC /* LVTProject.m in Sources */,
-				C95CD2FB180B71B000007F9B /* LVTUser.m in Sources */,
 				C97ABFA71824510600728106 /* LVTJSONWindowController.m in Sources */,
-				C95CD2F8180B687D00007F9B /* LVTHTTPClient.m in Sources */,
 				C95CD2D6180B5F9500007F9B /* LVTAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -382,7 +357,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C96C0816180C810F000149E3 /* LVTUser.m in Sources */,
 				C96C0815180C7F23000149E3 /* LVTUserTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -495,7 +469,7 @@
 		};
 		C95CD2F1180B5F9500007F9B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1BAD6C02976A444C9AA9C4E2 /* Pods.xcconfig */;
+			baseConfigurationReference = 001552D06C6544049C8B206C /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -509,7 +483,7 @@
 		};
 		C95CD2F2180B5F9500007F9B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1BAD6C02976A444C9AA9C4E2 /* Pods.xcconfig */;
+			baseConfigurationReference = 001552D06C6544049C8B206C /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -523,7 +497,7 @@
 		};
 		C95CD2F4180B5F9500007F9B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1BAD6C02976A444C9AA9C4E2 /* Pods.xcconfig */;
+			baseConfigurationReference = 001552D06C6544049C8B206C /* Pods.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/LayerVaultAPIClient.app/Contents/MacOS/LayerVaultAPIClient";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -546,7 +520,7 @@
 		};
 		C95CD2F5180B5F9500007F9B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1BAD6C02976A444C9AA9C4E2 /* Pods.xcconfig */;
+			baseConfigurationReference = 001552D06C6544049C8B206C /* Pods.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/LayerVaultAPIClient.app/Contents/MacOS/LayerVaultAPIClient";
 				COMBINE_HIDPI_IMAGES = YES;

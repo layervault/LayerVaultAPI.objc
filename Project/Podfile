@@ -1,0 +1,3 @@
+pod "layervault_objc_client", :path => "../"
+
+link_with ["LayerVaultAPIClient", "LayerVaultAPIClientTests"]
