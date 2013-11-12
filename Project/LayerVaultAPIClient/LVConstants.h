@@ -6,8 +6,6 @@
 //  Copyright (c) 2013 codecaffeine. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-
 #ifndef LayerVaultAPIClient_LVConstants_h
 #define LayerVaultAPIClient_LVConstants_h
 
