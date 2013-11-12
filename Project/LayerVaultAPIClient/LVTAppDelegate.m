@@ -130,8 +130,14 @@
         self.credential = nil;
     }
     else {
-        RAC(self, credential) = [self.client requestAuthorizationWithEmail:self.emailField.stringValue
-                                                                  password:self.passwordField.stringValue];
+        [self.client authenticateWithEmail:self.emailField.stringValue
+                                  password:self.passwordField.stringValue
+                                completion:^(AFOAuthCredential *credential, NSError *error) {
+                                    self.credential = credential;
+                                    if (error) {
+                                        NSLog(@"error: %@", error);
+                                    }
+                                }];
     }
 }
 
