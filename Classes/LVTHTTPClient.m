@@ -40,16 +40,6 @@
                           secret:secret];
 }
 
-- (void)authenticateWithBlock:(void (^)(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation))block
-{
-    [self getMeWithBlock:^(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation) {
-        self.user = user;
-        if (block) {
-            block(user, error, operation);
-        }
-    }];
-}
-
 
 - (void)getMeWithBlock:(void (^)(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation))block
 {
@@ -93,24 +83,46 @@
           }];
 }
 
+
+- (void)authenticateWithEmail:(NSString *)email
+                     password:(NSString *)password
+                   completion:(void (^)(AFOAuthCredential *credential, NSError *error))completion
+{
+    [self authenticateUsingOAuthWithPath:@"/oauth/token"
+                                username:email
+                                password:password
+                                   scope:nil
+                                 success:^(AFOAuthCredential *credential) {
+                                     if (completion) {
+                                         completion(credential, nil);
+                                     }
+                                 }
+                                 failure:^(NSError *error) {
+                                     if (completion) {
+                                         completion(nil, error);
+                                     }
+                                 }];
+}
+
+
 - (RACSignal *)requestAuthorizationWithEmail:(NSString *)email password:(NSString *)password
 {
     @weakify(self);
     return [[RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
         @strongify(self)
-        [self authenticateUsingOAuthWithPath:@"/oauth/token"
-                                    username:email
-                                    password:password
-                                       scope:nil
-                                     success:^(AFOAuthCredential *credential) {
-                                         NSLog(@"I have a token! %@", credential);
-                                         [subscriber sendNext:credential];
-                                     }
-                                     failure:^(NSError *error) {
-                                         [subscriber sendError:error];
-                                     }];
+        [self authenticateWithEmail:email
+                           password:password
+                         completion:^(AFOAuthCredential *credential, NSError *error) {
+                             if (credential) {
+                                 [subscriber sendNext:credential];
+                             }
+                             else {
+                                 [subscriber sendError:error];
+                             }
+                         }];
     }] replayLazily];
 }
+
 
 - (RACSignal *)fetchUserInfo
 {
