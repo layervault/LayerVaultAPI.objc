@@ -76,18 +76,6 @@
 }
 
 
-+ (NSValueTransformer *)dateUpdatedJSONTransformer
-{
-    return [MTLValueTransformer
-            reversibleTransformerWithForwardBlock:^NSDate *(NSString *string) {
-                return [[self dateFormatter] dateFromString:string];
-            }
-            reverseBlock:^NSString *(NSDate *date) {
-                return [[self dateFormatter] stringFromDate:date];
-            }];
-}
-
-
 + (NSValueTransformer *)downloadURLJSONTransformer
 {
     return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
