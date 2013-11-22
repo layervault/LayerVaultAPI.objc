@@ -221,7 +221,7 @@ NSString *const emailRegEx =
                                                     NSError *error,
                                                     AFHTTPRequestOperation *operation) {
                                                 if (organization) {
-                                                    self.jsonWindowController.json = [MTLJSONAdapter JSONDictionaryFromModel:organization];
+                                                    self.jsonWindowController.model = organization;
                                                 }
                                                 else {
                                                     NSLog(@"error: %@\noperation: %@", error, operation);
@@ -236,7 +236,7 @@ NSString *const emailRegEx =
                                           NSError *error,
                                           AFHTTPRequestOperation *operation) {
                                       if (project) {
-                                          self.jsonWindowController.json = [MTLJSONAdapter JSONDictionaryFromModel:project];
+                                          self.jsonWindowController.model = project;
                                       }
                                       else {
                                           NSLog(@"error: %@\noperation: %@", error, operation);
