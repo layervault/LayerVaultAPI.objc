@@ -208,15 +208,40 @@ NSString *const emailRegEx =
 
 - (void)doubleClickedTable:(NSTableView *)tableView
 {
-    id selectedObject = [self.dataSource objectAtIndex:tableView.selectedRow];
-    if ([selectedObject conformsToProtocol:@protocol(MTLJSONSerializing)] && [selectedObject isKindOfClass:[MTLModel class]]) {
-        MTLModel<MTLJSONSerializing> *jsonObject = (MTLModel<MTLJSONSerializing> *)selectedObject;
+    if (!self.jsonWindowController) {
+        self.jsonWindowController = [[LVTJSONWindowController alloc] initWithWindowNibName:@"LVTJSONWindowController"];
+    }
+    [self.jsonWindowController showWindow:nil];
 
-        if (!self.jsonWindowController) {
-            self.jsonWindowController = [[LVTJSONWindowController alloc] initWithWindowNibName:@"LVTJSONWindowController"];
-        }
-        self.jsonWindowController.json = [MTLJSONAdapter JSONDictionaryFromModel:jsonObject];
-        [self.jsonWindowController showWindow:nil];
+    id selectedObject = [self.dataSource objectAtIndex:tableView.selectedRow];
+    if ([selectedObject isKindOfClass:LVTOrganization.class]) {
+        LVTOrganization *organization = (LVTOrganization *)selectedObject;
+        [self.client getOrganizationWithParmalink:organization.permalink
+                                            block:^(LVTOrganization *organization,
+                                                    NSError *error,
+                                                    AFHTTPRequestOperation *operation) {
+                                                if (organization) {
+                                                    self.jsonWindowController.json = [MTLJSONAdapter JSONDictionaryFromModel:organization];
+                                                }
+                                                else {
+                                                    NSLog(@"error: %@\noperation: %@", error, operation);
+                                                }
+                                            }];
+    }
+    else if ([selectedObject isKindOfClass:LVTProject.class]) {
+        LVTProject *project = (LVTProject *)selectedObject;
+        [self.client getProjectWithName:project.name
+                  organizationPermalink:project.organizationPermalink
+                                  block:^(LVTProject *project,
+                                          NSError *error,
+                                          AFHTTPRequestOperation *operation) {
+                                      if (project) {
+                                          self.jsonWindowController.json = [MTLJSONAdapter JSONDictionaryFromModel:project];
+                                      }
+                                      else {
+                                          NSLog(@"error: %@\noperation: %@", error, operation);
+                                      }
+                                  }];
     }
 }
 
