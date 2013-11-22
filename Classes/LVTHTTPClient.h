@@ -10,6 +10,7 @@
 
 @class LVTUser;
 @class LVTOrganization;
+@class LVTProject;
 @class RACSignal;
 
 @interface LVTHTTPClient : AFOAuth2Client
@@ -21,7 +22,15 @@
 - (void)getMeWithBlock:(void (^)(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation))block;
 
 - (void)getOrganizationWithName:(NSString *)orgName
-                          block:(void (^)(LVTOrganization *organization, NSError *error, AFHTTPRequestOperation *operation))block;
+                          block:(void (^)(LVTOrganization *organization,
+                                          NSError *error,
+                                          AFHTTPRequestOperation *operation))block;
+
+- (void)getProjectWithName:(NSString *)projectName
+       inOrganizationNamed:(NSString *)organizationName
+                     block:(void (^)(LVTProject *project,
+                                     NSError *error,
+                                     AFHTTPRequestOperation *operation))block;
 
 - (void)authenticateWithEmail:(NSString *)email
                      password:(NSString *)password

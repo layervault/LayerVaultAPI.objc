@@ -13,6 +13,7 @@
 #import <Mantle/EXTScope.h>
 #import "LVTUser.h"
 #import "LVTOrganization.h"
+#import "LVTProject.h"
 
 
 @interface LVTHTTPClient ()
@@ -43,44 +44,70 @@
 
 - (void)getMeWithBlock:(void (^)(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation))block
 {
-    [self getPath:@"me"
-       parameters:nil
-          success:^(AFHTTPRequestOperation *operation, id responseObject) {
-              NSError *error = nil;
-              LVTUser *user = [MTLJSONAdapter modelOfClass:LVTUser.class
-                                        fromJSONDictionary:responseObject
-                                                     error:&error];
-              if (block) {
+    if (block) {
+        [self getPath:@"me"
+           parameters:nil
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  NSError *error = nil;
+                  LVTUser *user = [MTLJSONAdapter modelOfClass:LVTUser.class
+                                            fromJSONDictionary:responseObject
+                                                         error:&error];
                   block(user, error, operation);
               }
-          }
-          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-              if (block) {
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                   block(nil, error, operation);
-              }
-          }];
+              }];
+    }
 }
 
 
 - (void)getOrganizationWithName:(NSString *)orgName
-                          block:(void (^)(LVTOrganization *organization, NSError *error, AFHTTPRequestOperation *operation))block
+                          block:(void (^)(LVTOrganization *organization,
+                                          NSError *error,
+                                          AFHTTPRequestOperation *operation))block
 {
-    [self getPath:orgName
-       parameters:nil
-          success:^(AFHTTPRequestOperation *operation, id responseObject) {
-              NSError *error = nil;
-              LVTOrganization *org = [MTLJSONAdapter modelOfClass:LVTOrganization.class
-                                        fromJSONDictionary:responseObject
-                                                     error:&error];
-              if (block) {
+    NSParameterAssert(orgName);
+
+    if (block) {
+        [self getPath:orgName
+           parameters:nil
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  NSError *error;
+                  LVTOrganization *org = [MTLJSONAdapter modelOfClass:LVTOrganization.class
+                                                   fromJSONDictionary:responseObject
+                                                                error:&error];
                   block(org, error, operation);
               }
-          }
-          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-              if (block) {
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                   block(nil, error, operation);
+              }];
+    }
+}
+
+
+- (void)getProjectWithName:(NSString *)projectName
+       inOrganizationNamed:(NSString *)organizationName
+                     block:(void (^)(LVTProject *project,
+                                     NSError *error,
+                                     AFHTTPRequestOperation *operation))block
+{
+    NSParameterAssert(projectName);
+    NSParameterAssert(organizationName);
+
+    if (block) {
+        [self getPath:[NSString stringWithFormat:@"%@/%@", projectName, organizationName]
+           parameters:nil
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  NSError *error;
+                  LVTProject *project = [MTLJSONAdapter modelOfClass:LVTProject.class
+                                                  fromJSONDictionary:responseObject
+                                                               error:&error];
+                  block(project, error, operation);
               }
-          }];
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  block(nil, error, operation);
+              }];
+    }
 }
 
 
@@ -88,20 +115,18 @@
                      password:(NSString *)password
                    completion:(void (^)(AFOAuthCredential *credential, NSError *error))completion
 {
-    [self authenticateUsingOAuthWithPath:@"/oauth/token"
-                                username:email
-                                password:password
-                                   scope:nil
-                                 success:^(AFOAuthCredential *credential) {
-                                     if (completion) {
+    if (completion) {
+        [self authenticateUsingOAuthWithPath:@"/oauth/token"
+                                    username:email
+                                    password:password
+                                       scope:nil
+                                     success:^(AFOAuthCredential *credential) {
                                          completion(credential, nil);
                                      }
-                                 }
-                                 failure:^(NSError *error) {
-                                     if (completion) {
+                                     failure:^(NSError *error) {
                                          completion(nil, error);
-                                     }
-                                 }];
+                                     }];
+    }
 }
 
 
