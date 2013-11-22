@@ -19,5 +19,6 @@
 @property (readonly, nonatomic, copy) NSURL *url;
 @property (readonly, nonatomic, copy) NSURL *shortURL;
 @property (readonly, nonatomic, copy) NSString *organizationPermalink;
+@property (readonly, nonatomic, copy) NSArray *files;
 
 @end

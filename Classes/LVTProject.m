@@ -7,6 +7,7 @@
 //
 
 #import "LVTProject.h"
+#import "LVTFile.h"
 
 @implementation LVTProject
 
@@ -29,7 +30,8 @@
               @"url": @"full_url",
               @"shortURL": @"shortened_url",
               @"name": @"name",
-              @"organizationPermalink": @"organization_permalink"};
+              @"organizationPermalink": @"organization_permalink",
+              @"files": @"files"};
 }
 
 
@@ -77,6 +79,12 @@
 + (NSValueTransformer *)shortURLJSONTransformer
 {
     return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
+}
+
+
++ (NSValueTransformer *)filesJSONTransformer
+{
+    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVTFile.class];
 }
 
 @end
