@@ -30,6 +30,19 @@
     [super windowWillLoad];
     
     @weakify(self);
+    [RACObserve(self, model) subscribeNext:^(MTLModel<MTLJSONSerializing> *model) {
+        @strongify(self);
+        if (model) {
+            NSString *name = @"";
+            if ([model respondsToSelector:@selector(name)]) {
+                name = [NSString stringWithFormat:@" (%@)", [(id)model name]];
+            }
+            [self.window setTitle:[NSString stringWithFormat:@"%@%@",
+                                   NSStringFromClass(model.class), name]];
+            self.json = [MTLJSONAdapter JSONDictionaryFromModel:model];
+        }
+    }];
+
     [RACObserve(self, json) subscribeNext:^(NSDictionary *json) {
         @strongify(self);
         [self.tableView reloadData];
@@ -65,6 +78,18 @@
         else {
             stringValue = [object description];
         }
+
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\s+"
+                                                                               options:0
+                                                                                 error:nil];
+        if (regex) {
+            stringValue = [regex stringByReplacingMatchesInString:stringValue
+                                                          options:0
+                                                            range:NSMakeRange(0, stringValue.length)
+                                                     withTemplate:@" "];
+        }
+        stringValue = [stringValue stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+        stringValue = [stringValue stringByReplacingOccurrencesOfString:@"\t" withString:@""];
         [cellView.textField setStringValue:stringValue];
     }
     return cellView;
