@@ -21,16 +21,23 @@
 
 - (void)getMeWithBlock:(void (^)(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation))block;
 
-- (void)getOrganizationWithName:(NSString *)orgName
-                          block:(void (^)(LVTOrganization *organization,
-                                          NSError *error,
-                                          AFHTTPRequestOperation *operation))block;
+- (void)getOrganizationWithParmalink:(NSString *)permalink
+                               block:(void (^)(LVTOrganization *organization,
+                                               NSError *error,
+                                               AFHTTPRequestOperation *operation))block;
 
 - (void)getProjectWithName:(NSString *)projectName
-       inOrganizationNamed:(NSString *)organizationName
+            inOrganization:(LVTOrganization *)organization
                      block:(void (^)(LVTProject *project,
                                      NSError *error,
                                      AFHTTPRequestOperation *operation))block;
+
+- (void)getProjectWithName:(NSString *)projectName
+     organizationPermalink:(NSString *)organizationPermalink
+                     block:(void (^)(LVTProject *project,
+                                     NSError *error,
+                                     AFHTTPRequestOperation *operation))block;
+
 
 - (void)authenticateWithEmail:(NSString *)email
                      password:(NSString *)password

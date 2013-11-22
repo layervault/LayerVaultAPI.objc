@@ -61,15 +61,15 @@
 }
 
 
-- (void)getOrganizationWithName:(NSString *)orgName
-                          block:(void (^)(LVTOrganization *organization,
-                                          NSError *error,
-                                          AFHTTPRequestOperation *operation))block
+- (void)getOrganizationWithParmalink:(NSString *)permalink
+                               block:(void (^)(LVTOrganization *organization,
+                                               NSError *error,
+                                               AFHTTPRequestOperation *operation))block
 {
-    NSParameterAssert(orgName);
+    NSParameterAssert(permalink);
     NSParameterAssert(block);
 
-    [self getPath:orgName
+    [self getPath:[permalink stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
        parameters:nil
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               NSError *error;
@@ -85,16 +85,32 @@
 
 
 - (void)getProjectWithName:(NSString *)projectName
-       inOrganizationNamed:(NSString *)organizationName
+            inOrganization:(LVTOrganization *)organization
+                     block:(void (^)(LVTProject *project,
+                                     NSError *error,
+                                     AFHTTPRequestOperation *operation))block
+{
+    [self getProjectWithName:projectName
+       organizationPermalink:organization.permalink
+                       block:block];
+}
+
+
+- (void)getProjectWithName:(NSString *)projectName
+     organizationPermalink:(NSString *)organizationPermalink
                      block:(void (^)(LVTProject *project,
                                      NSError *error,
                                      AFHTTPRequestOperation *operation))block
 {
     NSParameterAssert(projectName);
-    NSParameterAssert(organizationName);
+    NSParameterAssert(organizationPermalink);
     NSParameterAssert(block);
 
-    [self getPath:[NSString stringWithFormat:@"%@/%@", projectName, organizationName]
+    NSString *projectPath = [NSString stringWithFormat:@"%@/%@",
+                             [organizationPermalink stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+                             [projectName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    
+    [self getPath:projectPath
        parameters:nil
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               NSError *error;
