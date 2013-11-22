@@ -9,10 +9,7 @@
 #import "LVTAppDelegate.h"
 #import "LVConstants.h"
 #import "LVTJSONWindowController.h"
-#import <layervault_objc_client/LVTHTTPClient.h>
-#import <layervault_objc_client/LVTUser.h>
-#import <layervault_objc_client/LVTOrganization.h>
-#import <layervault_objc_client/LVTProject.h>
+#import <layervault_objc_client/LayerVaultAPI.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <Mantle/EXTScope.h>
 #import <Mantle/Mantle.h>
@@ -33,7 +30,7 @@ NSString *const emailRegEx =
 @property (weak) IBOutlet NSSecureTextField *passwordField;
 @property (weak) IBOutlet NSButton *loginButton;
 @property (weak) IBOutlet NSTableView *projectsTableView;
-@property (weak) IBOutlet NSTableView *organizationsTableView;
+@property (nonatomic, copy) NSArray *dataSource;
 
 @property (nonatomic) LVTHTTPClient *client;
 @property (nonatomic) AFOAuthCredential *credential;
@@ -52,9 +49,6 @@ NSString *const emailRegEx =
 
     [self.projectsTableView setTarget:self];
     [self.projectsTableView setDoubleAction:@selector(doubleClickedTable:)];
-    [self.organizationsTableView setTarget:self];
-    [self.organizationsTableView setDoubleAction:@selector(doubleClickedTable:)];
-
 
     @weakify(self);
     [RACObserve(self, credential) subscribeNext:^(AFOAuthCredential *credential) {
@@ -135,8 +129,8 @@ NSString *const emailRegEx =
                                             }];
 
     [RACObserve(self, user) subscribeNext:^(LVTUser *user) {
-        [self.organizationsTableView reloadData];
-        [self.projectsTableView reloadData];
+        @strongify(self);
+        [self setDataSourceForUser:user];
     }];
 }
 
@@ -158,9 +152,23 @@ NSString *const emailRegEx =
 }
 
 
+- (void)setDataSourceForUser:(LVTUser *)user
+{
+    NSMutableArray *dataSource = @[].mutableCopy;
+    for (LVTOrganization *org in user.organizations) {
+        [dataSource addObject:org];
+        for (LVTProject *project in org.projects) {
+            [dataSource addObject:project];
+        }
+    }
+    self.dataSource = dataSource;
+    [self.projectsTableView reloadData];
+}
+
+
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-    return [self dataSourceForTableView:tableView].count;
+    return self.dataSource.count;
 }
 
 
@@ -168,39 +176,39 @@ NSString *const emailRegEx =
    viewForTableColumn:(NSTableColumn *)tableColumn
                   row:(NSInteger)row
 {
-    NSTableCellView *cellView = nil;
-    if ([tableColumn.identifier isEqualToString:@"Organizations"]) {
-        LVTOrganization *org = self.user.organizations[row];
-        cellView = [tableView makeViewWithIdentifier:@"OrganizationCell"
-                                               owner:self];
-        [cellView.textField setStringValue:org.name];
+    id selectedObject = [self.dataSource objectAtIndex:row];
+
+    if ([selectedObject isKindOfClass:LVTOrganization.class]) {
+        LVTOrganization *org = (LVTOrganization *)selectedObject;
+        NSTextField *orgCell = [tableView makeViewWithIdentifier:@"OrganizationCell"
+                                                           owner:self];
+        [orgCell setStringValue:org.name];
+        return orgCell;
     }
-    else if ([tableColumn.identifier isEqualToString:@"Projects"]) {
-        cellView = [tableView makeViewWithIdentifier:@"ProjectCell"
-                                               owner:self];
-        LVTProject *project = self.user.projects[row];
-        [cellView.textField setStringValue:project.name];
+    else if ([selectedObject isKindOfClass:LVTProject.class]) {
+        LVTProject *project = (LVTProject *)selectedObject;
+        NSTableCellView *tableCell = [tableView makeViewWithIdentifier:@"ProjectCell"
+                                                                 owner:self];
+        [tableCell.textField setStringValue:project.name];
+        return tableCell;
     }
-    return cellView;
+    return nil;
 }
 
 
-- (NSArray *)dataSourceForTableView:(NSTableView *)tableView
+- (BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row
 {
-    NSArray *dataSource = nil;
-    if (tableView == self.organizationsTableView) {
-        dataSource = self.user.organizations;
+    id selectedObject = [self.dataSource objectAtIndex:row];
+    if ([selectedObject isKindOfClass:LVTOrganization.class]) {
+        return YES;
     }
-    else if (tableView == self.projectsTableView) {
-        dataSource = self.user.projects;
-    }
-    return dataSource;
+    return NO;
 }
+
 
 - (void)doubleClickedTable:(NSTableView *)tableView
 {
-    NSArray *dataSource = [self dataSourceForTableView:tableView];
-    id selectedObject = [dataSource objectAtIndex:tableView.selectedRow];
+    id selectedObject = [self.dataSource objectAtIndex:tableView.selectedRow];
     if ([selectedObject conformsToProtocol:@protocol(MTLJSONSerializing)] && [selectedObject isKindOfClass:[MTLModel class]]) {
         MTLModel<MTLJSONSerializing> *jsonObject = (MTLModel<MTLJSONSerializing> *)selectedObject;
 
