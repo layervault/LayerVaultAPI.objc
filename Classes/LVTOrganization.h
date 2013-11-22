@@ -10,6 +10,7 @@
 
 @interface LVTOrganization : MTLModel <MTLJSONSerializing>
 @property (readonly, nonatomic, copy) NSString *name;
+@property (readonly, nonatomic, copy) NSString *permalink;
 @property (readonly, nonatomic) NSDate *dateDeleted;
 @property (readonly, nonatomic) NSDate *dateUpdated;
 @property (readonly, nonatomic, copy) NSURL *url;

@@ -22,11 +22,12 @@
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey
 {
-    return @{ @"name": @"name",
-              @"dateDeleted": @"deleted_at",
-              @"dateUpdated": @"updated_at",
-              @"url": @"full_url",
-              @"projects": @"projects"};
+    return @{@"name": @"name",
+//             @"permalink": @"permalink", [TODO] uncomment when server sends this
+             @"dateDeleted": @"deleted_at",
+             @"dateUpdated": @"updated_at",
+             @"url": @"full_url",
+             @"projects": @"projects"};
 }
 
 
@@ -54,9 +55,22 @@
 }
 
 
++ (NSValueTransformer *)urlJSONTransformer
+{
+    return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
+}
+
+
 + (NSValueTransformer *)projectsJSONTransformer
 {
     return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVTProject.class];
+}
+
+
+// [TODO] We should get rid of this when server sends permalink
+- (NSString *)permalink
+{
+    return self.url.lastPathComponent;
 }
 
 @end
