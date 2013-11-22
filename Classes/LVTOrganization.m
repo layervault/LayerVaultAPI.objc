@@ -7,6 +7,7 @@
 //
 
 #import "LVTOrganization.h"
+#import "LVTProject.h"
 
 @implementation LVTOrganization
 
@@ -24,7 +25,8 @@
     return @{ @"name": @"name",
               @"dateDeleted": @"deleted_at",
               @"dateUpdated": @"updated_at",
-              @"url": @"full_url"};
+              @"url": @"full_url",
+              @"projects": @"projects"};
 }
 
 
@@ -49,6 +51,12 @@
             reverseBlock:^NSString *(NSDate *date) {
                 return [[self dateFormatter] stringFromDate:date];
             }];
+}
+
+
++ (NSValueTransformer *)projectsJSONTransformer
+{
+    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVTProject.class];
 }
 
 @end

@@ -13,4 +13,5 @@
 @property (readonly, nonatomic) NSDate *dateDeleted;
 @property (readonly, nonatomic) NSDate *dateUpdated;
 @property (readonly, nonatomic, copy) NSURL *url;
+@property (readonly, nonatomic, copy) NSArray *projects;
 @end
