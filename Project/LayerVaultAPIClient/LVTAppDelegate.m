@@ -157,8 +157,22 @@ NSString *const emailRegEx =
     NSMutableArray *dataSource = @[].mutableCopy;
     for (LVTOrganization *org in user.organizations) {
         [dataSource addObject:org];
-        for (LVTProject *project in org.projects) {
-            [dataSource addObject:project];
+        for (LVTProjectProxy *proxy in org.projects) {
+            if (proxy.futureProject) {
+                [dataSource addObject:proxy.futureProject];
+            }
+            else {
+                @weakify(self);
+                [self.client getProjectWithName:proxy.name
+                          organizationPermalink:proxy.organizationPermalink
+                                          block:^(LVTProject *project,
+                                                  NSError *error,
+                                                  AFHTTPRequestOperation *operation) {
+                                              @strongify(self);
+                                              proxy.futureProject = project;
+                                              [self setDataSourceForUser:user];
+                                          }];
+            }
         }
     }
     self.dataSource = dataSource;
