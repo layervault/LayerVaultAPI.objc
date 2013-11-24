@@ -20,4 +20,6 @@
 
 - (instancetype)initWithPartialProject:(LVTProject *)project;
 
++ (NSValueTransformer *)valueTransformerForProxyProjects;
+
 @end
