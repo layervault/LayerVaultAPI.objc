@@ -29,6 +29,13 @@
 }
 
 
+- (instancetype)initWithPartialProject:(LVTProject *)project
+{
+    NSParameterAssert(project);
+    return [self initWithName:project.name organizationPermalink:project.organizationPermalink];
+}
+
+
 - (void)forwardInvocation:(NSInvocation *)invocation;
 {
     if (self.futureProject) {

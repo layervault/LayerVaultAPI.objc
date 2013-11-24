@@ -18,4 +18,6 @@
 - (instancetype)initWithName:(NSString *)name
        organizationPermalink:(NSString *)organizationPermalink;
 
+- (instancetype)initWithPartialProject:(LVTProject *)project;
+
 @end
