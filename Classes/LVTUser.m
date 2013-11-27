@@ -13,6 +13,11 @@
 
 @implementation LVTUser
 
++ (NSSet *)requiredProperties
+{
+    return [NSSet setWithArray:@[@"email"]];
+}
+
 + (NSDictionary *)JSONKeyPathsByPropertyKey
 {
     return @{@"email": @"email",
@@ -39,6 +44,20 @@
 + (NSValueTransformer *)projectsJSONTransformer
 {
     return [LVTProjectProxy valueTransformerForProxyProjects];
+}
+
+
+- (BOOL)validateValue:(inout __autoreleasing id *)ioValue
+               forKey:(NSString *)inKey
+                error:(out NSError *__autoreleasing *)outError
+{
+    if ([LVTUser.requiredProperties containsObject:inKey]) {
+        NSLog(@"%@ cannot have nil %@", NSStringFromClass(self.class), inKey);
+        if (!ioValue) {
+            return NO;
+        }
+    }
+    return [super validateValue:ioValue forKey:inKey error:outError];
 }
 
 @end
