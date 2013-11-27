@@ -73,7 +73,7 @@
     } reverseBlock:^NSArray *(NSArray *array) {
         NSMutableArray *fullProjects = @[].mutableCopy;
         for (LVTProjectProxy *proxy in array) {
-            NSAssert([proxy isKindOfClass:LVTProjectProxy.class],
+            NSAssert(proxy.class == LVTProjectProxy.class,
                      @"Proxy should be LVTProjectProxy but is %@", NSStringFromClass(proxy.class));
             if (proxy.futureProject) {
                 [fullProjects addObject:[MTLJSONAdapter JSONDictionaryFromModel:proxy.futureProject]];
