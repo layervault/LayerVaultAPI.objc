@@ -158,21 +158,7 @@ NSString *const emailRegEx =
     for (LVTOrganization *org in user.organizations) {
         [dataSource addObject:org];
         for (LVTProjectProxy *proxy in org.projects) {
-            if (proxy.futureProject) {
-                [dataSource addObject:proxy.futureProject];
-            }
-            else {
-                @weakify(self);
-                [self.client getProjectWithName:proxy.name
-                          organizationPermalink:proxy.organizationPermalink
-                                          block:^(LVTProject *project,
-                                                  NSError *error,
-                                                  AFHTTPRequestOperation *operation) {
-                                              @strongify(self);
-                                              proxy.futureProject = project;
-                                              [self setDataSourceForUser:user];
-                                          }];
-            }
+            [dataSource addObject:proxy];
         }
     }
     self.dataSource = dataSource;
@@ -199,8 +185,8 @@ NSString *const emailRegEx =
         [orgCell setStringValue:org.name];
         return orgCell;
     }
-    else if ([selectedObject isKindOfClass:LVTProject.class]) {
-        LVTProject *project = (LVTProject *)selectedObject;
+    else if ([selectedObject class] == LVTProjectProxy.class) {
+        LVTProjectProxy *project = (LVTProjectProxy *)selectedObject;
         NSTableCellView *tableCell = [tableView makeViewWithIdentifier:@"ProjectCell"
                                                                  owner:self];
         [tableCell.textField setStringValue:project.name];
@@ -230,31 +216,19 @@ NSString *const emailRegEx =
     id selectedObject = [self.dataSource objectAtIndex:tableView.selectedRow];
     if ([selectedObject isKindOfClass:LVTOrganization.class]) {
         LVTOrganization *organization = (LVTOrganization *)selectedObject;
-        [self.client getOrganizationWithParmalink:organization.permalink
-                                            block:^(LVTOrganization *organization,
-                                                    NSError *error,
-                                                    AFHTTPRequestOperation *operation) {
-                                                if (organization) {
-                                                    self.jsonWindowController.model = organization;
-                                                }
-                                                else {
-                                                    NSLog(@"error: %@\noperation: %@", error, operation);
-                                                }
-                                            }];
+        self.jsonWindowController.model = organization;
     }
-    else if ([selectedObject isKindOfClass:LVTProject.class]) {
-        LVTProject *project = (LVTProject *)selectedObject;
-        [self.client getProjectWithName:project.name
-                  organizationPermalink:project.organizationPermalink
+    else if ([selectedObject class] == LVTProjectProxy.class) {
+        LVTProjectProxy *proxy = (LVTProjectProxy *)selectedObject;
+        @weakify(self);
+        [self.client getProjectWithName:proxy.name
+                  organizationPermalink:proxy.organizationPermalink
                                   block:^(LVTProject *project,
                                           NSError *error,
                                           AFHTTPRequestOperation *operation) {
-                                      if (project) {
-                                          self.jsonWindowController.model = project;
-                                      }
-                                      else {
-                                          NSLog(@"error: %@\noperation: %@", error, operation);
-                                      }
+                                      @strongify(self);
+                                      proxy.futureProject = project;
+                                      self.jsonWindowController.model = proxy.futureProject;
                                   }];
     }
 }
