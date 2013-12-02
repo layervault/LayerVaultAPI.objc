@@ -11,7 +11,6 @@
 @class LVTUser;
 @class LVTOrganization;
 @class LVTProject;
-@class RACSignal;
 
 @interface LVTHTTPClient : AFOAuth2Client
 
@@ -42,9 +41,5 @@
 - (void)authenticateWithEmail:(NSString *)email
                      password:(NSString *)password
                    completion:(void (^)(AFOAuthCredential *credential, NSError *error))completion;
-
-- (RACSignal *)requestAuthorizationWithEmail:(NSString *)email password:(NSString *)password;
-
-- (RACSignal *)fetchUserInfo;
 
 @end

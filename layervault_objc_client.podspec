@@ -28,7 +28,6 @@ Pod::Spec.new do |s|
   # s.frameworks = 'SomeFramework', 'AnotherFramework'
   s.dependency 'AFNetworking', '~> 1.3.3'
   s.dependency 'Mantle', '~> 1.3'
-  s.dependency 'ReactiveCocoa', '~> 2.1.1'
   s.dependency 'AFOAuth2Client', '~> 0.1.1'
 
 end
