@@ -118,6 +118,36 @@
 }
 
 
+- (void)createProjectWithName:(NSString *)projectName
+        organizationPermalink:(NSString *)organizationPermalink
+                   completion:(void (^)(LVTProject *project,
+                                        NSError *error,
+                                        AFHTTPRequestOperation *operation))block
+{
+    NSParameterAssert(projectName);
+    NSParameterAssert(organizationPermalink);
+    NSParameterAssert(block);
+
+    NSString *projectPath = [NSString stringWithFormat:@"%@/%@",
+                             [organizationPermalink stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+                             [projectName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+
+    [self postPath:projectPath
+        parameters:nil
+           success:^(AFHTTPRequestOperation *operation, id responseObject) {
+               NSError *error;
+               LVTProject *project = [MTLJSONAdapter modelOfClass:LVTProject.class
+                                               fromJSONDictionary:responseObject
+                                                            error:&error];
+               block(project, error, operation);
+           }
+           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+               block(nil, error, operation);
+           }];
+
+}
+
+
 - (void)authenticateWithEmail:(NSString *)email
                      password:(NSString *)password
                    completion:(void (^)(AFOAuthCredential *credential, NSError *error))completion

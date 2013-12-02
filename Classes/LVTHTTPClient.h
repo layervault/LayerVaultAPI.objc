@@ -35,6 +35,12 @@
                                      NSError *error,
                                      AFHTTPRequestOperation *operation))block;
 
+- (void)createProjectWithName:(NSString *)projectName
+        organizationPermalink:(NSString *)organizationPermalink
+                   completion:(void (^)(LVTProject *project,
+                                        NSError *error,
+                                        AFHTTPRequestOperation *operation))block;
+
 
 - (void)authenticateWithEmail:(NSString *)email
                      password:(NSString *)password
