@@ -25,7 +25,7 @@ NSString *const emailRegEx =
 @"-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
 
 
-@interface LVTAppDelegate () <NSTableViewDataSource, NSTableViewDelegate>
+@interface LVTAppDelegate () <NSTableViewDataSource, NSTableViewDelegate, NSTextFieldDelegate>
 @property (weak) IBOutlet NSTextField *emailField;
 @property (weak) IBOutlet NSSecureTextField *passwordField;
 @property (weak) IBOutlet NSButton *loginButton;
@@ -151,6 +151,23 @@ NSString *const emailRegEx =
     }
 }
 
+- (IBAction)addProjectPressed:(NSButton *)sender {
+    NSInteger row = [self.projectsTableView rowForView:sender];
+    id selectedObject = [self.dataSource objectAtIndex:row];
+    if ([selectedObject isKindOfClass:LVTOrganization.class]) {
+        LVTOrganization *org = (LVTOrganization *)selectedObject;
+        LVTProjectProxy *lvtProjectProxy = [[LVTProjectProxy alloc] initWithName:@""
+                                                           organizationPermalink:org.permalink];
+        lvtProjectProxy.needsCreation = YES;
+        NSMutableArray *newDataSource = self.dataSource.mutableCopy;
+        NSInteger orgProject = [newDataSource indexOfObject:org];
+        NSInteger newPos = (orgProject + 1);
+        [newDataSource insertObject:lvtProjectProxy atIndex:(orgProject + 1)];
+        self.dataSource = newDataSource;
+        [self.projectsTableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:newPos]
+                                      withAnimation:NSTableViewAnimationEffectNone];
+    }
+}
 
 - (void)setDataSourceForUser:(LVTUser *)user
 {
@@ -166,9 +183,45 @@ NSString *const emailRegEx =
 }
 
 
+#pragma mark - NSTextFieldDelegate
+- (BOOL)control:(NSControl *)control textShouldEndEditing:(NSText *)fieldEditor
+{
+    NSLog(@"control:%@ textShouldEndEditing:%@", control, fieldEditor);
+    NSInteger row = [self.projectsTableView rowForView:control];
+    id selectedObject = [self.dataSource objectAtIndex:row];
+    if ([selectedObject class] == LVTProjectProxy.class) {
+        LVTProjectProxy *project = (LVTProjectProxy *)selectedObject;
+        [self.client createProjectWithName:fieldEditor.string
+                     organizationPermalink:project.organizationPermalink
+                                completion:^(LVTProject *project,
+                                             NSError *error,
+                                             AFHTTPRequestOperation *operation) {
+                                    NSLog(@"project: %@", project);
+                                    NSLog(@"error: %@", error);
+                                    NSLog(@"operation: %@", operation);
+                                }];
+    }
+    return YES;
+}
+
+
+#pragma mark - NSTableViewDataSource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
     return self.dataSource.count;
+}
+
+
+#pragma mark - NSTableViewDelegate
+- (void)tableView:(NSTableView *)tableView didAddRowView:(NSTableRowView *)rowView forRow:(NSInteger)row
+{
+    id selectedObject = [self.dataSource objectAtIndex:row];
+    if ([selectedObject class] == LVTProjectProxy.class) {
+        LVTProjectProxy *project = (LVTProjectProxy *)selectedObject;
+        if (project.needsCreation) {
+            [tableView editColumn:0 row:row withEvent:nil select:YES];
+        }
+    }
 }
 
 
@@ -180,16 +233,18 @@ NSString *const emailRegEx =
 
     if ([selectedObject isKindOfClass:LVTOrganization.class]) {
         LVTOrganization *org = (LVTOrganization *)selectedObject;
-        NSTextField *orgCell = [tableView makeViewWithIdentifier:@"OrganizationCell"
-                                                           owner:self];
-        [orgCell setStringValue:org.name];
+        NSTableCellView *orgCell = [tableView makeViewWithIdentifier:@"OrganizationCell"
+                                                               owner:self];
+        [orgCell.textField setStringValue:org.name];
         return orgCell;
     }
     else if ([selectedObject class] == LVTProjectProxy.class) {
         LVTProjectProxy *project = (LVTProjectProxy *)selectedObject;
         NSTableCellView *tableCell = [tableView makeViewWithIdentifier:@"ProjectCell"
                                                                  owner:self];
-        [tableCell.textField setStringValue:project.name];
+        if (!project.needsCreation) {
+            [tableCell.textField setStringValue:project.name];
+        }
         return tableCell;
     }
     return nil;
