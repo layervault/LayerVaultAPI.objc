@@ -41,11 +41,6 @@
     if (self.futureProject) {
         [invocation invokeWithTarget:self.futureProject];
     }
-#ifdef DEBUG
-    else {
-        NSLog(@"%@ ignoring %@", NSStringFromClass(self.class), NSStringFromSelector(invocation.selector));
-    }
-#endif
 }
 
 
