@@ -41,6 +41,10 @@
                                         NSError *error,
                                         AFHTTPRequestOperation *operation))block;
 
+- (void)deleteProject:(LVTProject *)project
+           completion:(void (^)(BOOL success,
+                                NSError *error,
+                                AFHTTPRequestOperation *operation))block;
 
 - (void)authenticateWithEmail:(NSString *)email
                      password:(NSString *)password
