@@ -9,15 +9,9 @@
 #import "LVTHTTPClient.h"
 #import <Mantle/Mantle.h>
 #import <AFNetworking/AFJSONRequestOperation.h>
-#import <Mantle/EXTScope.h>
 #import "LVTUser.h"
 #import "LVTOrganization.h"
 #import "LVTProject.h"
-
-
-@interface LVTHTTPClient ()
-@property (nonatomic, copy) LVTUser *user;
-@end
 
 
 @implementation LVTHTTPClient

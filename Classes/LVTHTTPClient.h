@@ -14,8 +14,6 @@
 
 @interface LVTHTTPClient : AFOAuth2Client
 
-@property (readonly, nonatomic, copy) LVTUser *user;
-
 - (instancetype)initWithClientID:(NSString *)clientID secret:(NSString *)secret;
 
 - (void)getMeWithBlock:(void (^)(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation))block;
