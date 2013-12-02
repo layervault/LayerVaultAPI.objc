@@ -99,10 +99,8 @@
     NSParameterAssert(organizationPermalink);
     NSParameterAssert(block);
 
-    NSString *projectPath = [NSString stringWithFormat:@"%@/%@",
-                             [organizationPermalink stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
-                             [projectName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    
+    NSString *projectPath = [self pathForProjectName:projectName
+                               organizationPermalink:organizationPermalink];
     [self getPath:projectPath
        parameters:nil
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -128,10 +126,8 @@
     NSParameterAssert(organizationPermalink);
     NSParameterAssert(block);
 
-    NSString *projectPath = [NSString stringWithFormat:@"%@/%@",
-                             [organizationPermalink stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
-                             [projectName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-
+    NSString *projectPath = [self pathForProjectName:projectName
+                               organizationPermalink:organizationPermalink];
     [self postPath:projectPath
         parameters:nil
            success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -166,6 +162,22 @@
                                  failure:^(NSError *error) {
                                      completion(nil, error);
                                  }];
+}
+
+
+#pragma mark - Private Methods
+- (NSString *)pathForProject:(LVTProject *)project
+{
+    return [self pathForProjectName:project.name
+              organizationPermalink:project.organizationPermalink];
+}
+
+- (NSString *)pathForProjectName:(NSString *)projectName
+                organizationPermalink:(NSString *)organizationPermalink
+{
+    return [NSString stringWithFormat:@"%@/%@",
+            [organizationPermalink stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+            [projectName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
 }
 
 @end
