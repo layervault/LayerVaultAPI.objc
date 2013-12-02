@@ -47,17 +47,16 @@
 }
 
 
-- (BOOL)validateValue:(inout __autoreleasing id *)ioValue
-               forKey:(NSString *)inKey
-                error:(out NSError *__autoreleasing *)outError
+- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue
+                             error:(NSError *__autoreleasing *)error
 {
-    if ([LVTUser.requiredProperties containsObject:inKey]) {
-        NSLog(@"%@ cannot have nil %@", NSStringFromClass(self.class), inKey);
-        if (!ioValue) {
-            return NO;
+    for (NSString *key in [LVTUser requiredProperties]) {
+        if (!dictionaryValue[key]) {
+            NSLog(@"%@ cannot have nil %@", NSStringFromClass(self.class), key);
+            return nil;
         }
     }
-    return [super validateValue:ioValue forKey:inKey error:outError];
+    return [super initWithDictionary:dictionaryValue error:error];
 }
 
 @end
