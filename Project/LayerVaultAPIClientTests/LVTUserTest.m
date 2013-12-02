@@ -28,10 +28,19 @@
 - (void)testNoAdminMakesAdminFalse
 {
     LVTUser *user = [MTLJSONAdapter modelOfClass:LVTUser.class
-                              fromJSONDictionary:@{}
+                              fromJSONDictionary:@{@"email": @"foo@bar.com"}
                                            error:nil];
     XCTAssertNotNil(user, @"user shouldn't be nil");
     XCTAssertFalse(user.admin, @"Should not be admin");
+}
+
+
+- (void)testNoEmailReturnsNilUser
+{
+    LVTUser *user = [MTLJSONAdapter modelOfClass:LVTUser.class
+                              fromJSONDictionary:@{}
+                                           error:nil];
+    XCTAssertNil(user, @"user should be nil");
 }
 
 @end
