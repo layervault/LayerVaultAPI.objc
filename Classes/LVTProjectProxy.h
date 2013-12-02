@@ -14,6 +14,7 @@
 @property (readonly, copy) NSString *name;
 @property (readonly, copy) NSString *organizationPermalink;
 @property (nonatomic) LVTProject *futureProject;
+@property (nonatomic) BOOL needsCreation;
 
 - (instancetype)initWithName:(NSString *)name
        organizationPermalink:(NSString *)organizationPermalink;
