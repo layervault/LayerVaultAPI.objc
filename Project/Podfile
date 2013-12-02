@@ -1,4 +1,4 @@
 pod "layervault_objc_client", :path => "../"
 pod 'ReactiveCocoa', '~> 2.1.1'
 
-link_with ["LayerVaultAPIClient", "LayerVaultAPIClientTests"]
+link_with ["LayerVaultAPIClient"]
