@@ -50,12 +50,14 @@
 }
 
 
+#pragma mark - NSTableViewDataSource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
     return self.json.allKeys.count;
 }
 
 
+#pragma mark - NSTableViewDelegate
 - (NSView *)tableView:(NSTableView *)tableView
    viewForTableColumn:(NSTableColumn *)tableColumn
                   row:(NSInteger)row
@@ -93,6 +95,74 @@
         [cellView.textField setStringValue:stringValue];
     }
     return cellView;
+}
+
+
+- (NSDictionary *)dictForItem:(id)item;
+{
+    if ([item isKindOfClass:NSDictionary.class]) {
+        return (NSDictionary *)item;
+    }
+    return nil;
+}
+
+
+#pragma mark - NSOutlineViewDataSource
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
+{
+    if (item) {
+        NSDictionary *d = [self dictForItem:item];
+        id value = d[d.allKeys[0]];
+        return [value isKindOfClass:NSArray.class] ? [value count] : 0;
+    }
+    return self.json.allKeys.count;
+}
+
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
+{
+    NSDictionary *d = [self dictForItem:item];
+    id value = d[d.allKeys[0]];
+    return [value isKindOfClass:NSArray.class];
+}
+
+
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
+{
+    if (item) {
+        NSDictionary *d = [self dictForItem:item];
+        id value = d[d.allKeys[0]];
+        return [value isKindOfClass:NSArray.class] ? [[value objectAtIndex:index] copy] : nil;
+    }
+    NSString *key = self.json.allKeys[index];
+    return @{key: self.json[key]};
+}
+
+
+- (NSView *)outlineView:(NSOutlineView *)outlineView
+     viewForTableColumn:(NSTableColumn *)tableColumn
+                   item:(id)item
+{
+    NSDictionary *d = [self dictForItem:item];
+    if ([tableColumn.identifier isEqualToString:@"KeyColumn"]) {
+        NSTableCellView *cellView = [outlineView makeViewWithIdentifier:@"KeyCell"
+                                                                  owner:self];
+        [cellView.textField setStringValue:d.allKeys[0]];
+        return cellView;
+    }
+    else if ([tableColumn.identifier isEqualToString:@"ValueColumn"]) {
+        NSTableCellView *cellView = [outlineView makeViewWithIdentifier:@"ValueCell"
+                                                                  owner:self];
+        id value = d[d.allKeys[0]];
+        if (![value isKindOfClass:NSArray.class]) {
+            [cellView.textField setStringValue:[value description]];
+        }
+        else {
+            [cellView.textField setStringValue:@"<array>"];
+        }
+        return cellView;
+    }
+    return nil;
 }
 
 @end

@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import <Mantle/Mantle.h>
 
-@interface LVTJSONWindowController : NSWindowController <NSTableViewDelegate, NSTableViewDataSource>
+@interface LVTJSONWindowController : NSWindowController <NSTableViewDelegate, NSTableViewDataSource, NSOutlineViewDataSource>
 
 @property (nonatomic, copy) NSDictionary *json;
 @property (nonatomic) MTLModel<MTLJSONSerializing> *model;
