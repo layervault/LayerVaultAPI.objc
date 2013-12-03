@@ -58,6 +58,12 @@
                               NSError *error,
                               AFHTTPRequestOperation *operation))block;
 
+- (void)moveProject:(LVTProject *)project
+      toDestination:(NSString *)destination
+         completion:(void (^)(LVTProject *project,
+                              NSError *error,
+                              AFHTTPRequestOperation *operation))block;
+
 #pragma mark - Authentication
 - (void)authenticateWithEmail:(NSString *)email
                      password:(NSString *)password
