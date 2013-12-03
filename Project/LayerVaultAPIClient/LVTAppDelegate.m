@@ -187,6 +187,30 @@ NSString *const emailRegEx =
     }
 }
 
+- (IBAction)changeColorPressed:(NSButton *)sender
+{
+    NSInteger row = [self.projectsTableView rowForView:sender];
+    id selectedObject = [self.dataSource objectAtIndex:row];
+    if ([selectedObject isKindOfClass:LVTProject.class]) {
+        LVTProject *project = (LVTProject *)selectedObject;
+        LVTColorLabel newLabel = LVTColorWhite;
+        switch (project.colorLabel) {
+            case LVTColorWhite:
+                newLabel = LVTColorGreen;
+                break;
+            case LVTColorGreen:
+                newLabel = LVTColorRed;
+                break;
+            case LVTColorRed:
+                newLabel = LVTColorOrange;
+                break;
+            case LVTColorOrange:
+                newLabel = LVTColorWhite;
+                break;
+        }
+    }
+}
+
 - (void)setDataSourceForUser:(LVTUser *)user
 {
     NSMutableArray *dataSource = @[].mutableCopy;
