@@ -22,18 +22,24 @@
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey
 {
-    return @{ @"path": @"path",
-              @"fileURL": @"local_path",
-              @"dateUpdated": @"updated_at",
-              @"dateDeleted": @"deleted_at",
-              @"md5": @"md5",
-              @"url": @"full_url",
-              @"shortURL": @"shortened_url",
-              @"name": @"name",
-              @"organizationPermalink": @"organization_permalink",
-              @"files": @"files"};
+    return @{@"name": @"name",
+             @"colorLabel": @"color",
+             @"path": @"path",
+             @"fileURL": @"local_path",
+             @"dateUpdated": @"updated_at",
+             @"dateDeleted": @"deleted_at",
+             @"md5": @"md5",
+             @"url": @"full_url",
+             @"shortURL": @"shortened_url",
+             @"organizationPermalink": @"organization_permalink",
+             @"files": @"files"};
 }
 
+
++ (NSValueTransformer *)colorLabelJSONTransformer
+{
+    return [NSValueTransformer mtl_valueMappingTransformerWithDictionary:[LVTColor colorNamesToValue]];
+}
 
 + (NSValueTransformer *)fileURLJSONTransformer
 {

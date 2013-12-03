@@ -7,10 +7,12 @@
 //
 
 #import <Mantle/Mantle.h>
+#import "LVTColor.h"
 
 @interface LVTProject : MTLModel <MTLJSONSerializing>
 
 @property (readonly, nonatomic, copy) NSString *name;
+@property (readonly, nonatomic) NSNumber *colorLabel;
 @property (readonly, nonatomic, copy) NSString *path;
 @property (readonly, nonatomic, copy) NSURL *fileURL;
 @property (readonly, nonatomic) NSDate *dateUpdated;
