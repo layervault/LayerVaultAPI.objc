@@ -23,4 +23,10 @@
 @property (readonly, nonatomic, copy) NSString *organizationPermalink;
 @property (readonly, nonatomic, copy) NSArray *files;
 
+@property (readonly, nonatomic) BOOL partial;
+@property (readonly, nonatomic) BOOL synced;
+
+- (instancetype)initWithName:(NSString *)name
+       organizationPermalink:(NSString *)organizationPermalink;
+
 @end

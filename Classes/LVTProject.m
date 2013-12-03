@@ -9,7 +9,42 @@
 #import "LVTProject.h"
 #import "LVTFile.h"
 
+NSString *const LVTProjectJSONKeyName = @"name";
+NSString *const LVTProjectJSONKeyOrganizationPermalink = @"organization_permalink";
+
+
 @implementation LVTProject
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue
+                          isSynced:(BOOL)synced
+                             error:(NSError *__autoreleasing *)error
+{
+    self = [super initWithDictionary:dictionaryValue error:error];
+    if (self) {
+        _synced = synced;
+    }
+    return self;
+}
+
+
+- (instancetype)initWithName:(NSString *)name
+       organizationPermalink:(NSString *)organizationPermalink
+{
+    NSParameterAssert(name);
+    NSParameterAssert(organizationPermalink);
+
+    NSDictionary *dict = @{LVTProjectJSONKeyName: name,
+                           LVTProjectJSONKeyOrganizationPermalink: organizationPermalink};
+
+    return [self initWithDictionary:dict isSynced:NO error:nil];
+}
+
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError *__autoreleasing *)error
+{
+    return [self initWithDictionary:dictionaryValue isSynced:YES error:error];
+}
+
 
 + (NSDateFormatter *)dateFormatter
 {
@@ -22,7 +57,7 @@
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey
 {
-    return @{@"name": @"name",
+    return @{@"name": LVTProjectJSONKeyName,
              @"colorLabel": @"color",
              @"path": @"path",
              @"fileURL": @"local_path",
@@ -31,7 +66,7 @@
              @"md5": @"md5",
              @"url": @"full_url",
              @"shortURL": @"shortened_url",
-             @"organizationPermalink": @"organization_permalink",
+             @"organizationPermalink": LVTProjectJSONKeyOrganizationPermalink,
              @"files": @"files"};
 }
 
@@ -92,5 +127,24 @@
 {
     return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVTFile.class];
 }
+
+
+- (NSDictionary *)dictionaryValue
+{
+    NSMutableDictionary *dict = [super dictionaryValue].mutableCopy;
+
+    if ([self valueForKey:@"path"] == nil) {
+        [dict removeObjectForKey:@"path"];
+    }
+
+    return dict;
+}
+
+
+- (BOOL)partial
+{
+    return !self.path;
+}
+
 
 @end
