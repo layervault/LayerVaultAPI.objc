@@ -13,11 +13,11 @@ typedef enum : NSUInteger {
     LVTColorGreen = 2,
     LVTColorRed = 6,
     LVTColorOrange = 7
-} LVTColorValues;
+} LVTColorLabel;
 
-@interface LVTColor : NSObject
+@interface LVTColorUtils : NSObject
 
 + (NSDictionary *)colorNamesToValue;
-+ (NSColor *)colorForLabel:(NSNumber *)label;
++ (NSColor *)colorForLabel:(LVTColorLabel)label;
 
 @end

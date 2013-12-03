@@ -13,6 +13,11 @@ NSString *const LVTProjectJSONKeyName = @"name";
 NSString *const LVTProjectJSONKeyOrganizationPermalink = @"organization_permalink";
 
 
+@interface LVTProject ()
+@property (nonatomic) LVTColorLabel colorLabel;
+@end
+
+
 @implementation LVTProject
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue
@@ -73,7 +78,7 @@ NSString *const LVTProjectJSONKeyOrganizationPermalink = @"organization_permalin
 
 + (NSValueTransformer *)colorLabelJSONTransformer
 {
-    return [NSValueTransformer mtl_valueMappingTransformerWithDictionary:[LVTColor colorNamesToValue]];
+    return [NSValueTransformer mtl_valueMappingTransformerWithDictionary:[LVTColorUtils colorNamesToValue]];
 }
 
 + (NSValueTransformer *)fileURLJSONTransformer
@@ -138,6 +143,16 @@ NSString *const LVTProjectJSONKeyOrganizationPermalink = @"organization_permalin
     }
 
     return dict;
+}
+
+
+- (void)setNilValueForKey:(NSString *)key
+{
+    if ([key isEqualToString:@"colorLabel"]) {
+        self.colorLabel = LVTColorWhite;
+    } else {
+        [super setNilValueForKey:key];
+    }
 }
 
 

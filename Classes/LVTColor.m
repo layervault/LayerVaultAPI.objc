@@ -8,7 +8,7 @@
 
 #import "LVTColor.h"
 
-@implementation LVTColor
+@implementation LVTColorUtils
 
 + (NSDictionary *)colorNamesToValue
 {
@@ -18,9 +18,9 @@
              @"orange": @(LVTColorOrange)};
 }
 
-+ (NSColor *)colorForLabel:(NSNumber *)label
++ (NSColor *)colorForLabel:(LVTColorLabel)label
 {
-    switch ([label unsignedIntegerValue]) {
+    switch (label) {
         case LVTColorGreen:
             return [NSColor greenColor];
         case LVTColorRed:
