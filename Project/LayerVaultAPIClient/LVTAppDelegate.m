@@ -210,15 +210,33 @@ NSString *const emailRegEx =
     id selectedObject = [self.dataSource objectAtIndex:row];
     if ([selectedObject class] == LVTProjectProxy.class) {
         LVTProjectProxy *project = (LVTProjectProxy *)selectedObject;
-        [self.client createProjectWithName:fieldEditor.string
-                     organizationPermalink:project.organizationPermalink
-                                completion:^(LVTProject *project,
-                                             NSError *error,
-                                             AFHTTPRequestOperation *operation) {
-                                    NSLog(@"project: %@", project);
-                                    NSLog(@"error: %@", error);
-                                    NSLog(@"operation: %@", operation);
-                                }];
+        if (project.needsCreation) {
+            [self.client createProjectWithName:fieldEditor.string
+                         organizationPermalink:project.organizationPermalink
+                                    completion:^(LVTProject *project,
+                                                 NSError *error,
+                                                 AFHTTPRequestOperation *operation) {
+                                        NSLog(@"project: %@", project);
+                                        NSLog(@"error: %@", error);
+                                        NSLog(@"operation: %@", operation);
+                                    }];
+        }
+        else {
+            if (![fieldEditor.string isEqualToString:project.name]) {
+                NSLog(@"Needs Rename '%@' \u2192 '%@'",
+                      project.name,
+                      fieldEditor.string);
+                [self.client moveProject:(LVTProject *)project
+                           toDestination:fieldEditor.string
+                              completion:^(LVTProject *project,
+                                           NSError *error,
+                                           AFHTTPRequestOperation *operation) {
+                                  NSLog(@"project: %@", project);
+                                  NSLog(@"error: %@", error);
+                                  NSLog(@"operation: %@", operation);
+                              }];
+            }
+        }
     }
     return YES;
 }
