@@ -151,7 +151,8 @@ NSString *const emailRegEx =
     }
 }
 
-- (IBAction)addProjectPressed:(NSButton *)sender {
+- (IBAction)addProjectPressed:(NSButton *)sender
+{
     NSInteger row = [self.projectsTableView rowForView:sender];
     id selectedObject = [self.dataSource objectAtIndex:row];
     if ([selectedObject isKindOfClass:LVTOrganization.class]) {
@@ -166,6 +167,24 @@ NSString *const emailRegEx =
         self.dataSource = newDataSource;
         [self.projectsTableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:newPos]
                                       withAnimation:NSTableViewAnimationEffectNone];
+    }
+}
+
+
+- (IBAction)deleteProjectPressed:(NSButton *)sender
+{
+    NSInteger row = [self.projectsTableView rowForView:sender];
+    id selectedObject = [self.dataSource objectAtIndex:row];
+    if ([selectedObject class] == LVTProjectProxy.class) {
+        LVTProject *project = (LVTProject *)selectedObject;
+        [self.client deleteProject:project
+                        completion:^(BOOL success,
+                                     NSError *error,
+                                     AFHTTPRequestOperation *operation) {
+                            NSLog(@"DELETE Success: %@", success ? @"YES" : @"NO");
+                            NSLog(@"error: %@", error);
+                            NSLog(@"operation: %@", operation);
+                        }];
     }
 }
 
