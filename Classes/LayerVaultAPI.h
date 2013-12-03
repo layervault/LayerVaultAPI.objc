@@ -16,7 +16,6 @@
 #import "LVTHTTPClient.h"
 #import "LVTOrganization.h"
 #import "LVTProject.h"
-#import "LVTProjectProxy.h"
 #import "LVTUser.h"
 
 #endif
