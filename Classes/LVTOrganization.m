@@ -8,7 +8,6 @@
 
 #import "LVTOrganization.h"
 #import "LVTProject.h"
-#import "LVTProjectProxy.h"
 
 @implementation LVTOrganization
 
@@ -24,7 +23,7 @@
 + (NSDictionary *)JSONKeyPathsByPropertyKey
 {
     return @{@"name": @"name",
-//             @"permalink": @"permalink", [TODO] uncomment when server sends this
+             @"permalink": @"permalink",
              @"dateDeleted": @"deleted_at",
              @"dateUpdated": @"updated_at",
              @"url": @"full_url",
@@ -64,14 +63,7 @@
 
 + (NSValueTransformer *)projectsJSONTransformer
 {
-    return [LVTProjectProxy valueTransformerForProxyProjects];
-}
-
-
-// [TODO] Get rid of this when server sends permalink
-- (NSString *)permalink
-{
-    return self.url.lastPathComponent;
+    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVTProject.class];
 }
 
 @end
