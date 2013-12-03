@@ -23,6 +23,7 @@
                                                NSError *error,
                                                AFHTTPRequestOperation *operation))block;
 
+#pragma mark - Project
 - (void)getProjectWithName:(NSString *)projectName
             inOrganization:(LVTOrganization *)organization
                      block:(void (^)(LVTProject *project,
@@ -46,6 +47,13 @@
                                 NSError *error,
                                 AFHTTPRequestOperation *operation))block;
 
+- (void)moveProject:(LVTProject *)project
+      toDestination:(NSString *)destination
+         completion:(void (^)(LVTProject *project,
+                              NSError *error,
+                              AFHTTPRequestOperation *operation))block;
+
+#pragma mark - Authentication
 - (void)authenticateWithEmail:(NSString *)email
                      password:(NSString *)password
                    completion:(void (^)(AFOAuthCredential *credential, NSError *error))completion;

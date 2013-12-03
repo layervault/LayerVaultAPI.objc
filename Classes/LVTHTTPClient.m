@@ -164,6 +164,35 @@
 }
 
 
+- (void)moveProject:(LVTProject *)project
+      toDestination:(NSString *)destination
+         completion:(void (^)(LVTProject *project,
+                              NSError *error,
+                              AFHTTPRequestOperation *operation))block
+{
+    NSParameterAssert(project);
+    NSParameterAssert(destination);
+    NSParameterAssert(block);
+
+    NSString *movePath = [[self pathForProject:project] stringByAppendingString:@"/move"];
+    // warning: stringByAddingPercentEscapesUsingEncoding: can return nil
+    NSDictionary *params = @{@"to": [destination stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]};
+
+    [self postPath:movePath
+        parameters:params
+           success:^(AFHTTPRequestOperation *operation, id responseObject) {
+               NSError *error;
+               LVTProject *project = [MTLJSONAdapter modelOfClass:LVTProject.class
+                                               fromJSONDictionary:responseObject
+                                                            error:&error];
+               block(project, error, operation);
+           }
+           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+               block(nil, error, operation);
+           }];
+}
+
+
 - (void)authenticateWithEmail:(NSString *)email
                      password:(NSString *)password
                    completion:(void (^)(AFOAuthCredential *credential, NSError *error))completion
