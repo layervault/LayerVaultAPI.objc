@@ -157,13 +157,12 @@ NSString *const emailRegEx =
     id selectedObject = [self.dataSource objectAtIndex:row];
     if ([selectedObject isKindOfClass:LVTOrganization.class]) {
         LVTOrganization *org = (LVTOrganization *)selectedObject;
-        LVTProjectProxy *lvtProjectProxy = [[LVTProjectProxy alloc] initWithName:@""
-                                                           organizationPermalink:org.permalink];
-        lvtProjectProxy.needsCreation = YES;
+        LVTProject *project = [[LVTProject alloc] initWithName:@""
+                                         organizationPermalink:org.permalink];
         NSMutableArray *newDataSource = self.dataSource.mutableCopy;
         NSInteger orgProject = [newDataSource indexOfObject:org];
         NSInteger newPos = (orgProject + 1);
-        [newDataSource insertObject:lvtProjectProxy atIndex:(orgProject + 1)];
+        [newDataSource insertObject:project atIndex:(orgProject + 1)];
         self.dataSource = newDataSource;
         [self.projectsTableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:newPos]
                                       withAnimation:NSTableViewAnimationEffectNone];
@@ -175,7 +174,7 @@ NSString *const emailRegEx =
 {
     NSInteger row = [self.projectsTableView rowForView:sender];
     id selectedObject = [self.dataSource objectAtIndex:row];
-    if ([selectedObject class] == LVTProjectProxy.class) {
+    if ([selectedObject isKindOfClass:LVTProject.class]) {
         LVTProject *project = (LVTProject *)selectedObject;
         [self.client deleteProject:project
                         completion:^(BOOL success,
@@ -193,8 +192,8 @@ NSString *const emailRegEx =
     NSMutableArray *dataSource = @[].mutableCopy;
     for (LVTOrganization *org in user.organizations) {
         [dataSource addObject:org];
-        for (LVTProjectProxy *proxy in org.projects) {
-            [dataSource addObject:proxy];
+        for (LVTProject *project in org.projects) {
+            [dataSource addObject:project];
         }
     }
     self.dataSource = dataSource;
@@ -208,9 +207,9 @@ NSString *const emailRegEx =
     NSLog(@"control:%@ textShouldEndEditing:%@", control, fieldEditor);
     NSInteger row = [self.projectsTableView rowForView:control];
     id selectedObject = [self.dataSource objectAtIndex:row];
-    if ([selectedObject class] == LVTProjectProxy.class) {
-        LVTProjectProxy *project = (LVTProjectProxy *)selectedObject;
-        if (project.needsCreation) {
+    if ([selectedObject isKindOfClass:LVTProject.class]) {
+        LVTProject *project = (LVTProject *)selectedObject;
+        if (!project.synced) {
             [self.client createProjectWithName:fieldEditor.string
                          organizationPermalink:project.organizationPermalink
                                     completion:^(LVTProject *project,
@@ -253,9 +252,9 @@ NSString *const emailRegEx =
 - (void)tableView:(NSTableView *)tableView didAddRowView:(NSTableRowView *)rowView forRow:(NSInteger)row
 {
     id selectedObject = [self.dataSource objectAtIndex:row];
-    if ([selectedObject class] == LVTProjectProxy.class) {
-        LVTProjectProxy *project = (LVTProjectProxy *)selectedObject;
-        if (project.needsCreation) {
+    if ([selectedObject isKindOfClass:LVTProject.class]) {
+        LVTProject *project = (LVTProject *)selectedObject;
+        if (!project.synced) {
             [tableView editColumn:0 row:row withEvent:nil select:YES];
         }
     }
@@ -275,11 +274,11 @@ NSString *const emailRegEx =
         [orgCell.textField setStringValue:org.name];
         return orgCell;
     }
-    else if ([selectedObject class] == LVTProjectProxy.class) {
-        LVTProjectProxy *project = (LVTProjectProxy *)selectedObject;
+    else if ([selectedObject isKindOfClass:LVTProject.class]) {
+        LVTProject *project = (LVTProject *)selectedObject;
         NSTableCellView *tableCell = [tableView makeViewWithIdentifier:@"ProjectCell"
                                                                  owner:self];
-        if (!project.needsCreation) {
+        if (project.synced) {
             [tableCell.textField setStringValue:project.name];
         }
         return tableCell;
@@ -303,26 +302,34 @@ NSString *const emailRegEx =
     if (!self.jsonWindowController) {
         self.jsonWindowController = [[LVTJSONWindowController alloc] initWithWindowNibName:@"LVTJSONWindowController"];
     }
-    [self.jsonWindowController showWindow:nil];
 
-    id selectedObject = [self.dataSource objectAtIndex:tableView.selectedRow];
+    NSInteger row = tableView.selectedRow;
+    id selectedObject = [self.dataSource objectAtIndex:row];
     if ([selectedObject isKindOfClass:LVTOrganization.class]) {
         LVTOrganization *organization = (LVTOrganization *)selectedObject;
         self.jsonWindowController.model = organization;
     }
-    else if ([selectedObject class] == LVTProjectProxy.class) {
-        LVTProjectProxy *proxy = (LVTProjectProxy *)selectedObject;
-        @weakify(self);
-        [self.client getProjectWithName:proxy.name
-                  organizationPermalink:proxy.organizationPermalink
-                                  block:^(LVTProject *project,
-                                          NSError *error,
-                                          AFHTTPRequestOperation *operation) {
-                                      @strongify(self);
-                                      proxy.futureProject = project;
-                                      self.jsonWindowController.model = proxy.futureProject;
-                                  }];
+    else if ([selectedObject isKindOfClass:LVTProject.class]) {
+        LVTProject *project = (LVTProject *)selectedObject;
+        if (project.partial) {
+            @weakify(self);
+            [self.client getProjectFromPartial:project
+                                    completion:^(LVTProject *project,
+                                                 NSError *error,
+                                                 AFHTTPRequestOperation *operation) {
+                                        @strongify(self);
+                                        NSMutableArray *a = self.dataSource.mutableCopy;
+                                        [a replaceObjectAtIndex:row withObject:project];
+                                        self.dataSource = a;
+                                        self.jsonWindowController.model = project;
+                                    }];
+        }
+        else {
+            self.jsonWindowController.model = project;
+        }
     }
+
+    [self.jsonWindowController showWindow:nil];
 }
 
 @end
