@@ -280,6 +280,8 @@ NSString *const emailRegEx =
                                                                  owner:self];
         if (project.synced) {
             [tableCell.textField setStringValue:project.name];
+            NSButton *button = [tableCell viewWithTag:32];
+            [button.cell setBackgroundColor:[LVTColor colorForLabel:project.colorLabel]];
         }
         return tableCell;
     }

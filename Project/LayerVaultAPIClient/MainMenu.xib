@@ -723,11 +723,8 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="ahW-7Z-JZb">
-                                                            <rect key="frame" x="2" y="5" width="252" height="17"/>
+                                                            <rect key="frame" x="28" y="5" width="226" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="17" id="DKc-r2-ixR"/>
-                                                            </constraints>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" placeholderString="New Project" usesSingleLineMode="YES" id="HGn-9d-Y4d">
                                                                 <font key="font" metaFont="system"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -752,13 +749,26 @@
                                                                 <action selector="deleteProjectPressed:" target="494" id="URZ-3R-07C"/>
                                                             </connections>
                                                         </button>
+                                                        <button tag="32" translatesAutoresizingMaskIntoConstraints="NO" id="piO-bK-Ujx">
+                                                            <rect key="frame" x="4" y="4" width="18" height="18"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="18" id="pFP-TK-Rf3"/>
+                                                            </constraints>
+                                                            <buttonCell key="cell" type="roundRect" bezelStyle="roundedRect" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="NgW-Ut-QDS">
+                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                <font key="font" metaFont="controlContent"/>
+                                                            </buttonCell>
+                                                        </button>
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstAttribute="centerY" secondItem="ahW-7Z-JZb" secondAttribute="centerY" id="AMd-RT-nIQ"/>
                                                         <constraint firstItem="AMl-9W-sWr" firstAttribute="leading" secondItem="ahW-7Z-JZb" secondAttribute="trailing" constant="8" id="EJ9-bN-flv"/>
                                                         <constraint firstAttribute="trailing" secondItem="AMl-9W-sWr" secondAttribute="trailing" constant="3" id="IO0-M3-1nx"/>
-                                                        <constraint firstItem="ahW-7Z-JZb" firstAttribute="leading" secondItem="Hac-zn-mrb" secondAttribute="leading" constant="4" id="YU3-2o-0B6"/>
+                                                        <constraint firstItem="ahW-7Z-JZb" firstAttribute="leading" secondItem="piO-bK-Ujx" secondAttribute="trailing" constant="8" id="g4Y-cP-Qu5"/>
                                                         <constraint firstAttribute="centerY" secondItem="AMl-9W-sWr" secondAttribute="centerY" id="iRW-Tg-4L8"/>
+                                                        <constraint firstItem="piO-bK-Ujx" firstAttribute="leading" secondItem="Hac-zn-mrb" secondAttribute="leading" constant="4" id="oGl-ph-fBG"/>
+                                                        <constraint firstAttribute="centerY" secondItem="piO-bK-Ujx" secondAttribute="centerY" id="y1M-cC-V1I"/>
                                                     </constraints>
                                                     <connections>
                                                         <outlet property="textField" destination="ahW-7Z-JZb" id="Qn9-jV-n0D"/>
