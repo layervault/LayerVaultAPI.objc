@@ -8,7 +8,7 @@
 
 #import "LVTColor.h"
 
-@implementation LVTColorUtils
+@implementation LVTColor
 
 + (NSDictionary *)colorNamesToValue
 {
