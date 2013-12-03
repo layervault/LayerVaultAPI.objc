@@ -77,6 +77,20 @@
 }
 
 
+- (void)getProjectFromPartial:(LVTProject *)project
+                   completion:(void (^)(LVTProject *project,
+                                        NSError *error,
+                                        AFHTTPRequestOperation *operation))block
+{
+    NSParameterAssert(project);
+    NSParameterAssert(block);
+
+    [self getProjectWithName:project.name
+       organizationPermalink:project.organizationPermalink
+                       block:block];
+}
+
+
 - (void)getProjectWithName:(NSString *)projectName
             inOrganization:(LVTOrganization *)organization
                      block:(void (^)(LVTProject *project,

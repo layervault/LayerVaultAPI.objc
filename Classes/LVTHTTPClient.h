@@ -24,6 +24,11 @@
                                                AFHTTPRequestOperation *operation))block;
 
 #pragma mark - Project
+- (void)getProjectFromPartial:(LVTProject *)project
+                   completion:(void (^)(LVTProject *project,
+                                        NSError *error,
+                                        AFHTTPRequestOperation *operation))block;
+
 - (void)getProjectWithName:(NSString *)projectName
             inOrganization:(LVTOrganization *)organization
                      block:(void (^)(LVTProject *project,
