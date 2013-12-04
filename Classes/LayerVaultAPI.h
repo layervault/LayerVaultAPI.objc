@@ -11,6 +11,7 @@
 #ifndef _LAYERVAULT_API_
 #define _LAYERVAULT_API_
 
+#import "LVTColor.h"
 #import "LVTFile.h"
 #import "LVTFileRevision.h"
 #import "LVTHTTPClient.h"
