@@ -210,7 +210,7 @@
 
 - (void)updateProject:(LVTProject *)project
            colorLabel:(LVTColorLabel)colorLabel
-           completion:(void (^)(LVTProject *project,
+           completion:(void (^)(BOOL success,
                                 NSError *error,
                                 AFHTTPRequestOperation *operation))block
 {
@@ -221,17 +221,14 @@
           [LVTColorUtils colorNameForLabel:project.colorLabel],
           [LVTColorUtils colorNameForLabel:colorLabel]);
 
-    [self putPath:[self pathForProject:project]
+    [self putPath:[[self pathForProject:project] stringByAppendingString:@"/color"]
        parameters:@{@"color": [LVTColorUtils colorNameForLabel:colorLabel]}
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
-              NSError *error;
-              LVTProject *project = [MTLJSONAdapter modelOfClass:LVTProject.class
-                                              fromJSONDictionary:responseObject
-                                                           error:&error];
-              block(project, error, operation);
+              project.colorLabel = colorLabel;
+              block(YES, Nil, operation);
           }
           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-              block(nil, error, operation);
+              block(NO, error, operation);
           }];
 }
 

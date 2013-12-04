@@ -211,13 +211,10 @@ NSString *const emailRegEx =
 
         [self.client updateProject:project
                         colorLabel:newLabel
-                        completion:^(LVTProject *project,
+                        completion:^(BOOL success,
                                      NSError *error,
                                      AFHTTPRequestOperation *operation) {
-                            if (project) {
-                                NSMutableArray *a = self.dataSource.mutableCopy;
-                                [a replaceObjectAtIndex:row withObject:project];
-                                self.dataSource = a;
+                            if (success) {
                                 [self.projectsTableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:row]
                                                                   columnIndexes:[NSIndexSet indexSetWithIndex:0]];
                             }

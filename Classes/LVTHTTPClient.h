@@ -61,7 +61,7 @@
 
 - (void)updateProject:(LVTProject *)project
            colorLabel:(LVTColorLabel)colorLabel
-           completion:(void (^)(LVTProject *project,
+           completion:(void (^)(BOOL success,
                                 NSError *error,
                                 AFHTTPRequestOperation *operation))block;
 
