@@ -11,10 +11,6 @@
 
 NSString *const LVTFolderOrganizationPermalinkJSONKey = @"organization_permalink";
 
-@interface LVTFolder ()
-@property (nonatomic) LVTColorLabel colorLabel;
-@end
-
 
 @implementation LVTFolder
 + (NSDateFormatter *)dateFormatter
