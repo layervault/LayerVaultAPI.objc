@@ -180,9 +180,11 @@ NSString *const emailRegEx =
                         completion:^(BOOL success,
                                      NSError *error,
                                      AFHTTPRequestOperation *operation) {
-                            NSLog(@"DELETE Success: %@", success ? @"YES" : @"NO");
-                            NSLog(@"error: %@", error);
-                            NSLog(@"operation: %@", operation);
+                            if (success) {
+#warning DELETE object from datasource
+                                [self.projectsTableView removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:row]
+                                                              withAnimation:NSTableViewAnimationSlideUp];
+                            }
                         }];
     }
 }
@@ -228,7 +230,9 @@ NSString *const emailRegEx =
     for (LVTOrganization *org in user.organizations) {
         [dataSource addObject:org];
         for (LVTProject *project in org.projects) {
-            [dataSource addObject:project];
+            if (project.member) {
+                [dataSource addObject:project];
+            }
         }
     }
     self.dataSource = dataSource;
