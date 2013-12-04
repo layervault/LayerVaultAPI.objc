@@ -170,7 +170,6 @@
     [self deletePath:[self pathForProject:project]
           parameters:nil
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                 NSLog(@"responseObject: %@", responseObject);
                  block(YES, nil, operation);
              }
              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
