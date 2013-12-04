@@ -19,5 +19,6 @@ typedef enum : NSUInteger {
 
 + (NSDictionary *)colorNamesToValue;
 + (NSColor *)colorForLabel:(LVTColorLabel)label;
++ (NSString *)colorNameForLabel:(LVTColorLabel)label;
 
 @end
