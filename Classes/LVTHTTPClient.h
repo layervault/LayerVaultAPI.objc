@@ -7,6 +7,7 @@
 //
 
 #import <AFOAuth2Client/AFOAuth2Client.h>
+#import "LVTColor.h"
 
 @class LVTUser;
 @class LVTOrganization;
@@ -58,11 +59,11 @@
                               NSError *error,
                               AFHTTPRequestOperation *operation))block;
 
-- (void)moveProject:(LVTProject *)project
-      toDestination:(NSString *)destination
-         completion:(void (^)(LVTProject *project,
-                              NSError *error,
-                              AFHTTPRequestOperation *operation))block;
+- (void)updateProject:(LVTProject *)project
+           colorLabel:(LVTColorLabel)colorLabel
+           completion:(void (^)(LVTProject *project,
+                                NSError *error,
+                                AFHTTPRequestOperation *operation))block;
 
 #pragma mark - Authentication
 - (void)authenticateWithEmail:(NSString *)email

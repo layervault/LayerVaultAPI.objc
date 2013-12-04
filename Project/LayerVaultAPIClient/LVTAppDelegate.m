@@ -208,6 +208,20 @@ NSString *const emailRegEx =
                 newLabel = LVTColorWhite;
                 break;
         }
+
+        [self.client updateProject:project
+                        colorLabel:newLabel
+                        completion:^(LVTProject *project,
+                                     NSError *error,
+                                     AFHTTPRequestOperation *operation) {
+                            if (project) {
+                                NSMutableArray *a = self.dataSource.mutableCopy;
+                                [a replaceObjectAtIndex:row withObject:project];
+                                self.dataSource = a;
+                                [self.projectsTableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:row]
+                                                                  columnIndexes:[NSIndexSet indexSetWithIndex:0]];
+                            }
+                        }];
     }
 }
 

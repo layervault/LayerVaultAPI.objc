@@ -22,6 +22,7 @@
     if (self) {
         [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
         [self setDefaultHeader:@"Accept" value:@"application/json"];
+        self.parameterEncoding = AFJSONParameterEncoding;
     }
     return self;
 }
@@ -204,6 +205,34 @@
            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                block(nil, error, operation);
            }];
+}
+
+
+- (void)updateProject:(LVTProject *)project
+           colorLabel:(LVTColorLabel)colorLabel
+           completion:(void (^)(LVTProject *project,
+                                NSError *error,
+                                AFHTTPRequestOperation *operation))block
+{
+    NSParameterAssert(project);
+    NSParameterAssert(block);
+
+    NSLog(@"updating color %@ \u2192 %@",
+          [LVTColorUtils colorNameForLabel:project.colorLabel],
+          [LVTColorUtils colorNameForLabel:colorLabel]);
+
+    [self putPath:[self pathForProject:project]
+       parameters:@{@"color": [LVTColorUtils colorNameForLabel:colorLabel]}
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              NSError *error;
+              LVTProject *project = [MTLJSONAdapter modelOfClass:LVTProject.class
+                                              fromJSONDictionary:responseObject
+                                                           error:&error];
+              block(project, error, operation);
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              block(nil, error, operation);
+          }];
 }
 
 
