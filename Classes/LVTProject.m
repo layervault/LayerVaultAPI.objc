@@ -46,7 +46,8 @@ NSString *const LVTProjectNameJSONKey = @"name";
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey
 {
-    NSMutableDictionary *JSONKeyPathsByPropertyKey = @{@"name": LVTProjectNameJSONKey}.mutableCopy;
+    NSMutableDictionary *JSONKeyPathsByPropertyKey = @{@"name": LVTProjectNameJSONKey,
+                                                       @"member": @"member"}.mutableCopy;
     [JSONKeyPathsByPropertyKey addEntriesFromDictionary:[super JSONKeyPathsByPropertyKey]];
     return JSONKeyPathsByPropertyKey;
 }
