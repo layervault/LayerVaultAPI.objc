@@ -14,6 +14,7 @@
 #import "LVTColor.h"
 #import "LVTFile.h"
 #import "LVTFileRevision.h"
+#import "LVTFolder.h"
 #import "LVTHTTPClient.h"
 #import "LVTOrganization.h"
 #import "LVTProject.h"
