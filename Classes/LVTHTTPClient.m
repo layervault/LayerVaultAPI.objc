@@ -191,7 +191,7 @@
 
     NSString *movePath = [[self pathForProject:project] stringByAppendingString:@"/move"];
     // warning: stringByAddingPercentEscapesUsingEncoding: can return nil
-    NSDictionary *params = @{@"to": [destination stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]};
+    NSDictionary *params = @{@"to": destination};
 
     [self postPath:movePath
         parameters:params
