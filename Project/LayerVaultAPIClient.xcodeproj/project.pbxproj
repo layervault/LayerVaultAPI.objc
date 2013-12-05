@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C90A07111850F22E00F87324 /* LVTFolderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C90A07101850F22E00F87324 /* LVTFolderTests.m */; };
 		C9412732184CE47C0065072B /* LVTProjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9412731184CE47C0065072B /* LVTProjectTests.m */; };
 		C9546E97180C366C00C56AC1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9546E96180C366C00C56AC1 /* SystemConfiguration.framework */; };
 		C9546E99180C367500C56AC1 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9546E98180C367500C56AC1 /* CoreServices.framework */; };
@@ -38,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		001552D06C6544049C8B206C /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		C90A07101850F22E00F87324 /* LVTFolderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVTFolderTests.m; sourceTree = "<group>"; };
 		C9412731184CE47C0065072B /* LVTProjectTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVTProjectTests.m; sourceTree = "<group>"; };
 		C9546E96180C366C00C56AC1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C9546E98180C367500C56AC1 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
@@ -168,6 +170,7 @@
 				C95CD2E7180B5F9500007F9B /* Supporting Files */,
 				C96C0814180C7F23000149E3 /* LVTUserTest.m */,
 				C9412731184CE47C0065072B /* LVTProjectTests.m */,
+				C90A07101850F22E00F87324 /* LVTFolderTests.m */,
 			);
 			path = LayerVaultAPIClientTests;
 			sourceTree = "<group>";
@@ -328,6 +331,7 @@
 			files = (
 				C9412732184CE47C0065072B /* LVTProjectTests.m in Sources */,
 				C96C0815180C7F23000149E3 /* LVTUserTest.m in Sources */,
+				C90A07111850F22E00F87324 /* LVTFolderTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
