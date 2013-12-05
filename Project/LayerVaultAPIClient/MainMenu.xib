@@ -735,15 +735,15 @@
                                                             </connections>
                                                         </textField>
                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AMl-9W-sWr">
-                                                            <rect key="frame" x="255" y="4" width="20" height="17"/>
+                                                            <rect key="frame" x="255" y="5" width="20" height="16"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="16" id="SmT-Mt-Bvf"/>
                                                                 <constraint firstAttribute="width" constant="20" id="uLk-Wv-aVz"/>
                                                             </constraints>
-                                                            <buttonCell key="cell" type="roundRect" title="-" bezelStyle="roundedRect" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="A60-FM-if6">
+                                                            <buttonCell key="cell" type="inline" bezelStyle="inline" image="NSActionTemplate" imagePosition="overlaps" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="A60-FM-if6">
                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                <font key="font" metaFont="smallSystem"/>
+                                                                <font key="font" metaFont="smallSystemBold"/>
                                                             </buttonCell>
                                                             <connections>
                                                                 <action selector="deleteProjectPressed:" target="494" id="URZ-3R-07C"/>
@@ -867,4 +867,7 @@
         </customObject>
         <customObject id="420" customClass="NSFontManager"/>
     </objects>
+    <resources>
+        <image name="NSActionTemplate" width="14" height="14"/>
+    </resources>
 </document>
