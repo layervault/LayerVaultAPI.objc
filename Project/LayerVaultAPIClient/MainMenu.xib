@@ -731,7 +731,7 @@
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                             <connections>
-                                                                <outlet property="delegate" destination="-2" id="0QW-a7-LLB"/>
+                                                                <action selector="textFieldTitleChanged:" target="494" id="1b6-Id-aM6"/>
                                                             </connections>
                                                         </textField>
                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AMl-9W-sWr">

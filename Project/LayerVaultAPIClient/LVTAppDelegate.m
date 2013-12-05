@@ -25,7 +25,7 @@ NSString *const emailRegEx =
 @"-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
 
 
-@interface LVTAppDelegate () <NSTableViewDataSource, NSTableViewDelegate, NSTextFieldDelegate>
+@interface LVTAppDelegate () <NSTableViewDataSource, NSTableViewDelegate>
 @property (weak) IBOutlet NSTextField *emailField;
 @property (weak) IBOutlet NSSecureTextField *passwordField;
 @property (weak) IBOutlet NSButton *loginButton;
@@ -218,6 +218,43 @@ NSString *const emailRegEx =
     }
 }
 
+
+- (IBAction)textFieldTitleChanged:(NSTextField *)textField
+{
+    NSInteger row = [self.projectsTableView rowForView:textField];
+    id selectedObject = [self.dataSource objectAtIndex:row];
+    if ([selectedObject isKindOfClass:LVTProject.class]) {
+        LVTProject *project = (LVTProject *)selectedObject;
+
+        void (^completion)(LVTProject *, NSError *, AFHTTPRequestOperation *) =
+        ^(LVTProject *project,
+          NSError *error,
+          AFHTTPRequestOperation *operation) {
+            if (project) {
+                [self updateDataSourceObject:project
+                                       inRow:row];
+            }
+            else {
+                NSLog(@"error: %@", error);
+            }
+        };
+
+        if (!project.synced) {
+            [self.client createProjectWithName:textField.stringValue
+                         organizationPermalink:project.organizationPermalink
+                                    completion:completion];
+        }
+        else {
+            if (![textField.stringValue isEqualToString:project.name]) {
+                [self.client moveProject:(LVTProject *)project
+                           toDestination:textField.stringValue
+                              completion:completion];
+            }
+        }
+    }
+}
+
+
 - (void)setDataSourceForUser:(LVTUser *)user
 {
     NSMutableArray *dataSource = @[].mutableCopy;
@@ -262,14 +299,6 @@ NSString *const emailRegEx =
     [self.projectsTableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:row]
                                       columnIndexes:[NSIndexSet indexSetWithIndex:0]];
 
-}
-
-
-#pragma mark - NSTextFieldDelegate
-- (BOOL)control:(NSControl *)control textShouldEndEditing:(NSText *)fieldEditor
-{
-    NSLog(@"control:%@ textShouldEndEditing:%@", control, fieldEditor);
-    return YES;
 }
 
 
