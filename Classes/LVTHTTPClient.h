@@ -17,14 +17,21 @@
 
 - (instancetype)initWithClientID:(NSString *)clientID secret:(NSString *)secret;
 
+#pragma mark - Authentication
+- (void)authenticateWithEmail:(NSString *)email
+                     password:(NSString *)password
+                   completion:(void (^)(AFOAuthCredential *credential, NSError *error))completion;
+
+#pragma mark - User
 - (void)getMeWithBlock:(void (^)(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation))block;
 
+#pragma mark - Organizations
 - (void)getOrganizationWithParmalink:(NSString *)permalink
                                block:(void (^)(LVTOrganization *organization,
                                                NSError *error,
                                                AFHTTPRequestOperation *operation))block;
 
-#pragma mark - Project
+#pragma mark - Projects
 - (void)getProjectFromPartial:(LVTProject *)project
                    completion:(void (^)(LVTProject *project,
                                         NSError *error,
@@ -65,9 +72,6 @@
                                 NSError *error,
                                 AFHTTPRequestOperation *operation))block;
 
-#pragma mark - Authentication
-- (void)authenticateWithEmail:(NSString *)email
-                     password:(NSString *)password
-                   completion:(void (^)(AFOAuthCredential *credential, NSError *error))completion;
+#pragma mark - Folders
 
 @end
