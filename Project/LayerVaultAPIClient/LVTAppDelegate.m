@@ -142,7 +142,8 @@ NSString *const emailRegEx =
     else {
         [self.client authenticateWithEmail:self.emailField.stringValue
                                   password:self.passwordField.stringValue
-                                completion:^(AFOAuthCredential *credential, NSError *error) {
+                                completion:^(AFOAuthCredential *credential,
+                                             NSError *error) {
                                     self.credential = credential;
                                     if (error) {
                                         NSLog(@"error: %@", error);
@@ -159,13 +160,8 @@ NSString *const emailRegEx =
         LVTOrganization *org = (LVTOrganization *)selectedObject;
         LVTProject *project = [[LVTProject alloc] initWithName:@""
                                          organizationPermalink:org.permalink];
-        NSMutableArray *newDataSource = self.dataSource.mutableCopy;
-        NSInteger orgProject = [newDataSource indexOfObject:org];
-        NSInteger newPos = (orgProject + 1);
-        [newDataSource insertObject:project atIndex:(orgProject + 1)];
-        self.dataSource = newDataSource;
-        [self.projectsTableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:newPos]
-                                      withAnimation:NSTableViewAnimationEffectNone];
+        [self insertDataSourceObject:project
+                               inRow:([self.dataSource indexOfObject:org] + 1)];
     }
 }
 
@@ -181,9 +177,7 @@ NSString *const emailRegEx =
                                      NSError *error,
                                      AFHTTPRequestOperation *operation) {
                             if (success) {
-#warning DELETE object from datasource
-                                [self.projectsTableView removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:row]
-                                                              withAnimation:NSTableViewAnimationSlideUp];
+                                [self deleteDataSourceObjectInRow:row];
                             }
                         }];
     }
@@ -240,42 +234,41 @@ NSString *const emailRegEx =
 }
 
 
+- (void)insertDataSourceObject:(id)object inRow:(NSUInteger)row
+{
+    NSMutableArray *newDataSource = self.dataSource.mutableCopy;
+    [newDataSource insertObject:object atIndex:row];
+    self.dataSource = newDataSource;
+    [self.projectsTableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndex:row]
+                                  withAnimation:NSTableViewAnimationEffectNone];
+}
+
+
+- (void)deleteDataSourceObjectInRow:(NSUInteger)row
+{
+    NSMutableArray *newDataSource = self.dataSource.mutableCopy;
+    [newDataSource removeObjectAtIndex:row];
+    self.dataSource = newDataSource;
+    [self.projectsTableView removeRowsAtIndexes:[NSIndexSet indexSetWithIndex:row]
+                                  withAnimation:NSTableViewAnimationSlideUp];
+}
+
+
+- (void)updateDataSourceObject:(id)object inRow:(NSUInteger)row
+{
+    NSMutableArray *newDataSource = self.dataSource.mutableCopy;
+    [newDataSource replaceObjectAtIndex:row withObject:object];
+    self.dataSource = newDataSource;
+    [self.projectsTableView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndex:row]
+                                      columnIndexes:[NSIndexSet indexSetWithIndex:0]];
+
+}
+
+
 #pragma mark - NSTextFieldDelegate
 - (BOOL)control:(NSControl *)control textShouldEndEditing:(NSText *)fieldEditor
 {
     NSLog(@"control:%@ textShouldEndEditing:%@", control, fieldEditor);
-    NSInteger row = [self.projectsTableView rowForView:control];
-    id selectedObject = [self.dataSource objectAtIndex:row];
-    if ([selectedObject isKindOfClass:LVTProject.class]) {
-        LVTProject *project = (LVTProject *)selectedObject;
-        if (!project.synced) {
-            [self.client createProjectWithName:fieldEditor.string
-                         organizationPermalink:project.organizationPermalink
-                                    completion:^(LVTProject *project,
-                                                 NSError *error,
-                                                 AFHTTPRequestOperation *operation) {
-                                        NSLog(@"project: %@", project);
-                                        NSLog(@"error: %@", error);
-                                        NSLog(@"operation: %@", operation);
-                                    }];
-        }
-        else {
-            if (![fieldEditor.string isEqualToString:project.name]) {
-                NSLog(@"Needs Rename '%@' \u2192 '%@'",
-                      project.name,
-                      fieldEditor.string);
-                [self.client moveProject:(LVTProject *)project
-                           toDestination:fieldEditor.string
-                              completion:^(LVTProject *project,
-                                           NSError *error,
-                                           AFHTTPRequestOperation *operation) {
-                                  NSLog(@"project: %@", project);
-                                  NSLog(@"error: %@", error);
-                                  NSLog(@"operation: %@", operation);
-                              }];
-            }
-        }
-    }
     return YES;
 }
 
