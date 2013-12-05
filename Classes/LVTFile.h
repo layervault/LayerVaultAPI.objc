@@ -8,6 +8,17 @@
 
 #import <Mantle/Mantle.h>
 
+
+typedef enum : NSUInteger {
+    LVTFileSyncStatusError = 0,
+    LVTFileSyncStatusUploadPatch = 200,
+    LVTFileSyncStatusUpToDate = 409,
+    LVTFileSyncStatusFileSizeMissing = 400,
+    LVTFileSyncStatusFileTooLarge = 413,
+    LVTFileSyncStatusUploadFullFile = 412,
+} LVTFileSyncStatus;
+
+
 @interface LVTFile : MTLModel <MTLJSONSerializing>
 
 @property (readonly, nonatomic, copy) NSString *localPath;
