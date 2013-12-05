@@ -11,7 +11,6 @@
 
 @interface LVTProject : LVTFolder <MTLJSONSerializing>
 
-@property (readonly, nonatomic, copy) NSString *name;
 @property (readonly, nonatomic) BOOL member;
 
 @property (readonly, nonatomic) BOOL partial;

@@ -9,10 +9,9 @@
 #import <Mantle/Mantle.h>
 #import "LVTColor.h"
 
-OBJC_EXPORT NSString *const LVTFolderOrganizationPermalinkJSONKey;
-
 @interface LVTFolder : MTLModel <MTLJSONSerializing>
 
+@property (readonly, nonatomic, copy) NSString *name;
 @property (nonatomic) LVTColorLabel colorLabel;
 @property (readonly, nonatomic, copy) NSString *path;
 @property (readonly, nonatomic, copy) NSURL *fileURL;

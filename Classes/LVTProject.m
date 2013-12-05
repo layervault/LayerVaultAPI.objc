@@ -8,8 +8,6 @@
 
 #import "LVTProject.h"
 
-NSString *const LVTProjectNameJSONKey = @"name";
-
 
 @implementation LVTProject
 
@@ -31,7 +29,7 @@ NSString *const LVTProjectNameJSONKey = @"name";
     NSParameterAssert(name);
     NSParameterAssert(organizationPermalink);
 
-    NSDictionary *dict = @{LVTProjectNameJSONKey: name,
+    NSDictionary *dict = @{@"name": name,
                            @"organizationPermalink": organizationPermalink};
 
     return [self initWithDictionary:dict isSynced:NO error:nil];
@@ -46,9 +44,8 @@ NSString *const LVTProjectNameJSONKey = @"name";
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey
 {
-    NSMutableDictionary *JSONKeyPathsByPropertyKey = @{@"name": LVTProjectNameJSONKey,
-                                                       @"member": @"member"}.mutableCopy;
-    [JSONKeyPathsByPropertyKey addEntriesFromDictionary:[super JSONKeyPathsByPropertyKey]];
+    NSMutableDictionary *JSONKeyPathsByPropertyKey = [super JSONKeyPathsByPropertyKey].mutableCopy;
+    [JSONKeyPathsByPropertyKey addEntriesFromDictionary:@{@"member": @"member"}];
     return JSONKeyPathsByPropertyKey;
 }
 

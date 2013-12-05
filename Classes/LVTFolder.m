@@ -9,10 +9,19 @@
 #import "LVTFolder.h"
 #import "LVTFile.h"
 
-NSString *const LVTFolderOrganizationPermalinkJSONKey = @"organization_permalink";
-
 
 @implementation LVTFolder
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue
+                             error:(NSError *__autoreleasing *)error
+{
+    if (![dictionaryValue.allKeys containsObject:@"name"]) {
+        return nil;
+    }
+    self = [super initWithDictionary:dictionaryValue error:error];
+    return self;
+}
+
 + (NSDateFormatter *)dateFormatter
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -24,7 +33,8 @@ NSString *const LVTFolderOrganizationPermalinkJSONKey = @"organization_permalink
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey
 {
-    return @{@"colorLabel": @"color",
+    return @{@"name": @"name",
+             @"colorLabel": @"color",
              @"path": @"path",
              @"fileURL": @"local_path",
              @"dateUpdated": @"updated_at",
