@@ -32,7 +32,7 @@ NSString *const LVTProjectNameJSONKey = @"name";
     NSParameterAssert(organizationPermalink);
 
     NSDictionary *dict = @{LVTProjectNameJSONKey: name,
-                           LVTFolderOrganizationPermalinkJSONKey: organizationPermalink};
+                           @"organizationPermalink": organizationPermalink};
 
     return [self initWithDictionary:dict isSynced:NO error:nil];
 }
