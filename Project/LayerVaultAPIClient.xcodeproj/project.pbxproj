@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C90A070E1850D66400F87324 /* LVTProjectWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C90A070C1850D66400F87324 /* LVTProjectWindowController.m */; };
+		C90A070F1850D66400F87324 /* LVTProjectWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C90A070D1850D66400F87324 /* LVTProjectWindowController.xib */; };
 		C90A07111850F22E00F87324 /* LVTFolderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C90A07101850F22E00F87324 /* LVTFolderTests.m */; };
 		C9412732184CE47C0065072B /* LVTProjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9412731184CE47C0065072B /* LVTProjectTests.m */; };
 		C9546E97180C366C00C56AC1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9546E96180C366C00C56AC1 /* SystemConfiguration.framework */; };
@@ -22,8 +24,6 @@
 		C95CD2EB180B5F9500007F9B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C95CD2E9180B5F9500007F9B /* InfoPlist.strings */; };
 		C96C0813180C7D9D000149E3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C96C0812180C7D9D000149E3 /* MainMenu.xib */; };
 		C96C0815180C7F23000149E3 /* LVTUserTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C96C0814180C7F23000149E3 /* LVTUserTest.m */; };
-		C97ABFA71824510600728106 /* LVTJSONWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C97ABFA51824510600728106 /* LVTJSONWindowController.m */; };
-		C97ABFA81824510600728106 /* LVTJSONWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C97ABFA61824510600728106 /* LVTJSONWindowController.xib */; };
 		E086014E1E16439B9766784A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F324AAFB3C2B45E5828793CE /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +39,9 @@
 
 /* Begin PBXFileReference section */
 		001552D06C6544049C8B206C /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		C90A070B1850D66400F87324 /* LVTProjectWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVTProjectWindowController.h; sourceTree = "<group>"; };
+		C90A070C1850D66400F87324 /* LVTProjectWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVTProjectWindowController.m; sourceTree = "<group>"; };
+		C90A070D1850D66400F87324 /* LVTProjectWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LVTProjectWindowController.xib; sourceTree = "<group>"; };
 		C90A07101850F22E00F87324 /* LVTFolderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVTFolderTests.m; sourceTree = "<group>"; };
 		C9412731184CE47C0065072B /* LVTProjectTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVTProjectTests.m; sourceTree = "<group>"; };
 		C9546E96180C366C00C56AC1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -62,9 +65,6 @@
 		C95CD2EA180B5F9500007F9B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C96C0812180C7D9D000149E3 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		C96C0814180C7F23000149E3 /* LVTUserTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVTUserTest.m; sourceTree = "<group>"; };
-		C97ABFA41824510600728106 /* LVTJSONWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVTJSONWindowController.h; sourceTree = "<group>"; };
-		C97ABFA51824510600728106 /* LVTJSONWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVTJSONWindowController.m; sourceTree = "<group>"; };
-		C97ABFA61824510600728106 /* LVTJSONWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LVTJSONWindowController.xib; sourceTree = "<group>"; };
 		C9DFB7191810C973002B941B /* LVConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LVConstants.h; sourceTree = "<group>"; };
 		F324AAFB3C2B45E5828793CE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -143,9 +143,9 @@
 				C9DFB7191810C973002B941B /* LVConstants.h */,
 				C95CD2D4180B5F9500007F9B /* LVTAppDelegate.h */,
 				C95CD2D5180B5F9500007F9B /* LVTAppDelegate.m */,
-				C97ABFA41824510600728106 /* LVTJSONWindowController.h */,
-				C97ABFA51824510600728106 /* LVTJSONWindowController.m */,
-				C97ABFA61824510600728106 /* LVTJSONWindowController.xib */,
+				C90A070B1850D66400F87324 /* LVTProjectWindowController.h */,
+				C90A070C1850D66400F87324 /* LVTProjectWindowController.m */,
+				C90A070D1850D66400F87324 /* LVTProjectWindowController.xib */,
 				C96C0812180C7D9D000149E3 /* MainMenu.xib */,
 				C95CD2C9180B5F9500007F9B /* Supporting Files */,
 			);
@@ -264,7 +264,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C95CD2CD180B5F9500007F9B /* InfoPlist.strings in Resources */,
-				C97ABFA81824510600728106 /* LVTJSONWindowController.xib in Resources */,
+				C90A070F1850D66400F87324 /* LVTProjectWindowController.xib in Resources */,
 				C95CD2DB180B5F9500007F9B /* Images.xcassets in Resources */,
 				C95CD2D3180B5F9500007F9B /* Credits.rtf in Resources */,
 				C96C0813180C7D9D000149E3 /* MainMenu.xib in Resources */,
@@ -319,8 +319,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C90A070E1850D66400F87324 /* LVTProjectWindowController.m in Sources */,
 				C95CD2CF180B5F9500007F9B /* main.m in Sources */,
-				C97ABFA71824510600728106 /* LVTJSONWindowController.m in Sources */,
 				C95CD2D6180B5F9500007F9B /* LVTAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

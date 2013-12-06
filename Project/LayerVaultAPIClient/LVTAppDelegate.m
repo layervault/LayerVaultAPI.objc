@@ -8,7 +8,7 @@
 
 #import "LVTAppDelegate.h"
 #import "LVConstants.h"
-#import "LVTJSONWindowController.h"
+#import "LVTProjectWindowController.h"
 #import <layervault_objc_client/LayerVaultAPI.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <Mantle/EXTScope.h>
@@ -36,7 +36,7 @@ NSString *const emailRegEx =
 @property (nonatomic) AFOAuthCredential *credential;
 @property (nonatomic) LVTUser *user;
 
-@property (nonatomic) LVTJSONWindowController *jsonWindowController;
+@property (nonatomic) LVTProjectWindowController *projectWindowController;
 @end
 
 @implementation LVTAppDelegate
@@ -255,14 +255,32 @@ NSString *const emailRegEx =
 }
 
 
+- (void)reloadDataSource
+{
+    [self setDataSourceForUser:self.user];
+}
+
+
 - (void)setDataSourceForUser:(LVTUser *)user
 {
     NSMutableArray *dataSource = @[].mutableCopy;
     for (LVTOrganization *org in user.organizations) {
         [dataSource addObject:org];
-        for (LVTProject *project in org.projects) {
-            if (project.member) {
-                [dataSource addObject:project];
+        NSArray *sortedProjects = [org.projects sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"dateUpdated" ascending:NO]]];
+        for (LVTProject *currentProject in sortedProjects) {
+            if (currentProject.member) {
+                if (currentProject.partial) {
+                    [self.client getProjectFromPartial:currentProject
+                                            completion:^(LVTProject *project,
+                                                         NSError *error,
+                                                         AFHTTPRequestOperation *operation) {
+                                                [currentProject mergeValuesForKeysFromModel:project];
+                                                [self reloadDataSource];
+                    }];
+                }
+                else {
+                    [dataSource addObject:currentProject];
+                }
             }
         }
     }
@@ -362,17 +380,16 @@ NSString *const emailRegEx =
 
 - (void)doubleClickedTable:(NSTableView *)tableView
 {
-    if (!self.jsonWindowController) {
-        self.jsonWindowController = [[LVTJSONWindowController alloc] initWithWindowNibName:@"LVTJSONWindowController"];
-    }
-
     NSInteger row = tableView.selectedRow;
     id selectedObject = [self.dataSource objectAtIndex:row];
-    if ([selectedObject isKindOfClass:LVTOrganization.class]) {
-        LVTOrganization *organization = (LVTOrganization *)selectedObject;
-        self.jsonWindowController.model = organization;
-    }
-    else if ([selectedObject isKindOfClass:LVTProject.class]) {
+    if ([selectedObject isKindOfClass:LVTProject.class]) {
+
+        if (!self.projectWindowController) {
+            self.projectWindowController = [[LVTProjectWindowController alloc] init];
+        }
+
+        [self.projectWindowController showWindow:nil];
+
         LVTProject *project = (LVTProject *)selectedObject;
         if (project.partial) {
             @weakify(self);
@@ -381,18 +398,13 @@ NSString *const emailRegEx =
                                                  NSError *error,
                                                  AFHTTPRequestOperation *operation) {
                                         @strongify(self);
-                                        NSMutableArray *a = self.dataSource.mutableCopy;
-                                        [a replaceObjectAtIndex:row withObject:project];
-                                        self.dataSource = a;
-                                        self.jsonWindowController.model = project;
+                                        self.projectWindowController.project = project;
                                     }];
         }
         else {
-            self.jsonWindowController.model = project;
+            self.projectWindowController.project = project;
         }
     }
-
-    [self.jsonWindowController showWindow:nil];
 }
 
 @end
