@@ -82,28 +82,33 @@
 
 - (NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
-    NSTableCellView *tableCellView = [outlineView makeViewWithIdentifier:@"NodeIdentifier"
+    NSTableCellView *tableCellView = [outlineView makeViewWithIdentifier:tableColumn.identifier
                                                                    owner:self];
     if (item) {
-        NSString *name = @"";
-        if ([item isKindOfClass:LVTFolder.class]) {
-            tableCellView.imageView.image = [NSImage imageNamed:NSImageNamePathTemplate];;
-            LVTFolder *folder = (LVTFolder *)item;
-            if (folder.name) {
-                name = folder.name;
+        if ([tableColumn.identifier isEqualToString:@"NameColumn"]) {
+            NSString *name = @"";
+            if ([item isKindOfClass:LVTFolder.class]) {
+                tableCellView.imageView.image = [NSImage imageNamed:NSImageNamePathTemplate];;
+                LVTFolder *folder = (LVTFolder *)item;
+                if (folder.name) {
+                    name = folder.name;
+                }
+                else if (folder.path) {
+                    name = folder.path.lastPathComponent;
+                }
             }
-            else if (folder.path) {
-                name = folder.path.lastPathComponent;
+            else if ([item isKindOfClass:LVTFile.class]) {
+                tableCellView.imageView.image = [NSImage imageNamed:NSImageNameIChatTheaterTemplate];
+                LVTFile *file = (LVTFile *)item;
+                if (file.localPath) {
+                    name = file.localPath.lastPathComponent;
+                }
             }
+            [tableCellView.textField setStringValue:name];
         }
-        else if ([item isKindOfClass:LVTFile.class]) {
-            tableCellView.imageView.image = [NSImage imageNamed:NSImageNameIChatTheaterTemplate];
-            LVTFile *file = (LVTFile *)item;
-            if (file.localPath) {
-                name = file.localPath.lastPathComponent;
-            }
+        else if ([tableColumn.identifier isEqualToString:@"DateUpdatedColumn"]) {
+            [tableCellView.textField.cell setObjectValue:[item dateUpdated]];
         }
-        [tableCellView.textField setStringValue:name];
     }
     return tableCellView;
 }
