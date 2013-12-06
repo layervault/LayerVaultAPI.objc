@@ -15,9 +15,6 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue
                              error:(NSError *__autoreleasing *)error
 {
-    if (![dictionaryValue.allKeys containsObject:@"name"]) {
-        return nil;
-    }
     self = [super initWithDictionary:dictionaryValue error:error];
     return self;
 }
