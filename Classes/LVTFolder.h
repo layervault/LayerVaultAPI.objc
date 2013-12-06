@@ -15,7 +15,7 @@
 @property (nonatomic) LVTColorLabel colorLabel;
 @property (readonly, nonatomic, copy) NSString *path;
 @property (readonly, nonatomic, copy) NSURL *fileURL;
-@property (readonly, nonatomic) NSDate *dateUpdated;
+@property (nonatomic) NSDate *dateUpdated;
 @property (readonly, nonatomic) NSDate *dateDeleted;
 @property (readonly, nonatomic, copy) NSString *md5;
 @property (readonly, nonatomic, copy) NSURL *url;
