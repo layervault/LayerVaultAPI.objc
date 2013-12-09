@@ -46,7 +46,7 @@
 {
     NSMutableDictionary *JSONKeyPathsByPropertyKey = [super JSONKeyPathsByPropertyKey].mutableCopy;
     [JSONKeyPathsByPropertyKey addEntriesFromDictionary:@{@"member": @"member"}];
-    return JSONKeyPathsByPropertyKey;
+    return JSONKeyPathsByPropertyKey.copy;
 }
 
 
