@@ -36,6 +36,29 @@
 }
 
 
+#pragma mark - Authentication
+- (void)authenticateWithEmail:(NSString *)email
+                     password:(NSString *)password
+                   completion:(void (^)(AFOAuthCredential *credential, NSError *error))completion
+{
+    NSParameterAssert(email);
+    NSParameterAssert(password);
+    NSParameterAssert(completion);
+
+    [self authenticateUsingOAuthWithPath:@"/oauth/token"
+                                username:email
+                                password:password
+                                   scope:nil
+                                 success:^(AFOAuthCredential *credential) {
+                                     completion(credential, nil);
+                                 }
+                                 failure:^(NSError *error) {
+                                     completion(nil, error);
+                                 }];
+}
+
+
+#pragma mark - Users
 - (void)getMeWithBlock:(void (^)(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation))block
 {
     NSParameterAssert(block);
@@ -55,6 +78,7 @@
 }
 
 
+#pragma mark - Organizations
 - (void)getOrganizationWithParmalink:(NSString *)permalink
                                block:(void (^)(LVTOrganization *organization,
                                                NSError *error,
@@ -78,6 +102,7 @@
 }
 
 
+#pragma mark - Projects
 - (void)getProjectFromPartial:(LVTProject *)project
                    completion:(void (^)(LVTProject *project,
                                         NSError *error,
@@ -224,6 +249,7 @@
        parameters:@{@"color": [LVTColorUtils colorNameForLabel:colorLabel]}
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               project.colorLabel = colorLabel;
+              project.dateUpdated = [NSDate date];
               block(YES, Nil, operation);
           }
           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -232,26 +258,47 @@
 }
 
 
-- (void)authenticateWithEmail:(NSString *)email
-                     password:(NSString *)password
-                   completion:(void (^)(AFOAuthCredential *credential, NSError *error))completion
+#pragma mark - Folders
+- (void)getFolderAtPath:(NSString *)path
+             completion:(void (^)(LVTFolder *folder,
+                                  NSError *error,
+                                  AFHTTPRequestOperation *operation))completion
 {
-    NSParameterAssert(email);
-    NSParameterAssert(password);
+    NSParameterAssert(path);
     NSParameterAssert(completion);
 
-    [self authenticateUsingOAuthWithPath:@"/oauth/token"
-                                username:email
-                                password:password
-                                   scope:nil
-                                 success:^(AFOAuthCredential *credential) {
-                                     completion(credential, nil);
-                                 }
-                                 failure:^(NSError *error) {
-                                     completion(nil, error);
-                                 }];
+    path = [path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [self getPath:path
+       parameters:nil
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              NSError *error;
+              LVTFolder *folder = [MTLJSONAdapter modelOfClass:LVTFolder.class
+                                            fromJSONDictionary:responseObject
+                                                         error:&error];
+              completion(folder, error, operation);
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              completion(nil, error, operation);
+          }];
 }
 
+- (void)getFolderAtPath:(NSString *)path
+              inProject:(LVTProject *)project
+             completion:(void (^)(LVTFolder *folder,
+                                  NSError *error,
+                                  AFHTTPRequestOperation *operation))completion
+{
+    NSParameterAssert(path);
+    NSParameterAssert(project);
+    NSParameterAssert(completion);
+
+    if (![[path substringToIndex:1] isEqualToString:@"/"]) {
+        path = [NSString stringWithFormat:@"/%@", path];
+    }
+    // Prepend project path
+    path = [NSString stringWithFormat:@"%@%@",[self pathForProject:project], path];
+    [self getFolderAtPath:path completion:completion];
+}
 
 #pragma mark - Private Methods
 - (NSString *)pathForProject:(LVTProject *)project

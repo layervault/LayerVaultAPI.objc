@@ -12,6 +12,7 @@
 @class LVTUser;
 @class LVTOrganization;
 @class LVTProject;
+@class LVTFolder;
 
 @interface LVTHTTPClient : AFOAuth2Client
 
@@ -73,5 +74,10 @@
                                 AFHTTPRequestOperation *operation))block;
 
 #pragma mark - Folders
+- (void)getFolderAtPath:(NSString *)path
+             completion:(void (^)(LVTFolder *folder,
+                                  NSError *error,
+                                  AFHTTPRequestOperation *operation))completion;
+
 
 @end
