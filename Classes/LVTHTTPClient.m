@@ -429,6 +429,32 @@
 }
 
 
+#pragma mark - Files
+- (void)getFileAtPath:(NSString *)filePath
+           completion:(void (^)(LVTFile *file,
+                                NSError *error,
+                                AFHTTPRequestOperation *operation))completion
+{
+    NSParameterAssert(filePath);
+    NSParameterAssert(completion);
+
+    filePath = [self sanitizeRequestPath:filePath];
+
+    [self getPath:filePath
+       parameters:nil
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              NSError *error;
+              LVTFile *file = [MTLJSONAdapter modelOfClass:LVTFile.class
+                                        fromJSONDictionary:responseObject
+                                                     error:&error];
+              completion(file, error, operation);
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              completion(nil, error, operation);
+          }];
+}
+
+
 #pragma mark - Private Methods
 - (NSString *)sanitizeRequestPath:(NSString *)path
 {
