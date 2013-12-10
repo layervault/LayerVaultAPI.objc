@@ -41,17 +41,6 @@
 }
 
 
-- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue
-                             error:(NSError *__autoreleasing *)error
-{
-    if (![dictionaryValue.allKeys containsObject:@"path"]) {
-        return nil;
-    }
-    self = [super initWithDictionary:dictionaryValue error:error];
-    return self;
-}
-
-
 // Remove path if it’s nil
 - (NSDictionary *)dictionaryValue
 {
