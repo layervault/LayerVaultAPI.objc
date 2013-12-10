@@ -141,6 +141,9 @@
 
     NSString *projectPath = [self pathForProjectName:projectName
                                organizationPermalink:organizationPermalink];
+
+    projectPath = [projectPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
     [self getPath:projectPath
        parameters:nil
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -168,6 +171,9 @@
 
     NSString *projectPath = [self pathForProjectName:projectName
                                organizationPermalink:organizationPermalink];
+
+    projectPath = [projectPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
     [self postPath:projectPath
         parameters:nil
            success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -192,7 +198,10 @@
     NSParameterAssert(project);
     NSParameterAssert(block);
 
-    [self deletePath:[self pathForProject:project]
+    NSString *projectPath = [self pathForProject:project includeOrganization:YES];
+    projectPath = [projectPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
+    [self deletePath:projectPath
           parameters:nil
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
                  block(YES, nil, operation);
@@ -213,8 +222,10 @@
     NSParameterAssert(destination);
     NSParameterAssert(block);
 
-    NSString *movePath = [[self pathForProject:project] stringByAppendingString:@"/move"];
-    // warning: stringByAddingPercentEscapesUsingEncoding: can return nil
+    NSString *movePath = [[self pathForProject:project
+                           includeOrganization:YES] stringByAppendingString:@"/move"];
+    movePath = [movePath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
     NSDictionary *params = @{@"to": destination};
 
     [self postPath:movePath
@@ -245,8 +256,14 @@
           [LVTColorUtils colorNameForLabel:project.colorLabel],
           [LVTColorUtils colorNameForLabel:colorLabel]);
 
-    [self putPath:[[self pathForProject:project] stringByAppendingString:@"/color"]
-       parameters:@{@"color": [LVTColorUtils colorNameForLabel:colorLabel]}
+    NSString *colorPath = [[self pathForProject:project
+                           includeOrganization:YES] stringByAppendingString:@"/color"];
+    colorPath = [colorPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
+    NSDictionary *params = @{@"color": [LVTColorUtils colorNameForLabel:colorLabel]};
+
+    [self putPath:colorPath
+       parameters:params
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               project.colorLabel = colorLabel;
               project.dateUpdated = [NSDate date];
@@ -268,6 +285,7 @@
     NSParameterAssert(completion);
 
     path = [path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
     [self getPath:path
        parameters:nil
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -292,12 +310,13 @@
     NSParameterAssert(project);
     NSParameterAssert(completion);
 
-    if (![[path substringToIndex:1] isEqualToString:@"/"]) {
-        path = [NSString stringWithFormat:@"/%@", path];
-    }
-    // Prepend project path
-    path = [NSString stringWithFormat:@"%@%@",[self pathForProject:project], path];
-    [self getFolderAtPath:path completion:completion];
+    NSString *folderPath = [self appendPath:path
+                                  toProject:project
+                        includeOrganization:YES];
+    folderPath = [folderPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
+    [self getFolderAtPath:folderPath
+               completion:completion];
 }
 
 
@@ -311,15 +330,12 @@
     NSParameterAssert(project);
     NSParameterAssert(completion);
 
-    if (![[path substringToIndex:1] isEqualToString:@"/"]) {
-        path = [NSString stringWithFormat:@"/%@", path];
-    }
+    NSString *folderPath = [self appendPath:path
+                                  toProject:project
+                        includeOrganization:YES];
+    folderPath = [folderPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
-    path = [path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    
-    // Prepend project path
-    path = [NSString stringWithFormat:@"%@%@",[self pathForProject:project], path];
-    [self postPath:path
+    [self postPath:folderPath
         parameters:nil
            success:^(AFHTTPRequestOperation *operation, id responseObject) {
                NSError *error;
@@ -336,13 +352,11 @@
 
 
 - (void)deleteFolder:(LVTFolder *)folder
-           inProject:(LVTProject *)project
           completion:(void (^)(BOOL success,
                                NSError *error,
                                AFHTTPRequestOperation *operation))completion
 {
     NSParameterAssert(folder);
-    NSParameterAssert(project);
     NSParameterAssert(completion);
 
     NSString *path = [folder.path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -357,18 +371,38 @@
 }
 
 #pragma mark - Private Methods
-- (NSString *)pathForProject:(LVTProject *)project
+- (NSString *)appendPath:(NSString *)path
+               toProject:(LVTProject *)project
+     includeOrganization:(BOOL)includeOrganization
 {
-    return [self pathForProjectName:project.name
-              organizationPermalink:project.organizationPermalink];
+    NSParameterAssert(path);
+    NSParameterAssert(project);
+    if (![[path substringToIndex:1] isEqualToString:@"/"]) {
+        path = [NSString stringWithFormat:@"/%@", path];
+    }
+
+    return [NSString stringWithFormat:@"%@%@",
+            [self pathForProject:project
+             includeOrganization:includeOrganization],
+            path];
+}
+
+- (NSString *)pathForProject:(LVTProject *)project
+         includeOrganization:(BOOL)includeOrganization
+{
+    if (includeOrganization) {
+        return [self pathForProjectName:project.name
+                  organizationPermalink:project.organizationPermalink];
+    }
+    else {
+        return project.name;
+    }
 }
 
 - (NSString *)pathForProjectName:(NSString *)projectName
-                organizationPermalink:(NSString *)organizationPermalink
+           organizationPermalink:(NSString *)organizationPermalink
 {
-    return [NSString stringWithFormat:@"%@/%@",
-            [organizationPermalink stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
-            [projectName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    return [NSString stringWithFormat:@"%@/%@", organizationPermalink, projectName];
 }
 
 @end
