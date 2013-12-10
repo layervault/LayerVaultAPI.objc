@@ -6,10 +6,8 @@
 //  Copyright (c) 2013 codecaffeine. All rights reserved.
 //
 
-#import <Mantle/Mantle.h>
 #import "LVTNode.h"
 #import "LVTColor.h"
-
 
 @interface LVTFolder : LVTNode <MTLJSONSerializing>
 
