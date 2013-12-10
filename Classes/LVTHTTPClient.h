@@ -94,6 +94,13 @@
 
 
 - (void)deleteFolder:(LVTFolder *)folder
+- (void)moveFolder:(LVTFolder *)folder
+            toPath:(NSString *)toPath
+         inProject:(LVTProject *)project
+        completion:(void (^)(LVTFolder *folder,
+                             NSError *error,
+                             AFHTTPRequestOperation *operation))completion;
+
            inProject:(LVTProject *)project
           completion:(void (^)(BOOL success,
                                NSError *error,

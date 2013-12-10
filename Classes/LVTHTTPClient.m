@@ -370,6 +370,40 @@
              }];
 }
 
+
+- (void)moveFolder:(LVTFolder *)folder
+            toPath:(NSString *)toPath
+         inProject:(LVTProject *)project
+        completion:(void (^)(LVTFolder *folder,
+                             NSError *error,
+                             AFHTTPRequestOperation *operation))completion
+{
+    toPath = [self appendPath:toPath
+                    toProject:project
+          includeOrganization:NO];
+
+    NSParameterAssert(folder);
+    NSParameterAssert(toPath);
+    NSParameterAssert(project);
+    NSParameterAssert(completion);
+
+    NSString *movePath = [folder.path stringByAppendingString:@"/move"];
+    movePath = [movePath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
+    [self postPath:movePath
+        parameters:@{@"to": toPath}
+           success:^(AFHTTPRequestOperation *operation, id responseObject) {
+               NSError *error;
+               LVTFolder *folder = [MTLJSONAdapter modelOfClass:LVTFolder.class
+                                             fromJSONDictionary:responseObject
+                                                          error:&error];
+               completion(folder, error, operation);
+           }
+           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+               completion(nil, error, operation);
+           }];
+}
+
 #pragma mark - Private Methods
 - (NSString *)appendPath:(NSString *)path
                toProject:(LVTProject *)project
