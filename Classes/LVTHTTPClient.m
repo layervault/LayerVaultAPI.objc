@@ -403,6 +403,32 @@
            }];
 }
 
+
+- (void)updateFolder:(LVTFolder *)folder
+          colorLabel:(LVTColorLabel)colorLabel
+          completion:(void (^)(BOOL success,
+                               NSError *error,
+                               AFHTTPRequestOperation *operation))completion
+{
+    NSParameterAssert(folder);
+    NSParameterAssert(completion);
+
+    NSString *colorPath = [folder.path stringByAppendingPathComponent:@"color"];
+    colorPath = [self sanitizeRequestPath:colorPath];
+
+    NSDictionary *params = @{@"color": [LVTColorUtils colorNameForLabel:colorLabel]};
+
+    [self putPath:colorPath
+       parameters:params
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              completion(YES, nil, operation);
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              completion(NO, error, operation);
+          }];
+}
+
+
 #pragma mark - Private Methods
 - (NSString *)sanitizeRequestPath:(NSString *)path
 {

@@ -94,6 +94,11 @@
 
 
 - (void)deleteFolder:(LVTFolder *)folder
+          completion:(void (^)(BOOL success,
+                               NSError *error,
+                               AFHTTPRequestOperation *operation))completion;
+
+
 - (void)moveFolder:(LVTFolder *)folder
             toPath:(NSString *)toPath
          inProject:(LVTProject *)project
@@ -101,10 +106,80 @@
                              NSError *error,
                              AFHTTPRequestOperation *operation))completion;
 
-           inProject:(LVTProject *)project
+- (void)updateFolder:(LVTFolder *)folder
+          colorLabel:(LVTColorLabel)colorLabel
           completion:(void (^)(BOOL success,
                                NSError *error,
                                AFHTTPRequestOperation *operation))completion;
+
+
+#pragma mark - Files
+- (void)getFileAtPath:(NSString *)filePath
+           completion:(void (^)(LVTFile *file,
+                                NSError *error,
+                                AFHTTPRequestOperation *operation))completion;
+
+- (void)uploadLocalFile:(NSURL *)localFileURL
+                 toPath:(NSString *)filePath
+              inProject:(LVTProject *)project
+             completion:(void (^)(LVTFile *file,
+                                  NSError *error,
+                                  AFHTTPRequestOperation *operation))completion;
+
+- (void)deleteFile:(LVTFile *)file
+        completion:(void (^)(BOOL success,
+                             NSError *error,
+                             AFHTTPRequestOperation *operation))completion;
+
+
+- (void)moveFile:(LVTFile *)file
+          toPath:(NSString *)path
+      completion:(void (^)(BOOL success,
+                           NSError *error,
+                           AFHTTPRequestOperation *operation))completion;
+
+- (void)getRevisionsForFile:(LVTFile *)file
+                 completion:(void (^)(NSArray *revisions,
+                                      NSError *error,
+                                      AFHTTPRequestOperation *operation))completion;
+
+- (void)getPreviewURLsForFile:(LVTFile *)file
+                        width:(NSUInteger)width
+                       height:(NSUInteger)height
+                   completion:(void (^)(NSArray *previewURLs,
+                                        NSError *error,
+                                        AFHTTPRequestOperation *operation))completion;
+// TODO: Feedback type
+- (void)getFeebackForFile:(LVTFile *)file
+                 revision:(NSUInteger)revision
+               completion:(void (^)(NSArray *feedback,
+                                    NSError *error,
+                                    AFHTTPRequestOperation *operation))completion;
+
+- (void)checkSyncStatusForFile:(LVTFile *)file
+                    completion:(void (^)(LVTFileSyncStatus syncStatus,
+                                         NSError *error,
+                                         AFHTTPRequestOperation *operation))completion;
+
+#pragma mark - Revisions
+- (void)getRevisionWithNumber:(NSUInteger)revisionNumber
+                       ofFile:(LVTFile *)file
+                   completion:(void (^)(LVTFileRevision *fileRevision,
+                                        NSError *error,
+                                        AFHTTPRequestOperation *operation))completion;
+
+// TODO: FileMetadata type
+- (void)getMetaDataForRevision:(LVTFileRevision *)fileRevision
+                        ofFile:(LVTFile *)file
+                    completion:(void (^)(id fileMetaData,
+                                         NSError *error,
+                                         AFHTTPRequestOperation *operation))completion;
+
+- (void)getPreviewURLForRevision:(LVTFileRevision *)fileRevision
+                          ofFile:(LVTFile *)file
+                      completion:(void (^)(NSURL *url,
+                                           NSError *error,
+                                           AFHTTPRequestOperation *operation))completion;
 
 
 
