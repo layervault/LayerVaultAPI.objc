@@ -223,7 +223,7 @@
     NSParameterAssert(block);
 
     NSString *movePath = [[self pathForProject:project
-                           includeOrganization:YES] stringByAppendingString:@"/move"];
+                           includeOrganization:YES] stringByAppendingPathComponent:@"move"];
     movePath = [movePath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
     NSDictionary *params = @{@"to": destination};
@@ -257,7 +257,7 @@
           [LVTColorUtils colorNameForLabel:colorLabel]);
 
     NSString *colorPath = [[self pathForProject:project
-                           includeOrganization:YES] stringByAppendingString:@"/color"];
+                           includeOrganization:YES] stringByAppendingPathComponent:@"color"];
     colorPath = [colorPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
     NSDictionary *params = @{@"color": [LVTColorUtils colorNameForLabel:colorLabel]};
@@ -284,7 +284,7 @@
     NSParameterAssert(path);
     NSParameterAssert(completion);
 
-    path = [path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    path = [self sanitizeRequestPath:path];
 
     [self getPath:path
        parameters:nil
@@ -313,7 +313,6 @@
     NSString *folderPath = [self appendPath:path
                                   toProject:project
                         includeOrganization:YES];
-    folderPath = [folderPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
     [self getFolderAtPath:folderPath
                completion:completion];
@@ -333,7 +332,7 @@
     NSString *folderPath = [self appendPath:path
                                   toProject:project
                         includeOrganization:YES];
-    folderPath = [folderPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    folderPath = [self sanitizeRequestPath:folderPath];
 
     [self postPath:folderPath
         parameters:nil
@@ -359,7 +358,7 @@
     NSParameterAssert(folder);
     NSParameterAssert(completion);
 
-    NSString *path = [folder.path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *path = [self sanitizeRequestPath:folder.path];
     [self deletePath:path
           parameters:nil
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -387,8 +386,8 @@
     NSParameterAssert(project);
     NSParameterAssert(completion);
 
-    NSString *movePath = [folder.path stringByAppendingString:@"/move"];
-    movePath = [movePath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *movePath = [folder.path stringByAppendingPathComponent:@"move"];
+    movePath = [self sanitizeRequestPath:movePath];
 
     [self postPath:movePath
         parameters:@{@"to": toPath}
@@ -405,6 +404,15 @@
 }
 
 #pragma mark - Private Methods
+- (NSString *)sanitizeRequestPath:(NSString *)path
+{
+    if ([[path substringToIndex:1] isEqualToString:@"/"]) {
+        path = [path substringFromIndex:1];
+    }
+    return [path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+}
+
+
 - (NSString *)appendPath:(NSString *)path
                toProject:(LVTProject *)project
      includeOrganization:(BOOL)includeOrganization
