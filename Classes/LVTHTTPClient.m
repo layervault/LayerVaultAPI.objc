@@ -300,6 +300,62 @@
     [self getFolderAtPath:path completion:completion];
 }
 
+
+- (void)createFolderAtPath:(NSString *)path
+                 inProject:(LVTProject *)project
+                completion:(void (^)(LVTFolder *folder,
+                                     NSError *error,
+                                     AFHTTPRequestOperation *operation))completion
+{
+    NSParameterAssert(path);
+    NSParameterAssert(project);
+    NSParameterAssert(completion);
+
+    if (![[path substringToIndex:1] isEqualToString:@"/"]) {
+        path = [NSString stringWithFormat:@"/%@", path];
+    }
+
+    path = [path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    // Prepend project path
+    path = [NSString stringWithFormat:@"%@%@",[self pathForProject:project], path];
+    [self postPath:path
+        parameters:nil
+           success:^(AFHTTPRequestOperation *operation, id responseObject) {
+               NSError *error;
+               LVTFolder *folder = [MTLJSONAdapter modelOfClass:LVTFolder.class
+                                             fromJSONDictionary:responseObject
+                                                          error:&error];
+               completion(folder, error, operation);
+           }
+           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+               completion(nil, error, operation);
+           }];
+
+}
+
+
+- (void)deleteFolder:(LVTFolder *)folder
+           inProject:(LVTProject *)project
+          completion:(void (^)(BOOL success,
+                               NSError *error,
+                               AFHTTPRequestOperation *operation))completion
+{
+    NSParameterAssert(folder);
+    NSParameterAssert(project);
+    NSParameterAssert(completion);
+
+    NSString *path = [folder.path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [self deletePath:path
+          parameters:nil
+             success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                 completion(YES, nil, operation);
+             }
+             failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                 completion(NO, error, operation);
+             }];
+}
+
 #pragma mark - Private Methods
 - (NSString *)pathForProject:(LVTProject *)project
 {

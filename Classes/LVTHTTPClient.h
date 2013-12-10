@@ -79,5 +79,26 @@
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion;
 
+- (void)getFolderAtPath:(NSString *)path
+              inProject:(LVTProject *)project
+             completion:(void (^)(LVTFolder *folder,
+                                  NSError *error,
+                                  AFHTTPRequestOperation *operation))completion;
+
+
+- (void)createFolderAtPath:(NSString *)path
+                 inProject:(LVTProject *)project
+                completion:(void (^)(LVTFolder *folder,
+                                     NSError *error,
+                                     AFHTTPRequestOperation *operation))completion;
+
+
+- (void)deleteFolder:(LVTFolder *)folder
+           inProject:(LVTProject *)project
+          completion:(void (^)(BOOL success,
+                               NSError *error,
+                               AFHTTPRequestOperation *operation))completion;
+
+
 
 @end
