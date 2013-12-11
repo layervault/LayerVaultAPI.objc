@@ -36,17 +36,6 @@ static NSString *md5ForFileAtPath(NSString *path)
     return md5;
 }
 
-static NSString *mimeForFileAtPath(NSString *path)
-{
-    CFStringRef uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension,
-                                                            (__bridge CFStringRef)path.pathExtension,
-                                                            NULL);
-    CFStringRef mime = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType);
-    CFRelease(uti);
-    return mime ? (__bridge_transfer NSString *)mime : @"application/octet-stream";
-}
-
-
 @implementation LVTHTTPClient
 
 - (instancetype)initWithBaseURL:(NSURL *)url clientID:(NSString *)clientID secret:(NSString *)secret
