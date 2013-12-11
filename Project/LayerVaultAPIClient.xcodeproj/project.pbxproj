@@ -24,6 +24,7 @@
 		C95CD2EB180B5F9500007F9B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C95CD2E9180B5F9500007F9B /* InfoPlist.strings */; };
 		C96C0813180C7D9D000149E3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C96C0812180C7D9D000149E3 /* MainMenu.xib */; };
 		C96C0815180C7F23000149E3 /* LVTUserTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C96C0814180C7F23000149E3 /* LVTUserTest.m */; };
+		C982A4141857C0D200CAAF32 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C982A4131857C0D200CAAF32 /* Security.framework */; };
 		E086014E1E16439B9766784A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F324AAFB3C2B45E5828793CE /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +66,7 @@
 		C95CD2EA180B5F9500007F9B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C96C0812180C7D9D000149E3 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		C96C0814180C7F23000149E3 /* LVTUserTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVTUserTest.m; sourceTree = "<group>"; };
+		C982A4131857C0D200CAAF32 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		C9DFB7191810C973002B941B /* LVConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LVConstants.h; sourceTree = "<group>"; };
 		F324AAFB3C2B45E5828793CE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -74,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C982A4141857C0D200CAAF32 /* Security.framework in Frameworks */,
 				C9546E99180C367500C56AC1 /* CoreServices.framework in Frameworks */,
 				C9546E97180C366C00C56AC1 /* SystemConfiguration.framework in Frameworks */,
 				C95CD2C3180B5F9500007F9B /* Cocoa.framework in Frameworks */,
@@ -116,6 +119,7 @@
 		C95CD2C1180B5F9500007F9B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C982A4131857C0D200CAAF32 /* Security.framework */,
 				C9546E98180C367500C56AC1 /* CoreServices.framework */,
 				C9546E96180C366C00C56AC1 /* SystemConfiguration.framework */,
 				C95CD2C2180B5F9500007F9B /* Cocoa.framework */,
@@ -450,6 +454,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LayerVaultAPIClient/LayerVaultAPIClient-Prefix.pch";
 				INFOPLIST_FILE = "LayerVaultAPIClient/LayerVaultAPIClient-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/system",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -464,6 +472,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LayerVaultAPIClient/LayerVaultAPIClient-Prefix.pch";
 				INFOPLIST_FILE = "LayerVaultAPIClient/LayerVaultAPIClient-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/system",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
