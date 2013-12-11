@@ -543,19 +543,11 @@ static NSString *mimeForFileAtPath(NSString *path)
                           NSLog(@"operation: %@", operation);
                           NSLog(@"responseObject: %@", responseObject);
                       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                          NSString *urlString = operation.response.URL.absoluteString;
-                          [self postPath:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                              NSLog(@"operation: %@", operation);
-                              NSLog(@"responseObject: %@", responseObject);
-                          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                              NSLog(@"operation: %@", operation);
-                              NSLog(@"error: %@", error);
-                          }];
+                          NSLog(@"operation: %@", operation);
+                          NSLog(@"error: %@", error);
                       }];
+
                       [requestOperation setRedirectResponseBlock:^NSURLRequest *(NSURLConnection *connection, NSURLRequest *request, NSURLResponse *redirectResponse) {
-                          NSLog(@"connection: %@", connection);
-                          NSLog(@"request: %@", request);
-                          NSLog(@"redirectResponse: %@", redirectResponse);
                           NSString *baseURLString = self.baseURL.absoluteString;
                           NSString *requestURLString = request.URL.absoluteString;
                           NSUInteger minLength = MIN(baseURLString.length, requestURLString.length);
@@ -566,6 +558,7 @@ static NSString *mimeForFileAtPath(NSString *path)
                               AFOAuthCredential *cred = [AFOAuthCredential retrieveCredentialWithIdentifier:self.serviceProviderIdentifier];
                               urlString = [urlString stringByAppendingString:[NSString stringWithFormat:@"&access_token=%@", cred.accessToken]];
                               newRequest.URL = [NSURL URLWithString:urlString];
+                              newRequest.HTTPMethod = @"POST";
                               return newRequest.copy;
                           }
                           else {
