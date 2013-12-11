@@ -542,11 +542,13 @@ static NSString *mimeForFileAtPath(NSString *path)
                       }];
 
                       AFHTTPRequestOperation *requestOperation = [newClient HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                          NSLog(@"operation: %@", operation);
-                          NSLog(@"responseObject: %@", responseObject);
+                          NSError *error;
+                          LVTFile *file = [MTLJSONAdapter modelOfClass:LVTFile.class
+                                                    fromJSONDictionary:responseObject
+                                                                 error:&error];
+                          completion(file, error, operation);
                       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                          NSLog(@"operation: %@", operation);
-                          NSLog(@"error: %@", error);
+                          completion(nil, error, operation);
                       }];
 
                       [requestOperation setRedirectResponseBlock:^NSURLRequest *(NSURLConnection *connection, NSURLRequest *request, NSURLResponse *redirectResponse) {
