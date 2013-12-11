@@ -502,7 +502,7 @@ static NSString *mimeForFileAtPath(NSString *path)
     NSString *fileName = localFileURL.lastPathComponent;
     NSRange range = [filePath rangeOfString:filePath];
     if (range.location == NSNotFound || range.location != (filePath.length - fileName.length)) {
-        filePath = [filePath stringByAppendingPathComponent:filePath];
+        filePath = [filePath stringByAppendingPathComponent:fileName];
     }
 
     filePath = [self appendPath:filePath toProject:project includeOrganization:YES];
