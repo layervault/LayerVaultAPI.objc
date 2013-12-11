@@ -534,6 +534,8 @@ static NSString *mimeForFileAtPath(NSString *path)
                   if (data && response) {
                       NSURL *url = [NSURL URLWithString:@"https://omnivore-scratch.s3.amazonaws.com"];
                       AFHTTPClient *newClient = [[AFHTTPClient alloc] initWithBaseURL:url];
+                      [newClient registerHTTPOperationClass:[AFJSONRequestOperation class]];
+                      [newClient setDefaultHeader:@"Accept" value:@"application/json"];
 
                       NSMutableURLRequest *request = [newClient multipartFormRequestWithMethod:@"POST" path:nil parameters:params constructingBodyWithBlock:^(id <AFMultipartFormData> formData) {
                           [formData appendPartWithFileData:data name:@"file" fileName:localFileURL.lastPathComponent mimeType:mimeForFileAtPath(localFileURL.path)];
