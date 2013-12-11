@@ -385,7 +385,7 @@ NSString *const emailRegEx =
     if ([selectedObject isKindOfClass:LVTProject.class]) {
 
         if (!self.projectWindowController) {
-            self.projectWindowController = [[LVTProjectWindowController alloc] init];
+            self.projectWindowController = [[LVTProjectWindowController alloc] initWithClient:self.client];
         }
 
         [self.projectWindowController showWindow:nil];
