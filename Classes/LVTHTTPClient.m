@@ -7,11 +7,43 @@
 //
 
 #import "LVTHTTPClient.h"
+#import <CommonCrypto/CommonDigest.h>
 #import <Mantle/Mantle.h>
 #import <AFNetworking/AFJSONRequestOperation.h>
 #import "LVTUser.h"
 #import "LVTOrganization.h"
 #import "LVTProject.h"
+
+
+static NSString *md5ForFileAtPath(NSString *path)
+{
+    NSError *error = nil;
+    NSData *data = [NSData dataWithContentsOfFile:path
+                                          options:NSDataReadingMappedIfSafe
+                                            error:&error];
+    if (!data) {
+        NSLog(@"%@", [error localizedDescription]);
+        return nil;
+    }
+
+    unsigned char md[CC_MD5_DIGEST_LENGTH];
+    CC_MD5([data bytes], (unsigned int)[data length], md);
+    NSMutableString *md5 = [NSMutableString string];
+    for (NSUInteger i = 0; i < CC_MD5_DIGEST_LENGTH; ++i)
+        [md5 appendFormat:@"%02x", md[i]];
+
+    return md5;
+}
+
+static NSString *mimeForFileAtPath(NSString *path)
+{
+    CFStringRef uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension,
+                                                            (__bridge CFStringRef)path.pathExtension,
+                                                            NULL);
+    CFStringRef mime = UTTypeCopyPreferredTagWithClass(uti, kUTTagClassMIMEType);
+    CFRelease(uti);
+    return mime ? (__bridge_transfer NSString *)mime : @"application/octet-stream";
+}
 
 
 @implementation LVTHTTPClient
@@ -454,6 +486,105 @@
           }];
 }
 
+
+- (void)uploadLocalFile:(NSURL *)localFileURL
+                 toPath:(NSString *)filePath
+              inProject:(LVTProject *)project
+             completion:(void (^)(LVTFile *file,
+                                  NSError *error,
+                                  AFHTTPRequestOperation *operation))completion
+{
+    NSParameterAssert(localFileURL);
+    NSParameterAssert(filePath);
+    NSParameterAssert(project);
+    NSParameterAssert(completion);
+
+    NSString *fileName = localFileURL.lastPathComponent;
+    NSRange range = [filePath rangeOfString:filePath];
+    if (range.location == NSNotFound || range.location != (filePath.length - fileName.length)) {
+        filePath = [filePath stringByAppendingPathComponent:filePath];
+    }
+
+    filePath = [self appendPath:filePath toProject:project includeOrganization:YES];
+    filePath = [self sanitizeRequestPath:filePath];
+
+    NSString *md5 = md5ForFileAtPath(localFileURL.path);
+    NSDictionary *params = nil;
+    if (md5) {
+        params = @{@"md5":md5};
+    }
+
+    if (md5) {
+        [self putPath:filePath
+           parameters:params
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  NSLog(@"responseObject: %@", responseObject);
+
+                  NSMutableDictionary *params = ((NSDictionary *)responseObject).mutableCopy;
+                  params[@"Content-Type"] = mimeForFileAtPath(localFileURL.path);
+                  NSMutableURLRequest *fileRequest = [NSMutableURLRequest requestWithURL:localFileURL];
+                  [fileRequest setCachePolicy:NSURLCacheStorageNotAllowed];
+
+                  NSURLResponse *response = nil;
+                  NSError *fileError = nil;
+                  NSData *data = [NSURLConnection sendSynchronousRequest:fileRequest
+                                                       returningResponse:&response
+                                                                   error:&fileError];
+
+                  if (data && response) {
+                      NSURL *url = [NSURL URLWithString:@"https://omnivore-scratch.s3.amazonaws.com"];
+                      AFHTTPClient *newClient = [[AFHTTPClient alloc] initWithBaseURL:url];
+
+                      NSMutableURLRequest *request = [newClient multipartFormRequestWithMethod:@"POST" path:nil parameters:params constructingBodyWithBlock:^(id <AFMultipartFormData> formData) {
+                          [formData appendPartWithFileData:data name:@"file" fileName:localFileURL.lastPathComponent mimeType:mimeForFileAtPath(localFileURL.path)];
+                      }];
+
+                      AFHTTPRequestOperation *requestOperation = [newClient HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                          NSLog(@"operation: %@", operation);
+                          NSLog(@"responseObject: %@", responseObject);
+                      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                          NSString *urlString = operation.response.URL.absoluteString;
+                          [self postPath:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                              NSLog(@"operation: %@", operation);
+                              NSLog(@"responseObject: %@", responseObject);
+                          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                              NSLog(@"operation: %@", operation);
+                              NSLog(@"error: %@", error);
+                          }];
+                      }];
+                      [requestOperation setRedirectResponseBlock:^NSURLRequest *(NSURLConnection *connection, NSURLRequest *request, NSURLResponse *redirectResponse) {
+                          NSLog(@"connection: %@", connection);
+                          NSLog(@"request: %@", request);
+                          NSLog(@"redirectResponse: %@", redirectResponse);
+                          NSString *baseURLString = self.baseURL.absoluteString;
+                          NSString *requestURLString = request.URL.absoluteString;
+                          NSUInteger minLength = MIN(baseURLString.length, requestURLString.length);
+                          requestURLString = [requestURLString substringToIndex:minLength];
+                          if ([requestURLString isEqualToString:baseURLString]) {
+                              NSMutableURLRequest *newRequest = request.mutableCopy;
+                              NSString *urlString = request.URL.absoluteString;
+                              AFOAuthCredential *cred = [AFOAuthCredential retrieveCredentialWithIdentifier:self.serviceProviderIdentifier];
+                              urlString = [urlString stringByAppendingString:[NSString stringWithFormat:@"&access_token=%@", cred.accessToken]];
+                              newRequest.URL = [NSURL URLWithString:urlString];
+                              return newRequest.copy;
+                          }
+                          else {
+                              return request;
+                          }
+                      }];
+
+                      [newClient enqueueHTTPRequestOperation:requestOperation];
+                  }
+              }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  completion(nil, error, operation);
+              }];
+    }
+    else {
+        NSError *error = [NSError errorWithDomain:@"asdf" code:-100 userInfo:nil];
+        completion(nil, error, nil);
+    }
+}
 
 #pragma mark - Private Methods
 - (NSString *)sanitizeRequestPath:(NSString *)path
