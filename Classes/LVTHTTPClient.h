@@ -127,6 +127,12 @@
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion;
 
+- (void)uploadLocalFile:(NSURL *)localFileURL
+                 toPath:(NSString *)filePath
+             completion:(void (^)(LVTFile *file,
+                                  NSError *error,
+                                  AFHTTPRequestOperation *operation))completion;
+
 - (void)deleteFile:(LVTFile *)file
         completion:(void (^)(BOOL success,
                              NSError *error,

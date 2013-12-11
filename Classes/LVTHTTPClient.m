@@ -499,13 +499,29 @@ static NSString *mimeForFileAtPath(NSString *path)
     NSParameterAssert(project);
     NSParameterAssert(completion);
 
+    filePath = [self appendPath:filePath toProject:project includeOrganization:YES];
+
+    [self uploadLocalFile:localFileURL
+                   toPath:filePath
+               completion:completion];
+}
+
+- (void)uploadLocalFile:(NSURL *)localFileURL
+                 toPath:(NSString *)filePath
+             completion:(void (^)(LVTFile *file,
+                                  NSError *error,
+                                  AFHTTPRequestOperation *operation))completion
+{
+    NSParameterAssert(localFileURL);
+    NSParameterAssert(filePath);
+    NSParameterAssert(completion);
+
+    // Add filename if it's not part of the path
     NSString *fileName = localFileURL.lastPathComponent;
     NSRange range = [filePath rangeOfString:filePath];
     if (range.location == NSNotFound || range.location != (filePath.length - fileName.length)) {
         filePath = [filePath stringByAppendingPathComponent:fileName];
     }
-
-    filePath = [self appendPath:filePath toProject:project includeOrganization:YES];
     filePath = [self sanitizeRequestPath:filePath];
 
     NSString *md5 = md5ForFileAtPath(localFileURL.path);
