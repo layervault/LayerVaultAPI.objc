@@ -14,19 +14,17 @@
 @interface LVTProjectWindowController () <NSOutlineViewDataSource, NSOutlineViewDelegate>
 @property (nonatomic, copy) NSArray *sortedFilesAndFolders;
 @property (weak) IBOutlet NSOutlineView *outlineView;
+@property (readonly) LVTHTTPClient *client;
 @end
 
 @implementation LVTProjectWindowController
 
-- (instancetype)init
-{
-    return [self initWithWindowNibName:@"LVTProjectWindowController"];
-}
 
-- (id)initWithWindow:(NSWindow *)window
+- (instancetype)initWithClient:(LVTHTTPClient *)client
 {
-    self = [super initWithWindow:window];
+    self = [super initWithWindowNibName:@"LVTProjectWindowController"];
     if (self) {
+        _client = client;
         @weakify(self);
         [RACObserve(self, project) subscribeNext:^(LVTProject *project) {
             @strongify(self);
@@ -40,11 +38,13 @@
     return self;
 }
 
+
 - (void)windowDidLoad
 {
     [super windowDidLoad];
     
-    // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
+    [self.outlineView setTarget:self];
+    [self.outlineView setDoubleAction:@selector(doubleClickedTable:)];
 }
 
 
@@ -80,40 +80,66 @@
 }
 
 
+#pragma mark - NSOutlineViewDelegate
 - (NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
     NSTableCellView *tableCellView = [outlineView makeViewWithIdentifier:tableColumn.identifier
                                                                    owner:self];
     if (item) {
+        LVTNode *node = nil;
+        if ([item isKindOfClass:LVTNode.class]) {
+            node = (LVTNode *)item;
+        }
+
         if ([tableColumn.identifier isEqualToString:@"NameColumn"]) {
-            NSString *name = @"";
+            if (node.name.length > 0) {
+                [tableCellView.textField setStringValue:node.name];
+            }
+
             if ([item isKindOfClass:LVTFolder.class]) {
-                tableCellView.imageView.image = [NSImage imageNamed:NSImageNamePathTemplate];;
-                LVTFolder *folder = (LVTFolder *)item;
-                if (folder.name) {
-                    name = folder.name;
-                }
-                else if (folder.path) {
-                    name = folder.path.lastPathComponent;
-                }
+                tableCellView.imageView.image = [NSImage imageNamed:NSImageNamePathTemplate];
             }
             else if ([item isKindOfClass:LVTFile.class]) {
                 tableCellView.imageView.image = [NSImage imageNamed:NSImageNameIChatTheaterTemplate];
-                LVTFile *file = (LVTFile *)item;
-                if (file.localPath) {
-                    name = file.localPath.lastPathComponent;
-                }
             }
-            [tableCellView.textField setStringValue:name];
+
         }
         else if ([tableColumn.identifier isEqualToString:@"DateUpdatedColumn"]) {
-            [tableCellView.textField.cell setObjectValue:[item dateUpdated]];
+            if (node.dateUpdated) {
+                [tableCellView.textField.cell setObjectValue:node.dateUpdated];
+            }
         }
     }
     return tableCellView;
 }
 
 
+#pragma mark - NSTableViewDelegate
+- (void)doubleClickedTable:(NSTableView *)tableView
+{
+    NSUInteger row = tableView.selectedRow;
+    id selectedItem = [self.outlineView itemAtRow:row];
+    if ([selectedItem isKindOfClass:LVTFolder.class]) {
+        LVTFolder *selectedFolder = (LVTFolder *)selectedItem;
+        [self.client getFolderAtPath:[selectedFolder.path lastPathComponent]
+                           inProject:self.project
+                          completion:^(LVTFolder *folder,
+                                       NSError *error,
+                                       AFHTTPRequestOperation *operation) {
+                              NSLog(@"folder: %@", folder);
+                              NSLog(@"error: %@", error);
+                              NSLog(@"operation: %@", operation);
+                              NSLog(@"equalFolders: %@", [folder isEqual:selectedFolder] ? @"YES" : @"NO");
+                          }];
+    }
+}
+
+
+- (IBAction)newFolderPressed:(NSButton *)sender
+{
+}
+
+#pragma mark - PrivateMethods
 - (NSArray *)subFolderAndFilesForFolder:(LVTFolder *)folder
 {
     NSSortDescriptor *dateUpdatedSort = [NSSortDescriptor sortDescriptorWithKey:@"dateUpdated"
