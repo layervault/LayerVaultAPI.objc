@@ -13,6 +13,7 @@
 #import "LVTUser.h"
 #import "LVTOrganization.h"
 #import "LVTProject.h"
+#import "LVTAmazonS3Client.h"
 
 
 static NSString *md5ForFileAtPath(NSString *path)
@@ -518,7 +519,7 @@ static NSString *mimeForFileAtPath(NSString *path)
 
     // Add filename if it's not part of the path
     NSString *fileName = localFileURL.lastPathComponent;
-    NSRange range = [filePath rangeOfString:filePath];
+    NSRange range = [filePath rangeOfString:fileName];
     if (range.location == NSNotFound || range.location != (filePath.length - fileName.length)) {
         filePath = [filePath stringByAppendingPathComponent:fileName];
     }
@@ -534,60 +535,23 @@ static NSString *mimeForFileAtPath(NSString *path)
         [self putPath:filePath
            parameters:params
               success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                  NSLog(@"responseObject: %@", responseObject);
 
-                  NSMutableDictionary *params = ((NSDictionary *)responseObject).mutableCopy;
-                  params[@"Content-Type"] = mimeForFileAtPath(localFileURL.path);
-                  NSMutableURLRequest *fileRequest = [NSMutableURLRequest requestWithURL:localFileURL];
-                  [fileRequest setCachePolicy:NSURLCacheStorageNotAllowed];
+                  AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:self.serviceProviderIdentifier];
 
-                  NSURLResponse *response = nil;
-                  NSError *fileError = nil;
-                  NSData *data = [NSURLConnection sendSynchronousRequest:fileRequest
-                                                       returningResponse:&response
-                                                                   error:&fileError];
-
-                  if (data && response) {
-                      NSURL *url = [NSURL URLWithString:@"https://omnivore-scratch.s3.amazonaws.com"];
-                      AFHTTPClient *newClient = [[AFHTTPClient alloc] initWithBaseURL:url];
-                      [newClient registerHTTPOperationClass:[AFJSONRequestOperation class]];
-                      [newClient setDefaultHeader:@"Accept" value:@"application/json"];
-
-                      NSMutableURLRequest *request = [newClient multipartFormRequestWithMethod:@"POST" path:nil parameters:params constructingBodyWithBlock:^(id <AFMultipartFormData> formData) {
-                          [formData appendPartWithFileData:data name:@"file" fileName:localFileURL.lastPathComponent mimeType:mimeForFileAtPath(localFileURL.path)];
-                      }];
-
-                      AFHTTPRequestOperation *requestOperation = [newClient HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                          NSError *error;
-                          LVTFile *file = [MTLJSONAdapter modelOfClass:LVTFile.class
-                                                    fromJSONDictionary:responseObject
-                                                                 error:&error];
-                          completion(file, error, operation);
-                      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                          completion(nil, error, operation);
-                      }];
-
-                      [requestOperation setRedirectResponseBlock:^NSURLRequest *(NSURLConnection *connection, NSURLRequest *request, NSURLResponse *redirectResponse) {
-                          NSString *baseURLString = self.baseURL.absoluteString;
-                          NSString *requestURLString = request.URL.absoluteString;
-                          NSUInteger minLength = MIN(baseURLString.length, requestURLString.length);
-                          requestURLString = [requestURLString substringToIndex:minLength];
-                          if ([requestURLString isEqualToString:baseURLString]) {
-                              NSMutableURLRequest *newRequest = request.mutableCopy;
-                              NSString *urlString = request.URL.absoluteString;
-                              AFOAuthCredential *cred = [AFOAuthCredential retrieveCredentialWithIdentifier:self.serviceProviderIdentifier];
-                              urlString = [urlString stringByAppendingString:[NSString stringWithFormat:@"&access_token=%@", cred.accessToken]];
-                              newRequest.URL = [NSURL URLWithString:urlString];
-                              newRequest.HTTPMethod = @"POST";
-                              return newRequest.copy;
-                          }
-                          else {
-                              return request;
-                          }
-                      }];
-
-                      [newClient enqueueHTTPRequestOperation:requestOperation];
-                  }
+                  LVTAmazonS3Client *s3Client = [LVTAmazonS3Client new];
+                  [s3Client postFile:localFileURL
+                          parameters:responseObject
+                         accessToken:credential.accessToken
+                             success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                 NSError *error;
+                                 LVTFile *file = [MTLJSONAdapter modelOfClass:LVTFile.class
+                                                           fromJSONDictionary:responseObject
+                                                                        error:&error];
+                                 completion(file, error, operation);
+                             }
+                             failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                 completion(nil, error, operation);
+                             }];
               }
               failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                   completion(nil, error, operation);
