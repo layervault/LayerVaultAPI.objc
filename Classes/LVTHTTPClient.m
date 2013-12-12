@@ -16,22 +16,23 @@
 #import "LVTAmazonS3Client.h"
 
 
-static NSString *md5ForFileAtPath(NSString *path)
+static NSString *md5ForFile(NSURL *fileURL)
 {
-    NSError *error = nil;
-    NSData *data = [NSData dataWithContentsOfFile:path
-                                          options:NSDataReadingMappedIfSafe
-                                            error:&error];
+    NSError *error;
+    NSData *data = [NSData dataWithContentsOfURL:fileURL
+                                         options:NSDataReadingMappedIfSafe
+                                           error:&error];
     if (!data) {
-        NSLog(@"%@", [error localizedDescription]);
+        NSLog(@"%@", error);
         return nil;
     }
 
     unsigned char md[CC_MD5_DIGEST_LENGTH];
     CC_MD5([data bytes], (unsigned int)[data length], md);
     NSMutableString *md5 = [NSMutableString string];
-    for (NSUInteger i = 0; i < CC_MD5_DIGEST_LENGTH; ++i)
+    for (NSUInteger i = 0; i < CC_MD5_DIGEST_LENGTH; ++i) {
         [md5 appendFormat:@"%02x", md[i]];
+    }
 
     return md5;
 }
@@ -514,7 +515,7 @@ static NSString *md5ForFileAtPath(NSString *path)
     }
     filePath = [self sanitizeRequestPath:filePath];
 
-    NSString *md5 = md5ForFileAtPath(localFileURL.path);
+    NSString *md5 = md5ForFile(localFileURL);
     NSDictionary *params = nil;
     if (md5) {
         params = @{@"md5":md5};
