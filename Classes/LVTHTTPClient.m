@@ -381,8 +381,7 @@ static NSString *md5ForFile(NSURL *fileURL)
     NSParameterAssert(folder);
     NSParameterAssert(completion);
 
-    NSString *path = [self sanitizeRequestPath:folder.path];
-    [self deletePath:path
+    [self deletePath:folder.urlPath
           parameters:nil
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
                  completion(YES, nil, operation);
@@ -409,8 +408,7 @@ static NSString *md5ForFile(NSURL *fileURL)
     NSParameterAssert(project);
     NSParameterAssert(completion);
 
-    NSString *movePath = [folder.path stringByAppendingPathComponent:@"move"];
-    movePath = [self sanitizeRequestPath:movePath];
+    NSString *movePath = [folder.urlPath stringByAppendingPathComponent:@"move"];
 
     [self postPath:movePath
         parameters:@{@"to": toPath}
@@ -436,8 +434,7 @@ static NSString *md5ForFile(NSURL *fileURL)
     NSParameterAssert(folder);
     NSParameterAssert(completion);
 
-    NSString *colorPath = [folder.path stringByAppendingPathComponent:@"color"];
-    colorPath = [self sanitizeRequestPath:colorPath];
+    NSString *colorPath = [folder.urlPath stringByAppendingPathComponent:@"color"];
 
     NSDictionary *params = @{@"color": [LVTColorUtils colorNameForLabel:colorLabel]};
 
