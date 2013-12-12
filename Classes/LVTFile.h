@@ -7,6 +7,7 @@
 //
 
 #import "LVTNode.h"
+@class LVTFolder;
 
 typedef enum : NSUInteger {
     LVTFileSyncStatusError = 0,

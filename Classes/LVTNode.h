@@ -7,6 +7,7 @@
 //
 
 #import <Mantle/Mantle.h>
+@class LVTFolder;
 
 @interface LVTNode : MTLModel <MTLJSONSerializing>
 
@@ -17,6 +18,9 @@
 @property (readonly, nonatomic) NSDate *dateDeleted;
 @property (readonly, nonatomic, copy) NSURL *url;
 @property (readonly, nonatomic, copy) NSURL *shortURL;
+
+@property (readonly, nonatomic, copy) NSString *urlPath;
+@property (weak, nonatomic) LVTFolder *parentFolder;
 
 + (NSDateFormatter *)dateFormatter;
 

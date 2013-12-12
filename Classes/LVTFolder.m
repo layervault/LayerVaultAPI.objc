@@ -40,6 +40,17 @@
     return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVTFolder.class];
 }
 
+- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue
+                             error:(NSError *__autoreleasing *)error
+{
+    self = [super initWithDictionary:dictionaryValue error:error];
+    if (self) {
+        for (LVTNode *node in [self.files arrayByAddingObjectsFromArray:self.folders]) {
+            node.parentFolder = self;
+        }
+    }
+    return self;
+}
 
 // Remove path if it’s nil
 - (NSDictionary *)dictionaryValue

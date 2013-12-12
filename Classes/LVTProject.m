@@ -7,6 +7,7 @@
 //
 
 #import "LVTProject.h"
+#import "LVTFile.h"
 
 
 @implementation LVTProject
@@ -53,6 +54,28 @@
 - (BOOL)partial
 {
     return !self.path;
+}
+
+
+- (void)mergeValueForKey:(NSString *)key fromModel:(MTLModel *)model
+{
+    [super mergeValueForKey:key fromModel:model];
+    if ([key isEqualToString:@"files"]) {
+        for (LVTFile *file in self.files) {
+            file.parentFolder = self;
+        }
+    }
+    else if ([key isEqualToString:@"folders"]) {
+        for (LVTFolder *folder in self.folders) {
+            folder.parentFolder = self;
+        }
+    }
+}
+
+
+- (NSString *)urlPath
+{
+    return [self.organizationPermalink stringByAppendingPathComponent:[super urlPath]];
 }
 
 

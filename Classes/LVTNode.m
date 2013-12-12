@@ -7,8 +7,11 @@
 //
 
 #import "LVTNode.h"
+#import "LVTFolder.h"
 
-@implementation LVTNode
+@implementation LVTNode {
+    __weak LVTFolder *_parentFolder;
+}
 
 + (NSDateFormatter *)dateFormatter
 {
@@ -86,6 +89,57 @@
     }
     self = [super initWithDictionary:dictionaryValue error:error];
     return self;
+}
+
+
+- (NSString *)description {
+    NSMutableDictionary *dict = self.dictionaryValue.mutableCopy;
+    dict[@"parentFolder"] = [NSString stringWithFormat:@"<%@: %p>",
+                             self.parentFolder.class,
+                             self.parentFolder];
+	return [NSString stringWithFormat:@"<%@: %p> %@", self.class, self, dict];
+}
+
+
+- (NSUInteger)hash {
+	NSUInteger value = 0;
+
+	for (NSString *key in self.class.propertyKeys) {
+        if ([key isEqualToString:@"parentFolder"]) {
+            continue;
+        }
+		value ^= [[self valueForKey:key] hash];
+	}
+
+	return value;
+}
+
+- (BOOL)isEqual:(MTLModel *)model {
+	if (self == model) return YES;
+	if (![model isMemberOfClass:self.class]) return NO;
+
+	for (NSString *key in self.class.propertyKeys) {
+        if ([key isEqualToString:@"parentFolder"]) {
+            continue;
+        }
+		id selfValue = [self valueForKey:key];
+		id modelValue = [model valueForKey:key];
+
+		BOOL valuesEqual = ((selfValue == nil && modelValue == nil) || [selfValue isEqual:modelValue]);
+		if (!valuesEqual) return NO;
+	}
+    
+	return YES;
+}
+
+
+- (NSString *)urlPath
+{
+    NSString *urlEncodedName = [self.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    if (self.parentFolder) {
+        urlEncodedName = [self.parentFolder.urlPath stringByAppendingPathComponent:urlEncodedName];
+    }
+    return urlEncodedName;
 }
 
 
