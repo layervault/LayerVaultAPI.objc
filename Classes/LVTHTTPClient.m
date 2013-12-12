@@ -550,6 +550,31 @@ static NSString *md5ForFile(NSURL *fileURL)
     }
 }
 
+
+- (void)deleteFile:(LVTFile *)file
+        completion:(void (^)(BOOL success,
+                             NSError *error,
+                             AFHTTPRequestOperation *operation))completion
+{
+    NSParameterAssert(file);
+    NSParameterAssert(completion);
+
+    NSDictionary *params = nil;
+    if (file.md5) {
+        params = @{@"md5": file.md5};
+    }
+
+    [self deletePath:file.urlPath
+          parameters:params
+             success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                 completion(YES, nil, operation);
+             }
+             failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                 completion(NO, error, operation);
+             }];
+}
+
+
 #pragma mark - Private Methods
 - (NSString *)sanitizeRequestPath:(NSString *)path
 {
