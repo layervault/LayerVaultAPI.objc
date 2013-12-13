@@ -137,6 +137,42 @@
 
 - (IBAction)newFolderPressed:(NSButton *)sender
 {
+    NSInteger row = [self.outlineView rowForView:sender];
+    id selectedItem = [self.outlineView itemAtRow:row];
+    if ([selectedItem isKindOfClass:LVTFolder.class]) {
+        LVTFolder *folder = (LVTFolder *)selectedItem;
+        NSOpenPanel *panel = [NSOpenPanel openPanel];
+        panel.canChooseFiles = YES;
+        [panel beginSheetModalForWindow:self.window
+                      completionHandler:^(NSInteger result) {
+                          if (result == NSOKButton) {
+                              NSURL *url = panel.URLs[0];
+                              [self.client uploadLocalFile:url
+                                                    toPath:folder.path
+                                                completion:^(LVTFile *file,
+                                                             NSError *error,
+                                                             AFHTTPRequestOperation *operation) {
+                                                    NSLog(@"file: %@", file);
+                                                    NSLog(@"error: %@", error);
+                                                    NSLog(@"operation: %@", file);
+                                                }];
+                          }
+                      }];
+    }
+    else if ([selectedItem isKindOfClass:LVTFile.class]) {
+        LVTFile *file = (LVTFile *)selectedItem;
+        NSString *path = @"Matt\u2019s Cool Sandb\u00F8x";
+        [self.client moveFile:file
+                       toPath:path
+                  newFileName:@"baz.jpg"
+                   completion:^(BOOL success,
+                                NSError *error,
+                                AFHTTPRequestOperation *operation) {
+                       NSLog(@"success: %@", success? @"YES" : @"NO");
+                       NSLog(@"error: %@", error);
+                       NSLog(@"operation: %@", file);
+                   }];
+    }
 }
 
 #pragma mark - PrivateMethods
