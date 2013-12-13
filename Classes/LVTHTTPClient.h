@@ -141,6 +141,7 @@
 
 - (void)moveFile:(LVTFile *)file
           toPath:(NSString *)path
+     newFileName:(NSString *)newFileName
       completion:(void (^)(BOOL success,
                            NSError *error,
                            AFHTTPRequestOperation *operation))completion;

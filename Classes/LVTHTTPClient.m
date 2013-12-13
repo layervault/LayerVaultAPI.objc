@@ -575,6 +575,34 @@ static NSString *md5ForFile(NSURL *fileURL)
 }
 
 
+- (void)moveFile:(LVTFile *)file
+          toPath:(NSString *)path
+     newFileName:(NSString *)newFileName
+      completion:(void (^)(BOOL success,
+                           NSError *error,
+                           AFHTTPRequestOperation *operation))completion
+{
+    NSParameterAssert(file);
+    NSParameterAssert(path);
+    NSParameterAssert(completion);
+
+    NSMutableDictionary *params = @{@"to": path}.mutableCopy;
+    if (newFileName.length > 0) {
+        params[@"new_file_name"] = newFileName;
+    }
+
+    [self postPath:[file.urlPath stringByAppendingPathComponent:@"/move"]
+        parameters:params
+           success:^(AFHTTPRequestOperation *operation, id responseObject) {
+               completion(YES, nil, operation);
+           }
+           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+               completion(NO, error, operation);
+           }];
+}
+
+
+
 #pragma mark - Private Methods
 - (NSString *)sanitizeRequestPath:(NSString *)path
 {
