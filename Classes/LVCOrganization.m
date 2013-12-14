@@ -1,15 +1,15 @@
 //
-//  LVTOrganization.m
+//  LVCOrganization.m
 //  LayerVaultAPIClient
 //
 //  Created by Matt Thomas on 10/25/13.
 //  Copyright (c) 2013 codecaffeine. All rights reserved.
 //
 
-#import "LVTOrganization.h"
+#import "LVCOrganization.h"
 #import "LVTProject.h"
 
-@implementation LVTOrganization
+@implementation LVCOrganization
 
 + (NSDateFormatter *)dateFormatter
 {

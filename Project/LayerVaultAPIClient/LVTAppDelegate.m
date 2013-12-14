@@ -156,8 +156,8 @@ NSString *const emailRegEx =
 {
     NSInteger row = [self.projectsTableView rowForView:sender];
     id selectedObject = [self.dataSource objectAtIndex:row];
-    if ([selectedObject isKindOfClass:LVTOrganization.class]) {
-        LVTOrganization *org = (LVTOrganization *)selectedObject;
+    if ([selectedObject isKindOfClass:LVCOrganization.class]) {
+        LVCOrganization *org = (LVCOrganization *)selectedObject;
         LVTProject *project = [[LVTProject alloc] initWithName:@""
                                          organizationPermalink:org.permalink];
         [self insertDataSourceObject:project
@@ -264,7 +264,7 @@ NSString *const emailRegEx =
 - (void)setDataSourceForUser:(LVTUser *)user
 {
     NSMutableArray *dataSource = @[].mutableCopy;
-    for (LVTOrganization *org in user.organizations) {
+    for (LVCOrganization *org in user.organizations) {
         [dataSource addObject:org];
         NSArray *sortedProjects = [org.projects sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"dateUpdated" ascending:NO]]];
         for (LVTProject *currentProject in sortedProjects) {
@@ -346,8 +346,8 @@ NSString *const emailRegEx =
 {
     id selectedObject = [self.dataSource objectAtIndex:row];
 
-    if ([selectedObject isKindOfClass:LVTOrganization.class]) {
-        LVTOrganization *org = (LVTOrganization *)selectedObject;
+    if ([selectedObject isKindOfClass:LVCOrganization.class]) {
+        LVCOrganization *org = (LVCOrganization *)selectedObject;
         NSTableCellView *orgCell = [tableView makeViewWithIdentifier:@"OrganizationCell"
                                                                owner:self];
         [orgCell.textField setStringValue:org.name];
@@ -371,7 +371,7 @@ NSString *const emailRegEx =
 - (BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row
 {
     id selectedObject = [self.dataSource objectAtIndex:row];
-    if ([selectedObject isKindOfClass:LVTOrganization.class]) {
+    if ([selectedObject isKindOfClass:LVCOrganization.class]) {
         return YES;
     }
     return NO;

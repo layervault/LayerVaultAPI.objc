@@ -11,7 +11,7 @@
 #import <Mantle/Mantle.h>
 #import <AFNetworking/AFJSONRequestOperation.h>
 #import "LVTUser.h"
-#import "LVTOrganization.h"
+#import "LVCOrganization.h"
 #import "LVTProject.h"
 #import "LVCAmazonS3Client.h"
 
@@ -103,7 +103,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 
 #pragma mark - Organizations
 - (void)getOrganizationWithParmalink:(NSString *)permalink
-                               block:(void (^)(LVTOrganization *organization,
+                               block:(void (^)(LVCOrganization *organization,
                                                NSError *error,
                                                AFHTTPRequestOperation *operation))block
 {
@@ -114,7 +114,7 @@ static NSString *md5ForFile(NSURL *fileURL)
        parameters:nil
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               NSError *error;
-              LVTOrganization *org = [MTLJSONAdapter modelOfClass:LVTOrganization.class
+              LVCOrganization *org = [MTLJSONAdapter modelOfClass:LVCOrganization.class
                                                fromJSONDictionary:responseObject
                                                             error:&error];
               block(org, error, operation);
@@ -141,7 +141,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 
 
 - (void)getProjectWithName:(NSString *)projectName
-            inOrganization:(LVTOrganization *)organization
+            inOrganization:(LVCOrganization *)organization
                      block:(void (^)(LVTProject *project,
                                      NSError *error,
                                      AFHTTPRequestOperation *operation))block

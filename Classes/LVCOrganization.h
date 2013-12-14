@@ -1,5 +1,5 @@
 //
-//  LVTOrganization.h
+//  LVCOrganization.h
 //  LayerVaultAPIClient
 //
 //  Created by Matt Thomas on 10/25/13.
@@ -8,7 +8,7 @@
 
 #import <Mantle/Mantle.h>
 
-@interface LVTOrganization : MTLModel <MTLJSONSerializing>
+@interface LVCOrganization : MTLModel <MTLJSONSerializing>
 @property (readonly, nonatomic, copy) NSString *name;
 @property (readonly, nonatomic, copy) NSString *permalink;
 @property (readonly, nonatomic) NSDate *dateDeleted;

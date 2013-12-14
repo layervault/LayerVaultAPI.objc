@@ -18,7 +18,7 @@
 #import "LVCFolder.h"
 #import "LVCHTTPClient.h"
 #import "LVCNode.h"
-#import "LVTOrganization.h"
+#import "LVCOrganization.h"
 #import "LVTProject.h"
 #import "LVTUser.h"
 

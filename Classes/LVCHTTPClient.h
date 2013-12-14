@@ -11,7 +11,7 @@
 #import "LVCFile.h"
 
 @class LVTUser;
-@class LVTOrganization;
+@class LVCOrganization;
 @class LVTProject;
 @class LVCFolder;
 @class LVCFileRevision;
@@ -30,7 +30,7 @@
 
 #pragma mark - Organizations
 - (void)getOrganizationWithParmalink:(NSString *)permalink
-                               block:(void (^)(LVTOrganization *organization,
+                               block:(void (^)(LVCOrganization *organization,
                                                NSError *error,
                                                AFHTTPRequestOperation *operation))block;
 
@@ -41,7 +41,7 @@
                                         AFHTTPRequestOperation *operation))block;
 
 - (void)getProjectWithName:(NSString *)projectName
-            inOrganization:(LVTOrganization *)organization
+            inOrganization:(LVCOrganization *)organization
                      block:(void (^)(LVTProject *project,
                                      NSError *error,
                                      AFHTTPRequestOperation *operation))block;
