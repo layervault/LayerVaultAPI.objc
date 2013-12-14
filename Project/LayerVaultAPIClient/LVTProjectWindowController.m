@@ -132,6 +132,10 @@
                               NSLog(@"equalFolders: %@", [folder isEqual:selectedFolder] ? @"YES" : @"NO");
                           }];
     }
+    else if ([selectedItem isKindOfClass:LVTFile.class]) {
+        LVTFile *selectedFile = (LVTFile *)selectedItem;
+        NSLog(@"file: %@", selectedFile);
+    }
 }
 
 
