@@ -8,7 +8,7 @@
 
 #import "LVCAppDelegate.h"
 #import "LVConstants.h"
-#import "LVTProjectWindowController.h"
+#import "LVCProjectWindowController.h"
 #import <layervault_objc_client/LayerVaultAPI.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <Mantle/EXTScope.h>
@@ -36,7 +36,7 @@ NSString *const emailRegEx =
 @property (nonatomic) AFOAuthCredential *credential;
 @property (nonatomic) LVCUser *user;
 
-@property (nonatomic) LVTProjectWindowController *projectWindowController;
+@property (nonatomic) LVCProjectWindowController *projectWindowController;
 @end
 
 @implementation LVCAppDelegate
@@ -385,7 +385,7 @@ NSString *const emailRegEx =
     if ([selectedObject isKindOfClass:LVCProject.class]) {
 
         if (!self.projectWindowController) {
-            self.projectWindowController = [[LVTProjectWindowController alloc] initWithClient:self.client];
+            self.projectWindowController = [[LVCProjectWindowController alloc] initWithClient:self.client];
         }
 
         [self.projectWindowController showWindow:nil];

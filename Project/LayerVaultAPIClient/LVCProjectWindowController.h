@@ -1,5 +1,5 @@
 //
-//  LVTProjectWindowController.h
+//  LVCProjectWindowController.h
 //  LayerVaultAPIClient
 //
 //  Created by Matt Thomas on 12/5/13.
@@ -10,7 +10,7 @@
 @class LVCProject;
 @class LVCHTTPClient;
 
-@interface LVTProjectWindowController : NSWindowController
+@interface LVCProjectWindowController : NSWindowController
 @property (nonatomic) LVCProject *project;
 
 - (instancetype)initWithClient:(LVCHTTPClient *)client;

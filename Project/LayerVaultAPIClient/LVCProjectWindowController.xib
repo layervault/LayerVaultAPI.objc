@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="LVTProjectWindowController">
+        <customObject id="-2" userLabel="File's Owner" customClass="LVCProjectWindowController">
             <connections>
                 <outlet property="outlineView" destination="SEn-96-xHe" id="kSJ-kO-gRh"/>
                 <outlet property="window" destination="1" id="3"/>

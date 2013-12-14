@@ -1,28 +1,28 @@
 //
-//  LVTProjectWindowController.m
+//  LVCProjectWindowController.m
 //  LayerVaultAPIClient
 //
 //  Created by Matt Thomas on 12/5/13.
 //  Copyright (c) 2013 codecaffeine. All rights reserved.
 //
 
-#import "LVTProjectWindowController.h"
+#import "LVCProjectWindowController.h"
 #import <layervault_objc_client/LayerVaultAPI.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <Mantle/EXTScope.h>
 
-@interface LVTProjectWindowController () <NSOutlineViewDataSource, NSOutlineViewDelegate>
+@interface LVCProjectWindowController () <NSOutlineViewDataSource, NSOutlineViewDelegate>
 @property (nonatomic, copy) NSArray *sortedFilesAndFolders;
 @property (weak) IBOutlet NSOutlineView *outlineView;
 @property (readonly) LVCHTTPClient *client;
 @end
 
-@implementation LVTProjectWindowController
+@implementation LVCProjectWindowController
 
 
 - (instancetype)initWithClient:(LVCHTTPClient *)client
 {
-    self = [super initWithWindowNibName:@"LVTProjectWindowController"];
+    self = [super initWithWindowNibName:@"LVCProjectWindowController"];
     if (self) {
         _client = client;
         @weakify(self);
