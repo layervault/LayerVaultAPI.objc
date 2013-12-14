@@ -1,5 +1,5 @@
 //
-//  LVTFolderTests.m
+//  LVCFolderTests.m
 //  LayerVaultAPIClient
 //
 //  Created by Matt Thomas on 12/5/13.
@@ -9,11 +9,11 @@
 #import <XCTest/XCTest.h>
 #import "LVCFolder.h"
 
-@interface LVTFolderTests : XCTestCase
+@interface LVCFolderTests : XCTestCase
 @property (nonatomic, copy) NSDictionary *validJSON;
 @end
 
-@implementation LVTFolderTests
+@implementation LVCFolderTests
 
 - (void)setUp
 {

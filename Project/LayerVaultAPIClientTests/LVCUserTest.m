@@ -1,5 +1,5 @@
 //
-//  LVTUserTest.m
+//  LVCUserTest.m
 //  LayerVaultAPIClient
 //
 //  Created by Matt Thomas on 10/14/13.
@@ -10,11 +10,11 @@
 #import <Mantle/Mantle.h>
 #import "LVCUser.h"
 
-@interface LVTUserTest : XCTestCase
+@interface LVCUserTest : XCTestCase
 
 @end
 
-@implementation LVTUserTest
+@implementation LVCUserTest
 
 - (void)testNilJSONNilUser
 {

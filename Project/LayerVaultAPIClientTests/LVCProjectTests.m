@@ -1,5 +1,5 @@
 //
-//  LVTProjectTests.m
+//  LVCProjectTests.m
 //  LayerVaultAPIClient
 //
 //  Created by Matt Thomas on 12/2/13.
@@ -9,11 +9,11 @@
 #import <XCTest/XCTest.h>
 #import "LVCProject.h"
 
-@interface LVTProjectTests : XCTestCase
+@interface LVCProjectTests : XCTestCase
 @property (nonatomic, copy) NSDictionary *validJSON;
 @end
 
-@implementation LVTProjectTests
+@implementation LVCProjectTests
 
 - (void)setUp
 {
