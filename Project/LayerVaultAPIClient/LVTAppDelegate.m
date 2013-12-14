@@ -34,7 +34,7 @@ NSString *const emailRegEx =
 
 @property (nonatomic) LVCHTTPClient *client;
 @property (nonatomic) AFOAuthCredential *credential;
-@property (nonatomic) LVTUser *user;
+@property (nonatomic) LVCUser *user;
 
 @property (nonatomic) LVTProjectWindowController *projectWindowController;
 @end
@@ -77,7 +77,7 @@ NSString *const emailRegEx =
                 [AFOAuthCredential storeCredential:credential
                                     withIdentifier:self.client.serviceProviderIdentifier];
                 [self.client setAuthorizationHeaderWithCredential:credential];
-                [self.client getMeWithBlock:^(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation) {
+                [self.client getMeWithBlock:^(LVCUser *user, NSError *error, AFHTTPRequestOperation *operation) {
                     @strongify(self);
                     self.user = user;
                     if (!user) {
@@ -119,7 +119,7 @@ NSString *const emailRegEx =
                                           }];
 
     RAC(self, emailField.stringValue) = [RACObserve(self, user)
-                                         map:^NSString *(LVTUser *user) {
+                                         map:^NSString *(LVCUser *user) {
                                              return user.email ?: @"";
                                          }];
 
@@ -128,7 +128,7 @@ NSString *const emailRegEx =
                                                 return credential ? @"••••••••" : @"";
                                             }];
 
-    [RACObserve(self, user) subscribeNext:^(LVTUser *user) {
+    [RACObserve(self, user) subscribeNext:^(LVCUser *user) {
         @strongify(self);
         [self setDataSourceForUser:user];
     }];
@@ -261,7 +261,7 @@ NSString *const emailRegEx =
 }
 
 
-- (void)setDataSourceForUser:(LVTUser *)user
+- (void)setDataSourceForUser:(LVCUser *)user
 {
     NSMutableArray *dataSource = @[].mutableCopy;
     for (LVCOrganization *org in user.organizations) {

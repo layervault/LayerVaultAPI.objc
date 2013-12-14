@@ -20,6 +20,6 @@
 #import "LVCNode.h"
 #import "LVCOrganization.h"
 #import "LVCProject.h"
-#import "LVTUser.h"
+#import "LVCUser.h"
 
 #endif

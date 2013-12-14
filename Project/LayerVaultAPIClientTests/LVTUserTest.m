@@ -8,7 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import <Mantle/Mantle.h>
-#import "LVTUser.h"
+#import "LVCUser.h"
 
 @interface LVTUserTest : XCTestCase
 
@@ -18,7 +18,7 @@
 
 - (void)testNilJSONNilUser
 {
-    LVTUser *user = [MTLJSONAdapter modelOfClass:LVTUser.class
+    LVCUser *user = [MTLJSONAdapter modelOfClass:LVCUser.class
                               fromJSONDictionary:nil
                                            error:nil];
     XCTAssertNil(user, @"user should be nil");
@@ -27,7 +27,7 @@
 
 - (void)testNoAdminMakesAdminFalse
 {
-    LVTUser *user = [MTLJSONAdapter modelOfClass:LVTUser.class
+    LVCUser *user = [MTLJSONAdapter modelOfClass:LVCUser.class
                               fromJSONDictionary:@{@"email": @"foo@bar.com"}
                                            error:nil];
     XCTAssertNotNil(user, @"user shouldn't be nil");
@@ -37,7 +37,7 @@
 
 - (void)testNoEmailReturnsNilUser
 {
-    LVTUser *user = [MTLJSONAdapter modelOfClass:LVTUser.class
+    LVCUser *user = [MTLJSONAdapter modelOfClass:LVCUser.class
                               fromJSONDictionary:@{}
                                            error:nil];
     XCTAssertNil(user, @"user should be nil");

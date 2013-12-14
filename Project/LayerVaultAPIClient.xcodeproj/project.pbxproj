@@ -65,7 +65,7 @@
 		C95CD2E8180B5F9500007F9B /* LayerVaultAPIClientTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LayerVaultAPIClientTests-Info.plist"; sourceTree = "<group>"; };
 		C95CD2EA180B5F9500007F9B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C96C0812180C7D9D000149E3 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
-		C96C0814180C7F23000149E3 /* LVTUserTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVTUserTest.m; sourceTree = "<group>"; };
+		C96C0814180C7F23000149E3 /* LVTUserTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LVTUserTest.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		C982A4131857C0D200CAAF32 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		C9DFB7191810C973002B941B /* LVConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LVConstants.h; sourceTree = "<group>"; };
 		F324AAFB3C2B45E5828793CE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };

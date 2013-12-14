@@ -10,7 +10,7 @@
 #import <CommonCrypto/CommonDigest.h>
 #import <Mantle/Mantle.h>
 #import <AFNetworking/AFJSONRequestOperation.h>
-#import "LVTUser.h"
+#import "LVCUser.h"
 #import "LVCOrganization.h"
 #import "LVCProject.h"
 #import "LVCAmazonS3Client.h"
@@ -82,7 +82,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 
 
 #pragma mark - Users
-- (void)getMeWithBlock:(void (^)(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation))block
+- (void)getMeWithBlock:(void (^)(LVCUser *user, NSError *error, AFHTTPRequestOperation *operation))block
 {
     NSParameterAssert(block);
 
@@ -90,7 +90,7 @@ static NSString *md5ForFile(NSURL *fileURL)
        parameters:nil
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               NSError *error = nil;
-              LVTUser *user = [MTLJSONAdapter modelOfClass:LVTUser.class
+              LVCUser *user = [MTLJSONAdapter modelOfClass:LVCUser.class
                                         fromJSONDictionary:responseObject
                                                      error:&error];
               block(user, error, operation);

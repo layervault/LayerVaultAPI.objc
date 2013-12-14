@@ -1,16 +1,16 @@
 //
-//  LVTUser.m
+//  LVCUser.m
 //  LayerVaultAPIClient
 //
 //  Created by Matt Thomas on 10/13/13.
 //  Copyright (c) 2013 codecaffeine. All rights reserved.
 //
 
-#import "LVTUser.h"
+#import "LVCUser.h"
 #import "LVCOrganization.h"
 #import "LVCProject.h"
 
-@implementation LVTUser
+@implementation LVCUser
 
 + (NSSet *)requiredProperties
 {
@@ -49,7 +49,7 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue
                              error:(NSError *__autoreleasing *)error
 {
-    for (NSString *key in [LVTUser requiredProperties]) {
+    for (NSString *key in [LVCUser requiredProperties]) {
         if (!dictionaryValue[key]) {
             NSLog(@"%@ cannot have nil %@", NSStringFromClass(self.class), key);
             return nil;

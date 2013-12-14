@@ -1,5 +1,5 @@
 //
-//  LVTUser.h
+//  LVCUser.h
 //  LayerVaultAPIClient
 //
 //  Created by Matt Thomas on 10/13/13.
@@ -8,7 +8,7 @@
 
 #import <Mantle/Mantle.h>
 
-@interface LVTUser : MTLModel <MTLJSONSerializing>
+@interface LVCUser : MTLModel <MTLJSONSerializing>
 @property (readonly, nonatomic, copy) NSString *email;
 @property (readonly, nonatomic, copy) NSString *firstName;
 @property (readonly, nonatomic, copy) NSString *lastName;

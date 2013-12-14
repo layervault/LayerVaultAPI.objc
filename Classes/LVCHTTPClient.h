@@ -10,7 +10,7 @@
 #import "LVCColorUtils.h"
 #import "LVCFile.h"
 
-@class LVTUser;
+@class LVCUser;
 @class LVCOrganization;
 @class LVCProject;
 @class LVCFolder;
@@ -26,7 +26,7 @@
                    completion:(void (^)(AFOAuthCredential *credential, NSError *error))completion;
 
 #pragma mark - User
-- (void)getMeWithBlock:(void (^)(LVTUser *user, NSError *error, AFHTTPRequestOperation *operation))block;
+- (void)getMeWithBlock:(void (^)(LVCUser *user, NSError *error, AFHTTPRequestOperation *operation))block;
 
 #pragma mark - Organizations
 - (void)getOrganizationWithParmalink:(NSString *)permalink
