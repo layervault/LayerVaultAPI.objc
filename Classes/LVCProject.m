@@ -1,16 +1,16 @@
 //
-//  LVTProject.m
+//  LVCProject.m
 //  LayerVaultAPIClient
 //
 //  Created by Matt Thomas on 10/25/13.
 //  Copyright (c) 2013 codecaffeine. All rights reserved.
 //
 
-#import "LVTProject.h"
+#import "LVCProject.h"
 #import "LVCFile.h"
 
 
-@implementation LVTProject
+@implementation LVCProject
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue
                           isSynced:(BOOL)synced

@@ -12,7 +12,7 @@
 #import <AFNetworking/AFJSONRequestOperation.h>
 #import "LVTUser.h"
 #import "LVCOrganization.h"
-#import "LVTProject.h"
+#import "LVCProject.h"
 #import "LVCAmazonS3Client.h"
 
 
@@ -126,8 +126,8 @@ static NSString *md5ForFile(NSURL *fileURL)
 
 
 #pragma mark - Projects
-- (void)getProjectFromPartial:(LVTProject *)project
-                   completion:(void (^)(LVTProject *project,
+- (void)getProjectFromPartial:(LVCProject *)project
+                   completion:(void (^)(LVCProject *project,
                                         NSError *error,
                                         AFHTTPRequestOperation *operation))block
 {
@@ -142,7 +142,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 
 - (void)getProjectWithName:(NSString *)projectName
             inOrganization:(LVCOrganization *)organization
-                     block:(void (^)(LVTProject *project,
+                     block:(void (^)(LVCProject *project,
                                      NSError *error,
                                      AFHTTPRequestOperation *operation))block
 {
@@ -154,7 +154,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 
 - (void)getProjectWithName:(NSString *)projectName
      organizationPermalink:(NSString *)organizationPermalink
-                     block:(void (^)(LVTProject *project,
+                     block:(void (^)(LVCProject *project,
                                      NSError *error,
                                      AFHTTPRequestOperation *operation))block
 {
@@ -171,7 +171,7 @@ static NSString *md5ForFile(NSURL *fileURL)
        parameters:nil
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               NSError *error;
-              LVTProject *project = [MTLJSONAdapter modelOfClass:LVTProject.class
+              LVCProject *project = [MTLJSONAdapter modelOfClass:LVCProject.class
                                               fromJSONDictionary:responseObject
                                                            error:&error];
               block(project, error, operation);
@@ -184,7 +184,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 
 - (void)createProjectWithName:(NSString *)projectName
         organizationPermalink:(NSString *)organizationPermalink
-                   completion:(void (^)(LVTProject *project,
+                   completion:(void (^)(LVCProject *project,
                                         NSError *error,
                                         AFHTTPRequestOperation *operation))block
 {
@@ -201,7 +201,7 @@ static NSString *md5ForFile(NSURL *fileURL)
         parameters:nil
            success:^(AFHTTPRequestOperation *operation, id responseObject) {
                NSError *error;
-               LVTProject *project = [MTLJSONAdapter modelOfClass:LVTProject.class
+               LVCProject *project = [MTLJSONAdapter modelOfClass:LVCProject.class
                                                fromJSONDictionary:responseObject
                                                             error:&error];
                block(project, error, operation);
@@ -213,7 +213,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 }
 
 
-- (void)deleteProject:(LVTProject *)project
+- (void)deleteProject:(LVCProject *)project
            completion:(void (^)(BOOL success,
                                 NSError *error,
                                 AFHTTPRequestOperation *operation))block
@@ -235,9 +235,9 @@ static NSString *md5ForFile(NSURL *fileURL)
 }
 
 
-- (void)moveProject:(LVTProject *)project
+- (void)moveProject:(LVCProject *)project
       toDestination:(NSString *)destination
-         completion:(void (^)(LVTProject *project,
+         completion:(void (^)(LVCProject *project,
                               NSError *error,
                               AFHTTPRequestOperation *operation))block
 {
@@ -255,7 +255,7 @@ static NSString *md5ForFile(NSURL *fileURL)
         parameters:params
            success:^(AFHTTPRequestOperation *operation, id responseObject) {
                NSError *error;
-               LVTProject *project = [MTLJSONAdapter modelOfClass:LVTProject.class
+               LVCProject *project = [MTLJSONAdapter modelOfClass:LVCProject.class
                                                fromJSONDictionary:responseObject
                                                             error:&error];
                block(project, error, operation);
@@ -266,7 +266,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 }
 
 
-- (void)updateProject:(LVTProject *)project
+- (void)updateProject:(LVCProject *)project
            colorLabel:(LVCColorLabel)colorLabel
            completion:(void (^)(BOOL success,
                                 NSError *error,
@@ -324,7 +324,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 }
 
 - (void)getFolderAtPath:(NSString *)path
-              inProject:(LVTProject *)project
+              inProject:(LVCProject *)project
              completion:(void (^)(LVCFolder *folder,
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion
@@ -343,7 +343,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 
 
 - (void)createFolderAtPath:(NSString *)path
-                 inProject:(LVTProject *)project
+                 inProject:(LVCProject *)project
                 completion:(void (^)(LVCFolder *folder,
                                      NSError *error,
                                      AFHTTPRequestOperation *operation))completion
@@ -394,7 +394,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 
 - (void)moveFolder:(LVCFolder *)folder
             toPath:(NSString *)toPath
-         inProject:(LVTProject *)project
+         inProject:(LVCProject *)project
         completion:(void (^)(LVCFolder *folder,
                              NSError *error,
                              AFHTTPRequestOperation *operation))completion
@@ -477,7 +477,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 
 - (void)uploadLocalFile:(NSURL *)localFileURL
                  toPath:(NSString *)filePath
-              inProject:(LVTProject *)project
+              inProject:(LVCProject *)project
              completion:(void (^)(LVCFile *file,
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion
@@ -624,7 +624,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 
 
 - (NSString *)appendPath:(NSString *)path
-               toProject:(LVTProject *)project
+               toProject:(LVCProject *)project
      includeOrganization:(BOOL)includeOrganization
 {
     NSParameterAssert(path);
@@ -639,7 +639,7 @@ static NSString *md5ForFile(NSURL *fileURL)
             path];
 }
 
-- (NSString *)pathForProject:(LVTProject *)project
+- (NSString *)pathForProject:(LVCProject *)project
          includeOrganization:(BOOL)includeOrganization
 {
     if (includeOrganization) {

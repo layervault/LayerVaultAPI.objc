@@ -1,5 +1,5 @@
 //
-//  LVTProject.h
+//  LVCProject.h
 //  LayerVaultAPIClient
 //
 //  Created by Matt Thomas on 10/25/13.
@@ -9,7 +9,7 @@
 #import <Mantle/Mantle.h>
 #import "LVCFolder.h"
 
-@interface LVTProject : LVCFolder <MTLJSONSerializing>
+@interface LVCProject : LVCFolder <MTLJSONSerializing>
 
 @property (readonly, nonatomic) BOOL member;
 

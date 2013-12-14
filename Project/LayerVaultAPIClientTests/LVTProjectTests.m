@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "LVTProject.h"
+#import "LVCProject.h"
 
 @interface LVTProjectTests : XCTestCase
 @property (nonatomic, copy) NSDictionary *validJSON;
@@ -36,7 +36,7 @@
 
 - (void)testNilJSONNilProject
 {
-    LVTProject *project = [MTLJSONAdapter modelOfClass:LVTProject.class
+    LVCProject *project = [MTLJSONAdapter modelOfClass:LVCProject.class
                                     fromJSONDictionary:nil
                                                  error:nil];
     XCTAssertNil(project, @"user should be nil");
@@ -45,7 +45,7 @@
 
 - (void)testProjectIsFolderSubclass
 {
-    LVTProject *project = [MTLJSONAdapter modelOfClass:LVTProject.class
+    LVCProject *project = [MTLJSONAdapter modelOfClass:LVCProject.class
                                     fromJSONDictionary:self.validJSON
                                                  error:nil];
     XCTAssertTrue([project isKindOfClass:LVCFolder.class], @"a project is a folder");
@@ -54,7 +54,7 @@
 
 - (void)testValidJSON
 {
-    LVTProject *project = [MTLJSONAdapter modelOfClass:LVTProject.class
+    LVCProject *project = [MTLJSONAdapter modelOfClass:LVCProject.class
                                     fromJSONDictionary:self.validJSON
                                                  error:nil];
     XCTAssertNotNil(project, @"Project should not be nil");

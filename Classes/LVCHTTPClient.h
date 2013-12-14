@@ -12,7 +12,7 @@
 
 @class LVTUser;
 @class LVCOrganization;
-@class LVTProject;
+@class LVCProject;
 @class LVCFolder;
 @class LVCFileRevision;
 
@@ -35,41 +35,41 @@
                                                AFHTTPRequestOperation *operation))block;
 
 #pragma mark - Projects
-- (void)getProjectFromPartial:(LVTProject *)project
-                   completion:(void (^)(LVTProject *project,
+- (void)getProjectFromPartial:(LVCProject *)project
+                   completion:(void (^)(LVCProject *project,
                                         NSError *error,
                                         AFHTTPRequestOperation *operation))block;
 
 - (void)getProjectWithName:(NSString *)projectName
             inOrganization:(LVCOrganization *)organization
-                     block:(void (^)(LVTProject *project,
+                     block:(void (^)(LVCProject *project,
                                      NSError *error,
                                      AFHTTPRequestOperation *operation))block;
 
 - (void)getProjectWithName:(NSString *)projectName
      organizationPermalink:(NSString *)organizationPermalink
-                     block:(void (^)(LVTProject *project,
+                     block:(void (^)(LVCProject *project,
                                      NSError *error,
                                      AFHTTPRequestOperation *operation))block;
 
 - (void)createProjectWithName:(NSString *)projectName
         organizationPermalink:(NSString *)organizationPermalink
-                   completion:(void (^)(LVTProject *project,
+                   completion:(void (^)(LVCProject *project,
                                         NSError *error,
                                         AFHTTPRequestOperation *operation))block;
 
-- (void)deleteProject:(LVTProject *)project
+- (void)deleteProject:(LVCProject *)project
            completion:(void (^)(BOOL success,
                                 NSError *error,
                                 AFHTTPRequestOperation *operation))block;
 
-- (void)moveProject:(LVTProject *)project
+- (void)moveProject:(LVCProject *)project
       toDestination:(NSString *)destination
-         completion:(void (^)(LVTProject *project,
+         completion:(void (^)(LVCProject *project,
                               NSError *error,
                               AFHTTPRequestOperation *operation))block;
 
-- (void)updateProject:(LVTProject *)project
+- (void)updateProject:(LVCProject *)project
            colorLabel:(LVCColorLabel)colorLabel
            completion:(void (^)(BOOL success,
                                 NSError *error,
@@ -82,14 +82,14 @@
                                   AFHTTPRequestOperation *operation))completion;
 
 - (void)getFolderAtPath:(NSString *)path
-              inProject:(LVTProject *)project
+              inProject:(LVCProject *)project
              completion:(void (^)(LVCFolder *folder,
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion;
 
 
 - (void)createFolderAtPath:(NSString *)path
-                 inProject:(LVTProject *)project
+                 inProject:(LVCProject *)project
                 completion:(void (^)(LVCFolder *folder,
                                      NSError *error,
                                      AFHTTPRequestOperation *operation))completion;
@@ -103,7 +103,7 @@
 
 - (void)moveFolder:(LVCFolder *)folder
             toPath:(NSString *)toPath
-         inProject:(LVTProject *)project
+         inProject:(LVCProject *)project
         completion:(void (^)(LVCFolder *folder,
                              NSError *error,
                              AFHTTPRequestOperation *operation))completion;
@@ -123,7 +123,7 @@
 
 - (void)uploadLocalFile:(NSURL *)localFileURL
                  toPath:(NSString *)filePath
-              inProject:(LVTProject *)project
+              inProject:(LVCProject *)project
              completion:(void (^)(LVCFile *file,
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion;

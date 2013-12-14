@@ -26,7 +26,7 @@
     if (self) {
         _client = client;
         @weakify(self);
-        [RACObserve(self, project) subscribeNext:^(LVTProject *project) {
+        [RACObserve(self, project) subscribeNext:^(LVCProject *project) {
             @strongify(self);
             if (project) {
                 [self.window setTitle:project.name];

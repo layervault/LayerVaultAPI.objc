@@ -19,7 +19,7 @@
 #import "LVCHTTPClient.h"
 #import "LVCNode.h"
 #import "LVCOrganization.h"
-#import "LVTProject.h"
+#import "LVCProject.h"
 #import "LVTUser.h"
 
 #endif

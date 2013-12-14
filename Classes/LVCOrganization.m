@@ -7,7 +7,7 @@
 //
 
 #import "LVCOrganization.h"
-#import "LVTProject.h"
+#import "LVCProject.h"
 
 @implementation LVCOrganization
 
@@ -63,7 +63,7 @@
 
 + (NSValueTransformer *)projectsJSONTransformer
 {
-    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVTProject.class];
+    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVCProject.class];
 }
 
 @end

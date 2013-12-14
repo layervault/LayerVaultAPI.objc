@@ -8,7 +8,7 @@
 
 #import "LVTUser.h"
 #import "LVCOrganization.h"
-#import "LVTProject.h"
+#import "LVCProject.h"
 
 @implementation LVTUser
 
@@ -42,7 +42,7 @@
 
 + (NSValueTransformer *)projectsJSONTransformer
 {
-    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVTProject.class];
+    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVCProject.class];
 }
 
 

@@ -158,7 +158,7 @@ NSString *const emailRegEx =
     id selectedObject = [self.dataSource objectAtIndex:row];
     if ([selectedObject isKindOfClass:LVCOrganization.class]) {
         LVCOrganization *org = (LVCOrganization *)selectedObject;
-        LVTProject *project = [[LVTProject alloc] initWithName:@""
+        LVCProject *project = [[LVCProject alloc] initWithName:@""
                                          organizationPermalink:org.permalink];
         [self insertDataSourceObject:project
                                inRow:([self.dataSource indexOfObject:org] + 1)];
@@ -170,8 +170,8 @@ NSString *const emailRegEx =
 {
     NSInteger row = [self.projectsTableView rowForView:sender];
     id selectedObject = [self.dataSource objectAtIndex:row];
-    if ([selectedObject isKindOfClass:LVTProject.class]) {
-        LVTProject *project = (LVTProject *)selectedObject;
+    if ([selectedObject isKindOfClass:LVCProject.class]) {
+        LVCProject *project = (LVCProject *)selectedObject;
         [self.client deleteProject:project
                         completion:^(BOOL success,
                                      NSError *error,
@@ -187,8 +187,8 @@ NSString *const emailRegEx =
 {
     NSInteger row = [self.projectsTableView rowForView:sender];
     id selectedObject = [self.dataSource objectAtIndex:row];
-    if ([selectedObject isKindOfClass:LVTProject.class]) {
-        LVTProject *project = (LVTProject *)selectedObject;
+    if ([selectedObject isKindOfClass:LVCProject.class]) {
+        LVCProject *project = (LVCProject *)selectedObject;
         LVCColorLabel newLabel = LVCColorWhite;
         switch (project.colorLabel) {
             case LVCColorWhite:
@@ -223,11 +223,11 @@ NSString *const emailRegEx =
 {
     NSInteger row = [self.projectsTableView rowForView:textField];
     id selectedObject = [self.dataSource objectAtIndex:row];
-    if ([selectedObject isKindOfClass:LVTProject.class]) {
-        LVTProject *project = (LVTProject *)selectedObject;
+    if ([selectedObject isKindOfClass:LVCProject.class]) {
+        LVCProject *project = (LVCProject *)selectedObject;
 
-        void (^completion)(LVTProject *, NSError *, AFHTTPRequestOperation *) =
-        ^(LVTProject *project,
+        void (^completion)(LVCProject *, NSError *, AFHTTPRequestOperation *) =
+        ^(LVCProject *project,
           NSError *error,
           AFHTTPRequestOperation *operation) {
             if (project) {
@@ -246,7 +246,7 @@ NSString *const emailRegEx =
         }
         else {
             if (![textField.stringValue isEqualToString:project.name]) {
-                [self.client moveProject:(LVTProject *)project
+                [self.client moveProject:(LVCProject *)project
                            toDestination:textField.stringValue
                               completion:completion];
             }
@@ -267,11 +267,11 @@ NSString *const emailRegEx =
     for (LVCOrganization *org in user.organizations) {
         [dataSource addObject:org];
         NSArray *sortedProjects = [org.projects sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"dateUpdated" ascending:NO]]];
-        for (LVTProject *currentProject in sortedProjects) {
+        for (LVCProject *currentProject in sortedProjects) {
             if (currentProject.member) {
                 if (currentProject.partial) {
                     [self.client getProjectFromPartial:currentProject
-                                            completion:^(LVTProject *project,
+                                            completion:^(LVCProject *project,
                                                          NSError *error,
                                                          AFHTTPRequestOperation *operation) {
                                                 [currentProject mergeValuesForKeysFromModel:project];
@@ -331,8 +331,8 @@ NSString *const emailRegEx =
 - (void)tableView:(NSTableView *)tableView didAddRowView:(NSTableRowView *)rowView forRow:(NSInteger)row
 {
     id selectedObject = [self.dataSource objectAtIndex:row];
-    if ([selectedObject isKindOfClass:LVTProject.class]) {
-        LVTProject *project = (LVTProject *)selectedObject;
+    if ([selectedObject isKindOfClass:LVCProject.class]) {
+        LVCProject *project = (LVCProject *)selectedObject;
         if (!project.synced) {
             [tableView editColumn:0 row:row withEvent:nil select:YES];
         }
@@ -353,8 +353,8 @@ NSString *const emailRegEx =
         [orgCell.textField setStringValue:org.name];
         return orgCell;
     }
-    else if ([selectedObject isKindOfClass:LVTProject.class]) {
-        LVTProject *project = (LVTProject *)selectedObject;
+    else if ([selectedObject isKindOfClass:LVCProject.class]) {
+        LVCProject *project = (LVCProject *)selectedObject;
         NSTableCellView *tableCell = [tableView makeViewWithIdentifier:@"ProjectCell"
                                                                  owner:self];
         if (project.synced) {
@@ -382,7 +382,7 @@ NSString *const emailRegEx =
 {
     NSInteger row = tableView.selectedRow;
     id selectedObject = [self.dataSource objectAtIndex:row];
-    if ([selectedObject isKindOfClass:LVTProject.class]) {
+    if ([selectedObject isKindOfClass:LVCProject.class]) {
 
         if (!self.projectWindowController) {
             self.projectWindowController = [[LVTProjectWindowController alloc] initWithClient:self.client];
@@ -390,11 +390,11 @@ NSString *const emailRegEx =
 
         [self.projectWindowController showWindow:nil];
 
-        LVTProject *project = (LVTProject *)selectedObject;
+        LVCProject *project = (LVCProject *)selectedObject;
         if (project.partial) {
             @weakify(self);
             [self.client getProjectFromPartial:project
-                                    completion:^(LVTProject *project,
+                                    completion:^(LVCProject *project,
                                                  NSError *error,
                                                  AFHTTPRequestOperation *operation) {
                                         @strongify(self);

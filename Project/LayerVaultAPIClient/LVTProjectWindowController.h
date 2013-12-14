@@ -7,11 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
-@class LVTProject;
+@class LVCProject;
 @class LVCHTTPClient;
 
 @interface LVTProjectWindowController : NSWindowController
-@property (nonatomic) LVTProject *project;
+@property (nonatomic) LVCProject *project;
 
 - (instancetype)initWithClient:(LVCHTTPClient *)client;
 
