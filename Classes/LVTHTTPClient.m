@@ -267,7 +267,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 
 
 - (void)updateProject:(LVTProject *)project
-           colorLabel:(LVTColorLabel)colorLabel
+           colorLabel:(LVCColorLabel)colorLabel
            completion:(void (^)(BOOL success,
                                 NSError *error,
                                 AFHTTPRequestOperation *operation))block
@@ -426,7 +426,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 
 
 - (void)updateFolder:(LVTFolder *)folder
-          colorLabel:(LVTColorLabel)colorLabel
+          colorLabel:(LVCColorLabel)colorLabel
           completion:(void (^)(BOOL success,
                                NSError *error,
                                AFHTTPRequestOperation *operation))completion

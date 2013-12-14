@@ -9,16 +9,16 @@
 #import <Foundation/Foundation.h>
 
 typedef enum : NSUInteger {
-    LVTColorWhite = 0,
-    LVTColorGreen = 2,
-    LVTColorRed = 6,
-    LVTColorOrange = 7
-} LVTColorLabel;
+    LVCColorWhite = 0,
+    LVCColorGreen = 2,
+    LVCColorRed = 6,
+    LVCColorOrange = 7
+} LVCColorLabel;
 
 @interface LVCColorUtils : NSObject
 
 + (NSDictionary *)colorNamesToValue;
-+ (NSColor *)colorForLabel:(LVTColorLabel)label;
-+ (NSString *)colorNameForLabel:(LVTColorLabel)label;
++ (NSColor *)colorForLabel:(LVCColorLabel)label;
++ (NSString *)colorNameForLabel:(LVCColorLabel)label;
 
 @end

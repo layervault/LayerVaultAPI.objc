@@ -189,19 +189,19 @@ NSString *const emailRegEx =
     id selectedObject = [self.dataSource objectAtIndex:row];
     if ([selectedObject isKindOfClass:LVTProject.class]) {
         LVTProject *project = (LVTProject *)selectedObject;
-        LVTColorLabel newLabel = LVTColorWhite;
+        LVCColorLabel newLabel = LVCColorWhite;
         switch (project.colorLabel) {
-            case LVTColorWhite:
-                newLabel = LVTColorGreen;
+            case LVCColorWhite:
+                newLabel = LVCColorGreen;
                 break;
-            case LVTColorGreen:
-                newLabel = LVTColorRed;
+            case LVCColorGreen:
+                newLabel = LVCColorRed;
                 break;
-            case LVTColorRed:
-                newLabel = LVTColorOrange;
+            case LVCColorRed:
+                newLabel = LVCColorOrange;
                 break;
-            case LVTColorOrange:
-                newLabel = LVTColorWhite;
+            case LVCColorOrange:
+                newLabel = LVCColorWhite;
                 break;
         }
 

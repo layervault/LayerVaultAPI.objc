@@ -14,27 +14,27 @@ NSString *LVTDefaultColor = @"white";
 
 + (NSDictionary *)colorNamesToValue
 {
-    return @{LVTDefaultColor: @(LVTColorWhite),
-             @"green": @(LVTColorGreen),
-             @"red": @(LVTColorRed),
-             @"orange": @(LVTColorOrange)};
+    return @{LVTDefaultColor: @(LVCColorWhite),
+             @"green": @(LVCColorGreen),
+             @"red": @(LVCColorRed),
+             @"orange": @(LVCColorOrange)};
 }
 
-+ (NSColor *)colorForLabel:(LVTColorLabel)label
++ (NSColor *)colorForLabel:(LVCColorLabel)label
 {
     switch (label) {
-        case LVTColorGreen:
+        case LVCColorGreen:
             return [NSColor greenColor];
-        case LVTColorRed:
+        case LVCColorRed:
             return [NSColor redColor];
-        case LVTColorOrange:
+        case LVCColorOrange:
             return [NSColor orangeColor];
         default:
             return [NSColor whiteColor];
     }
 }
 
-+ (NSString *)colorNameForLabel:(LVTColorLabel)label
++ (NSString *)colorNameForLabel:(LVCColorLabel)label
 {
     __block NSString *colorName = LVTDefaultColor;
     [[self colorNamesToValue] enumerateKeysAndObjectsUsingBlock:^(id key,

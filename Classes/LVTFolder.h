@@ -11,7 +11,7 @@
 
 @interface LVTFolder : LVTNode <MTLJSONSerializing>
 
-@property (nonatomic) LVTColorLabel colorLabel;
+@property (nonatomic) LVCColorLabel colorLabel;
 @property (readonly, nonatomic, copy) NSString *path;
 @property (readonly, nonatomic, copy) NSString *organizationPermalink;
 @property (readonly, nonatomic, copy) NSArray *folders;

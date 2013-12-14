@@ -70,7 +70,7 @@
                               AFHTTPRequestOperation *operation))block;
 
 - (void)updateProject:(LVTProject *)project
-           colorLabel:(LVTColorLabel)colorLabel
+           colorLabel:(LVCColorLabel)colorLabel
            completion:(void (^)(BOOL success,
                                 NSError *error,
                                 AFHTTPRequestOperation *operation))block;
@@ -109,7 +109,7 @@
                              AFHTTPRequestOperation *operation))completion;
 
 - (void)updateFolder:(LVTFolder *)folder
-          colorLabel:(LVTColorLabel)colorLabel
+          colorLabel:(LVCColorLabel)colorLabel
           completion:(void (^)(BOOL success,
                                NSError *error,
                                AFHTTPRequestOperation *operation))completion;

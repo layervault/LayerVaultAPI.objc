@@ -68,7 +68,7 @@
 - (void)setNilValueForKey:(NSString *)key
 {
     if ([key isEqualToString:@"colorLabel"]) {
-        self.colorLabel = LVTColorWhite;
+        self.colorLabel = LVCColorWhite;
     } else {
         [super setNilValueForKey:key];
     }
