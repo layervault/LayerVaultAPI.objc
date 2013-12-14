@@ -234,9 +234,9 @@
 		C95CD2B7180B5F9500007F9B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				CLASSPREFIX = LVT;
+				CLASSPREFIX = LVC;
 				LastUpgradeCheck = 0500;
-				ORGANIZATIONNAME = codecaffeine;
+				ORGANIZATIONNAME = "LayerVault Inc.";
 				TargetAttributes = {
 					C95CD2DF180B5F9500007F9B = {
 						TestTargetID = C95CD2BE180B5F9500007F9B;
