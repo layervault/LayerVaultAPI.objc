@@ -1,5 +1,5 @@
 //
-//  LVTAppDelegate.h
+//  LVCAppDelegate.h
 //  LayerVaultAPIClient
 //
 //  Created by Matt Thomas on 10/13/13.
@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface LVTAppDelegate : NSObject <NSApplicationDelegate>
+@interface LVCAppDelegate : NSObject <NSApplicationDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
 

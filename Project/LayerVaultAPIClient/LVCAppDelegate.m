@@ -1,12 +1,12 @@
 //
-//  LVTAppDelegate.m
+//  LVCAppDelegate.m
 //  LayerVaultAPIClient
 //
 //  Created by Matt Thomas on 10/13/13.
 //  Copyright (c) 2013 codecaffeine. All rights reserved.
 //
 
-#import "LVTAppDelegate.h"
+#import "LVCAppDelegate.h"
 #import "LVConstants.h"
 #import "LVTProjectWindowController.h"
 #import <layervault_objc_client/LayerVaultAPI.h>
@@ -25,7 +25,7 @@ NSString *const emailRegEx =
 @"-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
 
 
-@interface LVTAppDelegate () <NSTableViewDataSource, NSTableViewDelegate>
+@interface LVCAppDelegate () <NSTableViewDataSource, NSTableViewDelegate>
 @property (weak) IBOutlet NSTextField *emailField;
 @property (weak) IBOutlet NSSecureTextField *passwordField;
 @property (weak) IBOutlet NSButton *loginButton;
@@ -39,7 +39,7 @@ NSString *const emailRegEx =
 @property (nonatomic) LVTProjectWindowController *projectWindowController;
 @end
 
-@implementation LVTAppDelegate
+@implementation LVCAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
