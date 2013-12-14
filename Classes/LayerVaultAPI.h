@@ -11,7 +11,7 @@
 #ifndef _LAYERVAULT_API_
 #define _LAYERVAULT_API_
 
-#import "LVTAmazonS3Client.h"
+#import "LVCAmazonS3Client.h"
 #import "LVTColor.h"
 #import "LVTFile.h"
 #import "LVTFileRevision.h"

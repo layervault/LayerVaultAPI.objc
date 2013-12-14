@@ -1,5 +1,5 @@
 //
-//  LVAmazonS3Client.h
+//  LVCAmazonS3Client.h
 //  Pods
 //
 //  Created by Matt Thomas on 12/11/13.
@@ -8,13 +8,13 @@
 
 #import <AFNetworking/AFNetworking.h>
 
-OBJC_EXPORT NSString *LVTAmazonS3ClientErrorDomain;
+OBJC_EXPORT NSString *LVCAmazonS3ClientErrorDomain;
 enum
 {
-    LVTAmazonS3ClientErrorNoFileData = 1
+    LVCAmazonS3ClientErrorNoFileData = 1
 };
 
-@interface LVTAmazonS3Client : AFHTTPClient
+@interface LVCAmazonS3Client : AFHTTPClient
 
 - (void)postFile:(NSURL *)fileURL
       parameters:(NSDictionary *)parameters

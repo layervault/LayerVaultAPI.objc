@@ -1,14 +1,14 @@
 //
-//  LVAmazonS3Client.m
+//  LVCAmazonS3Client.m
 //  Pods
 //
 //  Created by Matt Thomas on 12/11/13.
 //
 //
 
-#import "LVTAmazonS3Client.h"
+#import "LVCAmazonS3Client.h"
 
-NSString *LVAmazonS3ClientErrorDomain = @"LVAmazonS3ClientErrorDomain";
+NSString *LVCAmazonS3ClientErrorDomain = @"LVCAmazonS3ClientErrorDomain";
 
 
 static NSString *mimeForFile(NSURL *fileURL)
@@ -21,7 +21,7 @@ static NSString *mimeForFile(NSURL *fileURL)
     return mime ? (__bridge_transfer NSString *)mime : @"application/octet-stream";
 }
 
-@implementation LVTAmazonS3Client
+@implementation LVCAmazonS3Client
 
 - (instancetype)init
 {
@@ -104,8 +104,8 @@ static NSString *mimeForFile(NSURL *fileURL)
                                        NSLocalizedRecoveryOptionsErrorKey: NSLocalizedString(@"Make sure the file exists", nil),
                                        @"fileRequest": fileRequest,
                                        @"response": response};
-            NSError *error = [NSError errorWithDomain:LVAmazonS3ClientErrorDomain
-                                                 code:LVTAmazonS3ClientErrorNoFileData
+            NSError *error = [NSError errorWithDomain:LVCAmazonS3ClientErrorDomain
+                                                 code:LVCAmazonS3ClientErrorNoFileData
                                              userInfo:userInfo];
             failure(nil, error);
         }

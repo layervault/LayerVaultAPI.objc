@@ -13,7 +13,7 @@
 #import "LVTUser.h"
 #import "LVTOrganization.h"
 #import "LVTProject.h"
-#import "LVTAmazonS3Client.h"
+#import "LVCAmazonS3Client.h"
 
 
 static NSString *md5ForFile(NSURL *fileURL)
@@ -525,7 +525,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 
                   AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:self.serviceProviderIdentifier];
 
-                  LVTAmazonS3Client *s3Client = [LVTAmazonS3Client new];
+                  LVCAmazonS3Client *s3Client = [LVCAmazonS3Client new];
                   [s3Client postFile:localFileURL
                           parameters:responseObject
                          accessToken:credential.accessToken
