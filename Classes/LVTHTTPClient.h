@@ -14,7 +14,7 @@
 @class LVTOrganization;
 @class LVTProject;
 @class LVTFolder;
-@class LVTFileRevision;
+@class LVCFileRevision;
 
 @interface LVTHTTPClient : AFOAuth2Client
 
@@ -173,18 +173,18 @@
 #pragma mark - Revisions
 - (void)getRevisionWithNumber:(NSUInteger)revisionNumber
                        ofFile:(LVCFile *)file
-                   completion:(void (^)(LVTFileRevision *fileRevision,
+                   completion:(void (^)(LVCFileRevision *fileRevision,
                                         NSError *error,
                                         AFHTTPRequestOperation *operation))completion;
 
 // TODO: FileMetadata type
-- (void)getMetaDataForRevision:(LVTFileRevision *)fileRevision
+- (void)getMetaDataForRevision:(LVCFileRevision *)fileRevision
                         ofFile:(LVCFile *)file
                     completion:(void (^)(id fileMetaData,
                                          NSError *error,
                                          AFHTTPRequestOperation *operation))completion;
 
-- (void)getPreviewURLForRevision:(LVTFileRevision *)fileRevision
+- (void)getPreviewURLForRevision:(LVCFileRevision *)fileRevision
                           ofFile:(LVCFile *)file
                       completion:(void (^)(NSURL *url,
                                            NSError *error,

@@ -1,14 +1,14 @@
 //
-//  LVTFileRevision.m
+//  LVCFileRevision.m
 //  LayerVaultAPIClient
 //
 //  Created by Matt Thomas on 11/18/13.
 //  Copyright (c) 2013 codecaffeine. All rights reserved.
 //
 
-#import "LVTFileRevision.h"
+#import "LVCFileRevision.h"
 
-@implementation LVTFileRevision
+@implementation LVCFileRevision
 
 + (NSDateFormatter *)dateFormatter
 {

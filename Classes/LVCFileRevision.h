@@ -1,5 +1,5 @@
 //
-//  LVTFileRevision.h
+//  LVCFileRevision.h
 //  LayerVaultAPIClient
 //
 //  Created by Matt Thomas on 11/18/13.
@@ -8,7 +8,7 @@
 
 #import <Mantle/Mantle.h>
 
-@interface LVTFileRevision : MTLModel <MTLJSONSerializing>
+@interface LVCFileRevision : MTLModel <MTLJSONSerializing>
 
 @property (readonly, nonatomic) NSNumber *revision;
 @property (readonly, nonatomic, copy) NSString *md5;

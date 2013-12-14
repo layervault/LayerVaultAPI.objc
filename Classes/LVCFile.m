@@ -7,7 +7,7 @@
 //
 
 #import "LVCFile.h"
-#import "LVTFileRevision.h"
+#import "LVCFileRevision.h"
 
 @implementation LVCFile
 
@@ -24,7 +24,7 @@
 
 + (NSValueTransformer *)revisionsJSONTransformer
 {
-    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVTFileRevision.class];
+    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVCFileRevision.class];
 }
 
 
