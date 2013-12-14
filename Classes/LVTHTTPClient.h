@@ -14,6 +14,7 @@
 @class LVTOrganization;
 @class LVTProject;
 @class LVTFolder;
+@class LVTFileRevision;
 
 @interface LVTHTTPClient : AFOAuth2Client
 

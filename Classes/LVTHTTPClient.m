@@ -604,6 +604,14 @@ static NSString *md5ForFile(NSURL *fileURL)
 }
 
 
+- (void)getRevisionsForFile:(LVTFile *)file
+                 completion:(void (^)(NSArray *revisions,
+                                      NSError *error,
+                                      AFHTTPRequestOperation *operation))completion
+{
+
+}
+
 
 #pragma mark - Private Methods
 - (NSString *)sanitizeRequestPath:(NSString *)path
