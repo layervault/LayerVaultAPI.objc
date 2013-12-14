@@ -7,9 +7,11 @@
 //
 
 #import "LVCMainWindowController.h"
+#import <layervault_objc_client/LayerVaultAPI.h>
 
-@interface LVCMainWindowController ()
-
+@interface LVCMainWindowController () <NSOutlineViewDataSource, NSOutlineViewDelegate>
+@property (weak) IBOutlet NSOutlineView *sourceList;
+@property (weak) IBOutlet NSOutlineView *fileList;
 @end
 
 @implementation LVCMainWindowController

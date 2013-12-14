@@ -7,6 +7,8 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="LVCMainWindowController">
             <connections>
+                <outlet property="fileList" destination="uI8-RC-TQR" id="oWg-Ny-Thg"/>
+                <outlet property="sourceList" destination="ke7-dC-UVk" id="nAU-3G-zL3"/>
                 <outlet property="window" destination="1" id="3"/>
             </connections>
         </customObject>
