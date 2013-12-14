@@ -1,16 +1,16 @@
 //
-//  LVTFolder.m
+//  LVCFolder.m
 //  LayerVaultAPIClient
 //
 //  Created by Matt Thomas on 12/4/13.
 //  Copyright (c) 2013 codecaffeine. All rights reserved.
 //
 
-#import "LVTFolder.h"
+#import "LVCFolder.h"
 #import "LVCFile.h"
 
 
-@implementation LVTFolder
+@implementation LVCFolder
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey
 {
@@ -37,7 +37,7 @@
 
 + (NSValueTransformer *)foldersJSONTransformer
 {
-    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVTFolder.class];
+    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVCFolder.class];
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue

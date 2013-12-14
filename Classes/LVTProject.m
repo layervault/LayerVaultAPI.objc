@@ -66,7 +66,7 @@
         }
     }
     else if ([key isEqualToString:@"folders"]) {
-        for (LVTFolder *folder in self.folders) {
+        for (LVCFolder *folder in self.folders) {
             folder.parentFolder = self;
         }
     }

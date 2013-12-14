@@ -7,9 +7,9 @@
 //
 
 #import <Mantle/Mantle.h>
-#import "LVTFolder.h"
+#import "LVCFolder.h"
 
-@interface LVTProject : LVTFolder <MTLJSONSerializing>
+@interface LVTProject : LVCFolder <MTLJSONSerializing>
 
 @property (readonly, nonatomic) BOOL member;
 

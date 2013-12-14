@@ -300,7 +300,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 
 #pragma mark - Folders
 - (void)getFolderAtPath:(NSString *)path
-             completion:(void (^)(LVTFolder *folder,
+             completion:(void (^)(LVCFolder *folder,
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion
 {
@@ -313,7 +313,7 @@ static NSString *md5ForFile(NSURL *fileURL)
        parameters:nil
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               NSError *error;
-              LVTFolder *folder = [MTLJSONAdapter modelOfClass:LVTFolder.class
+              LVCFolder *folder = [MTLJSONAdapter modelOfClass:LVCFolder.class
                                             fromJSONDictionary:responseObject
                                                          error:&error];
               completion(folder, error, operation);
@@ -325,7 +325,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 
 - (void)getFolderAtPath:(NSString *)path
               inProject:(LVTProject *)project
-             completion:(void (^)(LVTFolder *folder,
+             completion:(void (^)(LVCFolder *folder,
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion
 {
@@ -344,7 +344,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 
 - (void)createFolderAtPath:(NSString *)path
                  inProject:(LVTProject *)project
-                completion:(void (^)(LVTFolder *folder,
+                completion:(void (^)(LVCFolder *folder,
                                      NSError *error,
                                      AFHTTPRequestOperation *operation))completion
 {
@@ -361,7 +361,7 @@ static NSString *md5ForFile(NSURL *fileURL)
         parameters:nil
            success:^(AFHTTPRequestOperation *operation, id responseObject) {
                NSError *error;
-               LVTFolder *folder = [MTLJSONAdapter modelOfClass:LVTFolder.class
+               LVCFolder *folder = [MTLJSONAdapter modelOfClass:LVCFolder.class
                                              fromJSONDictionary:responseObject
                                                           error:&error];
                completion(folder, error, operation);
@@ -373,7 +373,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 }
 
 
-- (void)deleteFolder:(LVTFolder *)folder
+- (void)deleteFolder:(LVCFolder *)folder
           completion:(void (^)(BOOL success,
                                NSError *error,
                                AFHTTPRequestOperation *operation))completion
@@ -392,10 +392,10 @@ static NSString *md5ForFile(NSURL *fileURL)
 }
 
 
-- (void)moveFolder:(LVTFolder *)folder
+- (void)moveFolder:(LVCFolder *)folder
             toPath:(NSString *)toPath
          inProject:(LVTProject *)project
-        completion:(void (^)(LVTFolder *folder,
+        completion:(void (^)(LVCFolder *folder,
                              NSError *error,
                              AFHTTPRequestOperation *operation))completion
 {
@@ -414,7 +414,7 @@ static NSString *md5ForFile(NSURL *fileURL)
         parameters:@{@"to": toPath}
            success:^(AFHTTPRequestOperation *operation, id responseObject) {
                NSError *error;
-               LVTFolder *folder = [MTLJSONAdapter modelOfClass:LVTFolder.class
+               LVCFolder *folder = [MTLJSONAdapter modelOfClass:LVCFolder.class
                                              fromJSONDictionary:responseObject
                                                           error:&error];
                completion(folder, error, operation);
@@ -425,7 +425,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 }
 
 
-- (void)updateFolder:(LVTFolder *)folder
+- (void)updateFolder:(LVCFolder *)folder
           colorLabel:(LVCColorLabel)colorLabel
           completion:(void (^)(BOOL success,
                                NSError *error,

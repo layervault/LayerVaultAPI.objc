@@ -7,10 +7,10 @@
 //
 
 #import "LVTNode.h"
-#import "LVTFolder.h"
+#import "LVCFolder.h"
 
 @implementation LVTNode {
-    __weak LVTFolder *_parentFolder;
+    __weak LVCFolder *_parentFolder;
 }
 
 + (NSDateFormatter *)dateFormatter

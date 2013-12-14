@@ -52,8 +52,8 @@
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
     if (item) {
-        if ([item isKindOfClass:LVTFolder.class]) {
-            LVTFolder *folder = (LVTFolder *)item;
+        if ([item isKindOfClass:LVCFolder.class]) {
+            LVCFolder *folder = (LVCFolder *)item;
             return (folder.files.count + folder.folders.count);
         }
         return 0;
@@ -64,14 +64,14 @@
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
-    return [item isKindOfClass:LVTFolder.class];
+    return [item isKindOfClass:LVCFolder.class];
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
     if (item) {
-        if ([item isKindOfClass:LVTFolder.class]) {
-            LVTFolder *folder = (LVTFolder *)item;
+        if ([item isKindOfClass:LVCFolder.class]) {
+            LVCFolder *folder = (LVCFolder *)item;
             return [self subFolderAndFilesForFolder:folder][index];
         }
         return nil;
@@ -96,7 +96,7 @@
                 [tableCellView.textField setStringValue:node.name];
             }
 
-            if ([item isKindOfClass:LVTFolder.class]) {
+            if ([item isKindOfClass:LVCFolder.class]) {
                 tableCellView.imageView.image = [NSImage imageNamed:NSImageNamePathTemplate];
             }
             else if ([item isKindOfClass:LVCFile.class]) {
@@ -119,11 +119,11 @@
 {
     NSUInteger row = tableView.selectedRow;
     id selectedItem = [self.outlineView itemAtRow:row];
-    if ([selectedItem isKindOfClass:LVTFolder.class]) {
-        LVTFolder *selectedFolder = (LVTFolder *)selectedItem;
+    if ([selectedItem isKindOfClass:LVCFolder.class]) {
+        LVCFolder *selectedFolder = (LVCFolder *)selectedItem;
         [self.client getFolderAtPath:[selectedFolder.path lastPathComponent]
                            inProject:self.project
-                          completion:^(LVTFolder *folder,
+                          completion:^(LVCFolder *folder,
                                        NSError *error,
                                        AFHTTPRequestOperation *operation) {
                               NSLog(@"folder: %@", folder);
@@ -143,8 +143,8 @@
 {
     NSInteger row = [self.outlineView rowForView:sender];
     id selectedItem = [self.outlineView itemAtRow:row];
-    if ([selectedItem isKindOfClass:LVTFolder.class]) {
-        LVTFolder *folder = (LVTFolder *)selectedItem;
+    if ([selectedItem isKindOfClass:LVCFolder.class]) {
+        LVCFolder *folder = (LVCFolder *)selectedItem;
         NSOpenPanel *panel = [NSOpenPanel openPanel];
         panel.canChooseFiles = YES;
         [panel beginSheetModalForWindow:self.window
@@ -180,7 +180,7 @@
 }
 
 #pragma mark - PrivateMethods
-- (NSArray *)subFolderAndFilesForFolder:(LVTFolder *)folder
+- (NSArray *)subFolderAndFilesForFolder:(LVCFolder *)folder
 {
     NSSortDescriptor *dateUpdatedSort = [NSSortDescriptor sortDescriptorWithKey:@"dateUpdated"
                                                                       ascending:NO];

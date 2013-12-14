@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "LVTFolder.h"
+#import "LVCFolder.h"
 
 @interface LVTFolderTests : XCTestCase
 @property (nonatomic, copy) NSDictionary *validJSON;
@@ -35,7 +35,7 @@
 
 - (void)testNilJSONNilFolder
 {
-    LVTFolder *folder = [MTLJSONAdapter modelOfClass:LVTFolder.class
+    LVCFolder *folder = [MTLJSONAdapter modelOfClass:LVCFolder.class
                                   fromJSONDictionary:nil
                                                error:nil];
     XCTAssertNil(folder, @"folder should be nil");
@@ -44,7 +44,7 @@
 
 - (void)testEmptyJSONNilFolder
 {
-    LVTFolder *folder = [MTLJSONAdapter modelOfClass:LVTFolder.class
+    LVCFolder *folder = [MTLJSONAdapter modelOfClass:LVCFolder.class
                                   fromJSONDictionary:@{}
                                                error:nil];
     XCTAssertNil(folder, @"folder should be nil");
@@ -55,7 +55,7 @@
 {
     NSMutableDictionary *noName = self.validJSON.mutableCopy;
     [noName removeObjectForKey:@"name"];
-    LVTFolder *folder = [MTLJSONAdapter modelOfClass:LVTFolder.class
+    LVCFolder *folder = [MTLJSONAdapter modelOfClass:LVCFolder.class
                                   fromJSONDictionary:noName
                                                error:nil];
     XCTAssertNil(folder, @"folder should be nil");
@@ -64,7 +64,7 @@
 
 - (void)testValidJSONValidFolder
 {
-    LVTFolder *folder = [MTLJSONAdapter modelOfClass:LVTFolder.class
+    LVCFolder *folder = [MTLJSONAdapter modelOfClass:LVCFolder.class
                                   fromJSONDictionary:self.validJSON
                                                error:nil];
     XCTAssertNotNil(folder, @"folder should not be nil");

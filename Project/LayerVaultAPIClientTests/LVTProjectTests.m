@@ -48,7 +48,7 @@
     LVTProject *project = [MTLJSONAdapter modelOfClass:LVTProject.class
                                     fromJSONDictionary:self.validJSON
                                                  error:nil];
-    XCTAssertTrue([project isKindOfClass:LVTFolder.class], @"a project is a folder");
+    XCTAssertTrue([project isKindOfClass:LVCFolder.class], @"a project is a folder");
 }
 
 

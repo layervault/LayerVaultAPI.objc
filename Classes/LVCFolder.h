@@ -1,5 +1,5 @@
 //
-//  LVTFolder.h
+//  LVCFolder.h
 //  LayerVaultAPIClient
 //
 //  Created by Matt Thomas on 12/4/13.
@@ -9,7 +9,7 @@
 #import "LVTNode.h"
 #import "LVCColorUtils.h"
 
-@interface LVTFolder : LVTNode <MTLJSONSerializing>
+@interface LVCFolder : LVTNode <MTLJSONSerializing>
 
 @property (nonatomic) LVCColorLabel colorLabel;
 @property (readonly, nonatomic, copy) NSString *path;

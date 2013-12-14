@@ -13,7 +13,7 @@
 @class LVTUser;
 @class LVTOrganization;
 @class LVTProject;
-@class LVTFolder;
+@class LVCFolder;
 @class LVCFileRevision;
 
 @interface LVTHTTPClient : AFOAuth2Client
@@ -77,38 +77,38 @@
 
 #pragma mark - Folders
 - (void)getFolderAtPath:(NSString *)path
-             completion:(void (^)(LVTFolder *folder,
+             completion:(void (^)(LVCFolder *folder,
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion;
 
 - (void)getFolderAtPath:(NSString *)path
               inProject:(LVTProject *)project
-             completion:(void (^)(LVTFolder *folder,
+             completion:(void (^)(LVCFolder *folder,
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion;
 
 
 - (void)createFolderAtPath:(NSString *)path
                  inProject:(LVTProject *)project
-                completion:(void (^)(LVTFolder *folder,
+                completion:(void (^)(LVCFolder *folder,
                                      NSError *error,
                                      AFHTTPRequestOperation *operation))completion;
 
 
-- (void)deleteFolder:(LVTFolder *)folder
+- (void)deleteFolder:(LVCFolder *)folder
           completion:(void (^)(BOOL success,
                                NSError *error,
                                AFHTTPRequestOperation *operation))completion;
 
 
-- (void)moveFolder:(LVTFolder *)folder
+- (void)moveFolder:(LVCFolder *)folder
             toPath:(NSString *)toPath
          inProject:(LVTProject *)project
-        completion:(void (^)(LVTFolder *folder,
+        completion:(void (^)(LVCFolder *folder,
                              NSError *error,
                              AFHTTPRequestOperation *operation))completion;
 
-- (void)updateFolder:(LVTFolder *)folder
+- (void)updateFolder:(LVCFolder *)folder
           colorLabel:(LVCColorLabel)colorLabel
           completion:(void (^)(BOOL success,
                                NSError *error,
