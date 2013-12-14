@@ -1,5 +1,5 @@
 //
-//  LVTFile.h
+//  LVCFile.h
 //  LayerVaultAPIClient
 //
 //  Created by Matt Thomas on 11/18/13.
@@ -10,16 +10,16 @@
 @class LVTFolder;
 
 typedef enum : NSUInteger {
-    LVTFileSyncStatusError = 0,
-    LVTFileSyncStatusUploadPatch = 200,
-    LVTFileSyncStatusUpToDate = 409,
-    LVTFileSyncStatusFileSizeMissing = 400,
-    LVTFileSyncStatusFileTooLarge = 413,
-    LVTFileSyncStatusUploadFullFile = 412,
-} LVTFileSyncStatus;
+    LVCFileSyncStatusError = 0,
+    LVCFileSyncStatusUploadPatch = 200,
+    LVCFileSyncStatusUpToDate = 409,
+    LVCFileSyncStatusFileSizeMissing = 400,
+    LVCFileSyncStatusFileTooLarge = 413,
+    LVCFileSyncStatusUploadFullFile = 412,
+} LVCFileSyncStatus;
 
 
-@interface LVTFile : LVTNode <MTLJSONSerializing>
+@interface LVCFile : LVTNode <MTLJSONSerializing>
 
 @property (readonly, nonatomic) NSNumber *revisionNumber;
 @property (readonly, nonatomic, copy) NSArray *revisions;

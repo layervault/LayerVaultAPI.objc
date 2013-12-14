@@ -99,7 +99,7 @@
             if ([item isKindOfClass:LVTFolder.class]) {
                 tableCellView.imageView.image = [NSImage imageNamed:NSImageNamePathTemplate];
             }
-            else if ([item isKindOfClass:LVTFile.class]) {
+            else if ([item isKindOfClass:LVCFile.class]) {
                 tableCellView.imageView.image = [NSImage imageNamed:NSImageNameIChatTheaterTemplate];
             }
 
@@ -132,8 +132,8 @@
                               NSLog(@"equalFolders: %@", [folder isEqual:selectedFolder] ? @"YES" : @"NO");
                           }];
     }
-    else if ([selectedItem isKindOfClass:LVTFile.class]) {
-        LVTFile *selectedFile = (LVTFile *)selectedItem;
+    else if ([selectedItem isKindOfClass:LVCFile.class]) {
+        LVCFile *selectedFile = (LVCFile *)selectedItem;
         NSLog(@"file: %@", selectedFile);
     }
 }
@@ -153,7 +153,7 @@
                               NSURL *url = panel.URLs[0];
                               [self.client uploadLocalFile:url
                                                     toPath:folder.path
-                                                completion:^(LVTFile *file,
+                                                completion:^(LVCFile *file,
                                                              NSError *error,
                                                              AFHTTPRequestOperation *operation) {
                                                     NSLog(@"file: %@", file);
@@ -163,8 +163,8 @@
                           }
                       }];
     }
-    else if ([selectedItem isKindOfClass:LVTFile.class]) {
-        LVTFile *file = (LVTFile *)selectedItem;
+    else if ([selectedItem isKindOfClass:LVCFile.class]) {
+        LVCFile *file = (LVCFile *)selectedItem;
         NSString *path = @"Matt\u2019s Cool Sandb\u00F8x";
         [self.client moveFile:file
                        toPath:path

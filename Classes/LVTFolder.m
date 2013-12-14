@@ -7,7 +7,7 @@
 //
 
 #import "LVTFolder.h"
-#import "LVTFile.h"
+#import "LVCFile.h"
 
 
 @implementation LVTFolder
@@ -31,7 +31,7 @@
 
 + (NSValueTransformer *)filesJSONTransformer
 {
-    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVTFile.class];
+    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVCFile.class];
 }
 
 

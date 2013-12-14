@@ -1,15 +1,15 @@
 //
-//  LVTFile.m
+//  LVCFile.m
 //  LayerVaultAPIClient
 //
 //  Created by Matt Thomas on 11/18/13.
 //  Copyright (c) 2013 codecaffeine. All rights reserved.
 //
 
-#import "LVTFile.h"
+#import "LVCFile.h"
 #import "LVTFileRevision.h"
 
-@implementation LVTFile
+@implementation LVCFile
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey
 {

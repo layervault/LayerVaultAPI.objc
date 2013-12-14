@@ -13,7 +13,7 @@
 
 #import "LVCAmazonS3Client.h"
 #import "LVCColorUtils.h"
-#import "LVTFile.h"
+#import "LVCFile.h"
 #import "LVTFileRevision.h"
 #import "LVTFolder.h"
 #import "LVTHTTPClient.h"

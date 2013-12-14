@@ -7,7 +7,7 @@
 //
 
 #import "LVTProject.h"
-#import "LVTFile.h"
+#import "LVCFile.h"
 
 
 @implementation LVTProject
@@ -61,7 +61,7 @@
 {
     [super mergeValueForKey:key fromModel:model];
     if ([key isEqualToString:@"files"]) {
-        for (LVTFile *file in self.files) {
+        for (LVCFile *file in self.files) {
             file.parentFolder = self;
         }
     }

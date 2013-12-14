@@ -451,7 +451,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 
 #pragma mark - Files
 - (void)getFileAtPath:(NSString *)filePath
-           completion:(void (^)(LVTFile *file,
+           completion:(void (^)(LVCFile *file,
                                 NSError *error,
                                 AFHTTPRequestOperation *operation))completion
 {
@@ -464,7 +464,7 @@ static NSString *md5ForFile(NSURL *fileURL)
        parameters:nil
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               NSError *error;
-              LVTFile *file = [MTLJSONAdapter modelOfClass:LVTFile.class
+              LVCFile *file = [MTLJSONAdapter modelOfClass:LVCFile.class
                                         fromJSONDictionary:responseObject
                                                      error:&error];
               completion(file, error, operation);
@@ -478,7 +478,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 - (void)uploadLocalFile:(NSURL *)localFileURL
                  toPath:(NSString *)filePath
               inProject:(LVTProject *)project
-             completion:(void (^)(LVTFile *file,
+             completion:(void (^)(LVCFile *file,
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion
 {
@@ -496,7 +496,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 
 - (void)uploadLocalFile:(NSURL *)localFileURL
                  toPath:(NSString *)filePath
-             completion:(void (^)(LVTFile *file,
+             completion:(void (^)(LVCFile *file,
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion
 {
@@ -531,7 +531,7 @@ static NSString *md5ForFile(NSURL *fileURL)
                          accessToken:credential.accessToken
                              success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                  NSError *error;
-                                 LVTFile *file = [MTLJSONAdapter modelOfClass:LVTFile.class
+                                 LVCFile *file = [MTLJSONAdapter modelOfClass:LVCFile.class
                                                            fromJSONDictionary:responseObject
                                                                         error:&error];
                                  completion(file, error, operation);
@@ -551,7 +551,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 }
 
 
-- (void)deleteFile:(LVTFile *)file
+- (void)deleteFile:(LVCFile *)file
         completion:(void (^)(BOOL success,
                              NSError *error,
                              AFHTTPRequestOperation *operation))completion
@@ -575,7 +575,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 }
 
 
-- (void)moveFile:(LVTFile *)file
+- (void)moveFile:(LVCFile *)file
           toPath:(NSString *)path
      newFileName:(NSString *)newFileName
       completion:(void (^)(BOOL success,
@@ -604,7 +604,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 }
 
 
-- (void)getRevisionsForFile:(LVTFile *)file
+- (void)getRevisionsForFile:(LVCFile *)file
                  completion:(void (^)(NSArray *revisions,
                                       NSError *error,
                                       AFHTTPRequestOperation *operation))completion

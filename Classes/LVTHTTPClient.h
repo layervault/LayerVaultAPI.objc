@@ -8,7 +8,7 @@
 
 #import <AFOAuth2Client/AFOAuth2Client.h>
 #import "LVCColorUtils.h"
-#import "LVTFile.h"
+#import "LVCFile.h"
 
 @class LVTUser;
 @class LVTOrganization;
@@ -117,75 +117,75 @@
 
 #pragma mark - Files
 - (void)getFileAtPath:(NSString *)filePath
-           completion:(void (^)(LVTFile *file,
+           completion:(void (^)(LVCFile *file,
                                 NSError *error,
                                 AFHTTPRequestOperation *operation))completion;
 
 - (void)uploadLocalFile:(NSURL *)localFileURL
                  toPath:(NSString *)filePath
               inProject:(LVTProject *)project
-             completion:(void (^)(LVTFile *file,
+             completion:(void (^)(LVCFile *file,
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion;
 
 - (void)uploadLocalFile:(NSURL *)localFileURL
                  toPath:(NSString *)filePath
-             completion:(void (^)(LVTFile *file,
+             completion:(void (^)(LVCFile *file,
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion;
 
-- (void)deleteFile:(LVTFile *)file
+- (void)deleteFile:(LVCFile *)file
         completion:(void (^)(BOOL success,
                              NSError *error,
                              AFHTTPRequestOperation *operation))completion;
 
 
-- (void)moveFile:(LVTFile *)file
+- (void)moveFile:(LVCFile *)file
           toPath:(NSString *)path
      newFileName:(NSString *)newFileName
       completion:(void (^)(BOOL success,
                            NSError *error,
                            AFHTTPRequestOperation *operation))completion;
 
-- (void)getRevisionsForFile:(LVTFile *)file
+- (void)getRevisionsForFile:(LVCFile *)file
                  completion:(void (^)(NSArray *revisions,
                                       NSError *error,
                                       AFHTTPRequestOperation *operation))completion;
 
-- (void)getPreviewURLsForFile:(LVTFile *)file
+- (void)getPreviewURLsForFile:(LVCFile *)file
                         width:(NSUInteger)width
                        height:(NSUInteger)height
                    completion:(void (^)(NSArray *previewURLs,
                                         NSError *error,
                                         AFHTTPRequestOperation *operation))completion;
 // TODO: Feedback type
-- (void)getFeebackForFile:(LVTFile *)file
+- (void)getFeebackForFile:(LVCFile *)file
                  revision:(NSUInteger)revision
                completion:(void (^)(NSArray *feedback,
                                     NSError *error,
                                     AFHTTPRequestOperation *operation))completion;
 
-- (void)checkSyncStatusForFile:(LVTFile *)file
-                    completion:(void (^)(LVTFileSyncStatus syncStatus,
+- (void)checkSyncStatusForFile:(LVCFile *)file
+                    completion:(void (^)(LVCFileSyncStatus syncStatus,
                                          NSError *error,
                                          AFHTTPRequestOperation *operation))completion;
 
 #pragma mark - Revisions
 - (void)getRevisionWithNumber:(NSUInteger)revisionNumber
-                       ofFile:(LVTFile *)file
+                       ofFile:(LVCFile *)file
                    completion:(void (^)(LVTFileRevision *fileRevision,
                                         NSError *error,
                                         AFHTTPRequestOperation *operation))completion;
 
 // TODO: FileMetadata type
 - (void)getMetaDataForRevision:(LVTFileRevision *)fileRevision
-                        ofFile:(LVTFile *)file
+                        ofFile:(LVCFile *)file
                     completion:(void (^)(id fileMetaData,
                                          NSError *error,
                                          AFHTTPRequestOperation *operation))completion;
 
 - (void)getPreviewURLForRevision:(LVTFileRevision *)fileRevision
-                          ofFile:(LVTFile *)file
+                          ofFile:(LVCFile *)file
                       completion:(void (^)(NSURL *url,
                                            NSError *error,
                                            AFHTTPRequestOperation *operation))completion;
