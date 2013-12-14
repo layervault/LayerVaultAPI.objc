@@ -32,7 +32,7 @@ NSString *const emailRegEx =
 @property (weak) IBOutlet NSTableView *projectsTableView;
 @property (nonatomic, copy) NSArray *dataSource;
 
-@property (nonatomic) LVTHTTPClient *client;
+@property (nonatomic) LVCHTTPClient *client;
 @property (nonatomic) AFOAuthCredential *credential;
 @property (nonatomic) LVTUser *user;
 
@@ -43,7 +43,7 @@ NSString *const emailRegEx =
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    self.client = [[LVTHTTPClient alloc] initWithClientID:LVClientID
+    self.client = [[LVCHTTPClient alloc] initWithClientID:LVClientID
                                                    secret:LVClientSecret];
     self.credential = [AFOAuthCredential retrieveCredentialWithIdentifier:self.client.serviceProviderIdentifier];
 

@@ -1,5 +1,5 @@
 //
-//  LVTHTTPClient.h
+//  LVCHTTPClient.h
 //  LayerVaultAPIClient
 //
 //  Created by Matt Thomas on 10/13/13.
@@ -16,7 +16,7 @@
 @class LVCFolder;
 @class LVCFileRevision;
 
-@interface LVTHTTPClient : AFOAuth2Client
+@interface LVCHTTPClient : AFOAuth2Client
 
 - (instancetype)initWithClientID:(NSString *)clientID secret:(NSString *)secret;
 

@@ -14,13 +14,13 @@
 @interface LVTProjectWindowController () <NSOutlineViewDataSource, NSOutlineViewDelegate>
 @property (nonatomic, copy) NSArray *sortedFilesAndFolders;
 @property (weak) IBOutlet NSOutlineView *outlineView;
-@property (readonly) LVTHTTPClient *client;
+@property (readonly) LVCHTTPClient *client;
 @end
 
 @implementation LVTProjectWindowController
 
 
-- (instancetype)initWithClient:(LVTHTTPClient *)client
+- (instancetype)initWithClient:(LVCHTTPClient *)client
 {
     self = [super initWithWindowNibName:@"LVTProjectWindowController"];
     if (self) {
