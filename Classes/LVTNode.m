@@ -135,11 +135,10 @@
 
 - (NSString *)urlPath
 {
-    NSString *urlEncodedName = [self.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     if (self.parentFolder) {
-        urlEncodedName = [self.parentFolder.urlPath stringByAppendingPathComponent:urlEncodedName];
+        return [self.parentFolder.urlPath stringByAppendingPathComponent:self.name];
     }
-    return urlEncodedName;
+    return self.name;
 }
 
 
