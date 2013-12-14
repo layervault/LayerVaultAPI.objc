@@ -381,7 +381,7 @@ static NSString *md5ForFile(NSURL *fileURL)
     NSParameterAssert(folder);
     NSParameterAssert(completion);
 
-    [self deletePath:folder.urlPath
+    [self deletePath:[self sanitizeRequestPath:folder.urlPath]
           parameters:nil
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
                  completion(YES, nil, operation);
@@ -410,7 +410,7 @@ static NSString *md5ForFile(NSURL *fileURL)
 
     NSString *movePath = [folder.urlPath stringByAppendingPathComponent:@"move"];
 
-    [self postPath:movePath
+    [self postPath:[self sanitizeRequestPath:movePath]
         parameters:@{@"to": toPath}
            success:^(AFHTTPRequestOperation *operation, id responseObject) {
                NSError *error;
@@ -434,11 +434,11 @@ static NSString *md5ForFile(NSURL *fileURL)
     NSParameterAssert(folder);
     NSParameterAssert(completion);
 
-    NSString *colorPath = [folder.urlPath stringByAppendingPathComponent:@"color"];
-
     NSDictionary *params = @{@"color": [LVTColorUtils colorNameForLabel:colorLabel]};
 
-    [self putPath:colorPath
+    NSString *colorPath = [folder.urlPath stringByAppendingPathComponent:@"color"];
+
+    [self putPath:[self sanitizeRequestPath:colorPath]
        parameters:params
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               completion(YES, nil, operation);
@@ -564,7 +564,7 @@ static NSString *md5ForFile(NSURL *fileURL)
         params = @{@"md5": file.md5};
     }
 
-    [self deletePath:file.urlPath
+    [self deletePath:[self sanitizeRequestPath:file.urlPath]
           parameters:params
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
                  completion(YES, nil, operation);
@@ -591,7 +591,9 @@ static NSString *md5ForFile(NSURL *fileURL)
         params[@"new_file_name"] = newFileName;
     }
 
-    [self postPath:[file.urlPath stringByAppendingPathComponent:@"/move"]
+    NSString *movePath = [file.urlPath stringByAppendingPathComponent:@"/move"];
+
+    [self postPath:[self sanitizeRequestPath:movePath]
         parameters:params
            success:^(AFHTTPRequestOperation *operation, id responseObject) {
                completion(YES, nil, operation);
