@@ -27,7 +27,6 @@ Pod::Spec.new do |s|
   s.public_header_files = 'Classes/**/*.h'
   # s.frameworks = 'SomeFramework', 'AnotherFramework'
   s.dependency 'AFNetworking', '~> 1.3.3'
-  s.dependency 'AFAmazonS3Client', '~> 0.3.0'
   s.dependency 'Mantle', '~> 1.3'
   s.dependency 'AFOAuth2Client', '~> 0.1.1'
 
