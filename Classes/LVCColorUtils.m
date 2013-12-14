@@ -8,13 +8,13 @@
 
 #import "LVCColorUtils.h"
 
-NSString *LVTDefaultColor = @"white";
+NSString *LVCDefaultColorDefaultColor = @"white";
 
 @implementation LVCColorUtils
 
 + (NSDictionary *)colorNamesToValue
 {
-    return @{LVTDefaultColor: @(LVCColorWhite),
+    return @{LVCDefaultColorDefaultColor: @(LVCColorWhite),
              @"green": @(LVCColorGreen),
              @"red": @(LVCColorRed),
              @"orange": @(LVCColorOrange)};
@@ -36,7 +36,7 @@ NSString *LVTDefaultColor = @"white";
 
 + (NSString *)colorNameForLabel:(LVCColorLabel)label
 {
-    __block NSString *colorName = LVTDefaultColor;
+    __block NSString *colorName = LVCDefaultColorDefaultColor;
     [[self colorNamesToValue] enumerateKeysAndObjectsUsingBlock:^(id key,
                                                                   id obj,
                                                                   BOOL *stop) {
