@@ -1,5 +1,5 @@
 //
-//  LVTColor.h
+//  LVCColorUtils.h
 //  LayerVaultAPIClient
 //
 //  Created by Matt Thomas on 12/3/13.

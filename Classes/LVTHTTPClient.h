@@ -7,7 +7,7 @@
 //
 
 #import <AFOAuth2Client/AFOAuth2Client.h>
-#import "LVTColor.h"
+#import "LVCColorUtils.h"
 #import "LVTFile.h"
 
 @class LVTUser;

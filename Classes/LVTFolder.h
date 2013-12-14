@@ -7,7 +7,7 @@
 //
 
 #import "LVTNode.h"
-#import "LVTColor.h"
+#import "LVCColorUtils.h"
 
 @interface LVTFolder : LVTNode <MTLJSONSerializing>
 
