@@ -1,5 +1,5 @@
 //
-//  LVTNode.h
+//  LVCNode.h
 //  LayerVaultAPIClient
 //
 //  Created by Matt Thomas on 12/9/13.
@@ -9,7 +9,7 @@
 #import <Mantle/Mantle.h>
 @class LVCFolder;
 
-@interface LVTNode : MTLModel <MTLJSONSerializing>
+@interface LVCNode : MTLModel <MTLJSONSerializing>
 
 @property (readonly, nonatomic, copy) NSString *name;
 @property (readonly, nonatomic, copy) NSURL *fileURL;

@@ -86,9 +86,9 @@
     NSTableCellView *tableCellView = [outlineView makeViewWithIdentifier:tableColumn.identifier
                                                                    owner:self];
     if (item) {
-        LVTNode *node = nil;
-        if ([item isKindOfClass:LVTNode.class]) {
-            node = (LVTNode *)item;
+        LVCNode *node = nil;
+        if ([item isKindOfClass:LVCNode.class]) {
+            node = (LVCNode *)item;
         }
 
         if ([tableColumn.identifier isEqualToString:@"NameColumn"]) {

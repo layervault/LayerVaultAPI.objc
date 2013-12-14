@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 codecaffeine. All rights reserved.
 //
 
-#import "LVTNode.h"
+#import "LVCNode.h"
 @class LVCFolder;
 
 typedef enum : NSUInteger {
@@ -19,7 +19,7 @@ typedef enum : NSUInteger {
 } LVCFileSyncStatus;
 
 
-@interface LVCFile : LVTNode <MTLJSONSerializing>
+@interface LVCFile : LVCNode <MTLJSONSerializing>
 
 @property (readonly, nonatomic) NSNumber *revisionNumber;
 @property (readonly, nonatomic, copy) NSArray *revisions;

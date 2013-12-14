@@ -45,7 +45,7 @@
 {
     self = [super initWithDictionary:dictionaryValue error:error];
     if (self) {
-        for (LVTNode *node in [self.files arrayByAddingObjectsFromArray:self.folders]) {
+        for (LVCNode *node in [self.files arrayByAddingObjectsFromArray:self.folders]) {
             node.parentFolder = self;
         }
     }

@@ -1,15 +1,15 @@
 //
-//  LVTNode.m
+//  LVCNode.m
 //  LayerVaultAPIClient
 //
 //  Created by Matt Thomas on 12/9/13.
 //  Copyright (c) 2013 codecaffeine. All rights reserved.
 //
 
-#import "LVTNode.h"
+#import "LVCNode.h"
 #import "LVCFolder.h"
 
-@implementation LVTNode {
+@implementation LVCNode {
     __weak LVCFolder *_parentFolder;
 }
 

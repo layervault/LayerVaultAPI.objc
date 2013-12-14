@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 codecaffeine. All rights reserved.
 //
 
-#import "LVTNode.h"
+#import "LVCNode.h"
 #import "LVCColorUtils.h"
 
-@interface LVCFolder : LVTNode <MTLJSONSerializing>
+@interface LVCFolder : LVCNode <MTLJSONSerializing>
 
 @property (nonatomic) LVCColorLabel colorLabel;
 @property (readonly, nonatomic, copy) NSString *path;

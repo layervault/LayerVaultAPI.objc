@@ -17,7 +17,7 @@
 #import "LVCFileRevision.h"
 #import "LVCFolder.h"
 #import "LVCHTTPClient.h"
-#import "LVTNode.h"
+#import "LVCNode.h"
 #import "LVTOrganization.h"
 #import "LVTProject.h"
 #import "LVTUser.h"
