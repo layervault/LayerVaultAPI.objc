@@ -26,7 +26,7 @@
 
 + (NSValueTransformer *)colorLabelJSONTransformer
 {
-    return [NSValueTransformer mtl_valueMappingTransformerWithDictionary:[LVTColorUtils colorNamesToValue]];
+    return [NSValueTransformer mtl_valueMappingTransformerWithDictionary:[LVCColorUtils colorNamesToValue]];
 }
 
 + (NSValueTransformer *)filesJSONTransformer

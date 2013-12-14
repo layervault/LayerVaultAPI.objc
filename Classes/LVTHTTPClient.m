@@ -276,14 +276,14 @@ static NSString *md5ForFile(NSURL *fileURL)
     NSParameterAssert(block);
 
     NSLog(@"updating color %@ \u2192 %@",
-          [LVTColorUtils colorNameForLabel:project.colorLabel],
-          [LVTColorUtils colorNameForLabel:colorLabel]);
+          [LVCColorUtils colorNameForLabel:project.colorLabel],
+          [LVCColorUtils colorNameForLabel:colorLabel]);
 
     NSString *colorPath = [[self pathForProject:project
                            includeOrganization:YES] stringByAppendingPathComponent:@"color"];
     colorPath = [colorPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
-    NSDictionary *params = @{@"color": [LVTColorUtils colorNameForLabel:colorLabel]};
+    NSDictionary *params = @{@"color": [LVCColorUtils colorNameForLabel:colorLabel]};
 
     [self putPath:colorPath
        parameters:params
@@ -434,7 +434,7 @@ static NSString *md5ForFile(NSURL *fileURL)
     NSParameterAssert(folder);
     NSParameterAssert(completion);
 
-    NSDictionary *params = @{@"color": [LVTColorUtils colorNameForLabel:colorLabel]};
+    NSDictionary *params = @{@"color": [LVCColorUtils colorNameForLabel:colorLabel]};
 
     NSString *colorPath = [folder.urlPath stringByAppendingPathComponent:@"color"];
 

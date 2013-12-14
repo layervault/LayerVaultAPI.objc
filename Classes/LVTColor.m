@@ -10,7 +10,7 @@
 
 NSString *LVTDefaultColor = @"white";
 
-@implementation LVTColorUtils
+@implementation LVCColorUtils
 
 + (NSDictionary *)colorNamesToValue
 {
