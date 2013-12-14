@@ -94,9 +94,11 @@
 
 - (NSString *)description {
     NSMutableDictionary *dict = self.dictionaryValue.mutableCopy;
-    dict[@"parentFolder"] = [NSString stringWithFormat:@"<%@: %p>",
-                             self.parentFolder.class,
-                             self.parentFolder];
+    if (self.parentFolder) {
+        dict[@"parentFolder"] = [NSString stringWithFormat:@"<%@: %p>",
+                                 self.parentFolder.class,
+                                 self.parentFolder];
+    }
 	return [NSString stringWithFormat:@"<%@: %p> %@", self.class, self, dict];
 }
 
