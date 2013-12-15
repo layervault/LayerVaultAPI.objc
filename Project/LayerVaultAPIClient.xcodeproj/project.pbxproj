@@ -168,14 +168,14 @@
 				C9AEAB41185E041300E9EC40 /* LVCOrganizationsViewController.h */,
 				C9AEAB42185E041300E9EC40 /* LVCOrganizationsViewController.m */,
 				C9AEAB43185E041300E9EC40 /* LVCOrganizationsViewController.xib */,
+				C999722A185E22F500F9372F /* LVCProjectOutlineViewController.h */,
+				C999722B185E22F500F9372F /* LVCProjectOutlineViewController.m */,
+				C999722C185E22F500F9372F /* LVCProjectOutlineViewController.xib */,
 				C90A070B1850D66400F87324 /* LVCProjectWindowController.h */,
 				C90A070C1850D66400F87324 /* LVCProjectWindowController.m */,
 				C90A070D1850D66400F87324 /* LVCProjectWindowController.xib */,
 				C96C0812180C7D9D000149E3 /* MainMenu.xib */,
 				C95CD2C9180B5F9500007F9B /* Supporting Files */,
-				C999722A185E22F500F9372F /* LVCProjectOutlineViewController.h */,
-				C999722B185E22F500F9372F /* LVCProjectOutlineViewController.m */,
-				C999722C185E22F500F9372F /* LVCProjectOutlineViewController.xib */,
 			);
 			path = LayerVaultAPIClient;
 			sourceTree = "<group>";
