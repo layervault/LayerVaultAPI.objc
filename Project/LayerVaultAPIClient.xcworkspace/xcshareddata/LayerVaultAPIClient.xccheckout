@@ -5,36 +5,36 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>65FBF74A-79C9-4C89-B3AC-8ACE088DD985</string>
+	<string>39DC45F4-8DDE-43E5-9E88-9684AB221FB7</string>
 	<key>IDESourceControlProjectName</key>
 	<string>LayerVaultAPIClient</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>81AAB4F4-E354-4ACC-9E4E-156CF4CFD70C</key>
-		<string>ssh://github.com/layervault/layervault_objc_client.git</string>
+		<key>1F068A3F-5FCB-4AD3-B8B7-ED3AF927FF6F</key>
+		<string>ssh://github.com/layervault/LayerVaultAPI.objc.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Project/LayerVaultAPIClient.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>81AAB4F4-E354-4ACC-9E4E-156CF4CFD70C</key>
+		<key>1F068A3F-5FCB-4AD3-B8B7-ED3AF927FF6F</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://github.com/layervault/layervault_objc_client.git</string>
+	<string>ssh://github.com/layervault/LayerVaultAPI.objc.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>81AAB4F4-E354-4ACC-9E4E-156CF4CFD70C</string>
+	<string>1F068A3F-5FCB-4AD3-B8B7-ED3AF927FF6F</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>81AAB4F4-E354-4ACC-9E4E-156CF4CFD70C</string>
+			<string>1F068A3F-5FCB-4AD3-B8B7-ED3AF927FF6F</string>
 			<key>IDESourceControlWCCName</key>
-			<string>layervault_objc_client</string>
+			<string>LayerVaultAPI</string>
 		</dict>
 	</array>
 </dict>
