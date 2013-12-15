@@ -3,7 +3,7 @@
 //  LayerVaultAPIClient
 //
 //  Created by Matt Thomas on 10/17/13.
-//  Copyright (c) 2013 codecaffeine. All rights reserved.
+//  Copyright (c) 2013 LayerVault. All rights reserved.
 //
 
 #ifndef LayerVaultAPIClient_LVConstants_h
