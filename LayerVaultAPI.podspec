@@ -8,11 +8,11 @@ Pod::Spec.new do |s|
                     * Markdown format.
                     * Don't worry about the indent, we strip it!
                    DESC
-  s.homepage     = "http://github.com/layervault/layervault_objc_client"
+  s.homepage     = "http://github.com/layervault/LayerVaultAPI.objc"
   s.screenshots  = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license      = 'MIT'
   s.author       = { "Matt Thomas" => "matt@codecaffeine.com" }
-  s.source       = { :git => "https://github.com/layervault/layervault_objc_client.git", :tag => s.version.to_s }
+  s.source       = { :git => "https://github.com/layervault/LayerVaultAPI.objc.git", :tag => s.version.to_s }
 
   # s.platform     = :ios, '5.0'
   s.ios.deployment_target = '5.0'
