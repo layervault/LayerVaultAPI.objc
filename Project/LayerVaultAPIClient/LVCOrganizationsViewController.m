@@ -94,4 +94,10 @@
 }
 
 
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
+{
+    return [item isKindOfClass:LVCProject.class];
+}
+
+
 @end
