@@ -13,6 +13,7 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <Mantle/EXTScope.h>
 #import <Mantle/Mantle.h>
+#import "LVCMainWindowController.h"
 
 
 NSString *const emailRegEx =
@@ -37,12 +38,14 @@ NSString *const emailRegEx =
 @property (nonatomic) LVCUser *user;
 
 @property (nonatomic) LVCProjectWindowController *projectWindowController;
+@property (nonatomic) LVCMainWindowController *mainWindowController;
 @end
 
 @implementation LVCAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    self.mainWindowController = [[LVCMainWindowController alloc] initWithWindowNibName:@"LVCMainWindowController"];
     self.client = [[LVCHTTPClient alloc] initWithClientID:LVClientID
                                                    secret:LVClientSecret];
     self.credential = [AFOAuthCredential retrieveCredentialWithIdentifier:self.client.serviceProviderIdentifier];
@@ -131,6 +134,10 @@ NSString *const emailRegEx =
     [RACObserve(self, user) subscribeNext:^(LVCUser *user) {
         @strongify(self);
         [self setDataSourceForUser:user];
+        if (user) {
+            self.mainWindowController.user = user;
+            [self.mainWindowController showWindow:nil];
+        }
     }];
 }
 
