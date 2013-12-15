@@ -7,7 +7,7 @@
 //
 
 #import "LVCProjectOutlineViewController.h"
-#import <layervault_objc_client/LayerVaultAPI.h>
+#import <LayerVaultAPI/LayerVaultAPI.h>
 
 @interface LVCProjectOutlineViewController ()
 
