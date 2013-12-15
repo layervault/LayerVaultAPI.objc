@@ -1,9 +1,9 @@
 Pod::Spec.new do |s|
-  s.name         = "layervault_objc_client"
+  s.name         = "LayerVaultAPI"
   s.version      = "0.0.1"
-  s.summary      = "A short description of layervault_objc_client."
+  s.summary      = "A short description of LayerVaultAPI."
   s.description  = <<-DESC
-                    An optional longer description of layervault_objc_client
+                    An optional longer description of LayerVaultAPI
 
                     * Markdown format.
                     * Don't worry about the indent, we strip it!

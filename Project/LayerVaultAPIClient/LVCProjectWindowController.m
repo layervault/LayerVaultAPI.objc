@@ -7,7 +7,7 @@
 //
 
 #import "LVCProjectWindowController.h"
-#import <layervault_objc_client/LayerVaultAPI.h>
+#import <LayerVaultAPI/LayerVaultAPI.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <Mantle/EXTScope.h>
 
