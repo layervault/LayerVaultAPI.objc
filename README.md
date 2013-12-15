@@ -1,7 +1,7 @@
-# layervault_objc_client
+# LayerVaultAPI
 
-[![Version](http://cocoapod-badges.herokuapp.com/v/layervault_objc_client/badge.png)](http://cocoadocs.org/docsets/layervault_objc_client)
-[![Platform](http://cocoapod-badges.herokuapp.com/p/layervault_objc_client/badge.png)](http://cocoadocs.org/docsets/layervault_objc_client)
+[![Version](http://cocoapod-badges.herokuapp.com/v/LayerVaultAPI/badge.png)](http://cocoadocs.org/docsets/LayerVaultAPI)
+[![Platform](http://cocoapod-badges.herokuapp.com/p/LayerVaultAPI/badge.png)](http://cocoadocs.org/docsets/LayerVaultAPI)
 
 ## Usage
 
@@ -14,10 +14,10 @@ To run the example project; clone the repo, and run `pod install` from the Proje
 
 ## Installation
 
-layervault_objc_client is available through [CocoaPods](http://cocoapods.org), to install
+LayerVaultAPI is available through [CocoaPods](http://cocoapods.org), to install
 it simply add the following line to your Podfile:
 
-    pod "layervault_objc_client"
+    pod "LayerVaultAPI"
 
 You will also need to set the `LVClientID` and `LVClientSecret` to your OAuth client ID client secrets.
 
@@ -28,5 +28,5 @@ Matt Thomas, matt@codecaffeine.com
 
 ## License
 
-layervault_objc_client is available under the MIT license. See the LICENSE file for more info.
+LayerVaultAPI is available under the MIT license. See the LICENSE file for more info.
 

@@ -1,4 +1,4 @@
-# layervault_objc_client CHANGELOG
+# LayerVaultAPI CHANGELOG
 
 ## 0.1.0
 
