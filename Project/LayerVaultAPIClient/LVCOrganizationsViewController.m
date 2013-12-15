@@ -9,7 +9,7 @@
 #import "LVCOrganizationsViewController.h"
 #import <layervault_objc_client/LayerVaultAPI.h>
 
-@interface LVCOrganizationsViewController ()
+@interface LVCOrganizationsViewController ()  <NSOutlineViewDataSource, NSOutlineViewDelegate>
 @property (weak) IBOutlet NSOutlineView *outlineView;
 @end
 

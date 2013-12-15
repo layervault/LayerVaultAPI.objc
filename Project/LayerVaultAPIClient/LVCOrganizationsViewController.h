@@ -8,6 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface LVCOrganizationsViewController : NSViewController <NSOutlineViewDataSource, NSOutlineViewDelegate>
+@interface LVCOrganizationsViewController : NSViewController
 @property (nonatomic, copy) NSArray *organizations;
 @end
