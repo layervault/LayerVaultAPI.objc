@@ -8,13 +8,17 @@
 
 #import "LVCMainWindowController.h"
 #import "LVCOrganizationsViewController.h"
+#import "LVCProjectOutlineViewController.h"
 #import <LayerVaultAPI/LayerVaultAPI.h>
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
+static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 
 @interface LVCMainWindowController () <NSOutlineViewDataSource, NSOutlineViewDelegate>
-@property (weak) IBOutlet NSOutlineView *sourceList;
-@property (weak) IBOutlet NSOutlineView *fileList;
 @property (strong) IBOutlet LVCOrganizationsViewController *organizationsViewController;
+@property (strong) LVCProjectOutlineViewController *projectOutlineViewController;
 @property (weak) IBOutlet NSView *sourceViewContainer;
+@property (weak) IBOutlet NSView *detailViewContainer;
 @end
 
 @implementation LVCMainWindowController
@@ -24,8 +28,21 @@
     self = [super initWithWindow:window];
     if (self) {
         // Initialization code here.
+        _projectOutlineViewController = [[LVCProjectOutlineViewController alloc] initWithNibName:@"LVCProjectOutlineViewController" bundle:nil];
+
+        [RACObserve(self, organizationsViewController.selectedProject) subscribeNext:^(LVCProject *project) {
+            self.projectOutlineViewController.project = project;
+        }];
+
     }
     return self;
+}
+
+
+- (void)dealloc
+{
+    [_projectOutlineViewController removeObserver:self
+                                       forKeyPath:@"selectedProject"];
 }
 
 - (void)windowDidLoad
@@ -33,73 +50,31 @@
     [super windowDidLoad];
     
     self.organizationsViewController.organizations = self.user.organizations;
-    NSView *contentView = self.organizationsViewController.view;
-    contentView.autoresizingMask = NSViewMinXMargin|NSViewWidthSizable|NSViewMaxXMargin|NSViewMinYMargin|NSViewHeightSizable|NSViewMaxYMargin;
-    contentView.frame = self.sourceViewContainer.bounds;
-    [self.sourceViewContainer addSubview:contentView];
-}
+    NSView *organizationsView = self.organizationsViewController.view;
+    organizationsView.autoresizingMask = NSViewMinXMargin|NSViewWidthSizable|NSViewMaxXMargin|NSViewMinYMargin|NSViewHeightSizable|NSViewMaxYMargin;
+    organizationsView.frame = self.sourceViewContainer.bounds;
+    [self.sourceViewContainer addSubview:organizationsView];
 
-#pragma mark - NSOutlineViewDataSource
-- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
-{
-    if (item) {
-        if ([item isKindOfClass:LVCOrganization.class]) {
-            LVCOrganization *organization = (LVCOrganization *)item;
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"member = TRUE"];
-            NSArray *filteredArray = [organization.projects filteredArrayUsingPredicate:predicate];
-            return filteredArray.count;
-        }
-        return 0;
-    }
-    return self.user.organizations.count;
+    NSView *projectView = self.projectOutlineViewController.view;
+    projectView.autoresizingMask = NSViewMinXMargin|NSViewWidthSizable|NSViewMaxXMargin|NSViewMinYMargin|NSViewHeightSizable|NSViewMaxYMargin;
+    projectView.frame = self.detailViewContainer.bounds;
+    [self.detailViewContainer addSubview:projectView];
 }
 
 
-- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
 {
-    return [item isKindOfClass:LVCOrganization.class];
-}
-
-- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
-{
-    if (item) {
-        if ([item isKindOfClass:LVCOrganization.class]) {
-            LVCOrganization *organization = (LVCOrganization *)item;
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"member = TRUE"];
-            NSArray *filteredArray = [organization.projects filteredArrayUsingPredicate:predicate];
-            return filteredArray[index];
-        }
-        return nil;
-    }
-    return self.user.organizations[index];
-}
-
-
-#pragma mark - NSOutlineViewDelegate
-- (NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(id)item
-{
-    NSTableCellView *tableCellView = nil;
-    if (item) {
-        if ([item isKindOfClass:LVCOrganization.class]) {
-            LVCOrganization *organization = (LVCOrganization *)item;
-            tableCellView = [outlineView makeViewWithIdentifier:@"HeaderCell"
-                                                          owner:self];
-            [tableCellView.textField setStringValue:organization.name];
-        }
-        else if ([item isKindOfClass:LVCProject.class]) {
-            LVCProject *project = (LVCProject *)item;
-            tableCellView = [outlineView makeViewWithIdentifier:@"DataCell"
-                                                          owner:self];
-            [tableCellView.textField setStringValue:project.name];
+    if (context == LVCMainWindowControllerContext) {
+        if ([keyPath isEqualToString:@"selectedProject"]) {
+            self.projectOutlineViewController.project = self.organizationsViewController.selectedProject;
         }
     }
-    return tableCellView;
+    else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
-
-
-- (BOOL)outlineView:(NSOutlineView *)outlineView shouldShowOutlineCellForItem:(id)item {
-    return NO;
-}
-
 
 @end
