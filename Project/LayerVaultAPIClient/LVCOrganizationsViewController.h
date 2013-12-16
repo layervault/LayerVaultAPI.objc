@@ -7,7 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
+@class LVCProject;
 
 @interface LVCOrganizationsViewController : NSViewController
 @property (nonatomic, copy) NSArray *organizations;
+@property (nonatomic) LVCProject *selectedProject;
 @end

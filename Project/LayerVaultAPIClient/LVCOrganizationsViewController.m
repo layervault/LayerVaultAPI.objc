@@ -100,4 +100,13 @@
 }
 
 
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification
+{
+    id selectedItem = [self.outlineView itemAtRow:self.outlineView.selectedRow];
+    NSAssert(selectedItem == nil || [selectedItem isKindOfClass:LVCProject.class],
+             @"selected item can only be project or nil");
+    self.selectedProject = [self.outlineView itemAtRow:self.outlineView.selectedRow];
+}
+
+
 @end
