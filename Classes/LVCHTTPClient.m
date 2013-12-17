@@ -14,6 +14,7 @@
 #import "LVCOrganization.h"
 #import "LVCProject.h"
 #import "LVCAmazonS3Client.h"
+#import "LVCFileRevision.h"
 
 
 static NSString *md5ForFile(NSURL *fileURL)
@@ -591,7 +592,7 @@ static NSString *md5ForFile(NSURL *fileURL)
         params[@"new_file_name"] = newFileName;
     }
 
-    NSString *movePath = [file.urlPath stringByAppendingPathComponent:@"/move"];
+    NSString *movePath = [file.urlPath stringByAppendingPathComponent:@"move"];
 
     [self postPath:[self sanitizeRequestPath:movePath]
         parameters:params
@@ -609,7 +610,34 @@ static NSString *md5ForFile(NSURL *fileURL)
                                       NSError *error,
                                       AFHTTPRequestOperation *operation))completion
 {
+    NSParameterAssert(file);
+    NSParameterAssert(completion);
 
+    NSString *movePath = [file.urlPath stringByAppendingPathComponent:@"revisions"];
+
+    [self getPath:[self sanitizeRequestPath:movePath]
+       parameters:nil
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              NSArray *jsonRevisions = (NSArray *)responseObject;
+              NSMutableArray *revisions = @[].mutableCopy;
+              for (id jsonDictionary in jsonRevisions) {
+                  if (jsonDictionary == NSNull.null) {
+                      [revisions addObject:NSNull.null];
+                      continue;
+                  }
+
+                  LVCFileRevision *fileRevision = [MTLJSONAdapter modelOfClass:LVCFileRevision.class
+                                                            fromJSONDictionary:jsonDictionary
+                                                                         error:nil];
+                  if (fileRevision == nil) continue;
+
+                  [revisions addObject:fileRevision];
+              }
+              completion(revisions.copy, nil, operation);
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              completion(nil, error, operation);
+          }];
 }
 
 
