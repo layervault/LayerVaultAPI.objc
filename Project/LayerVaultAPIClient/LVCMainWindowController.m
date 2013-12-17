@@ -61,20 +61,4 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
     [self.detailViewContainer addSubview:projectView];
 }
 
-
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context
-{
-    if (context == LVCMainWindowControllerContext) {
-        if ([keyPath isEqualToString:@"selectedProject"]) {
-            self.projectOutlineViewController.project = self.organizationsViewController.selectedProject;
-        }
-    }
-    else {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    }
-}
-
 @end
