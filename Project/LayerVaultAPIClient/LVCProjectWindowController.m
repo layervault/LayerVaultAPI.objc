@@ -158,7 +158,7 @@
                                                              AFHTTPRequestOperation *operation) {
                                                     NSLog(@"file: %@", file);
                                                     NSLog(@"error: %@", error);
-                                                    NSLog(@"operation: %@", file);
+                                                    NSLog(@"operation: %@", operation);
                                                 }];
                           }
                       }];
