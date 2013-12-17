@@ -699,25 +699,19 @@
 
 
 #pragma mark - Revisions
-- (void)getRevisionWithNumber:(NSUInteger)revisionNumber
-                       ofFile:(LVCFile *)file
-                   completion:(void (^)(LVCFileRevision *fileRevision,
-                                        NSError *error,
-                                        AFHTTPRequestOperation *operation))completion
+- (void)getMetaDataForFileRevision:(LVCFileRevision *)fileRevision
+                        completion:(void (^)(id fileMetaData,
+                                             NSError *error,
+                                             AFHTTPRequestOperation *operation))completion
 {
-    NSParameterAssert(revisionNumber);
-    NSParameterAssert(file);
-    NSParameterAssert(revisionNumber);
+    NSParameterAssert(fileRevision);
+    NSParameterAssert(completion);
 
-    NSString *revisionPath = [file.urlPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%lu", revisionNumber]];
-    [self getPath:[self sanitizeRequestPath:revisionPath]
+    NSString *metaPath = [fileRevision.urlPath stringByAppendingPathComponent:@"meta"];
+    [self getPath:[self sanitizeRequestPath:metaPath]
        parameters:nil
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
-              NSError *error;
-              LVCFileRevision *fileRevision = [MTLJSONAdapter modelOfClass:LVCFileRevision.class
-                                                    fromJSONDictionary:responseObject
-                                                                 error:&error];
-              completion(fileRevision, error, operation);
+              completion(responseObject, nil, operation);
           }
           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
               completion(nil, error, operation);

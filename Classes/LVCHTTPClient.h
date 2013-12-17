@@ -174,14 +174,15 @@
 
 #pragma mark - Revisions
 // TODO: FileMetadata type
-- (void)getMetaDataForRevision:(LVCFileRevision *)fileRevision
-                        ofFile:(LVCFile *)file
-                    completion:(void (^)(id fileMetaData,
-                                         NSError *error,
-                                         AFHTTPRequestOperation *operation))completion;
+- (void)getMetaDataForFileRevision:(LVCFileRevision *)fileRevision
+                        completion:(void (^)(id fileMetaData,
+                                             NSError *error,
+                                             AFHTTPRequestOperation *operation))completion;
 
 - (void)getPreviewURLForRevision:(LVCFileRevision *)fileRevision
                           ofFile:(LVCFile *)file
+                           width:(NSUInteger)width
+                          height:(NSUInteger)height
                       completion:(void (^)(NSURL *url,
                                            NSError *error,
                                            AFHTTPRequestOperation *operation))completion;
