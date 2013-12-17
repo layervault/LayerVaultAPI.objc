@@ -20,4 +20,6 @@
 @property (readonly, nonatomic) NSURL *shortenedURL;
 
 @property (weak, nonatomic) LVCFile *file;
+@property (readonly, nonatomic) NSString *urlPath;
+
 @end

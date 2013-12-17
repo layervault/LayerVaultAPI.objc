@@ -99,4 +99,10 @@
 }
 
 
+#pragma mark - Declared Properties
+- (NSString *)urlPath
+{
+    return [self.file.urlPath stringByAppendingPathComponent:[self.revision stringValue]];
+}
+
 @end
