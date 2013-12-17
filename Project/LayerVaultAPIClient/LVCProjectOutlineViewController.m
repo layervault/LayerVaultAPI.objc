@@ -71,20 +71,36 @@
                                                                    owner:self];;
     if ([item isKindOfClass:LVCNode.class]) {
         LVCNode *node = (LVCNode *)item;
+        LVCFolder *folder = nil;
+        LVCFile *file = nil;
+
+        if ([node isKindOfClass:LVCFolder.class]) {
+            folder = (LVCFolder *)node;
+        }
+        else if ([node isKindOfClass:LVCFile.class]) {
+            file = (LVCFile *)node;
+        }
+
         if ([tableColumn.identifier isEqualToString:@"NameColumn"]) {
             [tableCellView.textField setStringValue:node.name];
-            NSString *imageName = [node isKindOfClass:LVCFolder.class] ? NSImageNamePathTemplate : NSImageNameIChatTheaterTemplate;
-            tableCellView.imageView.image = [NSImage imageNamed:imageName];
+            NSImage *image = nil;
+            if (folder) {
+                image = [NSImage imageNamed:NSImageNamePathTemplate];
+            }
+            else if (file) {
+
+            }
+            tableCellView.imageView.image = image;
         }
         else if ([tableColumn.identifier isEqualToString:@"InfoColumn"]) {
-            if ([node isKindOfClass:LVCFolder.class]) {
-                LVCFolder *folder = (LVCFolder *)node;
-                NSString *string = [NSString stringWithFormat:@"%lu Files", (unsigned long)folder.files.count];
-                [tableCellView.textField setStringValue:string];
+            NSString *string = @"";
+            if (folder) {
+                string = [NSString stringWithFormat:@"%lu Files", (unsigned long)folder.files.count];
             }
-            else {
-                [tableCellView.textField setStringValue:@""];
+            else if (file) {
+                string = [NSString stringWithFormat:@"%@ Revisions", file.revisionNumber];
             }
+            [tableCellView.textField setStringValue:string];
         }
         else if ([tableColumn.identifier isEqualToString:@"DateModifiedColumn"]) {
             [tableCellView.textField.cell setObjectValue:node.dateUpdated];
