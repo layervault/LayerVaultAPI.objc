@@ -641,6 +641,39 @@ static NSString *md5ForFile(NSURL *fileURL)
 }
 
 
+- (void)getPreviewURLsForFile:(LVCFile *)file
+                        width:(NSUInteger)width
+                       height:(NSUInteger)height
+                   completion:(void (^)(NSArray *previewURLs,
+                                        NSError *error,
+                                        AFHTTPRequestOperation *operation))completion;
+{
+    NSParameterAssert(file);
+    NSParameterAssert(width);
+    NSParameterAssert(height);
+    NSParameterAssert(completion);
+
+    NSString *previewsPath = [file.urlPath stringByAppendingPathComponent:@"previews"];
+
+    [self getPath:[self sanitizeRequestPath:previewsPath]
+       parameters:@{@"w": @(width), @"h": @(height)}
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              NSMutableArray *previewURLs = @[].mutableCopy;
+              if ([responseObject isKindOfClass:NSArray.class]) {
+                  for (NSString *urlString in responseObject) {
+                      NSURL *url = [NSURL URLWithString:urlString];
+                      if (url) {
+                          [previewURLs addObject:url];
+                      }
+                  }
+              }
+              completion(previewURLs.copy, nil, operation);
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              completion(nil, error, operation);
+          }];
+}
+
 #pragma mark - Private Methods
 - (NSString *)sanitizeRequestPath:(NSString *)path
 {
