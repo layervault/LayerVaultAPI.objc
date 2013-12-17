@@ -10,6 +10,10 @@
 #import "LVCFolder.h"
 #import "NSValueTransformer+LVCPredefinedTransformerAdditions.h"
 
+@interface LVCNode ()
+@property (nonatomic, copy) NSString *md5;
+@end
+
 @implementation LVCNode {
     __weak LVCFolder *_parentFolder;
 }

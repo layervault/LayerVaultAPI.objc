@@ -18,6 +18,7 @@ typedef enum : NSUInteger {
     LVCFileSyncStatusUploadFullFile = 412,
 } LVCFileSyncStatus;
 
+extern NSString *md5ForFileURL(NSURL *fileURL);
 
 @interface LVCFile : LVCNode <MTLJSONSerializing>
 
@@ -25,5 +26,7 @@ typedef enum : NSUInteger {
 @property (readonly, nonatomic, copy) NSArray *revisions;
 @property (readonly, nonatomic) NSDate *dateModified;
 @property (readonly, nonatomic) NSURL *downloadURL;
+
+- (void)updateMD5FromLocalFile;
 
 @end

@@ -9,6 +9,34 @@
 #import "LVCFile.h"
 #import "LVCFileRevision.h"
 #import "NSValueTransformer+LVCPredefinedTransformerAdditions.h"
+#import <CommonCrypto/CommonDigest.h>
+
+
+NSString *md5ForFileURL(NSURL *fileURL)
+{
+    NSError *error;
+    NSData *data = [NSData dataWithContentsOfURL:fileURL
+                                         options:NSDataReadingMappedIfSafe
+                                           error:&error];
+    if (!data) {
+        NSLog(@"%@", error);
+        return nil;
+    }
+
+    unsigned char md[CC_MD5_DIGEST_LENGTH];
+    CC_MD5([data bytes], (unsigned int)[data length], md);
+    NSMutableString *md5 = [NSMutableString string];
+    for (NSUInteger i = 0; i < CC_MD5_DIGEST_LENGTH; ++i) {
+        [md5 appendFormat:@"%02x", md[i]];
+    }
+
+    return md5;
+}
+
+@interface LVCFile ()
+@property (nonatomic, copy) NSString *md5;
+@end
+
 
 @implementation LVCFile
 
@@ -40,5 +68,15 @@
     return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 }
 
+
+- (void)updateMD5FromLocalFile
+{
+    if ([[NSFileManager defaultManager] fileExistsAtPath:self.fileURL.path]) {
+        self.md5 = md5ForFileURL(self.fileURL);
+    }
+    else {
+        NSLog(@"File not found locally: %@", self.fileURL);
+    }
+}
 
 @end

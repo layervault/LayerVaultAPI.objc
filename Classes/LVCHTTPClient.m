@@ -7,7 +7,6 @@
 //
 
 #import "LVCHTTPClient.h"
-#import <CommonCrypto/CommonDigest.h>
 #import <Mantle/Mantle.h>
 #import <AFNetworking/AFJSONRequestOperation.h>
 #import "LVCUser.h"
@@ -17,27 +16,6 @@
 #import "LVCFileRevision.h"
 #import "LVCFileRevisionFeedback.h"
 
-
-static NSString *md5ForFile(NSURL *fileURL)
-{
-    NSError *error;
-    NSData *data = [NSData dataWithContentsOfURL:fileURL
-                                         options:NSDataReadingMappedIfSafe
-                                           error:&error];
-    if (!data) {
-        NSLog(@"%@", error);
-        return nil;
-    }
-
-    unsigned char md[CC_MD5_DIGEST_LENGTH];
-    CC_MD5([data bytes], (unsigned int)[data length], md);
-    NSMutableString *md5 = [NSMutableString string];
-    for (NSUInteger i = 0; i < CC_MD5_DIGEST_LENGTH; ++i) {
-        [md5 appendFormat:@"%02x", md[i]];
-    }
-
-    return md5;
-}
 
 @implementation LVCHTTPClient
 
@@ -514,7 +492,7 @@ static NSString *md5ForFile(NSURL *fileURL)
     }
     filePath = [self sanitizeRequestPath:filePath];
 
-    NSString *md5 = md5ForFile(localFileURL);
+    NSString *md5 = md5ForFileURL(localFileURL);
     NSDictionary *params = nil;
     if (md5) {
         params = @{@"md5":md5};
