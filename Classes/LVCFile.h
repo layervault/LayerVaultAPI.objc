@@ -11,7 +11,7 @@
 
 typedef enum : NSUInteger {
     LVCFileSyncStatusError = 0,
-    LVCFileSyncStatusUploadPatch = 200,
+    LVCFileSyncStatusUploadOK = 200,
     LVCFileSyncStatusUpToDate = 409,
     LVCFileSyncStatusFileSizeMissing = 400,
     LVCFileSyncStatusFileTooLarge = 413,

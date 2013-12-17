@@ -693,6 +693,46 @@
           }];
 }
 
+
+- (void)checkSyncStatusForFile:(LVCFile *)file
+                          completion:(void (^)(LVCFileSyncStatus syncStatus,
+                                               NSError *error,
+                                               AFHTTPRequestOperation *operation))completion
+{
+    [self checkSyncStatusForFileURL:file.url
+                                   md5:file.md5
+                            completion:completion];
+}
+
+- (void)checkSyncStatusForFileURL:(NSURL *)filePath
+                              md5:(NSString *)md5
+                       completion:(void (^)(LVCFileSyncStatus syncStatus,
+                                            NSError *error,
+                                            AFHTTPRequestOperation *operation))completion;
+{
+    NSParameterAssert(filePath);
+    NSParameterAssert(md5);
+    NSParameterAssert(completion);
+
+    NSString *syncCheckPath = [filePath.path stringByAppendingPathComponent:@"sync_check"];
+
+    [self getPath:[self sanitizeRequestPath:syncCheckPath]
+       parameters:@{@"md5": md5}
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              completion(LVCFileSyncStatusUploadOK, nil, operation);
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              LVCFileSyncStatus status = LVCFileSyncStatusError;
+              if (operation.response.statusCode  == (LVCFileSyncStatusFileSizeMissing) ||
+                  operation.response.statusCode  == (LVCFileSyncStatusFileTooLarge) ||
+                  operation.response.statusCode  == (LVCFileSyncStatusUploadFullFile) ||
+                  operation.response.statusCode  == (LVCFileSyncStatusUpToDate)) {
+                  status = operation.response.statusCode;
+              }
+              completion(status, error, operation);
+          }];
+}
+
 #pragma mark - Private Methods
 - (NSString *)sanitizeRequestPath:(NSString *)path
 {

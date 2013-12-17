@@ -170,6 +170,13 @@
                                          NSError *error,
                                          AFHTTPRequestOperation *operation))completion;
 
+
+- (void)checkSyncStatusForFileURL:(NSURL *)filePath
+                              md5:(NSString *)md5
+                       completion:(void (^)(LVCFileSyncStatus syncStatus,
+                                            NSError *error,
+                                            AFHTTPRequestOperation *operation))completion;
+
 #pragma mark - Revisions
 - (void)getRevisionWithNumber:(NSUInteger)revisionNumber
                        ofFile:(LVCFile *)file
