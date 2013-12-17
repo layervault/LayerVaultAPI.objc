@@ -179,13 +179,13 @@
                                              NSError *error,
                                              AFHTTPRequestOperation *operation))completion;
 
-- (void)getPreviewURLForRevision:(LVCFileRevision *)fileRevision
-                          ofFile:(LVCFile *)file
-                           width:(NSUInteger)width
-                          height:(NSUInteger)height
-                      completion:(void (^)(NSURL *url,
-                                           NSError *error,
-                                           AFHTTPRequestOperation *operation))completion;
+- (void)getPreviewURLsForRevision:(LVCFileRevision *)fileRevision
+                            width:(NSUInteger)width
+                           height:(NSUInteger)height
+                       completion:(void (^)(NSArray *urls,
+                                            NSError *error,
+                                            AFHTTPRequestOperation *operation))completion
+;
 
 
 

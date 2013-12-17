@@ -719,6 +719,44 @@
 }
 
 
+- (void)getPreviewURLsForRevision:(LVCFileRevision *)fileRevision
+                            width:(NSUInteger)width
+                           height:(NSUInteger)height
+                       completion:(void (^)(NSArray *urls,
+                                            NSError *error,
+                                            AFHTTPRequestOperation *operation))completion
+{
+    NSParameterAssert(fileRevision);
+    NSParameterAssert(width);
+    NSParameterAssert(height);
+    NSParameterAssert(completion);
+
+    NSString *previewPath = [fileRevision.urlPath stringByAppendingPathComponent:@"previews"];
+    [self getPath:[self sanitizeRequestPath:previewPath]
+       parameters:@{@"w": @(width), @"h": @(height)}
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              // NOTE: I'm not too thrilled with how we handle failure cases
+              // here. If we get data back that we're not expecting we just
+              // return an empty array. If the server is sending back bad
+              // data, we need to be able to catch and report this in a way
+              // that doesn't crash the app but also in a way where the user
+              // wont be affected
+              NSMutableArray *urls = @[].mutableCopy;
+              if ([responseObject isKindOfClass:NSArray.class]) {
+                  for (NSString *urlString in responseObject) {
+                      NSURL *url = [NSURL URLWithString:urlString];
+                      if (url) {
+                          [urls addObject:url];
+                      }
+                  }
+              }
+              completion(urls.copy, nil, operation);
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              completion(nil, error, operation);
+          }];
+}
+
 #pragma mark - Private Methods
 - (NSString *)sanitizeRequestPath:(NSString *)path
 {
