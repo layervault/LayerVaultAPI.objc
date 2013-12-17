@@ -7,6 +7,7 @@
 //
 
 #import "LVCFileRevisionFeedback.h"
+#import "NSValueTransformer+LVCPredefinedTransformerAdditions.h"
 
 @implementation LVCFileRevisionFeedback
 
@@ -25,6 +26,9 @@
              @"dateCreated": @"created_at"};
 }
 
-
++ (NSValueTransformer *)dateCreatedJSONTransformer
+{
+    return [NSValueTransformer valueTransformerForName:LVCRFC3339DateTransformerName];
+}
 
 @end

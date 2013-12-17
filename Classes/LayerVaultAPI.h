@@ -23,5 +23,6 @@
 #import "LVCProject.h"
 #import "LVCUser.h"
 #import "NSDateFormatter+RFC3339.h"
+#import "NSValueTransformer+LVCPredefinedTransformerAdditions.h"
 
 #endif

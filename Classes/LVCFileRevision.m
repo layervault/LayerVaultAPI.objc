@@ -7,7 +7,7 @@
 //
 
 #import "LVCFileRevision.h"
-#import "NSDateFormatter+RFC3339.h"
+#import "NSValueTransformer+LVCPredefinedTransformerAdditions.h"
 
 @implementation LVCFileRevision
 
@@ -25,25 +25,13 @@
 
 + (NSValueTransformer *)dateCreatedJSONTransformer
 {
-    return [MTLValueTransformer
-            reversibleTransformerWithForwardBlock:^NSDate *(NSString *string) {
-                return [[NSDateFormatter lvc_rfc3339DateFormatter] dateFromString:string];
-            }
-            reverseBlock:^NSString *(NSDate *date) {
-                return [[NSDateFormatter lvc_rfc3339DateFormatter] stringFromDate:date];
-            }];
+    return [NSValueTransformer valueTransformerForName:LVCRFC3339DateTransformerName];
 }
 
 
 + (NSValueTransformer *)dateUpdatedJSONTransformer
 {
-    return [MTLValueTransformer
-            reversibleTransformerWithForwardBlock:^NSDate *(NSString *string) {
-                return [[NSDateFormatter lvc_rfc3339DateFormatter] dateFromString:string];
-            }
-            reverseBlock:^NSString *(NSDate *date) {
-                return [[NSDateFormatter lvc_rfc3339DateFormatter] stringFromDate:date];
-            }];
+    return [NSValueTransformer valueTransformerForName:LVCRFC3339DateTransformerName];
 }
 
 
