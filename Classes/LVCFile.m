@@ -8,6 +8,7 @@
 
 #import "LVCFile.h"
 #import "LVCFileRevision.h"
+#import "NSDateFormatter+RFC3339.h"
 
 @implementation LVCFile
 
@@ -32,10 +33,10 @@
 {
     return [MTLValueTransformer
             reversibleTransformerWithForwardBlock:^NSDate *(NSString *string) {
-                return [[self dateFormatter] dateFromString:string];
+                return [[NSDateFormatter lvc_rfc3339DateFormatter] dateFromString:string];
             }
             reverseBlock:^NSString *(NSDate *date) {
-                return [[self dateFormatter] stringFromDate:date];
+                return [[NSDateFormatter lvc_rfc3339DateFormatter] stringFromDate:date];
             }];
 }
 

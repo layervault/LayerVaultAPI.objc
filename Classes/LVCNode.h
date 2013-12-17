@@ -22,6 +22,4 @@
 @property (readonly, nonatomic, copy) NSString *urlPath;
 @property (weak, nonatomic) LVCFolder *parentFolder;
 
-+ (NSDateFormatter *)dateFormatter;
-
 @end
