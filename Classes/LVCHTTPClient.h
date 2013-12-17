@@ -147,11 +147,6 @@
                            NSError *error,
                            AFHTTPRequestOperation *operation))completion;
 
-- (void)getRevisionsForFile:(LVCFile *)file
-                 completion:(void (^)(NSArray *revisions,
-                                      NSError *error,
-                                      AFHTTPRequestOperation *operation))completion;
-
 - (void)getPreviewURLsForFile:(LVCFile *)file
                         width:(NSUInteger)width
                        height:(NSUInteger)height
@@ -178,12 +173,6 @@
                                             AFHTTPRequestOperation *operation))completion;
 
 #pragma mark - Revisions
-- (void)getRevisionWithNumber:(NSUInteger)revisionNumber
-                       ofFile:(LVCFile *)file
-                   completion:(void (^)(LVCFileRevision *fileRevision,
-                                        NSError *error,
-                                        AFHTTPRequestOperation *operation))completion;
-
 // TODO: FileMetadata type
 - (void)getMetaDataForRevision:(LVCFileRevision *)fileRevision
                         ofFile:(LVCFile *)file
