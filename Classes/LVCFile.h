@@ -29,5 +29,6 @@ extern NSString *md5ForFileURL(NSURL *fileURL);
 @property (readonly, nonatomic) NSURL *downloadURL;
 
 - (void)updateMD5FromLocalFile;
+- (LVCFileRevision *)revisionWithNumber:(NSNumber *)number;
 
 @end

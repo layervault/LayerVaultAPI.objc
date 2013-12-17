@@ -82,6 +82,7 @@ NSString *md5ForFileURL(NSURL *fileURL)
 }
 
 
+#pragma mark - Instance Methods
 - (void)updateMD5FromLocalFile
 {
     if ([[NSFileManager defaultManager] fileExistsAtPath:self.fileURL.path]) {
@@ -90,6 +91,32 @@ NSString *md5ForFileURL(NSURL *fileURL)
     else {
         NSLog(@"File not found locally: %@", self.fileURL);
     }
+}
+
+
+- (LVCFileRevision *)revisionWithNumber:(NSNumber *)number
+{
+    LVCFileRevision *revision = nil;
+
+    // Check by array position
+    if (number.unsignedIntegerValue <= self.revisions.count) {
+        LVCFileRevision *candidate = self.revisions[(number.unsignedIntegerValue - 1)];
+        if ([candidate.revision isEqual:number]) {
+            revision = candidate;
+        }
+    }
+
+    // If not found, iterate array
+    if (!revision) {
+        for (LVCFileRevision *candidate in self.revisions) {
+            if ([candidate.revision isEqual:number]) {
+                revision = candidate;
+                break;
+            }
+        }
+    }
+
+    return revision;
 }
 
 @end
