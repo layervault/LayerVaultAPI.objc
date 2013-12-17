@@ -7,6 +7,7 @@
 //
 
 #import <Mantle/Mantle.h>
+@class LVCFile;
 
 @interface LVCFileRevision : MTLModel <MTLJSONSerializing>
 
@@ -18,4 +19,5 @@
 @property (readonly, nonatomic) NSURL *downloadURL;
 @property (readonly, nonatomic) NSURL *shortenedURL;
 
+@property (weak, nonatomic) LVCFile *file;
 @end

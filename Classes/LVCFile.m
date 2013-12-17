@@ -69,6 +69,19 @@ NSString *md5ForFileURL(NSURL *fileURL)
 }
 
 
+- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue
+                             error:(NSError *__autoreleasing *)error
+{
+    self = [super initWithDictionary:dictionaryValue error:error];
+    if (self) {
+        for (LVCFileRevision *fileRevision in _revisions) {
+            fileRevision.file = self;
+        }
+    }
+    return self;
+}
+
+
 - (void)updateMD5FromLocalFile
 {
     if ([[NSFileManager defaultManager] fileExistsAtPath:self.fileURL.path]) {

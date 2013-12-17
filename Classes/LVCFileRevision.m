@@ -7,6 +7,7 @@
 //
 
 #import "LVCFileRevision.h"
+#import "LVCFile.h"
 #import "NSValueTransformer+LVCPredefinedTransformerAdditions.h"
 
 @implementation LVCFileRevision
@@ -50,6 +51,51 @@
 + (NSValueTransformer *)shortenedURLJSONTransformer
 {
     return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
+}
+
+
+#pragma mark - NSObject
+- (NSString *)description
+{
+    NSMutableDictionary *dict = self.dictionaryValue.mutableCopy;
+    if (self.file) {
+        dict[@"file"] = [NSString stringWithFormat:@"<%@: %p>",
+                         self.file.class,
+                         self.file];
+    }
+	return [NSString stringWithFormat:@"<%@: %p> %@", self.class, self, dict];
+}
+
+
+- (NSUInteger)hash {
+	NSUInteger value = 0;
+
+	for (NSString *key in self.class.propertyKeys) {
+        if ([key isEqualToString:@"file"]) {
+            continue;
+        }
+		value ^= [[self valueForKey:key] hash];
+	}
+
+	return value;
+}
+
+- (BOOL)isEqual:(MTLModel *)model {
+	if (self == model) return YES;
+	if (![model isMemberOfClass:self.class]) return NO;
+
+	for (NSString *key in self.class.propertyKeys) {
+        if ([key isEqualToString:@"file"]) {
+            continue;
+        }
+		id selfValue = [self valueForKey:key];
+		id modelValue = [model valueForKey:key];
+
+		BOOL valuesEqual = ((selfValue == nil && modelValue == nil) || [selfValue isEqual:modelValue]);
+		if (!valuesEqual) return NO;
+	}
+
+	return YES;
 }
 
 
