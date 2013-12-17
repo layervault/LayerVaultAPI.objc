@@ -31,4 +31,14 @@
     return [NSValueTransformer valueTransformerForName:LVCRFC3339DateTransformerName];
 }
 
+
+#pragma mark - Declared Properties
+- (CGRect)feedbackFrame
+{
+    return CGRectMake(self.top.doubleValue,
+                      self.left.doubleValue,
+                      self.right.doubleValue - self.left.doubleValue,
+                      self.bottom.doubleValue - self.top.doubleValue);
+}
+
 @end
