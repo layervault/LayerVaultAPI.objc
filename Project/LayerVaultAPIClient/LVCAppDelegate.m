@@ -262,19 +262,10 @@ NSString *const emailRegEx =
 }
 
 
-- (void)reloadDataSource
-{
-    [self setDataSourceForUser:self.user];
-}
-
-
 - (void)setDataSourceForUser:(LVCUser *)user
 {
-    NSMutableArray *dataSource = @[].mutableCopy;
     for (LVCOrganization *org in user.organizations) {
-        [dataSource addObject:org];
-        NSArray *sortedProjects = [org.projects sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"dateUpdated" ascending:NO]]];
-        for (LVCProject *currentProject in sortedProjects) {
+        for (LVCProject *currentProject in org.projects) {
             if (currentProject.member) {
                 if (currentProject.partial) {
                     [self.client getProjectFromPartial:currentProject
@@ -282,10 +273,25 @@ NSString *const emailRegEx =
                                                          NSError *error,
                                                          AFHTTPRequestOperation *operation) {
                                                 [currentProject mergeValuesForKeysFromModel:project];
-                                                [self reloadDataSource];
+                                                [self updateDataSource];
                     }];
                 }
-                else {
+            }
+        }
+    }
+    [self updateDataSource];
+}
+
+
+- (void)updateDataSource
+{
+    NSMutableArray *dataSource = @[].mutableCopy;
+    for (LVCOrganization *org in self.user.organizations) {
+        [dataSource addObject:org];
+        NSArray *sortedProjects = [org.projects sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"dateUpdated" ascending:NO]]];
+        for (LVCProject *currentProject in sortedProjects) {
+            if (currentProject.member) {
+                if (!currentProject.partial) {
                     [dataSource addObject:currentProject];
                 }
             }
