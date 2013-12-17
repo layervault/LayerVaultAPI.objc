@@ -158,7 +158,7 @@
                    completion:(void (^)(NSArray *previewURLs,
                                         NSError *error,
                                         AFHTTPRequestOperation *operation))completion;
-// TODO: Feedback type
+
 - (void)getFeebackForFile:(LVCFile *)file
                  revision:(NSUInteger)revision
                completion:(void (^)(NSArray *feedback,

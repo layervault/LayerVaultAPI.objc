@@ -15,6 +15,7 @@
 #import "LVCProject.h"
 #import "LVCAmazonS3Client.h"
 #import "LVCFileRevision.h"
+#import "LVCFileRevisionFeedback.h"
 
 
 static NSString *md5ForFile(NSURL *fileURL)
@@ -668,6 +669,46 @@ static NSString *md5ForFile(NSURL *fileURL)
                   }
               }
               completion(previewURLs.copy, nil, operation);
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              completion(nil, error, operation);
+          }];
+}
+
+
+- (void)getFeebackForFile:(LVCFile *)file
+                 revision:(NSUInteger)revision
+               completion:(void (^)(NSArray *feedback,
+                                    NSError *error,
+                                    AFHTTPRequestOperation *operation))completion;
+{
+    NSParameterAssert(file);
+    NSParameterAssert(revision);
+    NSParameterAssert(completion);
+
+    NSString *feedbackPath = [file.urlPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%lu", revision]];
+    feedbackPath = [feedbackPath stringByAppendingPathComponent:@"feedback_items"];
+
+    [self getPath:[self sanitizeRequestPath:feedbackPath]
+       parameters:nil
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              NSMutableArray *feedbackItems = @[].mutableCopy;
+              if ([responseObject isKindOfClass:NSArray.class]) {
+                  for (id jsonDictionary in responseObject) {
+                      if (jsonDictionary == NSNull.null) {
+                          [feedbackItems addObject:NSNull.null];
+                          continue;
+                      }
+
+                      LVCFileRevisionFeedback *feedback = [MTLJSONAdapter modelOfClass:LVCFileRevisionFeedback.class
+                                                                    fromJSONDictionary:jsonDictionary
+                                                                                 error:nil];
+                      if (feedback == nil) continue;
+
+                      [feedbackItems addObject:feedback];
+                  }
+              }
+              completion(feedbackItems.copy, nil, operation);
           }
           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
               completion(nil, error, operation);
