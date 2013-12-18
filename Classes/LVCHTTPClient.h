@@ -38,13 +38,7 @@
 - (void)getProjectFromPartial:(LVCProject *)project
                    completion:(void (^)(LVCProject *project,
                                         NSError *error,
-                                        AFHTTPRequestOperation *operation))block;
-
-- (void)getProjectWithName:(NSString *)projectName
-            inOrganization:(LVCOrganization *)organization
-                     block:(void (^)(LVCProject *project,
-                                     NSError *error,
-                                     AFHTTPRequestOperation *operation))block;
+                                        AFHTTPRequestOperation *operation))completion;
 
 - (void)getProjectWithName:(NSString *)projectName
      organizationPermalink:(NSString *)organizationPermalink
