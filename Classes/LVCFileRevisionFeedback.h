@@ -8,7 +8,11 @@
 
 #import <Mantle/Mantle.h>
 
+/**
+ *  A specific revision of a file on LayerVault
+ */
 @interface LVCFileRevisionFeedback : MTLModel <MTLJSONSerializing>
+
 @property (readonly, nonatomic) NSNumber *feedbackID;
 @property (readonly, nonatomic) NSNumber *previewID;
 @property (readonly, nonatomic) NSNumber *signpostID;
@@ -21,6 +25,9 @@
 @property (readonly, nonatomic) NSNumber *associatedSignpostID;
 @property (readonly, nonatomic) NSDate *dateCreated;
 
+/**
+ *  @note origin top left.
+ */
 @property (readonly, nonatomic) CGRect feedbackFrame;
 
 @end

@@ -1,6 +1,6 @@
 //
 //  NSDateFormatter+RFC3339.h
-//  Pods
+//  LayerVaultAPIClient
 //
 //  Created by Matt Thomas on 12/17/13.
 //
@@ -10,6 +10,10 @@
 
 @interface NSDateFormatter (RFC3339)
 
+/**
+ *  @return NSDateFormatter conforming to RFC 3339 using UTC time
+ *          http://www.ietf.org/rfc/rfc3339.txt
+ */
 + (NSDateFormatter *)lvc_rfc3339DateFormatter;
 
 @end

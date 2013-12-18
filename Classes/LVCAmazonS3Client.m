@@ -1,9 +1,9 @@
 //
 //  LVCAmazonS3Client.m
-//  Pods
+//  LayerVaultAPIClient
 //
 //  Created by Matt Thomas on 12/11/13.
-//
+//  Copyright (c) 2013 LayerVault. All rights reserved.
 //
 
 #import "LVCAmazonS3Client.h"

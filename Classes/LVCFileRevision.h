@@ -9,8 +9,14 @@
 #import <Mantle/Mantle.h>
 @class LVCFile;
 
+/**
+ *  A specific revision of a file that has been uploaded to LayerVault
+ */
 @interface LVCFileRevision : MTLModel <MTLJSONSerializing>
 
+/**
+ *  The revision number
+ */
 @property (readonly, nonatomic) NSNumber *revision;
 @property (readonly, nonatomic, copy) NSString *md5;
 @property (readonly, nonatomic) NSDate *dateCreated;

@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ *  Supported Color Labels
+ */
 typedef enum : NSUInteger {
     LVCColorWhite = 0,
     LVCColorGreen = 2,
@@ -15,10 +18,28 @@ typedef enum : NSUInteger {
     LVCColorOrange = 7
 } LVCColorLabel;
 
+/**
+ *  Class methods to translate between OS X labels and LayerVault color names
+ */
 @interface LVCColorUtils : NSObject
 
+/**
+ *  @return Dictionary containing color name keys and their OS X label values.
+ */
 + (NSDictionary *)colorNamesToValue;
+
+/**
+ *  @param label used to get NSColor for
+ *
+ *  @return NSColor based on label value
+ */
 + (NSColor *)colorForLabel:(LVCColorLabel)label;
+
+/**
+ *  @param label used to lookup color name
+ *
+ *  @return NSString of the colorname based on label.
+ */
 + (NSString *)colorNameForLabel:(LVCColorLabel)label;
 
 @end
