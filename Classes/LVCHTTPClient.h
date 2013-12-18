@@ -382,26 +382,60 @@
                                     NSError *error,
                                     AFHTTPRequestOperation *operation))completion;
 
-
+/**
+ *  Check the sync status of a file against an MD5.
+ *
+ *  @param filePath   File path including organization-permalink (should not be
+ *                    URL encoded)
+ *  @param md5        New md5 we're comparing against
+ *  @param completion Callback that return a LVCFileSyncStatus. An error will 
+ *                    be returned in each case except LVCFileSyncStatusUploadOK
+ */
 - (void)checkSyncStatusForFilePath:(NSString *)filePath
                                md5:(NSString *)md5
                         completion:(void (^)(LVCFileSyncStatus syncStatus,
                                              NSError *error,
                                              AFHTTPRequestOperation *operation))completion;
 
+/**
+ *  Check the sync status of a LVCFile.
+ *
+ *  @param file       File we are comparing against the server with.
+ *  @param completion Callback that return a LVCFileSyncStatus. An error will
+ *                    be returned in each case except LVCFileSyncStatusUploadOK
+ */
 - (void)checkSyncStatusForFile:(LVCFile *)file
                     completion:(void (^)(LVCFileSyncStatus syncStatus,
                                          NSError *error,
                                          AFHTTPRequestOperation *operation))completion;
 
 
-#pragma mark - Revisions
+/*******************
+ @name File Revision
+ *******************/
+
 // TODO: FileMetadata type
+/**
+ *  Get metadata for a specific file revision
+ *
+ *  @param fileRevision LVCFileRevision we want the metadata for
+ *  @param completion   Callback that returns file metadata. This may be nil if
+ *                      LayerVault doesn't
+ */
 - (void)getMetaDataForFileRevision:(LVCFileRevision *)fileRevision
                         completion:(void (^)(id fileMetaData,
                                              NSError *error,
                                              AFHTTPRequestOperation *operation))completion;
 
+/**
+ *  Get preview URLs for a specific file revision.
+ *
+ *  @param fileRevision LVCFileRevision
+ *  @param width        Max width of the previews
+ *  @param height       Max height of the previews
+ *  @param completion   Callback that return an array of NSURLs on success, or 
+ *                      nil with an error of failure
+ */
 - (void)getPreviewURLsForRevision:(LVCFileRevision *)fileRevision
                             width:(NSUInteger)width
                            height:(NSUInteger)height
