@@ -116,19 +116,7 @@
 
     [self getProjectWithName:project.name
        organizationPermalink:project.organizationPermalink
-                       block:block];
-}
-
-
-- (void)getProjectWithName:(NSString *)projectName
-            inOrganization:(LVCOrganization *)organization
-                     block:(void (^)(LVCProject *project,
-                                     NSError *error,
-                                     AFHTTPRequestOperation *operation))block
-{
-    [self getProjectWithName:projectName
-       organizationPermalink:organization.permalink
-                       block:block];
+                       completion:completion];
 }
 
 
