@@ -72,4 +72,38 @@
 }
 
 
+- (void)testNilColorWhiteLabel
+{
+    LVCFolder *folder = [MTLJSONAdapter modelOfClass:LVCFolder.class
+                                  fromJSONDictionary:self.validJSON
+                                               error:nil];
+    XCTAssertEqual(folder.colorLabel,
+                   LVCColorWhite, @"Should be white color label");
+}
+
+
+- (void)testUnknownColorWhiteLabel
+{
+    NSMutableDictionary *weirdColor = self.validJSON.mutableCopy;
+    weirdColor[@"color"] = @"puce";
+    LVCFolder *folder = [MTLJSONAdapter modelOfClass:LVCFolder.class
+                                  fromJSONDictionary:weirdColor
+                                               error:nil];
+    XCTAssertEqual(folder.colorLabel,
+                   LVCColorWhite, @"Should be white color label");
+}
+
+
+- (void)testCorrectColorLabel
+{
+    NSMutableDictionary *greenColor = self.validJSON.mutableCopy;
+    greenColor[@"color"] = @"green";
+    LVCFolder *folder = [MTLJSONAdapter modelOfClass:LVCFolder.class
+                                  fromJSONDictionary:greenColor
+                                               error:nil];
+    XCTAssertEqual(folder.colorLabel,
+                   LVCColorGreen, @"Should be white color label");
+}
+
+
 @end
