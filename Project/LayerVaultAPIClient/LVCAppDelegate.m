@@ -80,7 +80,9 @@ NSString *const emailRegEx =
                 [AFOAuthCredential storeCredential:credential
                                     withIdentifier:self.client.serviceProviderIdentifier];
                 [self.client setAuthorizationHeaderWithCredential:credential];
-                [self.client getMeWithBlock:^(LVCUser *user, NSError *error, AFHTTPRequestOperation *operation) {
+                [self.client getMeWithCompletion:^(LVCUser *user,
+                                                   NSError *error,
+                                                   AFHTTPRequestOperation *operation) {
                     @strongify(self);
                     self.user = user;
                     if (!user) {
