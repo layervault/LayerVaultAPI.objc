@@ -16,6 +16,11 @@
 @class LVCFolder;
 @class LVCFileRevision;
 
+/**
+ *  LVCHTTPClient is the main interface to the LayerVault web API. It contains 
+ *  all the methods responsible for creating, retriving, updating, and deleting
+ *  entities on the web.
+ */
 @interface LVCHTTPClient : AFOAuth2Client
 
 /**
