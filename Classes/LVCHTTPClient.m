@@ -448,25 +448,6 @@
 
 - (void)uploadLocalFile:(NSURL *)localFileURL
                  toPath:(NSString *)filePath
-              inProject:(LVCProject *)project
-             completion:(void (^)(LVCFile *file,
-                                  NSError *error,
-                                  AFHTTPRequestOperation *operation))completion
-{
-    NSParameterAssert(localFileURL);
-    NSParameterAssert(filePath);
-    NSParameterAssert(project);
-    NSParameterAssert(completion);
-
-    filePath = [self appendPath:filePath toProject:project includeOrganization:YES];
-
-    [self uploadLocalFile:localFileURL
-                   toPath:filePath
-               completion:completion];
-}
-
-- (void)uploadLocalFile:(NSURL *)localFileURL
-                 toPath:(NSString *)filePath
              completion:(void (^)(LVCFile *file,
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion
@@ -519,6 +500,26 @@
         NSError *error = [NSError errorWithDomain:@"asdf" code:-100 userInfo:nil];
         completion(nil, error, nil);
     }
+}
+
+
+- (void)uploadLocalFile:(NSURL *)localFileURL
+                 toPath:(NSString *)filePath
+              inProject:(LVCProject *)project
+             completion:(void (^)(LVCFile *file,
+                                  NSError *error,
+                                  AFHTTPRequestOperation *operation))completion
+{
+    NSParameterAssert(localFileURL);
+    NSParameterAssert(filePath);
+    NSParameterAssert(project);
+    NSParameterAssert(completion);
+
+    filePath = [self appendPath:filePath toProject:project includeOrganization:YES];
+
+    [self uploadLocalFile:localFileURL
+                   toPath:filePath
+               completion:completion];
 }
 
 

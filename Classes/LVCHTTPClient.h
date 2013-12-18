@@ -285,15 +285,17 @@
                                 NSError *error,
                                 AFHTTPRequestOperation *operation))completion;
 
+
 - (void)uploadLocalFile:(NSURL *)localFileURL
                  toPath:(NSString *)filePath
-              inProject:(LVCProject *)project
              completion:(void (^)(LVCFile *file,
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion;
 
+
 - (void)uploadLocalFile:(NSURL *)localFileURL
                  toPath:(NSString *)filePath
+              inProject:(LVCProject *)project
              completion:(void (^)(LVCFile *file,
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion;
