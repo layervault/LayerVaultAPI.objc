@@ -52,18 +52,6 @@
     return self;
 }
 
-// Remove path if it’s nil
-- (NSDictionary *)dictionaryValue
-{
-    NSMutableDictionary *dict = [super dictionaryValue].mutableCopy;
-
-    if ([self valueForKey:@"path"] == nil) {
-        [dict removeObjectForKey:@"path"];
-    }
-
-    return dict;
-}
-
 
 - (void)setNilValueForKey:(NSString *)key
 {
