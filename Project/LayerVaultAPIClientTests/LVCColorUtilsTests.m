@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <LayerVaultAPI/LVCColorUtils.h>
 
 @interface LVCColorUtilsTests : XCTestCase
 
@@ -14,21 +15,17 @@
 
 @implementation LVCColorUtilsTests
 
-- (void)setUp
+- (void)testUnknownColorLabelIsNSWhite
 {
-    [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+    NSColor *color = [LVCColorUtils colorForLabel:NSUIntegerMax];
+    XCTAssertEqualObjects(color, [NSColor whiteColor], @"should be white");
 }
 
-- (void)tearDown
+- (void)testUnknownColorLabelIsDefault
 {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
-}
-
-- (void)testExample
-{
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+    NSString *color = [LVCColorUtils colorNameForLabel:NSUIntegerMax];
+    XCTAssertEqualObjects(color, @"white",
+                          @"should be white");
 }
 
 @end
