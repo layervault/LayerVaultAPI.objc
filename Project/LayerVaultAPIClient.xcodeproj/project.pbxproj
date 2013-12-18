@@ -31,6 +31,7 @@
 		C9AEAB45185E041300E9EC40 /* LVCOrganizationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9AEAB43185E041300E9EC40 /* LVCOrganizationsViewController.xib */; };
 		C9DC2343185CCA4E00F9BE02 /* LVCMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DC2341185CCA4E00F9BE02 /* LVCMainWindowController.m */; };
 		C9DC2344185CCA4E00F9BE02 /* LVCMainWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9DC2342185CCA4E00F9BE02 /* LVCMainWindowController.xib */; };
+		C9EFE7361862323C00A87F81 /* NSValueTransformer+LVCPredefinedTransformerAdditionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EFE7351862323C00A87F81 /* NSValueTransformer+LVCPredefinedTransformerAdditionsTests.m */; };
 		C9FE2E3918622E5F00D7CE37 /* NSDateFormatter+RFC3339Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9FE2E3818622E5F00D7CE37 /* NSDateFormatter+RFC3339Tests.m */; };
 		E086014E1E16439B9766784A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F324AAFB3C2B45E5828793CE /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -84,6 +85,7 @@
 		C9DC2341185CCA4E00F9BE02 /* LVCMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCMainWindowController.m; sourceTree = "<group>"; };
 		C9DC2342185CCA4E00F9BE02 /* LVCMainWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LVCMainWindowController.xib; sourceTree = "<group>"; };
 		C9DFB7191810C973002B941B /* LVConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = LVConstants.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		C9EFE7351862323C00A87F81 /* NSValueTransformer+LVCPredefinedTransformerAdditionsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSValueTransformer+LVCPredefinedTransformerAdditionsTests.m"; sourceTree = "<group>"; };
 		C9FE2E3818622E5F00D7CE37 /* NSDateFormatter+RFC3339Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDateFormatter+RFC3339Tests.m"; sourceTree = "<group>"; };
 		F324AAFB3C2B45E5828793CE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -201,6 +203,7 @@
 				C9412731184CE47C0065072B /* LVCProjectTests.m */,
 				C96C0814180C7F23000149E3 /* LVCUserTest.m */,
 				C9FE2E3818622E5F00D7CE37 /* NSDateFormatter+RFC3339Tests.m */,
+				C9EFE7351862323C00A87F81 /* NSValueTransformer+LVCPredefinedTransformerAdditionsTests.m */,
 				C95CD2E7180B5F9500007F9B /* Supporting Files */,
 			);
 			path = LayerVaultAPIClientTests;
@@ -368,6 +371,7 @@
 			files = (
 				C9412732184CE47C0065072B /* LVCProjectTests.m in Sources */,
 				C96C0815180C7F23000149E3 /* LVCUserTest.m in Sources */,
+				C9EFE7361862323C00A87F81 /* NSValueTransformer+LVCPredefinedTransformerAdditionsTests.m in Sources */,
 				C90A07111850F22E00F87324 /* LVCFolderTests.m in Sources */,
 				C9FE2E3918622E5F00D7CE37 /* NSDateFormatter+RFC3339Tests.m in Sources */,
 			);
