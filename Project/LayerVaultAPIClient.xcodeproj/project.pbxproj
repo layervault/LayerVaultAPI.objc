@@ -35,6 +35,7 @@
 		C9EFE73A18623A9400A87F81 /* LVCNodeTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EFE73918623A9400A87F81 /* LVCNodeTests.m */; };
 		C9EFE73C1862482E00A87F81 /* LVCFileRevisionFeedbackTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EFE73B1862482E00A87F81 /* LVCFileRevisionFeedbackTests.m */; };
 		C9EFE73E18624A8A00A87F81 /* LVCFileRevisionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EFE73D18624A8A00A87F81 /* LVCFileRevisionTests.m */; };
+		C9EFE740186253E400A87F81 /* LVCFileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EFE73F186253E400A87F81 /* LVCFileTests.m */; };
 		C9FE2E3918622E5F00D7CE37 /* NSDateFormatter+RFC3339Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9FE2E3818622E5F00D7CE37 /* NSDateFormatter+RFC3339Tests.m */; };
 		E086014E1E16439B9766784A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F324AAFB3C2B45E5828793CE /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -92,6 +93,7 @@
 		C9EFE73918623A9400A87F81 /* LVCNodeTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCNodeTests.m; sourceTree = "<group>"; };
 		C9EFE73B1862482E00A87F81 /* LVCFileRevisionFeedbackTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCFileRevisionFeedbackTests.m; sourceTree = "<group>"; };
 		C9EFE73D18624A8A00A87F81 /* LVCFileRevisionTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCFileRevisionTests.m; sourceTree = "<group>"; };
+		C9EFE73F186253E400A87F81 /* LVCFileTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCFileTests.m; sourceTree = "<group>"; };
 		C9FE2E3818622E5F00D7CE37 /* NSDateFormatter+RFC3339Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDateFormatter+RFC3339Tests.m"; sourceTree = "<group>"; };
 		F324AAFB3C2B45E5828793CE /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -205,6 +207,7 @@
 		C95CD2E6180B5F9500007F9B /* LayerVaultAPIClientTests */ = {
 			isa = PBXGroup;
 			children = (
+				C9EFE73F186253E400A87F81 /* LVCFileTests.m */,
 				C9EFE73D18624A8A00A87F81 /* LVCFileRevisionTests.m */,
 				C9EFE73B1862482E00A87F81 /* LVCFileRevisionFeedbackTests.m */,
 				C90A07101850F22E00F87324 /* LVCFolderTests.m */,
@@ -385,6 +388,7 @@
 				C9EFE7361862323C00A87F81 /* NSValueTransformer+LVCPredefinedTransformerAdditionsTests.m in Sources */,
 				C90A07111850F22E00F87324 /* LVCFolderTests.m in Sources */,
 				C9EFE73C1862482E00A87F81 /* LVCFileRevisionFeedbackTests.m in Sources */,
+				C9EFE740186253E400A87F81 /* LVCFileTests.m in Sources */,
 				C9FE2E3918622E5F00D7CE37 /* NSDateFormatter+RFC3339Tests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
