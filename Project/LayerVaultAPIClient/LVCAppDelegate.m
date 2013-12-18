@@ -255,9 +255,9 @@ NSString *const emailRegEx =
         }
         else {
             if (![textField.stringValue isEqualToString:project.name]) {
-                [self.client moveProject:(LVCProject *)project
-                           toDestination:textField.stringValue
-                              completion:completion];
+                [self.client renameProject:(LVCProject *)project
+                                   newName:textField.stringValue
+                                completion:completion];
             }
         }
     }
