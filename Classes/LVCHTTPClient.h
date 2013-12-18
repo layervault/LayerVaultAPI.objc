@@ -106,7 +106,7 @@
  *  @param organizationPermalink The organization-permalink used to look up the 
  *                               project
  *  @param completion            Callback that returns a Project on success, or
- *                               nil on failure.
+ *                               nil on failure with an error
  */
 - (void)getProjectWithName:(NSString *)projectName
      organizationPermalink:(NSString *)organizationPermalink
@@ -120,7 +120,7 @@
  *  @param projectName           The name of the new project
  *  @param organizationPermalink The organization permalink of the new project
  *  @param completion            Callback that returns a new Project on success, 
- *                               or nil on failure
+ *                               or nil on failure with an error
  */
 - (void)createProjectWithName:(NSString *)projectName
         organizationPermalink:(NSString *)organizationPermalink
@@ -140,18 +140,34 @@
                                 NSError *error,
                                 AFHTTPRequestOperation *operation))completion;
 
-#warning rename
-- (void)moveProject:(LVCProject *)project
-      toDestination:(NSString *)destination
-         completion:(void (^)(LVCProject *project,
-                              NSError *error,
-                              AFHTTPRequestOperation *operation))block;
+/**
+ *  Renames a project to a new name.
+ *
+ *  @param project    The Project to rename
+ *  @param newName    The new name for the project
+ *  @param completion Callback that returns the Project with it's new name on 
+ *                    success, or nil on failure with an error
+ */
+- (void)renameProject:(LVCProject *)project
+              newName:(NSString *)newName
+           completion:(void (^)(LVCProject *project,
+                                NSError *error,
+                                AFHTTPRequestOperation *operation))completion;
 
+/**
+ *  Update the color label for a project. This is equivalent to the label or 
+ *  tag attribute on OS X, and will display the color on the website.
+ *
+ *  @param project    The project to change the color label to.
+ *  @param colorLabel The new color label.
+ *  @param completion Callback that returns YES if the color change succeeded, 
+ *                    or NO with an error if color change failed
+ */
 - (void)updateProject:(LVCProject *)project
            colorLabel:(LVCColorLabel)colorLabel
            completion:(void (^)(BOOL success,
                                 NSError *error,
-                                AFHTTPRequestOperation *operation))block;
+                                AFHTTPRequestOperation *operation))completion;
 
 #pragma mark - Folders
 - (void)getFolderAtPath:(NSString *)path
@@ -262,8 +278,7 @@
                            height:(NSUInteger)height
                        completion:(void (^)(NSArray *urls,
                                             NSError *error,
-                                            AFHTTPRequestOperation *operation))completion
-;
+                                            AFHTTPRequestOperation *operation))completion;
 
 
 

@@ -206,21 +206,21 @@
 }
 
 
-- (void)moveProject:(LVCProject *)project
-      toDestination:(NSString *)destination
-         completion:(void (^)(LVCProject *project,
-                              NSError *error,
-                              AFHTTPRequestOperation *operation))block
+- (void)renameProject:(LVCProject *)project
+              newName:(NSString *)newName
+           completion:(void (^)(LVCProject *project,
+                                NSError *error,
+                                AFHTTPRequestOperation *operation))completion
 {
     NSParameterAssert(project);
-    NSParameterAssert(destination);
-    NSParameterAssert(block);
+    NSParameterAssert(newName);
+    NSParameterAssert(completion);
 
     NSString *movePath = [[self pathForProject:project
                            includeOrganization:YES] stringByAppendingPathComponent:@"move"];
     movePath = [movePath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
-    NSDictionary *params = @{@"to": destination};
+    NSDictionary *params = @{@"to": newName};
 
     [self postPath:movePath
         parameters:params
@@ -229,10 +229,10 @@
                LVCProject *project = [MTLJSONAdapter modelOfClass:LVCProject.class
                                                fromJSONDictionary:responseObject
                                                             error:&error];
-               block(project, error, operation);
+               completion(project, error, operation);
            }
            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-               block(nil, error, operation);
+               completion(nil, error, operation);
            }];
 }
 
@@ -241,10 +241,10 @@
            colorLabel:(LVCColorLabel)colorLabel
            completion:(void (^)(BOOL success,
                                 NSError *error,
-                                AFHTTPRequestOperation *operation))block
+                                AFHTTPRequestOperation *operation))completion
 {
     NSParameterAssert(project);
-    NSParameterAssert(block);
+    NSParameterAssert(completion);
 
     NSLog(@"updating color %@ \u2192 %@",
           [LVCColorUtils colorNameForLabel:project.colorLabel],
@@ -261,10 +261,10 @@
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               project.colorLabel = colorLabel;
               project.dateUpdated = [NSDate date];
-              block(YES, Nil, operation);
+              completion(YES, Nil, operation);
           }
           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-              block(NO, error, operation);
+              completion(NO, error, operation);
           }];
 }
 
