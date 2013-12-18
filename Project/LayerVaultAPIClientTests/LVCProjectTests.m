@@ -42,6 +42,16 @@
     XCTAssertNil(project, @"user should be nil");
 }
 
+- (void)testNilNameNilProject
+{
+    NSMutableDictionary *dictLessName = self.validJSON.mutableCopy;
+    [dictLessName removeObjectForKey:@"name"];
+
+    LVCProject *project = [MTLJSONAdapter modelOfClass:LVCProject.class
+                                    fromJSONDictionary:dictLessName
+                                                 error:nil];
+    XCTAssertNil(project, @"user should be nil");
+}
 
 - (void)testProjectIsFolderSubclass
 {
@@ -58,6 +68,42 @@
                                     fromJSONDictionary:self.validJSON
                                                  error:nil];
     XCTAssertNotNil(project, @"Project should not be nil");
+}
+
+
+- (void)testInitWithNameReturnsNOSynced
+{
+    LVCProject *project = [[LVCProject alloc] initWithName:@"foo"
+                                     organizationPermalink:@"bar"];
+    XCTAssertNotNil(project, @"project should not be nil");
+    XCTAssertFalse(project.synced, @"Project should not be synced");
+}
+
+
+- (void)testInitFromDictReturnsYESSynced
+{
+    LVCProject *project = [MTLJSONAdapter modelOfClass:LVCProject.class
+                                    fromJSONDictionary:self.validJSON
+                                                 error:nil];
+    XCTAssertTrue(project.synced, @"Project should be synced");
+}
+
+
+- (void)testNoPathIsPartialPathIsNotPartial
+{
+    NSMutableDictionary *dictLesspath = self.validJSON.mutableCopy;
+    [dictLesspath removeObjectForKey:@"path"];
+
+    LVCProject *project = [MTLJSONAdapter modelOfClass:LVCProject.class
+                                    fromJSONDictionary:dictLesspath
+                                                 error:nil];
+    XCTAssertTrue(project.partial, @"project should be partial");
+
+    LVCProject *project2 = [MTLJSONAdapter modelOfClass:LVCProject.class
+                                    fromJSONDictionary:self.validJSON
+                                                 error:nil];
+    XCTAssertNotNil(project2, @"project should not be nil");
+    XCTAssertFalse(project2.partial, @"project should not be partial");
 }
 
 
