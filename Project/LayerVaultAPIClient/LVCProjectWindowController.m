@@ -165,17 +165,17 @@
     }
     else if ([selectedItem isKindOfClass:LVCFile.class]) {
         LVCFile *file = (LVCFile *)selectedItem;
-        NSString *path = @"Matt\u2019s Cool Sandb\u00F8x";
-        [self.client moveFile:file
-                       toPath:path
-                  newFileName:@"baz.jpg"
-                   completion:^(BOOL success,
-                                NSError *error,
-                                AFHTTPRequestOperation *operation) {
-                       NSLog(@"success: %@", success? @"YES" : @"NO");
-                       NSLog(@"error: %@", error);
-                       NSLog(@"operation: %@", file);
-                   }];
+        LVCFileRevision *rev = [file revisionWithNumber:file.revisionNumber];
+        [self.client getPreviewURLsForRevision:rev
+                                         width:100
+                                        height:100
+                                    completion:^(NSArray *urls,
+                                                 NSError *error,
+                                                 AFHTTPRequestOperation *operation) {
+                                        NSLog(@"urls: %@", urls);
+                                        NSLog(@"error: %@", error);
+                                        NSLog(@"operation: %@", operation);
+                                    }];
     }
 }
 
