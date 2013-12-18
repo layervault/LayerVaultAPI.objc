@@ -650,27 +650,17 @@
 }
 
 
-- (void)checkSyncStatusForFile:(LVCFile *)file
-                          completion:(void (^)(LVCFileSyncStatus syncStatus,
-                                               NSError *error,
-                                               AFHTTPRequestOperation *operation))completion
-{
-    [self checkSyncStatusForFileURL:file.url
-                                   md5:file.md5
-                            completion:completion];
-}
-
-- (void)checkSyncStatusForFileURL:(NSURL *)filePath
-                              md5:(NSString *)md5
-                       completion:(void (^)(LVCFileSyncStatus syncStatus,
-                                            NSError *error,
-                                            AFHTTPRequestOperation *operation))completion;
+- (void)checkSyncStatusForFilePath:(NSString *)filePath
+                               md5:(NSString *)md5
+                        completion:(void (^)(LVCFileSyncStatus syncStatus,
+                                             NSError *error,
+                                             AFHTTPRequestOperation *operation))completion
 {
     NSParameterAssert(filePath);
     NSParameterAssert(md5);
     NSParameterAssert(completion);
 
-    NSString *syncCheckPath = [filePath.path stringByAppendingPathComponent:@"sync_check"];
+    NSString *syncCheckPath = [filePath stringByAppendingPathComponent:@"sync_check"];
 
     [self getPath:[self sanitizeRequestPath:syncCheckPath]
        parameters:@{@"md5": md5}
@@ -689,6 +679,16 @@
           }];
 }
 
+
+- (void)checkSyncStatusForFile:(LVCFile *)file
+                    completion:(void (^)(LVCFileSyncStatus syncStatus,
+                                         NSError *error,
+                                         AFHTTPRequestOperation *operation))completion
+{
+    [self checkSyncStatusForFilePath:file.urlPath
+                                 md5:file.md5
+                          completion:completion];
+}
 
 #pragma mark - Revisions
 - (void)getMetaDataForFileRevision:(LVCFileRevision *)fileRevision
