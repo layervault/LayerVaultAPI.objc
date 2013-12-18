@@ -29,9 +29,9 @@
 - (instancetype)initWithClientID:(NSString *)clientID secret:(NSString *)secret;
 
 
-/*************************
-   @name Authentication
- *************************/
+/********************
+ @name Authentication
+ ********************/
 
 /**
  *  Authenticates using an email and password. Completion block returns an
@@ -49,9 +49,9 @@
                                         NSError *error))completion;
 
 
-/***************
-   @name User
- ***************/
+/**********
+ @name User
+ **********/
 
 /**
  *  Get the current authenticated user's info including name, email, 
@@ -65,9 +65,9 @@
                                       AFHTTPRequestOperation *operation))completion;
 
 
-/***********************
-   @name Organizations
- ***********************/
+/*******************
+ @name Organizations
+ *******************/
 
 /**
  *  Returns an organization given a permalink string.
@@ -81,9 +81,9 @@
                                                NSError *error,
                                                AFHTTPRequestOperation *operation))block;
 
-/******************
-   @name Projects
- ******************/
+/**************
+ @name Projects
+ **************/
 
 /**
  *  The projects returned by /me and /:organization_permalink only contain 
@@ -129,7 +129,7 @@
                                         AFHTTPRequestOperation *operation))completion;
 
 /**
- *  Deletes a given project.
+ *  Deletes a given project and any of it's contents.
  *
  *  @param project      The Project to delete.
  *  @param completion   Callback that returns YES on successful deletion, or NO 
@@ -155,11 +155,11 @@
                                 AFHTTPRequestOperation *operation))completion;
 
 /**
- *  Update the color label for a project. This is equivalent to the label or 
+ *  Update the color label for a Project. This is equivalent to the label or
  *  tag attribute on OS X, and will display the color on the website.
  *
- *  @param project    The project to change the color label to.
- *  @param colorLabel The new color label.
+ *  @param project    Project to change the color label
+ *  @param colorLabel New color label
  *  @param completion Callback that returns YES if the color change succeeded, 
  *                    or NO with an error if color change failed
  */
@@ -169,12 +169,33 @@
                                 NSError *error,
                                 AFHTTPRequestOperation *operation))completion;
 
-#pragma mark - Folders
+
+/*************
+ @name Folders
+ *************/
+
+/**
+ *  Returns a Folder given a full folder path including organization permalink 
+ *  and project.
+ *
+ *  @param path       Folder path relative to organization. Should not be URL 
+ *                    encoded
+ *  @param completion Callback that returns the Folder on success, or nil on
+ *                    failure with an error
+ */
 - (void)getFolderAtPath:(NSString *)path
              completion:(void (^)(LVCFolder *folder,
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion;
 
+/**
+ *  Returns a Folder given a path within a specified Project.
+ *
+ *  @param path       Path relative to project
+ *  @param project    Project that contains the path
+ *  @param completion Callback that returns the Folder on success, or nil on
+ *                    failure with an error
+ */
 - (void)getFolderAtPath:(NSString *)path
               inProject:(LVCProject *)project
              completion:(void (^)(LVCFolder *folder,
@@ -182,6 +203,17 @@
                                   AFHTTPRequestOperation *operation))completion;
 
 
+#warning Verify
+/**
+ *  Create a folder at a given path within a specified Project. This will 
+ *  create any intermediate folders if needed.
+ *
+ *  @param path       Path relative to project
+ *  @param project    Project where new folder will be created.
+ *  @param completion Callback that returns the Folder if it was created 
+ *                    successfully, or nil with an error if the folder could 
+ *                    not be created
+ */
 - (void)createFolderAtPath:(NSString *)path
                  inProject:(LVCProject *)project
                 completion:(void (^)(LVCFolder *folder,
@@ -189,12 +221,29 @@
                                      AFHTTPRequestOperation *operation))completion;
 
 
+/**
+ *  Deletes a given folder and all of it's contents.
+ *
+ *  @param folder     Folder to delete
+ *  @param completion Callback that return YES on successful deletion, or NO
+ *                    with an error if the folder could not be deleted
+ */
 - (void)deleteFolder:(LVCFolder *)folder
           completion:(void (^)(BOOL success,
                                NSError *error,
                                AFHTTPRequestOperation *operation))completion;
 
-
+#warning verify
+/**
+ *  Move a folder to a new path. This move is permitted across different 
+ *  Projects, but it has to be within the same Organization.
+ *
+ *  @param folder     Folder to move
+ *  @param toPath     New folder path
+ *  @param project    New Project or nil if toPath is within the same Project
+ *  @param completion Callback that returns the Folder on successful move, or 
+ *                    nil with an error if the move failed
+ */
 - (void)moveFolder:(LVCFolder *)folder
             toPath:(NSString *)toPath
          inProject:(LVCProject *)project
@@ -202,6 +251,15 @@
                              NSError *error,
                              AFHTTPRequestOperation *operation))completion;
 
+/**
+ *  Update the color label for a folder. This is equivalent to the label or
+ *  tag attribute on OS X.
+ *
+ *  @param folder     Folder of which to change the color label
+ *  @param colorLabel New color label
+ *  @param completion Callback that returns YES if the color change succeeded,
+ *                    or NO with an error if color change failed
+ */
 - (void)updateFolder:(LVCFolder *)folder
           colorLabel:(LVCColorLabel)colorLabel
           completion:(void (^)(BOOL success,
@@ -209,7 +267,19 @@
                                AFHTTPRequestOperation *operation))completion;
 
 
-#pragma mark - Files
+/***************
+ @name Files
+ ***************/
+
+/**
+ *  Returns a Folder given a full folder path including organization permalink
+ *  and project.
+ *
+ *  @param filePath   File path relative to organization. Should not be URL
+ *                    encoded
+ *  @param completion Callback that returns the File on success, or nil on
+ *                    failure with an error
+ */
 - (void)getFileAtPath:(NSString *)filePath
            completion:(void (^)(LVCFile *file,
                                 NSError *error,
