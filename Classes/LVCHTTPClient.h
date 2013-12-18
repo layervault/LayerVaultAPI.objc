@@ -18,45 +18,129 @@
 
 @interface LVCHTTPClient : AFOAuth2Client
 
+/**
+ *  Create a new LayerVault HTTP Client instance
+ *
+ *  @param clientID The OAuth Client ID
+ *  @param secret   The OAuth Client Secret
+ *
+ *  @return A new LayerVault HTTP Client instance
+ */
 - (instancetype)initWithClientID:(NSString *)clientID secret:(NSString *)secret;
 
-#pragma mark - Authentication
+
+/*************************
+   @name Authentication
+ *************************/
+
+/**
+ *  Authenticates using an email and password. Completion block returns an
+ *  OAuth credential if successful or nil if it fails. The error describes why 
+ *  the request failed.
+ *
+ *  @param email      User's email for authentication
+ *  @param password   User's password for authentication
+ *  @param completion Callback that returns an OAuth credential on success, or 
+ *                    nil on failure with an error
+ */
 - (void)authenticateWithEmail:(NSString *)email
                      password:(NSString *)password
-                   completion:(void (^)(AFOAuthCredential *credential, NSError *error))completion;
+                   completion:(void (^)(AFOAuthCredential *credential,
+                                        NSError *error))completion;
 
-#pragma mark - User
-- (void)getMeWithBlock:(void (^)(LVCUser *user, NSError *error, AFHTTPRequestOperation *operation))block;
 
-#pragma mark - Organizations
+/***************
+   @name User
+ ***************/
+
+/**
+ *  Get the current authenticated user's info including name, email, 
+ *  organizations and projects.
+ *
+ *  @param completion Callback that returns a User on success, or nil on 
+ *         failure with an error
+ */
+- (void)getMeWithCompletion:(void (^)(LVCUser *user,
+                                      NSError *error,
+                                      AFHTTPRequestOperation *operation))completion;
+
+
+/***********************
+   @name Organizations
+ ***********************/
+
+/**
+ *  Returns an organization given a permalink string.
+ *
+ *  @param permalink    Permalink string for organization
+ *  @param completion   Callback that returns an Organization on success, or 
+ *                      nil on failure with an error
+ */
 - (void)getOrganizationWithParmalink:(NSString *)permalink
                                block:(void (^)(LVCOrganization *organization,
                                                NSError *error,
                                                AFHTTPRequestOperation *operation))block;
 
-#pragma mark - Projects
+/******************
+   @name Projects
+ ******************/
+
+/**
+ *  The projects returned by /me and /:organization_permalink only contain 
+ *  partial information. They don't contain the fil hierarchy. This method will 
+ *  update a project with partial information with the full project information.
+ *
+ *  @param project      Project with partial information to update
+ *  @param completion   Callback that returns a Project on success, or nil on
+ *                      failure with an error
+ */
 - (void)getProjectFromPartial:(LVCProject *)project
                    completion:(void (^)(LVCProject *project,
                                         NSError *error,
                                         AFHTTPRequestOperation *operation))completion;
 
+/**
+ *  Returns a project given a project name and organization permalink
+ *
+ *  @param projectName           The name of the project to return
+ *  @param organizationPermalink The organization-permalink used to look up the 
+ *                               project
+ *  @param completion            Callback that returns a Project on success, or
+ *                               nil on failure.
+ */
 - (void)getProjectWithName:(NSString *)projectName
      organizationPermalink:(NSString *)organizationPermalink
-                     block:(void (^)(LVCProject *project,
+                completion:(void (^)(LVCProject *project,
                                      NSError *error,
-                                     AFHTTPRequestOperation *operation))block;
+                                     AFHTTPRequestOperation *operation))completion;
 
+/**
+ *  Creates a new project with a given name inside of an organization.
+ *
+ *  @param projectName           The name of the new project
+ *  @param organizationPermalink The organization permalink of the new project
+ *  @param completion            Callback that returns a new Project on success, 
+ *                               or nil on failure
+ */
 - (void)createProjectWithName:(NSString *)projectName
         organizationPermalink:(NSString *)organizationPermalink
                    completion:(void (^)(LVCProject *project,
                                         NSError *error,
-                                        AFHTTPRequestOperation *operation))block;
+                                        AFHTTPRequestOperation *operation))completion;
 
+/**
+ *  Deletes a given project.
+ *
+ *  @param project      The Project to delete.
+ *  @param completion   Callback that returns YES on successful deletion, or NO 
+ *                      with an error if the project could not be deleted.
+ */
 - (void)deleteProject:(LVCProject *)project
            completion:(void (^)(BOOL success,
                                 NSError *error,
-                                AFHTTPRequestOperation *operation))block;
+                                AFHTTPRequestOperation *operation))completion;
 
+#warning rename
 - (void)moveProject:(LVCProject *)project
       toDestination:(NSString *)destination
          completion:(void (^)(LVCProject *project,

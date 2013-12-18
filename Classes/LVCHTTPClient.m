@@ -42,7 +42,8 @@
 #pragma mark - Authentication
 - (void)authenticateWithEmail:(NSString *)email
                      password:(NSString *)password
-                   completion:(void (^)(AFOAuthCredential *credential, NSError *error))completion
+                   completion:(void (^)(AFOAuthCredential *credential,
+                                        NSError *error))completion
 {
     NSParameterAssert(email);
     NSParameterAssert(password);
@@ -62,9 +63,11 @@
 
 
 #pragma mark - Users
-- (void)getMeWithBlock:(void (^)(LVCUser *user, NSError *error, AFHTTPRequestOperation *operation))block
+- (void)getMeWithCompletion:(void (^)(LVCUser *user,
+                                      NSError *error,
+                                      AFHTTPRequestOperation *operation))completion
 {
-    NSParameterAssert(block);
+    NSParameterAssert(completion);
 
     [self getPath:@"me"
        parameters:nil
@@ -73,10 +76,10 @@
               LVCUser *user = [MTLJSONAdapter modelOfClass:LVCUser.class
                                         fromJSONDictionary:responseObject
                                                      error:&error];
-              block(user, error, operation);
+              completion(user, error, operation);
           }
           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-              block(nil, error, operation);
+              completion(nil, error, operation);
           }];
 }
 
@@ -109,10 +112,10 @@
 - (void)getProjectFromPartial:(LVCProject *)project
                    completion:(void (^)(LVCProject *project,
                                         NSError *error,
-                                        AFHTTPRequestOperation *operation))block
+                                        AFHTTPRequestOperation *operation))completion
 {
     NSParameterAssert(project);
-    NSParameterAssert(block);
+    NSParameterAssert(completion);
 
     [self getProjectWithName:project.name
        organizationPermalink:project.organizationPermalink
@@ -122,13 +125,13 @@
 
 - (void)getProjectWithName:(NSString *)projectName
      organizationPermalink:(NSString *)organizationPermalink
-                     block:(void (^)(LVCProject *project,
+                completion:(void (^)(LVCProject *project,
                                      NSError *error,
-                                     AFHTTPRequestOperation *operation))block
+                                     AFHTTPRequestOperation *operation))completion
 {
     NSParameterAssert(projectName);
     NSParameterAssert(organizationPermalink);
-    NSParameterAssert(block);
+    NSParameterAssert(completion);
 
     NSString *projectPath = [self pathForProjectName:projectName
                                organizationPermalink:organizationPermalink];
@@ -142,10 +145,10 @@
               LVCProject *project = [MTLJSONAdapter modelOfClass:LVCProject.class
                                               fromJSONDictionary:responseObject
                                                            error:&error];
-              block(project, error, operation);
+              completion(project, error, operation);
           }
           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-              block(nil, error, operation);
+              completion(nil, error, operation);
           }];
 }
 
@@ -154,11 +157,11 @@
         organizationPermalink:(NSString *)organizationPermalink
                    completion:(void (^)(LVCProject *project,
                                         NSError *error,
-                                        AFHTTPRequestOperation *operation))block
+                                        AFHTTPRequestOperation *operation))completion
 {
     NSParameterAssert(projectName);
     NSParameterAssert(organizationPermalink);
-    NSParameterAssert(block);
+    NSParameterAssert(completion);
 
     NSString *projectPath = [self pathForProjectName:projectName
                                organizationPermalink:organizationPermalink];
@@ -172,10 +175,10 @@
                LVCProject *project = [MTLJSONAdapter modelOfClass:LVCProject.class
                                                fromJSONDictionary:responseObject
                                                             error:&error];
-               block(project, error, operation);
+               completion(project, error, operation);
            }
            failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-               block(nil, error, operation);
+               completion(nil, error, operation);
            }];
 
 }
@@ -184,10 +187,10 @@
 - (void)deleteProject:(LVCProject *)project
            completion:(void (^)(BOOL success,
                                 NSError *error,
-                                AFHTTPRequestOperation *operation))block
+                                AFHTTPRequestOperation *operation))completion
 {
     NSParameterAssert(project);
-    NSParameterAssert(block);
+    NSParameterAssert(completion);
 
     NSString *projectPath = [self pathForProject:project includeOrganization:YES];
     projectPath = [projectPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -195,10 +198,10 @@
     [self deletePath:projectPath
           parameters:nil
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                 block(YES, nil, operation);
+                 completion(YES, nil, operation);
              }
              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                 block(NO, error, operation);
+                 completion(NO, error, operation);
              }];
 }
 
