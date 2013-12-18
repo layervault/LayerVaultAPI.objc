@@ -107,4 +107,15 @@
 }
 
 
+- (void)testPermalinkPartOfURLPath
+{
+    LVCProject *project = [MTLJSONAdapter modelOfClass:LVCProject.class
+                                    fromJSONDictionary:self.validJSON
+                                                 error:nil];
+    XCTAssertEqualObjects(project.urlPath,
+                          @"awesome-sauce/oxchitl",
+                          @"unexpected urlPath");
+}
+
+
 @end
