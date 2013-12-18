@@ -18,13 +18,13 @@
 - (void)setUp
 {
     [super setUp];
-    self.validJSON = @{@"name": @"Mockups",
-                       @"local_path": @"~/LayerVault/awesome-o/Mockups",
+    self.validJSON = @{@"name": @"oxchitl",
+                       @"local_path": @"~/LayerVault/awesome-sauce/oxchitl",
                        @"updated_at": @"2013-11-20T20:11:10Z",
                        @"deleted_at": NSNull.null,
                        @"md5": NSNull.null,
-                       @"full_url": @"https://layervault.com/codecaffeine/awesome-o/Mockups",
-                       @"shortened_url": @"http://lyrv.lt/tLCF7qO9vE"};
+                       @"full_url": @"https://layervault.com/codecaffeine/awesome-sauce/oxchitl",
+                       @"shortened_url": @"http://lyrv.lt/DEADBEEF"};
 }
 
 
@@ -71,7 +71,7 @@
     XCTAssertNotNil(node, @"nodeWithFolder should not be nil");
     XCTAssertNotNil(node.parentFolder, @"should have parentFolder");
 
-    XCTAssertEqualObjects(node.urlPath, @"foo-bar/Mockups",
+    XCTAssertEqualObjects(node.urlPath, @"foo-bar/oxchitl",
                           @"unexpected URL path");
 }
 
@@ -83,7 +83,7 @@
     XCTAssertNotNil(node, @"nodeWithFolder should not be nil");
     XCTAssertNil(node.parentFolder, @"should not have parentFolder");
 
-    XCTAssertEqualObjects(node.urlPath, @"Mockups", @"unexpected URL path");
+    XCTAssertEqualObjects(node.urlPath, @"oxchitl", @"unexpected URL path");
 }
 
 

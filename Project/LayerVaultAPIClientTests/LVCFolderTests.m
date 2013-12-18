@@ -18,16 +18,16 @@
 - (void)setUp
 {
     [super setUp];
-    self.validJSON = @{@"name": @"Mockups",
+    self.validJSON = @{@"name": @"oxchitl",
                        @"color": NSNull.null,
-                       @"path": @"CodeCaffeine/awesome-o/Mockups",
-                       @"local_path": @"~/LayerVault/awesome-o/Mockups",
+                       @"path": @"awesome-sauce/oxchitl",
+                       @"local_path": @"~/LayerVault/oxchitl",
                        @"updated_at": @"2013-11-20T20:11:10Z",
                        @"deleted_at": NSNull.null,
                        @"md5": NSNull.null,
-                       @"full_url": @"https://layervault.com/codecaffeine/awesome-o/Mockups",
-                       @"shortened_url": @"http://lyrv.lt/tLCF7qO9vE",
-                       @"organization_permalink": NSNull.null,
+                       @"full_url": @"https://layervault.com/awesome-sauce/oxchitl",
+                       @"shortened_url": @"http://lyrv.lt/DEADBEEF",
+                       @"organization_permalink": @"awesome-sauce",
                        @"folders": @[],
                        @"files": @[]};
 }
