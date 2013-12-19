@@ -11,7 +11,8 @@
 ##### Example Authentication via Username & Password
 `AFOAuth2Client` uses `AFOAuthCredential` for authentication. This means you do not need to save the username or password, but rather the AFOAuthCredential returned.
 ``` objc
-LVCHTTPClient *client = [[LVCHTTPClient alloc] initWithClientID:@"CLIENT_ID" secret:@"CLIENT_SECRET"];
+LVCHTTPClient *client = [[LVCHTTPClient alloc] initWithClientID:@"CLIENT_ID" 
+													     secret:@"CLIENT_SECRET"];
 
 // Authenticate with a username & password
 [client authenticateWithEmail:self.emailField.stringValue
@@ -48,8 +49,9 @@ if (credential.expired) {
                                        // Report Error
                                    }];
 }
+```
 
-##### Setting the authorization header
+##### Example Setting the Authorization Header
 Once you have a valid and non-expired AFOAuthCredential, you can set your client’s authorization header with it and you are ready to go.
 ``` objc
 [client setAuthorizationHeaderWithCredential:credential];
