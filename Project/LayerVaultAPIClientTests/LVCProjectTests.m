@@ -102,7 +102,7 @@
                                     fromJSONDictionary:self.validJSON
                                                  error:nil];
     XCTAssertEqualObjects(project.urlPath,
-                          @"awesome-sauce/oxchitl",
+                          LVCMockFullProjURLPath(),
                           @"unexpected urlPath");
 }
 

@@ -33,6 +33,7 @@
 		C9AEAB44185E041300E9EC40 /* LVCOrganizationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9AEAB42185E041300E9EC40 /* LVCOrganizationsViewController.m */; };
 		C9AEAB45185E041300E9EC40 /* LVCOrganizationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9AEAB43185E041300E9EC40 /* LVCOrganizationsViewController.xib */; };
 		C9C6E6671863666D008AFF21 /* LVCMockResponses.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C6E6661863666D008AFF21 /* LVCMockResponses.m */; };
+		C9C6E66918636E4F008AFF21 /* LVCHTTPClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C6E66818636E4F008AFF21 /* LVCHTTPClientTests.m */; };
 		C9DC2343185CCA4E00F9BE02 /* LVCMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DC2341185CCA4E00F9BE02 /* LVCMainWindowController.m */; };
 		C9DC2344185CCA4E00F9BE02 /* LVCMainWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9DC2342185CCA4E00F9BE02 /* LVCMainWindowController.xib */; };
 		C9EFE7361862323C00A87F81 /* NSValueTransformer+LVCPredefinedTransformerAdditionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EFE7351862323C00A87F81 /* NSValueTransformer+LVCPredefinedTransformerAdditionsTests.m */; };
@@ -97,6 +98,7 @@
 		C9AEAB43185E041300E9EC40 /* LVCOrganizationsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LVCOrganizationsViewController.xib; sourceTree = "<group>"; };
 		C9C6E6651863666D008AFF21 /* LVCMockResponses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVCMockResponses.h; sourceTree = "<group>"; };
 		C9C6E6661863666D008AFF21 /* LVCMockResponses.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCMockResponses.m; sourceTree = "<group>"; };
+		C9C6E66818636E4F008AFF21 /* LVCHTTPClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCHTTPClientTests.m; sourceTree = "<group>"; };
 		C9DC2340185CCA4E00F9BE02 /* LVCMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVCMainWindowController.h; sourceTree = "<group>"; };
 		C9DC2341185CCA4E00F9BE02 /* LVCMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCMainWindowController.m; sourceTree = "<group>"; };
 		C9DC2342185CCA4E00F9BE02 /* LVCMainWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LVCMainWindowController.xib; sourceTree = "<group>"; };
@@ -228,6 +230,7 @@
 				C9EFE73D18624A8A00A87F81 /* LVCFileRevisionTests.m */,
 				C9EFE73F186253E400A87F81 /* LVCFileTests.m */,
 				C90A07101850F22E00F87324 /* LVCFolderTests.m */,
+				C9C6E66818636E4F008AFF21 /* LVCHTTPClientTests.m */,
 				C9C6E6651863666D008AFF21 /* LVCMockResponses.h */,
 				C9C6E6661863666D008AFF21 /* LVCMockResponses.m */,
 				C9829B0518634BF600FF419B /* LVCMockURLConnection.h */,
@@ -406,6 +409,7 @@
 				C9EFE73E18624A8A00A87F81 /* LVCFileRevisionTests.m in Sources */,
 				C9EFE742186256C400A87F81 /* LVCColorUtilsTests.m in Sources */,
 				C9412732184CE47C0065072B /* LVCProjectTests.m in Sources */,
+				C9C6E66918636E4F008AFF21 /* LVCHTTPClientTests.m in Sources */,
 				C9EFE73A18623A9400A87F81 /* LVCNodeTests.m in Sources */,
 				C96C0815180C7F23000149E3 /* LVCUserTest.m in Sources */,
 				C9C6E6671863666D008AFF21 /* LVCMockResponses.m in Sources */,
