@@ -37,6 +37,35 @@ LVCHTTPClient *client = [[LVCHTTPClient alloc] initWithClientID:@"CLIENT_ID"
 }];
 ```
 
+### Getting Project Information
+`LVCProject` contains all the information for a project all the folders, files, and revisions. `LVCHTTPClient` can get your user information like so:
+``` objc
+[client getProjectWithName:@"My Awesome App"
+     organizationPermalink:@"fancy-company"
+                completion:^(LVCProject *project,
+                             NSError *error,
+                             AFHTTPRequestOperation *operation) {
+    NSLog(@"Look at my files: %@", project.files);
+}];
+
+```
+
+### Uploading an Image
+This is how you would upload an image:
+``` objc
+NSURL *fileURL = [NSURL fileURLWithPath:@"/Users/alex/Desktop/hi.jpg"];
+[client uploadLocalFile:fileURL
+                 toPath:@"fancy-company/My Awesome App"
+             completion:^(LVCFile *file,
+                          NSError *error,
+                          AFHTTPRequestOperation *operation) {
+	if (file) {
+		NSLog(@"file uploaded successfully: %@", file);
+	}
+}];
+
+```
+
 
 ## Requirements
 
