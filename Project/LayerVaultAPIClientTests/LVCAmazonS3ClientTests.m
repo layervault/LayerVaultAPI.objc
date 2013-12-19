@@ -8,7 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import <LayerVaultAPI/LVCAmazonS3Client.h>
-#import <AGAsyncTestHelper/AGWaitForAsyncTestHelper.h>
+#import "LVCAsyncHelper.h"
 #import "LVCMockURLConnection.h"
 
 @interface LVCAmazonS3ClientTests : XCTestCase
@@ -45,7 +45,8 @@
                       done = YES;
                   }];
 
-    WAIT_WHILE(!done, 0.2);
+    [LVCAsyncHelper wait:0.2];
+    XCTAssertTrue(done, @"done should have been called");
     XCTAssertTrue(successCalled, @"success should have been called");
     XCTAssertFalse(failureCalled, @"failure should have been called");
 }
@@ -71,7 +72,8 @@
                       done = YES;
                   }];
 
-    WAIT_WHILE(!done, 0.2);
+    [LVCAsyncHelper wait:0.2];
+    XCTAssertTrue(done, @"done should have been called");
     XCTAssertFalse(successCalled, @"success should have been called");
     XCTAssertTrue(failureCalled, @"failure should have been called");
 }

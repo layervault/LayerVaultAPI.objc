@@ -99,7 +99,7 @@ NSError *LVCMockURLConnectionError;
     LVCMockURLConnectionHeaderFields = [[LVCMockURLConnection JSONHeaderFields] copy];
     NSError *error;
     NSData *bodyData = [NSJSONSerialization dataWithJSONObject:bodyObject
-                                                       options:nil
+                                                       options:0
                                                          error:&error];
     if (!bodyData) {
         NSLog(@"Error serializing: %@", error);
