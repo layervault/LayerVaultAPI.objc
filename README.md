@@ -5,7 +5,7 @@
 
 ## Usage
 
-##### Authenticating
+#### Authenticating
 `LVCHTTPClient` is the main interface to the LayerVault API and is based on [AFOAuth2Client](https://github.com/AFNetworking/AFOAuth2Client) for authentication. You can save an `AFOAuthCredential` to the keychain so you do not need to save the username or password.
 ``` objc
 LVCHTTPClient *client = [[LVCHTTPClient alloc] initWithClientID:@"CLIENT_ID" 
@@ -30,12 +30,10 @@ LVCHTTPClient *client = [[LVCHTTPClient alloc] initWithClientID:@"CLIENT_ID"
 ### Getting User Information
 `LVCUser` contains all the information for a user including the organizations they are a part of and the projects they have access to. `LVCHTTPClient` can get your user information like so:
 ``` objc
-client getMeWithCompletion:^(LVCUser *user,
+[client getMeWithCompletion:^(LVCUser *user,
                            NSError *error,
                            AFHTTPRequestOperation *operation) {
-    if (user) {
-        // Do something with the user
-    }
+   NSLog(@"%@’s Projects: %@", user.firstName, user.projects);
 }];
 ```
 
