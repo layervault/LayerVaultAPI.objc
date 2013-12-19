@@ -9,6 +9,7 @@
 #import <XCTest/XCTest.h>
 #import <LayerVaultAPI/LVCFile.h>
 #import <LayerVaultAPI/LVCFileRevision.h>
+#import "LVCMockResponses.h"
 
 @interface LVCFileTests : XCTestCase
 @property (nonatomic, copy) NSDictionary *validJSON;
@@ -19,14 +20,7 @@
 - (void)setUp
 {
     [super setUp];
-    self.validJSON = @{@"name": @"salsa.png",
-                       @"local_path": @"~/LayerVault/awesome-sauce/oxchitl/salsa.png",
-                       @"updated_at": @"2013-11-20T20:11:10Z",
-                       @"deleted_at": NSNull.null,
-                       @"md5": @"DEADBEEF",
-                       @"full_url": @"https://layervault.com/codecaffeine/awesome-sauce/oxchitl/salsa.png",
-                       @"shortened_url": @"http://lyrv.lt/DEADBEEF",
-                       @"revisions": @[@{@"revision_number": @(12)}]};
+    self.validJSON = LVCValidFileJSON();
 }
 
 - (void)testRevisionHasFile
@@ -46,7 +40,7 @@
                               fromJSONDictionary:self.validJSON
                                            error:nil];
     XCTAssertNotNil(file, @"file should exist");
-    LVCFileRevision *revision = [file revisionWithNumber:@(12)];
+    LVCFileRevision *revision = [file revisionWithNumber:@(4)];
     XCTAssertNotNil(file, @"file should exist");
     XCTAssertEqual(file,
                    revision.file,

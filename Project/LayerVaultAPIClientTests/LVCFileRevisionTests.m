@@ -9,6 +9,7 @@
 #import <XCTest/XCTest.h>
 #import <LayerVaultAPI/LVCFile.h>
 #import <LayerVaultAPI/LVCFileRevision.h>
+#import "LVCMockResponses.h"
 
 @interface LVCFileRevisionTests : XCTestCase
 @property (nonatomic, copy) NSDictionary *validJSON;
@@ -19,13 +20,7 @@
 - (void)setUp
 {
     [super setUp];
-    self.validJSON = @{@"revision_number": @(4),
-                       @"md5": @"DEADBEEF",
-                       @"created_at": @"2013-11-10T01:23:45Z",
-                       @"updated_at": @"2013-11-20T20:11:10Z",
-                       @"full_url": @"https://layervault.com/codecaffeine/awesome-sauce/oxchitl/4",
-                       @"download_url": @"https://layervault.com/files/download_node/DEADBEEF",
-                       @"shortened_url": @"http://lyrv.lt/DEADBEEF"};
+    self.validJSON = LVCValidFileRevisionJSON();
 }
 
 

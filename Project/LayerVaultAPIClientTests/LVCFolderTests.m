@@ -7,7 +7,8 @@
 //
 
 #import <XCTest/XCTest.h>
-#import "LVCFolder.h"
+#import <LayerVaultAPI/LVCFolder.h>
+#import "LVCMockResponses.h"
 
 @interface LVCFolderTests : XCTestCase
 @property (nonatomic, copy) NSDictionary *validJSON;
@@ -18,18 +19,7 @@
 - (void)setUp
 {
     [super setUp];
-    self.validJSON = @{@"name": @"oxchitl",
-                       @"color": NSNull.null,
-                       @"path": @"awesome-sauce/oxchitl",
-                       @"local_path": @"~/LayerVault/oxchitl",
-                       @"updated_at": @"2013-11-20T20:11:10Z",
-                       @"deleted_at": NSNull.null,
-                       @"md5": NSNull.null,
-                       @"full_url": @"https://layervault.com/awesome-sauce/oxchitl",
-                       @"shortened_url": @"http://lyrv.lt/DEADBEEF",
-                       @"organization_permalink": @"awesome-sauce",
-                       @"folders": @[],
-                       @"files": @[]};
+    self.validJSON = LVCValidFolderJSON();
 }
 
 
