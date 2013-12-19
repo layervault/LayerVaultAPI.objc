@@ -5,11 +5,8 @@
 
 ## Usage
 
-### LVCHTTPClient
-`LVCHTTPClient` is the main interface to the LayerVault API and is based on [AFOAuth2Client](https://github.com/AFNetworking/AFOAuth2Client).
-
-##### Example Authentication via Username & Password
-`AFOAuth2Client` uses `AFOAuthCredential` for authentication. This means you do not need to save the username or password, but rather the AFOAuthCredential returned.
+##### Authenticating
+`LVCHTTPClient` is the main interface to the LayerVault API and is based on [AFOAuth2Client](https://github.com/AFNetworking/AFOAuth2Client) for authentication. You can save an `AFOAuthCredential` to the keychain so you do not need to save the username or password.
 ``` objc
 LVCHTTPClient *client = [[LVCHTTPClient alloc] initWithClientID:@"CLIENT_ID" 
 													     secret:@"CLIENT_SECRET"];
@@ -23,51 +20,21 @@ LVCHTTPClient *client = [[LVCHTTPClient alloc] initWithClientID:@"CLIENT_ID"
 		// Save Credential to Keychain
 		[AFOAuthCredential storeCredential:credential
                     withIdentifier:client.serviceProviderIdentifier];
+
+        // Set Authorization Header
+        [client setAuthorizationHeaderWithCredential:credential];
 	} 
-	else {
-	    // Report Error
-	}
 }];
-````
-
-##### Example Retrieving & Checking a Saved AFOAuthCredential
-LayerVault API service expires an OAuth2 token after 2 hours. Luckily, the OAuth credential also contains a refresh token which can be used to fetch a new OAuth credential without requiring a username/password.
-``` objc
-// Retrieving
-AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:client.serviceProviderIdentifier];
-
-// Checking for Expiration
-if (credential.expired) {
-    [client authenticateUsingOAuthWithPath:@"/oauth/token"
-                              refreshToken:credential.refreshToken
-                                   success:^(AFOAuthCredential *refreshedCredential) {
-                                       // Save New Credential to Keychain
-		                               [AFOAuthCredential storeCredential:credential
-                                                           withIdentifier:client.serviceProviderIdentifier]
-                                   }
-                                   failure:^(NSError *error) {
-                                       // Report Error
-                                   }];
-}
 ```
 
-##### Example Setting the Authorization Header
-Once you have a valid and non-expired AFOAuthCredential, you can set your client’s authorization header with it and you are ready to go.
-``` objc
-[client setAuthorizationHeaderWithCredential:credential];
-```
-
-### LVCUser
-`LVCUser` contains all the information for a user. `LVCHTTPClient` can get your user information like so:
+### Getting User Information
+`LVCUser` contains all the information for a user including the organizations they are a part of and the projects they have access to. `LVCHTTPClient` can get your user information like so:
 ``` objc
 client getMeWithCompletion:^(LVCUser *user,
                            NSError *error,
                            AFHTTPRequestOperation *operation) {
     if (user) {
         // Do something with the user
-    }
-    else {
-        // Report Error
     }
 }];
 ```
