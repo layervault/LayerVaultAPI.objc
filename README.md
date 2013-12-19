@@ -36,7 +36,7 @@ LayerVault API service expires an OAuth2 token after 2 hours. Luckily, the OAuth
 // Retrieving
 AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:client.serviceProviderIdentifier];
 
-// Checking for Expiation
+// Checking for Expiration
 if (credential.expired) {
     [client authenticateUsingOAuthWithPath:@"/oauth/token"
                               refreshToken:credential.refreshToken
@@ -55,6 +55,21 @@ if (credential.expired) {
 Once you have a valid and non-expired AFOAuthCredential, you can set your client’s authorization header with it and you are ready to go.
 ``` objc
 [client setAuthorizationHeaderWithCredential:credential];
+```
+
+### LVCUser
+`LVCUser` contains all the information for a user. `LVCHTTPClient` can get your user information like so:
+``` objc
+client getMeWithCompletion:^(LVCUser *user,
+                           NSError *error,
+                           AFHTTPRequestOperation *operation) {
+    if (user) {
+        // Do something with the user
+    }
+    else {
+        // Report Error
+    }
+}];
 ```
 
 
