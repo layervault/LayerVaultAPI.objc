@@ -90,4 +90,35 @@
 }
 
 
+- (void)testNilProjectFromPartialBadResponse
+{
+    [LVCMockURLConnection setResponseWithStatusCode:400
+                                       headerFields:nil
+                                           bodyData:nil];
+
+    __block LVCProject *returnedProject = nil;
+    [self.client getProjectWithName:LVCMockProjectName
+              organizationPermalink:LVCMockOrgPermalink
+                         completion:^(LVCProject *project,
+                                      NSError *error,
+                                      AFHTTPRequestOperation *operation) {
+                             returnedProject = project;
+                         }];
+    [LVCAsyncHelper wait:0.1];
+    XCTAssertNil(returnedProject, @"should not have returned an project");
+
+    LVCProject *project = [MTLJSONAdapter modelOfClass:LVCProject.class
+                                    fromJSONDictionary:LVCValidProjectJSON()
+                                                 error:nil];
+    [self.client getProjectFromPartial:project
+                            completion:^(LVCProject *project,
+                                         NSError *error,
+                                         AFHTTPRequestOperation *operation) {
+                                returnedProject = project;
+                            }];
+    [LVCAsyncHelper wait:0.1];
+    XCTAssertNil(returnedProject, @"should not have returned an project");
+}
+
+
 @end
