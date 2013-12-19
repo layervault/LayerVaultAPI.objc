@@ -81,7 +81,7 @@
  *  @param completion   Callback that returns an LVCOrganization on success, or
  *                      nil on failure with an error
  */
-- (void)getOrganizationWithParmalink:(NSString *)permalink
+- (void)getOrganizationWithPermalink:(NSString *)permalink
                                block:(void (^)(LVCOrganization *organization,
                                                NSError *error,
                                                AFHTTPRequestOperation *operation))block;

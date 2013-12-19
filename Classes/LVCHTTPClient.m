@@ -85,7 +85,7 @@
 
 
 #pragma mark - Organizations
-- (void)getOrganizationWithParmalink:(NSString *)permalink
+- (void)getOrganizationWithPermalink:(NSString *)permalink
                                block:(void (^)(LVCOrganization *organization,
                                                NSError *error,
                                                AFHTTPRequestOperation *operation))block
