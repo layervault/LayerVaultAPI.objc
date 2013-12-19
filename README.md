@@ -31,8 +31,8 @@ LVCHTTPClient *client = [[LVCHTTPClient alloc] initWithClientID:@"CLIENT_ID"
 `LVCUser` contains all the information for a user including the organizations they are a part of and the projects they have access to. `LVCHTTPClient` can get your user information like so:
 ``` objc
 [client getMeWithCompletion:^(LVCUser *user,
-                           NSError *error,
-                           AFHTTPRequestOperation *operation) {
+                              NSError *error,
+                              AFHTTPRequestOperation *operation) {
    NSLog(@"%@’s Projects: %@", user.firstName, user.projects);
 }];
 ```
