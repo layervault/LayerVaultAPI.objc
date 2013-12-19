@@ -5,7 +5,56 @@
 
 ## Usage
 
-To run the example project; clone the repo, and run `pod install` from the Project directory first.
+### LVCHTTPClient
+`LVCHTTPClient` is the main interface to the LayerVault API and is based on [AFOAuth2Client](https://github.com/AFNetworking/AFOAuth2Client).
+
+##### Example Authentication via Username & Password
+`AFOAuth2Client` uses `AFOAuthCredential` for authentication. This means you do not need to save the username or password, but rather the AFOAuthCredential returned.
+``` objc
+LVCHTTPClient *client = [[LVCHTTPClient alloc] initWithClientID:@"CLIENT_ID" secret:@"CLIENT_SECRET"];
+
+// Authenticate with a username & password
+[client authenticateWithEmail:self.emailField.stringValue
+                     password:self.passwordField.stringValue
+                   completion:^(AFOAuthCredential *credential,
+                                NSError *error) {
+	if (credential) {
+		// Save Credential to Keychain
+		[AFOAuthCredential storeCredential:credential
+                    withIdentifier:client.serviceProviderIdentifier];
+	} 
+	else {
+	    // Report Error
+	}
+}];
+````
+
+##### Example Retrieving & Checking a Saved AFOAuthCredential
+LayerVault API service expires an OAuth2 token after 2 hours. Luckily, the OAuth credential also contains a refresh token which can be used to fetch a new OAuth credential without requiring a username/password.
+``` objc
+// Retrieving
+AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:client.serviceProviderIdentifier];
+
+// Checking for Expiation
+if (credential.expired) {
+    [client authenticateUsingOAuthWithPath:@"/oauth/token"
+                              refreshToken:credential.refreshToken
+                                   success:^(AFOAuthCredential *refreshedCredential) {
+                                       // Save New Credential to Keychain
+		                               [AFOAuthCredential storeCredential:credential
+                                                           withIdentifier:client.serviceProviderIdentifier]
+                                   }
+                                   failure:^(NSError *error) {
+                                       // Report Error
+                                   }];
+}
+
+##### Setting the authorization header
+Once you have a valid and non-expired AFOAuthCredential, you can set your client’s authorization header with it and you are ready to go.
+``` objc
+[client setAuthorizationHeaderWithCredential:credential];
+```
+
 
 ## Requirements
 
@@ -18,9 +67,6 @@ LayerVaultAPI is available through [CocoaPods](http://cocoapods.org), to install
 it simply add the following line to your Podfile:
 
     pod "LayerVaultAPI"
-
-You will also need to set the `LVClientID` and `LVClientSecret` to your OAuth client ID client secrets.
-
 
 ## Author
 
