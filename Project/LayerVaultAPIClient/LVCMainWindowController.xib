@@ -31,10 +31,16 @@
                             <customView fixedFrame="YES" id="syn-oe-hpr">
                                 <rect key="frame" x="0.0" y="0.0" width="200" height="397"/>
                                 <autoresizingMask key="autoresizingMask"/>
+                                <connections>
+                                    <outlet property="nextKeyView" destination="O9Z-jp-6tI" id="xGx-S8-hzw"/>
+                                </connections>
                             </customView>
                             <customView fixedFrame="YES" id="O9Z-jp-6tI">
                                 <rect key="frame" x="201" y="0.0" width="434" height="397"/>
                                 <autoresizingMask key="autoresizingMask"/>
+                                <connections>
+                                    <outlet property="nextKeyView" destination="syn-oe-hpr" id="5Ua-gn-Z7b"/>
+                                </connections>
                             </customView>
                         </subviews>
                         <holdingPriorities>
@@ -52,6 +58,7 @@
             </view>
             <connections>
                 <outlet property="delegate" destination="-2" id="4"/>
+                <outlet property="initialFirstResponder" destination="O9Z-jp-6tI" id="hgV-TR-JoP"/>
             </connections>
         </window>
         <viewController nibName="LVCOrganizationsViewController" id="CkP-rl-efh" customClass="LVCOrganizationsViewController"/>

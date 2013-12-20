@@ -46,6 +46,8 @@ NSString *const emailRegEx =
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     self.mainWindowController = [[LVCMainWindowController alloc] initWithWindowNibName:@"LVCMainWindowController"];
+    [self.mainWindowController showWindow:nil];
+
     self.client = [[LVCHTTPClient alloc] initWithClientID:LVClientID
                                                    secret:LVClientSecret];
     self.credential = [AFOAuthCredential retrieveCredentialWithIdentifier:self.client.serviceProviderIdentifier];
@@ -136,10 +138,6 @@ NSString *const emailRegEx =
     [RACObserve(self, user) subscribeNext:^(LVCUser *user) {
         @strongify(self);
         [self setDataSourceForUser:user];
-        if (user) {
-            self.mainWindowController.user = user;
-            [self.mainWindowController showWindow:nil];
-        }
     }];
 }
 

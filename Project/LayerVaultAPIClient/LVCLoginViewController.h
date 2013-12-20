@@ -10,4 +10,7 @@
 
 @interface LVCLoginViewController : NSViewController
 
+@property (weak) IBOutlet NSTextField *usernameField;
+@property (nonatomic, copy) void (^loginHander)(NSString *userName, NSString *password);
+
 @end

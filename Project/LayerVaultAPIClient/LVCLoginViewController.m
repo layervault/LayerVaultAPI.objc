@@ -9,20 +9,15 @@
 #import "LVCLoginViewController.h"
 
 @interface LVCLoginViewController ()
-
+@property (weak) IBOutlet NSSecureTextField *passwordField;
 @end
 
 @implementation LVCLoginViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Initialization code here.
-    }
-    return self;
-}
-
 - (IBAction)loginPressed:(id)sender {
+    if (self.loginHander) {
+        self.loginHander(self.usernameField.stringValue,
+                         self.passwordField.stringValue);
+    }
 }
 @end

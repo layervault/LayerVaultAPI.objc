@@ -39,6 +39,15 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
             self.projectOutlineViewController.project = project;
         }];
 
+        [RACObserve(self, user) subscribeNext:^(LVCUser *user) {
+            if (user) {
+                [self placeProjectViewController];
+                self.organizationsViewController.organizations = user.organizations;
+            }
+            else {
+                [self placeLoginViewController];
+            }
+        }];
     }
     return self;
 }
@@ -59,35 +68,42 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 
 
 - (void)placeLoginViewController {
-    for (NSView *subview in self.detailViewContainer.subviews) {
-        [subview removeFromSuperview];
-    }
-    NSView *loginView = self.loginViewController.view;
-    NSView *superView = self.detailViewContainer;
-    loginView.autoresizingMask = NSViewMinXMargin|NSViewMaxXMargin|NSViewMinYMargin|NSViewMaxYMargin;
+    if (self.loginViewController.view && self.detailViewContainer) {
+        for (NSView *subview in self.detailViewContainer.subviews) {
+            [subview removeFromSuperview];
+        }
+        NSView *loginView = self.loginViewController.view;
+        NSView *superView = self.detailViewContainer;
+        NSDictionary *views = NSDictionaryOfVariableBindings(loginView, superView);
 
-    [self.detailViewContainer addSubview:loginView];
-//    [superView addConstraints:
-//     [NSLayoutConstraint constraintsWithVisualFormat:@"V:[superView]-(<=1)-[loginView]"
-//                                             options:NSLayoutFormatAlignAllCenterX
-//                                             metrics:nil
-//                                               views:views]];
-//    [superView addConstraints:
-//     [NSLayoutConstraint constraintsWithVisualFormat:@"H:[superView]-(<=1)-[loginView]"
-//                                             options:NSLayoutFormatAlignAllCenterY
-//                                             metrics:nil
-//                                               views:views]];
+        [superView addSubview:loginView];
+        [self.window makeFirstResponder:self.loginViewController.usernameField];
+        superView.translatesAutoresizingMaskIntoConstraints = NO;
+        loginView.translatesAutoresizingMaskIntoConstraints = NO;
+        [superView addConstraints:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"V:[superView]-(<=1)-[loginView(>=120.0)]"
+                                                 options:NSLayoutFormatAlignAllCenterX
+                                                 metrics:nil
+                                                   views:views]];
+        [superView addConstraints:
+         [NSLayoutConstraint constraintsWithVisualFormat:@"H:[superView]-(<=1)-[loginView(>=240.0)]"
+                                                 options:NSLayoutFormatAlignAllCenterY
+                                                 metrics:nil
+                                                   views:views]];
+    }
 }
 
 
 - (void)placeProjectViewController {
-    for (NSView *subview in self.detailViewContainer.subviews) {
-        [subview removeFromSuperview];
+    if (self.projectOutlineViewController.view && self.detailViewContainer) {
+        for (NSView *subview in self.detailViewContainer.subviews) {
+            [subview removeFromSuperview];
+        }
+        NSView *projectView = self.projectOutlineViewController.view;
+        projectView.autoresizingMask = NSViewMinXMargin|NSViewWidthSizable|NSViewMaxXMargin|NSViewMinYMargin|NSViewHeightSizable|NSViewMaxYMargin;
+        projectView.frame = self.detailViewContainer.bounds;
+        [self.detailViewContainer addSubview:projectView];
     }
-    NSView *projectView = self.projectOutlineViewController.view;
-    projectView.autoresizingMask = NSViewMinXMargin|NSViewWidthSizable|NSViewMaxXMargin|NSViewMinYMargin|NSViewHeightSizable|NSViewMaxYMargin;
-    projectView.frame = self.detailViewContainer.bounds;
-    [self.detailViewContainer addSubview:projectView];
 }
 
 @end
