@@ -69,8 +69,11 @@ NSURL *fileURL = [NSURL fileURLWithPath:@"/Users/alex/Desktop/hi.jpg"];
 
 ## Requirements
 
-- Xcode 5
-- CocoaPods
+- [Xcode 5](https://itunes.apple.com/us/app/xcode/id497799835?mt=12)
+- [CocoaPods](http://cocoapods.org)
+- [AFNetworking 1.3.3](http://afnetworking.com)
+- [AFOAuth2Client 0.1.1](https://github.com/AFNetworking/AFOAuth2Client)
+- [Mantle 1.3](https://github.com/MantleFramework/Mantle)
 
 ## Installation
 
