@@ -32,6 +32,8 @@
 		C999722E185E22F500F9372F /* LVCProjectOutlineViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C999722C185E22F500F9372F /* LVCProjectOutlineViewController.xib */; };
 		C9AEAB44185E041300E9EC40 /* LVCOrganizationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9AEAB42185E041300E9EC40 /* LVCOrganizationsViewController.m */; };
 		C9AEAB45185E041300E9EC40 /* LVCOrganizationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9AEAB43185E041300E9EC40 /* LVCOrganizationsViewController.xib */; };
+		C9C6186018648FF500CF2E40 /* LVCLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C6185E18648FF500CF2E40 /* LVCLoginViewController.m */; };
+		C9C6186118648FF500CF2E40 /* LVCLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9C6185F18648FF500CF2E40 /* LVCLoginViewController.xib */; };
 		C9C6E6671863666D008AFF21 /* LVCMockResponses.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C6E6661863666D008AFF21 /* LVCMockResponses.m */; };
 		C9C6E66918636E4F008AFF21 /* LVCHTTPClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C6E66818636E4F008AFF21 /* LVCHTTPClientTests.m */; };
 		C9DC2343185CCA4E00F9BE02 /* LVCMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DC2341185CCA4E00F9BE02 /* LVCMainWindowController.m */; };
@@ -96,6 +98,9 @@
 		C9AEAB41185E041300E9EC40 /* LVCOrganizationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVCOrganizationsViewController.h; sourceTree = "<group>"; };
 		C9AEAB42185E041300E9EC40 /* LVCOrganizationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCOrganizationsViewController.m; sourceTree = "<group>"; };
 		C9AEAB43185E041300E9EC40 /* LVCOrganizationsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LVCOrganizationsViewController.xib; sourceTree = "<group>"; };
+		C9C6185D18648FF500CF2E40 /* LVCLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVCLoginViewController.h; sourceTree = "<group>"; };
+		C9C6185E18648FF500CF2E40 /* LVCLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCLoginViewController.m; sourceTree = "<group>"; };
+		C9C6185F18648FF500CF2E40 /* LVCLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LVCLoginViewController.xib; sourceTree = "<group>"; };
 		C9C6E6651863666D008AFF21 /* LVCMockResponses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVCMockResponses.h; sourceTree = "<group>"; };
 		C9C6E6661863666D008AFF21 /* LVCMockResponses.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCMockResponses.m; sourceTree = "<group>"; };
 		C9C6E66818636E4F008AFF21 /* LVCHTTPClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCHTTPClientTests.m; sourceTree = "<group>"; };
@@ -188,6 +193,9 @@
 				C95CD2DA180B5F9500007F9B /* Images.xcassets */,
 				C95CD2D4180B5F9500007F9B /* LVCAppDelegate.h */,
 				C95CD2D5180B5F9500007F9B /* LVCAppDelegate.m */,
+				C9C6185D18648FF500CF2E40 /* LVCLoginViewController.h */,
+				C9C6185E18648FF500CF2E40 /* LVCLoginViewController.m */,
+				C9C6185F18648FF500CF2E40 /* LVCLoginViewController.xib */,
 				C9DC2340185CCA4E00F9BE02 /* LVCMainWindowController.h */,
 				C9DC2341185CCA4E00F9BE02 /* LVCMainWindowController.m */,
 				C9DC2342185CCA4E00F9BE02 /* LVCMainWindowController.xib */,
@@ -337,6 +345,7 @@
 				C9DC2344185CCA4E00F9BE02 /* LVCMainWindowController.xib in Resources */,
 				C95CD2CD180B5F9500007F9B /* InfoPlist.strings in Resources */,
 				C90A070F1850D66400F87324 /* LVCProjectWindowController.xib in Resources */,
+				C9C6186118648FF500CF2E40 /* LVCLoginViewController.xib in Resources */,
 				C95CD2DB180B5F9500007F9B /* Images.xcassets in Resources */,
 				C95CD2D3180B5F9500007F9B /* Credits.rtf in Resources */,
 				C96C0813180C7D9D000149E3 /* MainMenu.xib in Resources */,
@@ -397,6 +406,7 @@
 				C95CD2CF180B5F9500007F9B /* main.m in Sources */,
 				C9AEAB44185E041300E9EC40 /* LVCOrganizationsViewController.m in Sources */,
 				C9DC2343185CCA4E00F9BE02 /* LVCMainWindowController.m in Sources */,
+				C9C6186018648FF500CF2E40 /* LVCLoginViewController.m in Sources */,
 				C95CD2D6180B5F9500007F9B /* LVCAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
