@@ -16,11 +16,14 @@
 static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 
 @interface LVCMainWindowController () <NSOutlineViewDataSource, NSOutlineViewDelegate>
-@property (strong) IBOutlet LVCOrganizationsViewController *organizationsViewController;
+@property (strong) LVCOrganizationsViewController *organizationsViewController;
 @property (strong) LVCProjectOutlineViewController *projectOutlineViewController;
 @property (strong) LVCLoginViewController *loginViewController;
+@property (strong) IBOutlet NSView *userView;
 @property (weak) IBOutlet NSView *sourceViewContainer;
 @property (weak) IBOutlet NSView *detailViewContainer;
+@property (weak) IBOutlet NSView *projectContainer;
+@property (weak) IBOutlet NSTextField *loggedInField;
 @end
 
 @implementation LVCMainWindowController
@@ -31,17 +34,20 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
     if (self) {
         // Initialization code here.
         _projectOutlineViewController = [[LVCProjectOutlineViewController alloc] initWithNibName:@"LVCProjectOutlineViewController" bundle:nil];
+        _organizationsViewController = [[LVCOrganizationsViewController alloc] initWithNibName:@"LVCOrganizationsViewController" bundle:nil];
 
         _loginViewController = [[LVCLoginViewController alloc]
                                 initWithNibName:@"LVCLoginViewController" bundle:nil];
 
         [RACObserve(self, organizationsViewController.selectedProject) subscribeNext:^(LVCProject *project) {
             self.projectOutlineViewController.project = project;
+            [self.projectContainer setHidden:!!project];
         }];
 
         [RACObserve(self, user) subscribeNext:^(LVCUser *user) {
             if (user) {
-                [self placeProjectViewController];
+                self.loggedInField.stringValue = user.email;
+                [self placeUserViewController];
                 self.organizationsViewController.organizations = user.organizations;
             }
             else {
@@ -56,12 +62,19 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 - (void)windowDidLoad
 {
     [super windowDidLoad];
-    
+
+    // Place the organizations view controller in the source view container
     self.organizationsViewController.organizations = self.user.organizations;
     NSView *organizationsView = self.organizationsViewController.view;
     organizationsView.autoresizingMask = NSViewMinXMargin|NSViewWidthSizable|NSViewMaxXMargin|NSViewMinYMargin|NSViewHeightSizable|NSViewMaxYMargin;
     organizationsView.frame = self.sourceViewContainer.bounds;
     [self.sourceViewContainer addSubview:organizationsView];
+
+    // Place the project view controller in the project container
+    NSView *projectView = self.projectOutlineViewController.view;
+    projectView.autoresizingMask = NSViewMinXMargin|NSViewWidthSizable|NSViewMaxXMargin|NSViewMinYMargin|NSViewHeightSizable|NSViewMaxYMargin;
+    projectView.frame = self.detailViewContainer.bounds;
+    [self.projectContainer addSubview:projectView];
 
     [self placeLoginViewController];
 }
@@ -94,15 +107,14 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 }
 
 
-- (void)placeProjectViewController {
-    if (self.projectOutlineViewController.view && self.detailViewContainer) {
+- (void)placeUserViewController {
+    if (self.userView && self.detailViewContainer) {
         for (NSView *subview in self.detailViewContainer.subviews) {
             [subview removeFromSuperview];
         }
-        NSView *projectView = self.projectOutlineViewController.view;
-        projectView.autoresizingMask = NSViewMinXMargin|NSViewWidthSizable|NSViewMaxXMargin|NSViewMinYMargin|NSViewHeightSizable|NSViewMaxYMargin;
-        projectView.frame = self.detailViewContainer.bounds;
-        [self.detailViewContainer addSubview:projectView];
+        self.userView.autoresizingMask = NSViewMinXMargin|NSViewWidthSizable|NSViewMaxXMargin|NSViewMinYMargin|NSViewHeightSizable|NSViewMaxYMargin;
+        self.userView.frame = self.detailViewContainer.bounds;
+        [self.detailViewContainer addSubview:self.userView];
     }
 }
 

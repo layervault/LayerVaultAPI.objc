@@ -8,8 +8,10 @@
         <customObject id="-2" userLabel="File's Owner" customClass="LVCMainWindowController">
             <connections>
                 <outlet property="detailViewContainer" destination="O9Z-jp-6tI" id="3xj-7e-GFU"/>
-                <outlet property="organizationsViewController" destination="CkP-rl-efh" id="eZY-9C-B9B"/>
+                <outlet property="loggedInField" destination="gMs-7G-ZrC" id="fn2-G4-yfC"/>
+                <outlet property="projectContainer" destination="hcH-5P-Kis" id="Mge-zb-eAP"/>
                 <outlet property="sourceViewContainer" destination="syn-oe-hpr" id="Yyg-zA-PQY"/>
+                <outlet property="userView" destination="eOW-Yp-laF" id="83Q-v9-tlu"/>
                 <outlet property="window" destination="1" id="3"/>
             </connections>
         </customObject>
@@ -61,6 +63,42 @@
                 <outlet property="initialFirstResponder" destination="O9Z-jp-6tI" id="hgV-TR-JoP"/>
             </connections>
         </window>
-        <viewController nibName="LVCOrganizationsViewController" id="CkP-rl-efh" customClass="LVCOrganizationsViewController"/>
+        <customView id="eOW-Yp-laF">
+            <rect key="frame" x="0.0" y="0.0" width="434" height="397"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gMs-7G-ZrC">
+                    <rect key="frame" x="18" y="359" width="98" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Logged in user" id="c4R-A5-vVZ">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vgv-X6-cS2">
+                    <rect key="frame" x="338" y="349" width="84" height="32"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="push" title="Logout" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Gnn-EK-a1l">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+                <customView hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hcH-5P-Kis">
+                    <rect key="frame" x="0.0" y="0.0" width="434" height="336"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                </customView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="Vgv-X6-cS2" firstAttribute="top" secondItem="eOW-Yp-laF" secondAttribute="top" constant="20" id="WLe-wT-GLj"/>
+                <constraint firstAttribute="trailing" secondItem="hcH-5P-Kis" secondAttribute="trailing" id="hxR-eX-ed1"/>
+                <constraint firstAttribute="trailing" secondItem="Vgv-X6-cS2" secondAttribute="trailing" constant="18" id="mom-cm-d40"/>
+                <constraint firstItem="hcH-5P-Kis" firstAttribute="top" secondItem="Vgv-X6-cS2" secondAttribute="bottom" constant="20" id="o9n-Aa-Ibs"/>
+                <constraint firstItem="gMs-7G-ZrC" firstAttribute="baseline" secondItem="Vgv-X6-cS2" secondAttribute="baseline" id="oBO-KC-A6U"/>
+                <constraint firstItem="hcH-5P-Kis" firstAttribute="leading" secondItem="eOW-Yp-laF" secondAttribute="leading" id="ojA-Ln-32Z"/>
+                <constraint firstItem="gMs-7G-ZrC" firstAttribute="leading" secondItem="eOW-Yp-laF" secondAttribute="leading" constant="20" id="sX2-Ad-dOO"/>
+                <constraint firstAttribute="bottom" secondItem="hcH-5P-Kis" secondAttribute="bottom" id="tE1-m6-1qo"/>
+            </constraints>
+        </customView>
     </objects>
 </document>
