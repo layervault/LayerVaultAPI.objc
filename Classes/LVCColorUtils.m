@@ -20,6 +20,21 @@ NSString *LVCDefaultColorDefaultColor = @"white";
              @"orange": @(LVCColorOrange)};
 }
 
+#if TARGET_OS_IPHONE
++ (UIColor *)colorForLabel:(LVCColorLabel)label
+{
+    switch (label) {
+        case LVCColorGreen:
+            return [UIColor greenColor];
+        case LVCColorRed:
+            return [UIColor redColor];
+        case LVCColorOrange:
+            return [UIColor orangeColor];
+        default:
+            return [UIColor whiteColor];
+    }
+}
+#elif TARGET_OS_MAC
 + (NSColor *)colorForLabel:(LVCColorLabel)label
 {
     switch (label) {
@@ -33,6 +48,7 @@ NSString *LVCDefaultColorDefaultColor = @"white";
             return [NSColor whiteColor];
     }
 }
+#endif
 
 + (NSString *)colorNameForLabel:(LVCColorLabel)label
 {
