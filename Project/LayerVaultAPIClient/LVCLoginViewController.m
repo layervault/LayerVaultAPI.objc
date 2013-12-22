@@ -16,7 +16,7 @@
 
 - (IBAction)loginPressed:(id)sender {
     if (self.loginHander) {
-        self.loginHander(self.usernameField.stringValue,
+        self.loginHander(self.emailField.stringValue,
                          self.passwordField.stringValue);
     }
 }
