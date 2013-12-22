@@ -7,8 +7,8 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="LVCLoginViewController">
             <connections>
+                <outlet property="emailField" destination="k9B-dq-GTD" id="KHb-Hz-Zty"/>
                 <outlet property="passwordField" destination="00H-fT-fmO" id="sBo-XU-M4d"/>
-                <outlet property="usernameField" destination="k9B-dq-GTD" id="a3h-Y2-FNm"/>
                 <outlet property="view" destination="FHr-7w-gLF" id="pZw-rX-Y75"/>
             </connections>
         </customObject>
