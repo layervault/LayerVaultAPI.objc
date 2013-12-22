@@ -14,7 +14,11 @@ Pod::Spec.new do |s|
 
   # s.platform     = :ios, '5.0'
   s.ios.deployment_target = '5.0'
+  s.ios.frameworks = 'MobileCoreServices', 'SystemConfiguration', 'Security'
+  
   s.osx.deployment_target = '10.7'
+  s.osx.frameworks = 'CoreServices', 'SystemConfiguration', 'Security'
+
   s.requires_arc = true
 
   s.source_files = 'Classes'
