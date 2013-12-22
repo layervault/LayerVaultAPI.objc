@@ -63,7 +63,14 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
         }];
 
         [RACObserve(self, organizationsViewController.selectedProject) subscribeNext:^(LVCProject *project) {
-            self.projectOutlineViewController.project = project;
+            if (project) {
+                [self.client getProjectFromPartial:project
+                                        completion:^(LVCProject *project,
+                                                     NSError *error,
+                                                     AFHTTPRequestOperation *operation) {
+                                            self.projectOutlineViewController.project = project;
+                                        }];
+            }
         }];
 
         [RACObserve(self, user) subscribeNext:^(LVCUser *user) {
