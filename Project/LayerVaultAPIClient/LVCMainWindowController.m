@@ -67,12 +67,10 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
         }];
 
         [RACObserve(self, user) subscribeNext:^(LVCUser *user) {
+            self.organizationsViewController.organizations = user.organizations;
             if (user) {
                 self.loggedInField.stringValue = user.email;
                 [self placeUserViewController];
-                self.organizationsViewController.organizations = user.organizations;
-                NSLog(@"self.organizationsViewController: %@", self.organizationsViewController);
-                NSLog(@"user.organizations: %@", user.organizations);
             }
             else {
                 [self placeLoginViewController];
@@ -104,6 +102,13 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 }
 
 
+#pragma mark - Actions
+- (IBAction)logoutPressed:(id)sender {
+    [self.authController logout];
+}
+
+
+#pragma mark - Private Methods
 - (void)placeLoginViewController {
     if (self.loginViewController.view && self.detailViewContainer) {
         for (NSView *subview in self.detailViewContainer.subviews) {

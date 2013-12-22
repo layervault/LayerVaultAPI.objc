@@ -21,7 +21,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="635" height="397"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" id="2">
                 <rect key="frame" x="0.0" y="0.0" width="635" height="397"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -83,8 +83,11 @@
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
+                    <connections>
+                        <action selector="logoutPressed:" target="-2" id="Pwn-Oi-agN"/>
+                    </connections>
                 </button>
-                <customView hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hcH-5P-Kis">
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="hcH-5P-Kis">
                     <rect key="frame" x="0.0" y="0.0" width="434" height="336"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </customView>
