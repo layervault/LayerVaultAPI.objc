@@ -10,6 +10,8 @@
 
 #if TARGET_OS_IPHONE
 #import <MobileCoreServices/MobileCoreServices.h>
+#elif TARGET_OS_MAC
+#import <CoreServices/CoreServices.h>
 #endif
 
 NSString *LVCAmazonS3ClientErrorDomain = @"LVCAmazonS3ClientErrorDomain";
