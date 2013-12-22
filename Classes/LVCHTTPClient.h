@@ -208,7 +208,6 @@
                                   AFHTTPRequestOperation *operation))completion;
 
 
-#warning Verify
 /**
  *  Create a folder at a given path within a specified Project. This will 
  *  create any intermediate folders if needed.
@@ -238,7 +237,6 @@
                                NSError *error,
                                AFHTTPRequestOperation *operation))completion;
 
-#warning verify
 /**
  *  Move a folder to a new path. This move is permitted across different 
  *  projects, but it has to be within the same Organization.
