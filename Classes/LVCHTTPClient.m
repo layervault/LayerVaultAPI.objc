@@ -620,7 +620,7 @@
     NSParameterAssert(revision);
     NSParameterAssert(completion);
 
-    NSString *feedbackPath = [file.urlPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%lu", revision]];
+    NSString *feedbackPath = [file.urlPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%lu", (unsigned long)revision]];
     feedbackPath = [feedbackPath stringByAppendingPathComponent:@"feedback_items"];
 
     [self getPath:[self sanitizeRequestPath:feedbackPath]
