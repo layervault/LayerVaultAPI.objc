@@ -10,8 +10,10 @@
 #import "LVCOrganizationsViewController.h"
 #import "LVCProjectOutlineViewController.h"
 #import "LVCLoginViewController.h"
+#import "LVCAuthController.h"
 #import <LayerVaultAPI/LayerVaultAPI.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
+#import <Mantle/EXTScope.h>
 
 static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 
@@ -24,6 +26,9 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 @property (weak) IBOutlet NSView *detailViewContainer;
 @property (weak) IBOutlet NSView *projectContainer;
 @property (weak) IBOutlet NSTextField *loggedInField;
+@property (readonly) LVCAuthController *authController;
+@property (nonatomic) LVCHTTPClient *client;
+@property (nonatomic) LVCUser *user;
 @end
 
 @implementation LVCMainWindowController
@@ -32,16 +37,33 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 {
     self = [super initWithWindow:window];
     if (self) {
-        // Initialization code here.
+        _authController = [[LVCAuthController alloc] init];
+        _client = _authController.client;
+
         _projectOutlineViewController = [[LVCProjectOutlineViewController alloc] initWithNibName:@"LVCProjectOutlineViewController" bundle:nil];
         _organizationsViewController = [[LVCOrganizationsViewController alloc] initWithNibName:@"LVCOrganizationsViewController" bundle:nil];
 
         _loginViewController = [[LVCLoginViewController alloc]
                                 initWithNibName:@"LVCLoginViewController" bundle:nil];
 
+        @weakify(self);
+        _loginViewController.loginHander = ^(NSString *userName, NSString *password) {
+            @strongify(self);
+            [self.authController loginWithEmail:userName
+                                       password:password
+                                     completion:^(LVCUser *user,
+                                                  LVCHTTPClient *client,
+                                                  NSError *error) {
+                                         self.user = user;
+                                     }];
+        };
+
+        [RACObserve(_authController, user) subscribeNext:^(LVCUser *user) {
+            self.user = user;
+        }];
+
         [RACObserve(self, organizationsViewController.selectedProject) subscribeNext:^(LVCProject *project) {
             self.projectOutlineViewController.project = project;
-            [self.projectContainer setHidden:!!project];
         }];
 
         [RACObserve(self, user) subscribeNext:^(LVCUser *user) {
@@ -49,6 +71,8 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
                 self.loggedInField.stringValue = user.email;
                 [self placeUserViewController];
                 self.organizationsViewController.organizations = user.organizations;
+                NSLog(@"self.organizationsViewController: %@", self.organizationsViewController);
+                NSLog(@"user.organizations: %@", user.organizations);
             }
             else {
                 [self placeLoginViewController];
@@ -73,7 +97,7 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
     // Place the project view controller in the project container
     NSView *projectView = self.projectOutlineViewController.view;
     projectView.autoresizingMask = NSViewMinXMargin|NSViewWidthSizable|NSViewMaxXMargin|NSViewMinYMargin|NSViewHeightSizable|NSViewMaxYMargin;
-    projectView.frame = self.detailViewContainer.bounds;
+    projectView.frame = self.projectContainer.bounds;
     [self.projectContainer addSubview:projectView];
 
     [self placeLoginViewController];
@@ -90,7 +114,7 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
         NSDictionary *views = NSDictionaryOfVariableBindings(loginView, superView);
 
         [superView addSubview:loginView];
-        [self.window makeFirstResponder:self.loginViewController.usernameField];
+        [self.window makeFirstResponder:self.loginViewController.emailField];
         superView.translatesAutoresizingMaskIntoConstraints = NO;
         loginView.translatesAutoresizingMaskIntoConstraints = NO;
         [superView addConstraints:

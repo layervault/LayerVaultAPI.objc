@@ -7,8 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-@class LVCUser;
 
 @interface LVCMainWindowController : NSWindowController
-@property (nonatomic) LVCUser *user;
 @end
