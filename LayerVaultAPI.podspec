@@ -1,15 +1,13 @@
 Pod::Spec.new do |s|
   s.name         = "LayerVaultAPI"
   s.version      = "0.0.1"
-  s.summary      = "A short description of LayerVaultAPI."
+  s.summary      = "The LayerVaultAPI pod helps you get going quickly with the LayerVault API."
   s.description  = <<-DESC
-                    An optional longer description of LayerVaultAPI
-
-                    * Markdown format.
-                    * Don't worry about the indent, we strip it!
+                    The LayerVault API pod helps you get going quickly with the 
+                    [LayerVault API](https://developers.layervault.com). It requires
+                    ARC and is iOS and OS X compatible.
                    DESC
   s.homepage     = "http://github.com/layervault/LayerVaultAPI.objc"
-  s.screenshots  = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license      = 'MIT'
   s.author       = { "Matt Thomas" => "matt@codecaffeine.com" }
   s.source       = { :git => "https://github.com/layervault/LayerVaultAPI.objc.git", :tag => s.version.to_s }
@@ -20,12 +18,10 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.source_files = 'Classes'
-  s.resources = 'Assets'
 
   s.ios.exclude_files = 'Classes/osx'
   s.osx.exclude_files = 'Classes/ios'
   s.public_header_files = 'Classes/**/*.h'
-  # s.frameworks = 'SomeFramework', 'AnotherFramework'
   s.dependency 'AFNetworking', '~> 1.3.3'
   s.dependency 'Mantle', '~> 1.3'
   s.dependency 'AFOAuth2Client', '~> 0.1.1'
