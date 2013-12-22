@@ -8,6 +8,7 @@
 
 #import "LVCOrganizationsViewController.h"
 #import <LayerVaultAPI/LayerVaultAPI.h>
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 @interface LVCOrganizationsViewController ()  <NSOutlineViewDataSource, NSOutlineViewDelegate>
 @property (weak) IBOutlet NSOutlineView *outlineView;
@@ -19,17 +20,14 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Initialization code here.
+        [RACObserve(self, organizations) subscribeNext:^(NSArray *organizations) {
+            [self.outlineView reloadData];
+            [self.outlineView expandItem:nil expandChildren:YES];
+        }];
     }
     return self;
 }
 
-
-- (void)loadView
-{
-    [super loadView];
-    [self.outlineView expandItem:nil expandChildren:YES];
-}
 
 #pragma mark - NSOutlineViewDataSource
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
