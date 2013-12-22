@@ -89,7 +89,10 @@
 
 - (void)logout
 {
-
+    self.user = nil;
+    [self.client setAuthorizationHeaderWithCredential:nil];
+    [AFOAuthCredential deleteCredentialWithIdentifier:self.client.serviceProviderIdentifier];
+    self.credential = nil;
 }
 
 
