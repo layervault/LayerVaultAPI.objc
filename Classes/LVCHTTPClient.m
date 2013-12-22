@@ -117,9 +117,14 @@
     NSParameterAssert(project);
     NSParameterAssert(completion);
 
-    [self getProjectWithName:project.name
-       organizationPermalink:project.organizationPermalink
-                       completion:completion];
+    if (project.partial) {
+        [self getProjectWithName:project.name
+           organizationPermalink:project.organizationPermalink
+                      completion:completion];
+    }
+    else {
+        completion(project, nil, nil);
+    }
 }
 
 
