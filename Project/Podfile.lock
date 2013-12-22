@@ -27,7 +27,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AFNetworking: 61fdd49e2ffe6380378df37b3b6e70630bb9dd66
   AFOAuth2Client: 579d6f298b0047dfd5a6eec6ab5b28c01f6b4547
-  LayerVaultAPI: 9dbb5ed1b098c16f34422dc03582a272b9795c2d
+  LayerVaultAPI: f66d4ec7340721d87ca9f03a97a08fbbaa9aab95
   Mantle: abc3b0c81bc66eb624cf9cebb8640e377d5a44ae
   ReactiveCocoa: 0db710a0afa1c627a64470e5c912a3870d4854ae
 
