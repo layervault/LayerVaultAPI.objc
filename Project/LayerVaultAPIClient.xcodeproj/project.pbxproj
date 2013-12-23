@@ -29,6 +29,8 @@
 		C982A4141857C0D200CAAF32 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C982A4131857C0D200CAAF32 /* Security.framework */; };
 		C999722D185E22F500F9372F /* LVCProjectOutlineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C999722B185E22F500F9372F /* LVCProjectOutlineViewController.m */; };
 		C999722E185E22F500F9372F /* LVCProjectOutlineViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C999722C185E22F500F9372F /* LVCProjectOutlineViewController.xib */; };
+		C99C307F1868BA9000D2C8F8 /* LVCFileRevisionsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C99C307D1868BA9000D2C8F8 /* LVCFileRevisionsWindowController.m */; };
+		C99C30801868BA9000D2C8F8 /* LVCFileRevisionsWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C99C307E1868BA9000D2C8F8 /* LVCFileRevisionsWindowController.xib */; };
 		C9AEAB44185E041300E9EC40 /* LVCOrganizationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9AEAB42185E041300E9EC40 /* LVCOrganizationsViewController.m */; };
 		C9AEAB45185E041300E9EC40 /* LVCOrganizationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9AEAB43185E041300E9EC40 /* LVCOrganizationsViewController.xib */; };
 		C9C6186018648FF500CF2E40 /* LVCLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C6185E18648FF500CF2E40 /* LVCLoginViewController.m */; };
@@ -94,6 +96,9 @@
 		C999722A185E22F500F9372F /* LVCProjectOutlineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVCProjectOutlineViewController.h; sourceTree = "<group>"; };
 		C999722B185E22F500F9372F /* LVCProjectOutlineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCProjectOutlineViewController.m; sourceTree = "<group>"; };
 		C999722C185E22F500F9372F /* LVCProjectOutlineViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LVCProjectOutlineViewController.xib; sourceTree = "<group>"; };
+		C99C307C1868BA9000D2C8F8 /* LVCFileRevisionsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVCFileRevisionsWindowController.h; sourceTree = "<group>"; };
+		C99C307D1868BA9000D2C8F8 /* LVCFileRevisionsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCFileRevisionsWindowController.m; sourceTree = "<group>"; };
+		C99C307E1868BA9000D2C8F8 /* LVCFileRevisionsWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LVCFileRevisionsWindowController.xib; sourceTree = "<group>"; };
 		C9AEAB41185E041300E9EC40 /* LVCOrganizationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVCOrganizationsViewController.h; sourceTree = "<group>"; };
 		C9AEAB42185E041300E9EC40 /* LVCOrganizationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCOrganizationsViewController.m; sourceTree = "<group>"; };
 		C9AEAB43185E041300E9EC40 /* LVCOrganizationsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LVCOrganizationsViewController.xib; sourceTree = "<group>"; };
@@ -198,6 +203,9 @@
 				C9036BDB1865E5660093DBF4 /* LVCAuthController.m */,
 				C9FC226018679D1B0030C8B0 /* LVCColorCircleView.h */,
 				C9FC226118679D1B0030C8B0 /* LVCColorCircleView.m */,
+				C99C307C1868BA9000D2C8F8 /* LVCFileRevisionsWindowController.h */,
+				C99C307D1868BA9000D2C8F8 /* LVCFileRevisionsWindowController.m */,
+				C99C307E1868BA9000D2C8F8 /* LVCFileRevisionsWindowController.xib */,
 				C9C6185D18648FF500CF2E40 /* LVCLoginViewController.h */,
 				C9C6185E18648FF500CF2E40 /* LVCLoginViewController.m */,
 				C9C6185F18648FF500CF2E40 /* LVCLoginViewController.xib */,
@@ -343,6 +351,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C99C30801868BA9000D2C8F8 /* LVCFileRevisionsWindowController.xib in Resources */,
 				C9AEAB45185E041300E9EC40 /* LVCOrganizationsViewController.xib in Resources */,
 				C9DC2344185CCA4E00F9BE02 /* LVCMainWindowController.xib in Resources */,
 				C95CD2CD180B5F9500007F9B /* InfoPlist.strings in Resources */,
@@ -403,6 +412,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9036BDC1865E5660093DBF4 /* LVCAuthController.m in Sources */,
+				C99C307F1868BA9000D2C8F8 /* LVCFileRevisionsWindowController.m in Sources */,
 				C999722D185E22F500F9372F /* LVCProjectOutlineViewController.m in Sources */,
 				C95CD2CF180B5F9500007F9B /* main.m in Sources */,
 				C9AEAB44185E041300E9EC40 /* LVCOrganizationsViewController.m in Sources */,

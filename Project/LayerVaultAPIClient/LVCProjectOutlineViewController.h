@@ -8,7 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 @class LVCProject;
+@class LVCFile;
 
 @interface LVCProjectOutlineViewController : NSViewController
 @property (nonatomic) LVCProject *project;
+@property (nonatomic, copy) void(^fileSelectedHandler)(LVCFile *file);
 @end

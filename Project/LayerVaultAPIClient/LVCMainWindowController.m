@@ -11,6 +11,7 @@
 #import "LVCProjectOutlineViewController.h"
 #import "LVCLoginViewController.h"
 #import "LVCAuthController.h"
+#import "LVCFileRevisionsWindowController.h"
 #import <LayerVaultAPI/LayerVaultAPI.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <Mantle/EXTScope.h>
@@ -30,6 +31,7 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 @property (readonly) LVCAuthController *authController;
 @property (nonatomic) LVCHTTPClient *client;
 @property (nonatomic) LVCUser *user;
+@property (nonatomic) LVCFileRevisionsWindowController *fileRevisionWindow;
 @end
 
 @implementation LVCMainWindowController
@@ -40,14 +42,22 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
     if (self) {
         _authController = [[LVCAuthController alloc] init];
         _client = _authController.client;
+        _fileRevisionWindow = [[LVCFileRevisionsWindowController alloc] initWithWindowNibName:@"LVCFileRevisionsWindowController"];
+        _fileRevisionWindow.client = _client;
 
         _projectOutlineViewController = [[LVCProjectOutlineViewController alloc] initWithNibName:@"LVCProjectOutlineViewController" bundle:nil];
+        @weakify(self);
+        _projectOutlineViewController.fileSelectedHandler = ^(LVCFile *file) {
+            @strongify(self);
+            [self.fileRevisionWindow showWindow:nil];
+            self.fileRevisionWindow.file = file;
+        };
+
         _organizationsViewController = [[LVCOrganizationsViewController alloc] initWithNibName:@"LVCOrganizationsViewController" bundle:nil];
 
         _loginViewController = [[LVCLoginViewController alloc]
                                 initWithNibName:@"LVCLoginViewController" bundle:nil];
 
-        @weakify(self);
         _loginViewController.loginHander = ^(NSString *userName, NSString *password) {
             @strongify(self);
             [self.authController loginWithEmail:userName

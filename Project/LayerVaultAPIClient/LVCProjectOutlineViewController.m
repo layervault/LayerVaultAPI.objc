@@ -132,7 +132,9 @@
     }
     else if ([item isKindOfClass:LVCFile.class]) {
         LVCFile *file = (LVCFile *)item;
-        NSLog(@"file: %@", file);
+        if (self.fileSelectedHandler) {
+            self.fileSelectedHandler(file);
+        }
     }
 }
 

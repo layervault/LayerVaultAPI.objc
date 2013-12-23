@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment defaultVersion="1070" identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="LVCFileRevisionsWindowController">
+            <connections>
+                <outlet property="window" destination="1" id="3"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application"/>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" wantsToBeColor="NO" animationBehavior="default" id="1">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="600" height="235"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
+            <view key="contentView" id="2">
+                <rect key="frame" x="0.0" y="0.0" width="600" height="235"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mru-va-bZP">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="235"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <clipView key="contentView" id="el3-Pg-baJ">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="235"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <collectionView selectable="YES" id="IXh-CH-Dx8">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="235"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <connections>
+                                        <binding destination="JvU-e6-lWc" name="content" keyPath="arrangedObjects" id="9Yh-2w-VD4"/>
+                                        <outlet property="itemPrototype" destination="Ufm-so-TxA" id="hp0-Xh-8Sd"/>
+                                    </connections>
+                                </collectionView>
+                            </subviews>
+                        </clipView>
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="Z7M-Qb-TFe">
+                            <rect key="frame" x="1" y="144" width="233" height="15"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="if0-8V-PvB">
+                            <rect key="frame" x="234" y="1" width="15" height="143"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </scroller>
+                    </scrollView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="mru-va-bZP" secondAttribute="trailing" id="GoL-B9-SSD"/>
+                    <constraint firstAttribute="bottom" secondItem="mru-va-bZP" secondAttribute="bottom" id="L8F-zq-8ob"/>
+                    <constraint firstItem="mru-va-bZP" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="UI8-bg-Dzd"/>
+                    <constraint firstItem="mru-va-bZP" firstAttribute="top" secondItem="2" secondAttribute="top" id="kxD-W4-tWf"/>
+                </constraints>
+            </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="4"/>
+            </connections>
+        </window>
+        <collectionViewItem id="Ufm-so-TxA">
+            <connections>
+                <outlet property="imageView" destination="OmD-ds-AVm" id="In4-wo-Y5e"/>
+                <outlet property="textField" destination="t0l-Cz-bQD" id="GKL-ga-Fgm"/>
+                <outlet property="view" destination="XlG-gl-1hq" id="Z1A-m7-dht"/>
+            </connections>
+        </collectionViewItem>
+        <view id="XlG-gl-1hq">
+            <rect key="frame" x="0.0" y="0.0" width="200" height="235"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="OmD-ds-AVm">
+                    <rect key="frame" x="0.0" y="35" width="200" height="200"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="200" id="076-HG-UaX"/>
+                        <constraint firstAttribute="width" constant="200" id="0jZ-oL-oJK"/>
+                    </constraints>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="Mgw-GW-d9K"/>
+                    <connections>
+                        <binding destination="Ufm-so-TxA" name="value" keyPath="representedObject.image" id="eZJ-oB-MqL"/>
+                    </connections>
+                </imageView>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="t0l-Cz-bQD">
+                    <rect key="frame" x="79" y="10" width="42" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Label" id="mYt-8N-jIP">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                    <connections>
+                        <binding destination="Ufm-so-TxA" name="value" keyPath="representedObject.revision" id="kBA-cS-JcX"/>
+                    </connections>
+                </textField>
+            </subviews>
+            <constraints>
+                <constraint firstItem="t0l-Cz-bQD" firstAttribute="top" relation="greaterThanOrEqual" secondItem="OmD-ds-AVm" secondAttribute="bottom" constant="8" id="7Zf-HS-cLS"/>
+                <constraint firstAttribute="bottom" secondItem="t0l-Cz-bQD" secondAttribute="bottom" constant="10" id="O95-3v-kfb"/>
+                <constraint firstAttribute="centerX" secondItem="OmD-ds-AVm" secondAttribute="centerX" id="iLw-NZ-626"/>
+                <constraint firstItem="OmD-ds-AVm" firstAttribute="top" secondItem="XlG-gl-1hq" secondAttribute="top" id="mHI-gU-sVc"/>
+                <constraint firstAttribute="centerX" secondItem="t0l-Cz-bQD" secondAttribute="centerX" id="zvR-Hc-9ar"/>
+            </constraints>
+        </view>
+        <arrayController objectClassName="NSDictionary" editable="NO" id="JvU-e6-lWc">
+            <declaredKeys>
+                <string>revision</string>
+                <string>image</string>
+            </declaredKeys>
+            <connections>
+                <binding destination="-2" name="contentArray" keyPath="self.revisions" id="Y6s-4v-eqz">
+                    <dictionary key="options">
+                        <bool key="NSConditionallySetsEditable" value="NO"/>
+                    </dictionary>
+                </binding>
+            </connections>
+        </arrayController>
+    </objects>
+</document>
