@@ -120,11 +120,4 @@
     self.selectedProject = [self.outlineView itemAtRow:self.outlineView.selectedRow];
 }
 
-- (IBAction)newProjectPressed:(id)sender {
-    NSInteger row = [self.outlineView rowForView:sender];
-    LVCOrganization *org = [self.outlineView itemAtRow:row];
-    LVCProject *project = [[LVCProject alloc] initWithName:@""
-                                     organizationPermalink:org.permalink];
-}
-
 @end

@@ -7,7 +7,6 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="LVCOrganizationsViewController">
             <connections>
-                <outlet property="addProjectButton" destination="2RV-Sh-sPr" id="gR2-1M-Jbb"/>
                 <outlet property="outlineView" destination="2l4-Rw-V5E" id="g9k-6x-ZTa"/>
                 <outlet property="view" destination="81f-TH-Bys" id="vEr-yt-9qG"/>
             </connections>
@@ -54,24 +53,10 @@
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                            <button verticalHuggingPriority="750" tag="66" translatesAutoresizingMaskIntoConstraints="NO" id="2RV-Sh-sPr">
-                                                <rect key="frame" x="242" y="-1" width="70" height="17"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                <buttonCell key="cell" type="recessed" title="New Project" bezelStyle="recessed" alignment="right" controlSize="mini" lineBreakMode="truncatingTail" borderStyle="border" inset="2" id="O4k-K4-2jW">
-                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                                    <font key="font" metaFont="miniSystemBold"/>
-                                                </buttonCell>
-                                                <connections>
-                                                    <action selector="newProjectPressed:" target="-2" id="cGg-ji-4fp"/>
-                                                </connections>
-                                            </button>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstItem="lBf-ae-CsG" firstAttribute="centerY" secondItem="2RV-Sh-sPr" secondAttribute="centerY" id="0MT-ss-cRf"/>
                                             <constraint firstItem="lBf-ae-CsG" firstAttribute="leading" secondItem="6hm-IH-Lto" secondAttribute="leading" constant="2" id="QKa-TK-8s8"/>
-                                            <constraint firstAttribute="trailing" secondItem="2RV-Sh-sPr" secondAttribute="trailing" id="R4S-Jc-gLi"/>
                                             <constraint firstAttribute="centerY" secondItem="lBf-ae-CsG" secondAttribute="centerY" id="Skc-Sc-ibp"/>
-                                            <constraint firstItem="2RV-Sh-sPr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="lBf-ae-CsG" secondAttribute="trailing" constant="5" id="byL-uB-cNu"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="textField" destination="lBf-ae-CsG" id="4lR-De-cFA"/>
