@@ -28,6 +28,13 @@
     return self;
 }
 
+- (void)loadView
+{
+    [super loadView];
+    [self.outlineView setTarget:self];
+    [self.outlineView setDoubleAction:@selector(doubleClickedItem:)];
+}
+
 #pragma mark - NSOutlineViewDataSource
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
@@ -109,6 +116,24 @@
 
     }
     return tableCellView;
+}
+
+
+#pragma mark - Private Methods
+- (void)doubleClickedItem:(NSOutlineView *)outlineView {
+    id item = [outlineView itemAtRow:[outlineView selectedRow]];
+    if ([item isKindOfClass:LVCFolder.class]) {
+        if ([outlineView isItemExpanded:item]) {
+            [outlineView collapseItem:item];
+        }
+        else {
+            [outlineView expandItem:item];
+        }
+    }
+    else if ([item isKindOfClass:LVCFile.class]) {
+        LVCFile *file = (LVCFile *)item;
+        NSLog(@"file: %@", file);
+    }
 }
 
 @end
