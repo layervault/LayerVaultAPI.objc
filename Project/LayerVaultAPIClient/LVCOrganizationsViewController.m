@@ -12,7 +12,6 @@
 #import "LVCColorCircleView.h"
 
 @interface LVCOrganizationsViewController ()  <NSOutlineViewDataSource, NSOutlineViewDelegate>
-@property (weak) IBOutlet NSOutlineView *outlineView;
 @property (weak) IBOutlet NSButton *addProjectButton;
 @end
 

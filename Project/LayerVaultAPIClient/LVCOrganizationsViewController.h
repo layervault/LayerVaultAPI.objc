@@ -12,4 +12,5 @@
 @interface LVCOrganizationsViewController : NSViewController
 @property (nonatomic, copy) NSArray *organizations;
 @property (nonatomic) LVCProject *selectedProject;
+@property (weak) IBOutlet NSOutlineView *outlineView;
 @end

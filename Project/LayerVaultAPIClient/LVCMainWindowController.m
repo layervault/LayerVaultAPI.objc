@@ -14,6 +14,7 @@
 #import <LayerVaultAPI/LayerVaultAPI.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <Mantle/EXTScope.h>
+#import <QuartzCore/QuartzCore.h>
 
 static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 
@@ -66,6 +67,8 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 {
     [super windowDidLoad];
 
+    self.contentView.wantsLayer = YES;
+
     // Place the organizations view controller in the source view container
     self.organizationsViewController.organizations = self.user.organizations;
     NSView *organizationsView = self.organizationsViewController.view;
@@ -97,6 +100,12 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
                                            options:NSLayoutFormatDirectionLeadingToTrailing
                                            metrics:nil
                                            views:NSDictionaryOfVariableBindings(projectView)]];
+
+
+    // Setup Transition
+    CATransition *transition = [CATransition animation];
+    transition.type = kCATransitionFade;
+    self.contentView.animations = @{@"subviews": transition};
 
     // Start Observing
     [RACObserve(_authController, user) subscribeNext:^(LVCUser *user) {
@@ -135,6 +144,13 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 
 #pragma mark - Private Methods
 - (void)placeLoginViewController {
+    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+        [self.contentView.animator replaceSubview:self.userSplitView
+                                             with:self.loginViewController.view];
+    } completionHandler:^{
+        [self.window makeFirstResponder:self.loginViewController.emailField];
+    }];
+
     for (NSView *subview in self.contentView.subviews) {
         [subview removeFromSuperview];
     }
@@ -144,7 +160,6 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
     NSDictionary *views = NSDictionaryOfVariableBindings(loginView, superView);
 
     [superView addSubview:loginView];
-    [self.window makeFirstResponder:self.loginViewController.emailField];
     [superView addConstraints:
      [NSLayoutConstraint constraintsWithVisualFormat:@"V:[superView]-(<=1)-[loginView(>=120.0)]"
                                              options:NSLayoutFormatAlignAllCenterX
@@ -159,6 +174,19 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 
 
 - (void)placeUserViewController {
+    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
+        [self.contentView.animator replaceSubview:self.loginViewController.view
+                                             with:self.userSplitView];
+    } completionHandler:^{
+        [self.window makeFirstResponder:self.organizationsViewController.outlineView];
+        NSUInteger row = 1;
+        if ([self.organizationsViewController.outlineView itemAtRow:row]) {
+            [self.organizationsViewController.outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:row]
+                                                      byExtendingSelection:NO];
+        }
+    }];
+
+
     for (NSView *subview in self.contentView.subviews) {
         [subview removeFromSuperview];
     }
