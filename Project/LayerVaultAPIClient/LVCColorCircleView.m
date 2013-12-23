@@ -70,11 +70,12 @@ static NSRect LVCColorCircleViewRect = {.size = { .width = 15.0, .height = 15.0}
     if (self.color) {
         [self.color setFill];
         [path appendBezierPathWithOvalInRect:rect];
-        [path fill];
     }
     else {
+        [[NSColor whiteColor] setFill];
         [path appendBezierPathWithRect:rect];
     }
+    [path fill];
     [path addClip];
     path.lineWidth = 2.0;
     [path stroke];
