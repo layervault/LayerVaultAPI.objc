@@ -13,6 +13,7 @@
 
 @interface LVCOrganizationsViewController ()  <NSOutlineViewDataSource, NSOutlineViewDelegate>
 @property (weak) IBOutlet NSOutlineView *outlineView;
+@property (weak) IBOutlet NSButton *addProjectButton;
 @end
 
 @implementation LVCOrganizationsViewController
@@ -76,6 +77,12 @@
             tableCellView = [outlineView makeViewWithIdentifier:@"HeaderCell"
                                                           owner:self];
             [tableCellView.textField setStringValue:organization.name];
+            NSButton *button = [tableCellView viewWithTag:66];
+            NSMutableAttributedString *title = button.attributedTitle.mutableCopy;
+            [title addAttribute:NSForegroundColorAttributeName
+                          value:[NSColor clearColor]
+                          range:NSMakeRange(0, title.length)];
+            button.attributedTitle = title;
         }
         else if ([item isKindOfClass:LVCProject.class]) {
             LVCProject *project = (LVCProject *)item;
@@ -114,5 +121,11 @@
     self.selectedProject = [self.outlineView itemAtRow:self.outlineView.selectedRow];
 }
 
+- (IBAction)newProjectPressed:(id)sender {
+    NSInteger row = [self.outlineView rowForView:sender];
+    LVCOrganization *org = [self.outlineView itemAtRow:row];
+    LVCProject *project = [[LVCProject alloc] initWithName:@""
+                                     organizationPermalink:org.permalink];
+}
 
 @end

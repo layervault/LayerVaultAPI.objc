@@ -21,9 +21,9 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 @property (strong) LVCOrganizationsViewController *organizationsViewController;
 @property (strong) LVCProjectOutlineViewController *projectOutlineViewController;
 @property (strong) LVCLoginViewController *loginViewController;
-@property (strong) IBOutlet NSView *userView;
+@property (strong) IBOutlet NSSplitView *userSplitView;
+@property (weak) IBOutlet NSView *contentView;
 @property (weak) IBOutlet NSView *sourceViewContainer;
-@property (weak) IBOutlet NSView *detailViewContainer;
 @property (weak) IBOutlet NSView *projectContainer;
 @property (weak) IBOutlet NSTextField *loggedInField;
 @property (readonly) LVCAuthController *authController;
@@ -57,32 +57,6 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
                                          self.user = user;
                                      }];
         };
-
-        [RACObserve(_authController, user) subscribeNext:^(LVCUser *user) {
-            self.user = user;
-        }];
-
-        [RACObserve(self, organizationsViewController.selectedProject) subscribeNext:^(LVCProject *project) {
-            if (project) {
-                [self.client getProjectFromPartial:project
-                                        completion:^(LVCProject *project,
-                                                     NSError *error,
-                                                     AFHTTPRequestOperation *operation) {
-                                            self.projectOutlineViewController.project = project;
-                                        }];
-            }
-        }];
-
-        [RACObserve(self, user) subscribeNext:^(LVCUser *user) {
-            self.organizationsViewController.organizations = user.organizations;
-            if (user) {
-                self.loggedInField.stringValue = user.email;
-                [self placeUserViewController];
-            }
-            else {
-                [self placeLoginViewController];
-            }
-        }];
     }
     return self;
 }
@@ -95,17 +69,61 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
     // Place the organizations view controller in the source view container
     self.organizationsViewController.organizations = self.user.organizations;
     NSView *organizationsView = self.organizationsViewController.view;
-    organizationsView.autoresizingMask = NSViewMinXMargin|NSViewWidthSizable|NSViewMaxXMargin|NSViewMinYMargin|NSViewHeightSizable|NSViewMaxYMargin;
-    organizationsView.frame = self.sourceViewContainer.bounds;
+    organizationsView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.sourceViewContainer addSubview:organizationsView];
+    [self.sourceViewContainer addConstraints:[NSLayoutConstraint
+                                              constraintsWithVisualFormat:@"H:|-0-[organizationsView]-0-|"
+                                              options:NSLayoutFormatDirectionLeadingToTrailing
+                                              metrics:nil
+                                              views:NSDictionaryOfVariableBindings(organizationsView)]];
+    [self.sourceViewContainer addConstraints:[NSLayoutConstraint
+                                              constraintsWithVisualFormat:@"V:|-0-[organizationsView]-0-|"
+                                              options:NSLayoutFormatDirectionLeadingToTrailing
+                                              metrics:nil
+                                              views:NSDictionaryOfVariableBindings(organizationsView)]];
+
 
     // Place the project view controller in the project container
     NSView *projectView = self.projectOutlineViewController.view;
-    projectView.autoresizingMask = NSViewMinXMargin|NSViewWidthSizable|NSViewMaxXMargin|NSViewMinYMargin|NSViewHeightSizable|NSViewMaxYMargin;
-    projectView.frame = self.projectContainer.bounds;
+    projectView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.projectContainer addSubview:projectView];
+    [self.projectContainer addConstraints:[NSLayoutConstraint
+                                           constraintsWithVisualFormat:@"H:|-0-[projectView]-0-|"
+                                           options:NSLayoutFormatDirectionLeadingToTrailing
+                                           metrics:nil
+                                           views:NSDictionaryOfVariableBindings(projectView)]];
+    [self.projectContainer addConstraints:[NSLayoutConstraint
+                                           constraintsWithVisualFormat:@"V:|-0-[projectView]-0-|"
+                                           options:NSLayoutFormatDirectionLeadingToTrailing
+                                           metrics:nil
+                                           views:NSDictionaryOfVariableBindings(projectView)]];
 
-    [self placeLoginViewController];
+    // Start Observing
+    [RACObserve(_authController, user) subscribeNext:^(LVCUser *user) {
+        self.user = user;
+    }];
+
+    [RACObserve(self, organizationsViewController.selectedProject) subscribeNext:^(LVCProject *project) {
+        if (project) {
+            [self.client getProjectFromPartial:project
+                                    completion:^(LVCProject *project,
+                                                 NSError *error,
+                                                 AFHTTPRequestOperation *operation) {
+                                        self.projectOutlineViewController.project = project;
+                                    }];
+        }
+    }];
+
+    [RACObserve(self, user) subscribeNext:^(LVCUser *user) {
+        self.organizationsViewController.organizations = user.organizations;
+        if (user) {
+            self.loggedInField.stringValue = user.email;
+            [self placeUserViewController];
+        }
+        else {
+            [self placeLoginViewController];
+        }
+    }];
 }
 
 
@@ -117,41 +135,36 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 
 #pragma mark - Private Methods
 - (void)placeLoginViewController {
-    if (self.loginViewController.view && self.detailViewContainer) {
-        for (NSView *subview in self.detailViewContainer.subviews) {
-            [subview removeFromSuperview];
-        }
-        NSView *loginView = self.loginViewController.view;
-        NSView *superView = self.detailViewContainer;
-        NSDictionary *views = NSDictionaryOfVariableBindings(loginView, superView);
-
-        [superView addSubview:loginView];
-        [self.window makeFirstResponder:self.loginViewController.emailField];
-        superView.translatesAutoresizingMaskIntoConstraints = NO;
-        loginView.translatesAutoresizingMaskIntoConstraints = NO;
-        [superView addConstraints:
-         [NSLayoutConstraint constraintsWithVisualFormat:@"V:[superView]-(<=1)-[loginView(>=120.0)]"
-                                                 options:NSLayoutFormatAlignAllCenterX
-                                                 metrics:nil
-                                                   views:views]];
-        [superView addConstraints:
-         [NSLayoutConstraint constraintsWithVisualFormat:@"H:[superView]-(<=1)-[loginView(>=240.0)]"
-                                                 options:NSLayoutFormatAlignAllCenterY
-                                                 metrics:nil
-                                                   views:views]];
+    for (NSView *subview in self.contentView.subviews) {
+        [subview removeFromSuperview];
     }
+    NSView *loginView = self.loginViewController.view;
+    loginView.translatesAutoresizingMaskIntoConstraints = NO;
+    NSView *superView = self.contentView;
+    NSDictionary *views = NSDictionaryOfVariableBindings(loginView, superView);
+
+    [superView addSubview:loginView];
+    [self.window makeFirstResponder:self.loginViewController.emailField];
+    [superView addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"V:[superView]-(<=1)-[loginView(>=120.0)]"
+                                             options:NSLayoutFormatAlignAllCenterX
+                                             metrics:nil
+                                               views:views]];
+    [superView addConstraints:
+     [NSLayoutConstraint constraintsWithVisualFormat:@"H:[superView]-(<=1)-[loginView(>=240.0)]"
+                                             options:NSLayoutFormatAlignAllCenterY
+                                             metrics:nil
+                                               views:views]];
 }
 
 
 - (void)placeUserViewController {
-    if (self.userView && self.detailViewContainer) {
-        for (NSView *subview in self.detailViewContainer.subviews) {
-            [subview removeFromSuperview];
-        }
-        self.userView.autoresizingMask = NSViewMinXMargin|NSViewWidthSizable|NSViewMaxXMargin|NSViewMinYMargin|NSViewHeightSizable|NSViewMaxYMargin;
-        self.userView.frame = self.detailViewContainer.bounds;
-        [self.detailViewContainer addSubview:self.userView];
+    for (NSView *subview in self.contentView.subviews) {
+        [subview removeFromSuperview];
     }
+    self.userSplitView.autoresizingMask = NSViewMinXMargin|NSViewWidthSizable|NSViewMaxXMargin|NSViewMinYMargin|NSViewHeightSizable|NSViewMaxYMargin;
+    self.userSplitView.frame = self.contentView.bounds;
+    [self.contentView addSubview:self.userSplitView];
 }
 
 @end

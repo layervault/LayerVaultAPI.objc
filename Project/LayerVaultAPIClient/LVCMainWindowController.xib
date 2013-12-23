@@ -7,11 +7,12 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="LVCMainWindowController">
             <connections>
+                <outlet property="contentView" destination="2" id="DF4-7R-xhO"/>
                 <outlet property="detailViewContainer" destination="O9Z-jp-6tI" id="3xj-7e-GFU"/>
                 <outlet property="loggedInField" destination="gMs-7G-ZrC" id="fn2-G4-yfC"/>
                 <outlet property="projectContainer" destination="hcH-5P-Kis" id="Mge-zb-eAP"/>
                 <outlet property="sourceViewContainer" destination="syn-oe-hpr" id="Yyg-zA-PQY"/>
-                <outlet property="userView" destination="eOW-Yp-laF" id="83Q-v9-tlu"/>
+                <outlet property="userSplitView" destination="QbK-KW-bfL" id="0ru-yv-iiw"/>
                 <outlet property="window" destination="1" id="3"/>
             </connections>
         </customObject>
@@ -21,87 +22,76 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="635" height="397"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1418"/>
             <view key="contentView" id="2">
                 <rect key="frame" x="0.0" y="0.0" width="635" height="397"/>
                 <autoresizingMask key="autoresizingMask"/>
-                <subviews>
-                    <splitView dividerStyle="thin" vertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QbK-KW-bfL">
-                        <rect key="frame" x="0.0" y="0.0" width="635" height="397"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <subviews>
-                            <customView fixedFrame="YES" id="syn-oe-hpr">
-                                <rect key="frame" x="0.0" y="0.0" width="200" height="397"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <connections>
-                                    <outlet property="nextKeyView" destination="O9Z-jp-6tI" id="xGx-S8-hzw"/>
-                                </connections>
-                            </customView>
-                            <customView fixedFrame="YES" id="O9Z-jp-6tI">
-                                <rect key="frame" x="201" y="0.0" width="434" height="397"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <connections>
-                                    <outlet property="nextKeyView" destination="syn-oe-hpr" id="5Ua-gn-Z7b"/>
-                                </connections>
-                            </customView>
-                        </subviews>
-                        <holdingPriorities>
-                            <real value="250"/>
-                            <real value="251"/>
-                        </holdingPriorities>
-                    </splitView>
-                </subviews>
-                <constraints>
-                    <constraint firstAttribute="bottom" secondItem="QbK-KW-bfL" secondAttribute="bottom" id="Jl1-4O-ah8"/>
-                    <constraint firstItem="QbK-KW-bfL" firstAttribute="top" secondItem="2" secondAttribute="top" id="XDE-RB-HWd"/>
-                    <constraint firstAttribute="trailing" secondItem="QbK-KW-bfL" secondAttribute="trailing" id="gV9-7M-xJJ"/>
-                    <constraint firstItem="QbK-KW-bfL" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="nUt-dd-AkE"/>
-                </constraints>
             </view>
             <connections>
                 <outlet property="delegate" destination="-2" id="4"/>
                 <outlet property="initialFirstResponder" destination="O9Z-jp-6tI" id="hgV-TR-JoP"/>
             </connections>
         </window>
-        <customView id="eOW-Yp-laF">
-            <rect key="frame" x="0.0" y="0.0" width="434" height="397"/>
+        <splitView dividerStyle="thin" vertical="YES" id="QbK-KW-bfL">
+            <rect key="frame" x="0.0" y="0.0" width="635" height="397"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gMs-7G-ZrC">
-                    <rect key="frame" x="6" y="373" width="98" height="17"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Logged in user" id="c4R-A5-vVZ">
-                        <font key="font" metaFont="system"/>
-                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                    </textFieldCell>
-                </textField>
-                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vgv-X6-cS2">
-                    <rect key="frame" x="367" y="365" width="64" height="28"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="push" title="Logout" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Gnn-EK-a1l">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="smallSystem"/>
-                    </buttonCell>
+                <customView fixedFrame="YES" id="syn-oe-hpr">
+                    <rect key="frame" x="0.0" y="0.0" width="200" height="397"/>
+                    <autoresizingMask key="autoresizingMask"/>
                     <connections>
-                        <action selector="logoutPressed:" target="-2" id="Pwn-Oi-agN"/>
+                        <outlet property="nextKeyView" destination="O9Z-jp-6tI" id="xGx-S8-hzw"/>
                     </connections>
-                </button>
-                <customView translatesAutoresizingMaskIntoConstraints="NO" id="hcH-5P-Kis">
-                    <rect key="frame" x="0.0" y="0.0" width="434" height="363"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                </customView>
+                <customView id="O9Z-jp-6tI">
+                    <rect key="frame" x="201" y="0.0" width="434" height="397"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <subviews>
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gMs-7G-ZrC">
+                            <rect key="frame" x="6" y="372" width="98" height="17"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Logged in user" id="c4R-A5-vVZ">
+                                <font key="font" metaFont="system"/>
+                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                        </textField>
+                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vgv-X6-cS2">
+                            <rect key="frame" x="367" y="365" width="64" height="28"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="push" title="Logout" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Gnn-EK-a1l">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="smallSystem"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="logoutPressed:" target="-2" id="Pwn-Oi-agN"/>
+                            </connections>
+                        </button>
+                        <customView translatesAutoresizingMaskIntoConstraints="NO" id="hcH-5P-Kis">
+                            <rect key="frame" x="0.0" y="0.0" width="434" height="363"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        </customView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="hcH-5P-Kis" firstAttribute="leading" secondItem="O9Z-jp-6tI" secondAttribute="leading" id="AfF-o6-6rJ"/>
+                        <constraint firstItem="hcH-5P-Kis" firstAttribute="top" secondItem="O9Z-jp-6tI" secondAttribute="top" constant="34" id="EHT-j8-1oj"/>
+                        <constraint firstAttribute="trailing" secondItem="hcH-5P-Kis" secondAttribute="trailing" id="EUa-qn-gDN"/>
+                        <constraint firstItem="Vgv-X6-cS2" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gMs-7G-ZrC" secondAttribute="trailing" constant="5" id="MhF-m6-ykx"/>
+                        <constraint firstAttribute="bottom" secondItem="hcH-5P-Kis" secondAttribute="bottom" id="N6R-Zw-yQN"/>
+                        <constraint firstItem="Vgv-X6-cS2" firstAttribute="centerY" secondItem="gMs-7G-ZrC" secondAttribute="centerY" constant="0.5" id="V4J-MY-lBc"/>
+                        <constraint firstAttribute="trailing" secondItem="Vgv-X6-cS2" secondAttribute="trailing" constant="8" id="eeL-tL-B0e"/>
+                        <constraint firstItem="gMs-7G-ZrC" firstAttribute="leading" secondItem="O9Z-jp-6tI" secondAttribute="leading" constant="8" id="ffx-EZ-E0O"/>
+                        <constraint firstItem="Vgv-X6-cS2" firstAttribute="top" secondItem="O9Z-jp-6tI" secondAttribute="top" constant="8" id="l99-26-pSu"/>
+                    </constraints>
+                    <connections>
+                        <outlet property="nextKeyView" destination="syn-oe-hpr" id="5Ua-gn-Z7b"/>
+                    </connections>
                 </customView>
             </subviews>
-            <constraints>
-                <constraint firstItem="Vgv-X6-cS2" firstAttribute="top" secondItem="eOW-Yp-laF" secondAttribute="top" constant="8" id="WLe-wT-GLj"/>
-                <constraint firstAttribute="trailing" secondItem="hcH-5P-Kis" secondAttribute="trailing" id="hxR-eX-ed1"/>
-                <constraint firstAttribute="trailing" secondItem="Vgv-X6-cS2" secondAttribute="trailing" constant="8" id="mom-cm-d40"/>
-                <constraint firstItem="hcH-5P-Kis" firstAttribute="top" secondItem="Vgv-X6-cS2" secondAttribute="bottom" constant="8" id="o9n-Aa-Ibs"/>
-                <constraint firstItem="gMs-7G-ZrC" firstAttribute="baseline" secondItem="Vgv-X6-cS2" secondAttribute="baseline" id="oBO-KC-A6U"/>
-                <constraint firstItem="hcH-5P-Kis" firstAttribute="leading" secondItem="eOW-Yp-laF" secondAttribute="leading" id="ojA-Ln-32Z"/>
-                <constraint firstItem="gMs-7G-ZrC" firstAttribute="leading" secondItem="eOW-Yp-laF" secondAttribute="leading" constant="8" id="sX2-Ad-dOO"/>
-                <constraint firstAttribute="bottom" secondItem="hcH-5P-Kis" secondAttribute="bottom" id="tE1-m6-1qo"/>
-            </constraints>
-        </customView>
+            <holdingPriorities>
+                <real value="250"/>
+                <real value="230"/>
+            </holdingPriorities>
+        </splitView>
     </objects>
 </document>

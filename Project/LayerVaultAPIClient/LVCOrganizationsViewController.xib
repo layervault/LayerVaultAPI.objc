@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment version="1070" defaultVersion="1070" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
@@ -7,6 +7,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="LVCOrganizationsViewController">
             <connections>
+                <outlet property="addProjectButton" destination="2RV-Sh-sPr" id="gR2-1M-Jbb"/>
                 <outlet property="outlineView" destination="2l4-Rw-V5E" id="g9k-6x-ZTa"/>
                 <outlet property="view" destination="81f-TH-Bys" id="vEr-yt-9qG"/>
             </connections>
@@ -20,7 +21,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="315" height="458"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" rowSizeStyle="systemDefault" viewBased="YES" indentationPerLevel="4" outlineTableColumn="eJB-bm-ivJ" id="2l4-Rw-V5E">
+                    <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" rowSizeStyle="systemDefault" viewBased="YES" indentationPerLevel="1" outlineTableColumn="eJB-bm-ivJ" id="2l4-Rw-V5E">
                         <rect key="frame" x="0.0" y="0.0" width="315" height="458"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <size key="intercellSpacing" width="3" height="0.0"/>
@@ -44,8 +45,8 @@
                                         <rect key="frame" x="1" y="0.0" width="312" height="17"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
-                                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lBf-ae-CsG">
-                                                <rect key="frame" x="0.0" y="1" width="312" height="14"/>
+                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lBf-ae-CsG">
+                                                <rect key="frame" x="0.0" y="1" width="82" height="14"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="HEADER CELL" id="f3T-0e-s9f">
                                                     <font key="font" metaFont="smallSystemBold"/>
@@ -53,7 +54,25 @@
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
+                                            <button verticalHuggingPriority="750" tag="66" translatesAutoresizingMaskIntoConstraints="NO" id="2RV-Sh-sPr">
+                                                <rect key="frame" x="242" y="-1" width="70" height="17"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <buttonCell key="cell" type="recessed" title="New Project" bezelStyle="recessed" alignment="right" controlSize="mini" lineBreakMode="truncatingTail" borderStyle="border" inset="2" id="O4k-K4-2jW">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                                    <font key="font" metaFont="miniSystemBold"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="newProjectPressed:" target="-2" id="cGg-ji-4fp"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstItem="lBf-ae-CsG" firstAttribute="centerY" secondItem="2RV-Sh-sPr" secondAttribute="centerY" id="0MT-ss-cRf"/>
+                                            <constraint firstItem="lBf-ae-CsG" firstAttribute="leading" secondItem="6hm-IH-Lto" secondAttribute="leading" constant="2" id="QKa-TK-8s8"/>
+                                            <constraint firstAttribute="trailing" secondItem="2RV-Sh-sPr" secondAttribute="trailing" id="R4S-Jc-gLi"/>
+                                            <constraint firstAttribute="centerY" secondItem="lBf-ae-CsG" secondAttribute="centerY" id="Skc-Sc-ibp"/>
+                                            <constraint firstItem="2RV-Sh-sPr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="lBf-ae-CsG" secondAttribute="trailing" constant="5" id="byL-uB-cNu"/>
+                                        </constraints>
                                         <connections>
                                             <outlet property="textField" destination="lBf-ae-CsG" id="4lR-De-cFA"/>
                                         </connections>
@@ -62,13 +81,16 @@
                                         <rect key="frame" x="1" y="17" width="312" height="17"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
-                                            <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gda-ey-yqg">
-                                                <rect key="frame" x="3" y="0.0" width="17" height="17"/>
+                                            <imageView horizontalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="gda-ey-yqg">
+                                                <rect key="frame" x="4" y="2" width="14" height="14"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="14" id="4R2-h6-oaB"/>
+                                                </constraints>
                                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSActionTemplate" id="Jhm-8D-tzb"/>
                                             </imageView>
-                                            <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qBw-OU-inW">
-                                                <rect key="frame" x="25" y="0.0" width="287" height="17"/>
+                                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qBw-OU-inW">
+                                                <rect key="frame" x="23" y="0.0" width="289" height="17"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                 <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="p0F-qx-hJN">
                                                     <font key="font" metaFont="system"/>
@@ -77,6 +99,14 @@
                                                 </textFieldCell>
                                             </textField>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstItem="gda-ey-yqg" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="5bf-RT-OGG" secondAttribute="leading" constant="4" id="99Y-GP-Osh"/>
+                                            <constraint firstAttribute="centerY" secondItem="qBw-OU-inW" secondAttribute="centerY" id="Kz6-wa-FBk"/>
+                                            <constraint firstItem="gda-ey-yqg" firstAttribute="leading" secondItem="5bf-RT-OGG" secondAttribute="leading" constant="4" id="T7q-uO-146"/>
+                                            <constraint firstAttribute="centerY" secondItem="gda-ey-yqg" secondAttribute="centerY" id="ctU-mI-ERo"/>
+                                            <constraint firstAttribute="trailing" secondItem="qBw-OU-inW" secondAttribute="trailing" constant="2" id="ofU-bS-kEw"/>
+                                            <constraint firstItem="qBw-OU-inW" firstAttribute="leading" secondItem="gda-ey-yqg" secondAttribute="trailing" constant="7" id="rEy-67-6SV"/>
+                                        </constraints>
                                         <connections>
                                             <outlet property="imageView" destination="gda-ey-yqg" id="hHO-vW-0yw"/>
                                             <outlet property="textField" destination="qBw-OU-inW" id="c3h-43-J0r"/>
