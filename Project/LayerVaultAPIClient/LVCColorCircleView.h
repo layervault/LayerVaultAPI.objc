@@ -7,8 +7,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <LayerVaultAPI/LVCColorUtils.h>
 
 @interface LVCColorCircleView : NSView
 @property (nonatomic, readonly) NSColor *color;
 - (instancetype)initWithFrame:(NSRect)frame color:(NSColor *)color;
+
++ (NSImage *)circleImageWithColorLabel:(LVCColorLabel)colorLabel;
++ (NSImage *)squareImage;
 @end

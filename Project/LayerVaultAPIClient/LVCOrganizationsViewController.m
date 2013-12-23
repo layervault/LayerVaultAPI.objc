@@ -88,13 +88,7 @@
             tableCellView = [outlineView makeViewWithIdentifier:@"DataCell"
                                                           owner:self];
             [tableCellView.textField setStringValue:project.name];
-            LVCColorLabel colorLabel = project.colorLabel;
-            NSColor *color = [LVCColorUtils colorForLabel:colorLabel];
-            NSRect rect = CGRectMake(0.0, 0.0, 13.0, 13.0);
-            LVCColorCircleView *circle = [[LVCColorCircleView alloc] initWithFrame:rect
-                                                                             color:color];
-            NSImage *image = [[NSImage alloc] initWithData:[circle dataWithPDFInsideRect:rect]];
-            tableCellView.imageView.image = image;
+            tableCellView.imageView.image = [LVCColorCircleView circleImageWithColorLabel:project.colorLabel];
         }
     }
     return tableCellView;

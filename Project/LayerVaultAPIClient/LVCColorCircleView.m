@@ -8,8 +8,43 @@
 
 #import "LVCColorCircleView.h"
 
+static NSCache *LVCColorCircleViewCache = nil;
+static NSRect LVCColorCircleViewRect = {.size = { .width = 15.0, .height = 15.0}};
+
 @implementation LVCColorCircleView
 
++ (void)initialize {
+    if (self == [LVCColorCircleView class]) {
+        LVCColorCircleViewCache = [[NSCache alloc] init];
+        [LVCColorCircleViewCache setCountLimit:10];
+    }
+}
+
++ (NSImage *)circleImageWithColorLabel:(LVCColorLabel)colorLabel {
+    NSNumber *colorID = @(colorLabel);
+    NSImage *image = [LVCColorCircleViewCache objectForKey:colorID];
+    if (!image) {
+        NSColor *color = [LVCColorUtils colorForLabel:colorLabel];
+        LVCColorCircleView *circle = [[LVCColorCircleView alloc] initWithFrame:LVCColorCircleViewRect
+                                                                         color:color];
+        image = [[NSImage alloc] initWithData:[circle dataWithPDFInsideRect:LVCColorCircleViewRect]];
+        [LVCColorCircleViewCache setObject:image forKey:colorID];
+    }
+    return image;
+}
+
++ (NSImage *)squareImage {
+    NSNumber *colorID = @(-1);
+    NSImage *image = [LVCColorCircleViewCache objectForKey:colorID];
+    if (!image) {
+        LVCColorCircleView *circle = [[LVCColorCircleView alloc] initWithFrame:LVCColorCircleViewRect];
+        image = [[NSImage alloc] initWithData:[circle dataWithPDFInsideRect:LVCColorCircleViewRect]];
+        [LVCColorCircleViewCache setObject:image forKey:colorID];
+    }
+    return image;
+}
+
+#pragma mark - Instance Methods
 - (instancetype)initWithFrame:(NSRect)frame color:(NSColor *)color
 {
     self = [super initWithFrame:frame];
@@ -27,17 +62,21 @@
     NSGraphicsContext *context = [NSGraphicsContext currentContext];
     [context saveGraphicsState];
 
-    NSColor *strokeColor = [NSColor colorWithHue:self.color.hueComponent
-                                      saturation:self.color.saturationComponent
-                                      brightness:self.color.brightnessComponent / 2.0
-                                           alpha:self.color.alphaComponent];
-    [strokeColor setStroke];
-    [self.color setFill];
-
     NSBezierPath *path = [NSBezierPath bezierPath];
     CGRect rect = CGRectInset(self.bounds, 1.0, 1.0);
-    [path appendBezierPathWithOvalInRect:rect];
-    [path fill];
+    NSColor *strokeColor = [NSColor darkGrayColor];
+    [strokeColor setStroke];
+
+    if (self.color) {
+        [self.color setFill];
+        [path appendBezierPathWithOvalInRect:rect];
+        [path fill];
+    }
+    else {
+        [path appendBezierPathWithRect:rect];
+    }
+    [path addClip];
+    path.lineWidth = 2.0;
     [path stroke];
 
     [context restoreGraphicsState];

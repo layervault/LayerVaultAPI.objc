@@ -9,6 +9,7 @@
 #import "LVCProjectOutlineViewController.h"
 #import <LayerVaultAPI/LayerVaultAPI.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
+#import "LVCColorCircleView.h"
 
 @interface LVCProjectOutlineViewController ()
 @property (weak) IBOutlet NSOutlineView *outlineView;
@@ -85,10 +86,10 @@
             [tableCellView.textField setStringValue:node.name];
             NSImage *image = nil;
             if (folder) {
-                image = [NSImage imageNamed:NSImageNamePathTemplate];
+                image = [LVCColorCircleView circleImageWithColorLabel:folder.colorLabel];
             }
             else if (file) {
-
+                image = [LVCColorCircleView squareImage];
             }
             tableCellView.imageView.image = image;
         }
