@@ -1,7 +1,7 @@
-# LayerVaultAPI
+# LayerVaultAPI [![License](https://go-shields.herokuapp.com/license-MIT-blue.png)](LICENSE)
 
-[![Version](http://cocoapod-badges.herokuapp.com/v/LayerVaultAPI/badge.png)](http://cocoadocs.org/docsets/LayerVaultAPI)
-[![Platform](http://cocoapod-badges.herokuapp.com/p/LayerVaultAPI/badge.png)](http://cocoadocs.org/docsets/LayerVaultAPI)
+[![Version](https://cocoapod-badges.herokuapp.com/v/LayerVaultAPI/badge.png)](http://cocoadocs.org/docsets/LayerVaultAPI)
+[![Platform](https://cocoapod-badges.herokuapp.com/p/LayerVaultAPI/badge.png)](http://cocoadocs.org/docsets/LayerVaultAPI)
 
 ## Usage
 
