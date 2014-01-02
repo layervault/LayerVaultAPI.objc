@@ -1,2 +1,2 @@
-pod 'LayerVaultAPI', :path => '../'
+pod 'LayerVaultAPI', :path => '../LayerVaultAPI.podspec'
 pod 'ReactiveCocoa', '~> 2.1.1'
