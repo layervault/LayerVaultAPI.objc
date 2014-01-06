@@ -13,6 +13,11 @@ NSData *LVCMockURLConnectionResponseData;
 NSDictionary *LVCMockURLConnectionHeaderFields;
 NSInteger LVCMockURLConnectionStatusCode;
 NSError *LVCMockURLConnectionError;
+NSMutableDictionary *LVCCannedResponsesForPaths;
+
+NSString const *LVCCannedStatusCodeKey = @"LVCCannedStatusCodeKey";
+NSString const *LVCCannedHeaderFieldsKey = @"LVCCannedHeaderFieldsKey";
+NSString const *LVCCannedBodyDataKey = @"LVCCannedBodyDataKey";
 
 
 @implementation LVCMockURLConnection
@@ -31,21 +36,38 @@ NSError *LVCMockURLConnectionError;
 - (void)startLoading {
     NSURLRequest *request = [self request];
     id<NSURLProtocolClient> client = [self client];
-    
+
     if (LVCMockURLConnectionError) {
         [client URLProtocol:self didFailWithError:LVCMockURLConnectionError];
         return;
     }
-    
-    NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:[request URL]
-                                                              statusCode:LVCMockURLConnectionStatusCode
-                                                             HTTPVersion:@"HTTP/1.1"
-                                                            headerFields:LVCMockURLConnectionHeaderFields];
+
+    NSHTTPURLResponse *response = nil;
+    NSDictionary *cannedResponseForPath = [LVCCannedResponsesForPaths objectForKey:self.request.URL.path];
+    if (cannedResponseForPath) {
+        response = [[NSHTTPURLResponse alloc] initWithURL:request.URL
+                                               statusCode:[cannedResponseForPath[LVCCannedStatusCodeKey] integerValue]
+                                              HTTPVersion:@"HTTP/1.1"
+                                             headerFields:cannedResponseForPath[LVCCannedHeaderFieldsKey]];
+    }
+    else {
+        response = [[NSHTTPURLResponse alloc] initWithURL:[request URL]
+                                               statusCode:LVCMockURLConnectionStatusCode
+                                              HTTPVersion:@"HTTP/1.1"
+                                             headerFields:LVCMockURLConnectionHeaderFields];
+    }
+
     [client URLProtocol:self
      didReceiveResponse:response
      cacheStoragePolicy:NSURLCacheStorageNotAllowed];
-    [client URLProtocol:self
-            didLoadData:LVCMockURLConnectionResponseData];
+    if (cannedResponseForPath) {
+        [client URLProtocol:self
+                didLoadData:cannedResponseForPath[LVCCannedBodyDataKey]];
+    }
+    else {
+        [client URLProtocol:self
+                didLoadData:LVCMockURLConnectionResponseData];
+    }
     [client URLProtocolDidFinishLoading:self];
 }
 
@@ -54,6 +76,34 @@ NSError *LVCMockURLConnectionError;
 
 
 #pragma mark - Class Methods
++ (void)setResponseForPath:(NSString *)path
+            withStatusCode:(NSInteger)statusCode
+              headerFields:(NSDictionary *)headerFields
+                  bodyData:(NSData *)bodyData
+{
+    NSParameterAssert(path);
+
+    if (!LVCCannedResponsesForPaths) {
+        LVCCannedResponsesForPaths = @{}.mutableCopy;
+    }
+    NSMutableDictionary *dict = @{}.mutableCopy;
+    if (statusCode > 0) {
+        dict[LVCCannedStatusCodeKey] = @(statusCode);
+    }
+    if (headerFields) {
+        dict[LVCCannedHeaderFieldsKey] = headerFields;
+    }
+    if (bodyData) {
+        dict[LVCCannedBodyDataKey] = bodyData;
+    }
+
+    if (dict.count > 0) {
+        [LVCCannedResponsesForPaths setObject:dict
+                                       forKey:path];
+    }
+}
+
+
 + (void)setResponseWithStatusCode:(NSInteger)statusCode
                      headerFields:(NSDictionary *)headerFields
                          bodyData:(NSData *)bodyData {

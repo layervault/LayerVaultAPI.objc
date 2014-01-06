@@ -20,6 +20,19 @@
 @interface LVCMockURLConnection : NSURLProtocol
 
 /**
+ *  Sets responses for specific paths
+ *
+ *  @param path         the path we check for the response (required)
+ *  @param statusCode   HTTP Status code to return
+ *  @param headerFields HTTP Header Fields to return
+ *  @param bodyData     HTTP Body Data to return
+ */
++ (void)setResponseForPath:(NSString *)path
+            withStatusCode:(NSInteger)statusCode
+              headerFields:(NSDictionary *)headerFields
+                  bodyData:(NSData *)bodyData;
+
+/**
  *  Sets the statusCode, headerFields, and bodyData we will send back to the client
  *
  *  @param statusCode   The HTTP status code to send back
