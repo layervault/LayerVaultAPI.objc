@@ -85,8 +85,10 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
                                                  self.credential = credential;
 
                                                  // Save Credential
-                                                 [AFOAuthCredential storeCredential:self.credential
-                                                                     withIdentifier:self.serviceProviderIdentifier];
+                                                 if (self.saveCredentialToKeychain) {
+                                                     [AFOAuthCredential storeCredential:self.credential
+                                                                         withIdentifier:self.serviceProviderIdentifier];
+                                                 }
 
                                                  // Setting the credential will automatically call /me
                                                  if (![urlRequest.URL.path isEqualToString:@"/api/v1/me"]) {
