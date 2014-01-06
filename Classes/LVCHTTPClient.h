@@ -23,10 +23,14 @@
  */
 @interface LVCHTTPClient : AFOAuth2Client
 
+/**
+ *  @return Default BaseURL for layervault.com
+ */
 + (NSURL *)defaultBaseURL;
 
+
 /**
- *  Create a new LayerVault HTTP Client instance
+ *  Create a new LayerVault HTTP Client instance using the +defaultBaseURL
  *
  *  @param clientID The OAuth Client ID
  *  @param secret   The OAuth Client Secret
