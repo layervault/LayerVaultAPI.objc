@@ -32,4 +32,5 @@ OBJC_EXPORT NSDictionary *LVCValidFileRevisionJSON();
 OBJC_EXPORT NSDictionary *LVCValidFileJSON();
 OBJC_EXPORT NSDictionary *LVCValidFolderJSON();
 OBJC_EXPORT NSDictionary *LVCValidProjectJSON();
+OBJC_EXPORT NSDictionary *LVCValidProjectPartialJSON();
 OBJC_EXPORT NSDictionary *LVCValidOrganizationJSON();

@@ -77,7 +77,7 @@
     XCTAssertNil(returnedProject, @"should not have returned an project");
 
     LVCProject *project = [MTLJSONAdapter modelOfClass:LVCProject.class
-                                    fromJSONDictionary:LVCValidProjectJSON()
+                                    fromJSONDictionary:LVCValidProjectPartialJSON()
                                                  error:nil];
     [self.client getProjectFromPartial:project
                             completion:^(LVCProject *project,
@@ -108,7 +108,7 @@
     XCTAssertNil(returnedProject, @"should not have returned an project");
 
     LVCProject *project = [MTLJSONAdapter modelOfClass:LVCProject.class
-                                    fromJSONDictionary:LVCValidProjectJSON()
+                                    fromJSONDictionary:LVCValidProjectPartialJSON()
                                                  error:nil];
     [self.client getProjectFromPartial:project
                             completion:^(LVCProject *project,

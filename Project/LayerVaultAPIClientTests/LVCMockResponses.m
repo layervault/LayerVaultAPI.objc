@@ -108,6 +108,12 @@ NSDictionary *LVCValidProjectJSON() {
              @"files": @[]};
 }
 
+NSDictionary *LVCValidProjectPartialJSON() {
+    NSMutableDictionary *partialDict = LVCValidProjectJSON().mutableCopy;
+    [partialDict removeObjectForKey:@"path"];
+    return partialDict.copy;
+}
+
 NSDictionary *LVCValidOrganizationJSON() {
     return @{@"name": LVCMockOrgName,
              @"permalink": LVCMockOrgPermalink,
