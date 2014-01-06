@@ -23,6 +23,8 @@
  */
 @interface LVCHTTPClient : AFOAuth2Client
 
++ (NSURL *)defaultBaseURL;
+
 /**
  *  Create a new LayerVault HTTP Client instance
  *

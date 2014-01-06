@@ -19,6 +19,11 @@
 
 @implementation LVCHTTPClient
 
++ (NSURL *)defaultBaseURL
+{
+    return [NSURL URLWithString:@"https://api.layervault.com/api/v1/"];
+}
+
 - (instancetype)initWithBaseURL:(NSURL *)url clientID:(NSString *)clientID secret:(NSString *)secret
 {
     self = [super initWithBaseURL:url clientID:clientID secret:secret];
@@ -33,7 +38,7 @@
 
 - (instancetype)initWithClientID:(NSString *)clientID secret:(NSString *)secret
 {
-    return [self initWithBaseURL:[NSURL URLWithString:@"https://api.layervault.com/api/v1/"]
+    return [self initWithBaseURL:LVCHTTPClient.defaultBaseURL
                         clientID:clientID
                           secret:secret];
 }
