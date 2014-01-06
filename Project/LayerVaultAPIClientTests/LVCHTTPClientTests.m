@@ -26,10 +26,16 @@
                                                    secret:@"CLIENT SECRET"];
 }
 
+- (void)tearDown
+{
+    [NSURLProtocol unregisterClass:[LVCMockURLConnection class]];
+    [super tearDown];
+}
+
 - (void)testValidProjectFromPartialGoodJSON
 {
     [LVCMockURLConnection setJSONResponseWithStatusCode:200
-                                         bodyDictionary:LVCValidProjectJSON()];
+                                         bodyDictionary:LVCValidProjectPartialJSON()];
 
     __block LVCProject *returnedProject = nil;
     __block NSError *returnedError = nil;
@@ -45,6 +51,9 @@
     XCTAssertNotNil(returnedProject, @"should have returned an project");
     XCTAssertNil(returnedError, @"should not have returned an error");
 
+
+    [LVCMockURLConnection setJSONResponseWithStatusCode:200
+                                         bodyDictionary:LVCValidProjectJSON()];
     __block LVCProject *returnedProject2 = nil;
     returnedError = nil;
     [self.client getProjectFromPartial:returnedProject
@@ -56,7 +65,8 @@
                             }];
     [LVCAsyncHelper wait:0.1];
     XCTAssertNotNil(returnedProject2, @"should have returned an project");
-    XCTAssertEqualObjects(returnedProject, returnedProject2, @"should be equal objects");
+    // Partial projects don't equal full project
+    XCTAssertNotEqualObjects(returnedProject, returnedProject2, @"should be equal objects");
     XCTAssertNil(returnedError, @"should not have returned an error");
 }
 
