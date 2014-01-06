@@ -14,8 +14,8 @@
 static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
 
 @interface LVCAuthenticatedClient ()
+@property (nonatomic, getter = isAuthenticated) LVCAuthenticationState authenticationState;
 @property (nonatomic) NSOperationQueue *authenticationQueue;
-@property (nonatomic) AFOAuthCredential *credential;
 @property (nonatomic) LVCUser *user;
 @end
 
@@ -25,17 +25,17 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
 - (instancetype)initWithBaseURL:(NSURL *)url
                        clientID:(NSString *)clientID
                          secret:(NSString *)secret
-         authenticationCallback:(LVCClientAuthenticationCallback)authenticationCallback
+                 saveToKeychain:(BOOL)saveToKeychain;
 {
     self = [super initWithBaseURL:url clientID:clientID secret:secret];
     if (self) {
-        _authenticationCallback = [authenticationCallback copy];
+        _saveCredentialToKeychain = saveToKeychain;
+        _authenticationState = LVCAuthenticationStateUnauthenticated;
         _authenticationQueue = [[NSOperationQueue alloc] init];
         _authenticationQueue.maxConcurrentOperationCount = 1;
-        _credential = [AFOAuthCredential retrieveCredentialWithIdentifier:self.serviceProviderIdentifier];
         [self addObserver:self
                forKeyPath:@"credential"
-                  options:NSKeyValueObservingOptionInitial|NSKeyValueObservingOptionNew
+                  options:NSKeyValueObservingOptionNew
                   context:LVCAuthenticatedClientContext];
     }
     return self;
@@ -44,18 +44,19 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
 
 - (instancetype)initWithClientID:(NSString *)clientID
                           secret:(NSString *)secret
-          authenticationCallback:(LVCClientAuthenticationCallback)authenticationCallback
 {
     return [self initWithBaseURL:LVCHTTPClient.defaultBaseURL
                         clientID:clientID
-                          secret:secret
-          authenticationCallback:authenticationCallback];
+                          secret:secret];
 }
 
 
 - (instancetype)initWithBaseURL:(NSURL *)url clientID:(NSString *)clientID secret:(NSString *)secret
 {
-    return [self initWithBaseURL:url clientID:clientID secret:secret authenticationCallback:nil];
+    return [self initWithBaseURL:url
+                        clientID:clientID
+                          secret:secret
+                  saveToKeychain:YES];
 }
 
 
@@ -75,17 +76,30 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
     if (![urlRequest.URL.path isEqualToString:@"/oauth/token"]) {
         adjustedFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
             if (operation.response.statusCode == 401) {
+                self.authenticationState = LVCAuthenticationStateAuthenticating;
                 [self.operationQueue setSuspended:YES];
                 NSLog(@"Unauthorized Request. Attempting Refresh credential");
-                [self clearAuthorizationHeader];
                 [self authenticateUsingOAuthWithPath:@"/oauth/token"
                                         refreshToken:self.credential.refreshToken
                                              success:^(AFOAuthCredential *credential) {
                                                  self.credential = credential;
-                                                 AFHTTPRequestOperation *attempt2 = [super HTTPRequestOperationWithRequest:urlRequest success:success failure:failure];
-                                                 [self enqueueHTTPRequestOperation:attempt2];
+
+                                                 // Save Credential
+                                                 [AFOAuthCredential storeCredential:self.credential
+                                                                     withIdentifier:self.serviceProviderIdentifier];
+
+                                                 // Setting the credential will automatically call /me
+                                                 if (![urlRequest.URL.path isEqualToString:@"/api/v1/me"]) {
+                                                     NSMutableURLRequest *newRequest = urlRequest.mutableCopy;
+                                                     [newRequest setValue:[NSString stringWithFormat:@"Bearer %@", self.credential.accessToken]
+                                                       forHTTPHeaderField:@"Authorization"];
+                                                     AFHTTPRequestOperation *attempt2 = [super HTTPRequestOperationWithRequest:newRequest success:success failure:failure];
+                                                     [self enqueueHTTPRequestOperation:attempt2];
+
+                                                 }
                                              }
                                              failure:^(NSError *error) {
+                                                 [self clearCredentialFromKeychain];
                                                  [self logout];
                                                  if (failure) {
                                                      failure(nil, error);
@@ -117,53 +131,53 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
 }
 
 
-#pragma mark - Declared Properties
-- (BOOL)isAuthenticated
+#pragma mark - Instance Methods
+- (void)loginWithCredential:(AFOAuthCredential *)credential
 {
-    return !!self.user;
+    NSParameterAssert(credential);
+    self.authenticationState = LVCAuthenticationStateAuthenticating;
+    self.credential = credential;
 }
 
-
-#pragma mark - Instance Methods
 - (void)loginWithEmail:(NSString *)email
               password:(NSString *)password
-authenticationCallback:(LVCClientAuthenticationCallback)authenticationCallback
 {
-    if (authenticationCallback) {
-        self.authenticationCallback = authenticationCallback;
-    }
+    NSParameterAssert(email);
+    NSParameterAssert(password);
 
-    if (self.authenticated) {
-        if (self.authenticationCallback) {
-            self.authenticationCallback(self.user, nil);
-        }
-    }
-    else {
-        [self authenticateWithEmail:email
-                           password:password
-                         completion:^(AFOAuthCredential *credential,
-                                      NSError *error) {
-                             if (credential) {
-                                 self.credential = credential;
+    self.authenticationState = LVCAuthenticationStateAuthenticating;
+    [self authenticateWithEmail:email
+                       password:password
+                     completion:^(AFOAuthCredential *credential,
+                                  NSError *error) {
+                         if (credential) {
+                             self.credential = credential;
+
+                             if (self.saveCredentialToKeychain) {
+                                 [AFOAuthCredential storeCredential:self.credential
+                                                     withIdentifier:self.serviceProviderIdentifier];
+
                              }
-                             else {
-                                 if (self.authenticationCallback) {
-                                     self.authenticationCallback(nil, error);
-                                 }
+                         }
+                         else {
+                             if (self.authenticationCallback) {
+                                 self.authenticationCallback(nil, error);
                              }
-                         }];
-    }
+                         }
+                     }];
 }
 
-
-- (void)loginWithEmail:(NSString *)email password:(NSString *)password
-{
-    [self loginWithEmail:email password:password authenticationCallback:nil];
-}
 
 - (void)logout
 {
     self.credential = nil;
+}
+
+- (void)clearCredentialFromKeychain
+{
+    if (self.saveCredentialToKeychain) {
+        [AFOAuthCredential deleteCredentialWithIdentifier:self.serviceProviderIdentifier];
+    }
 }
 
 
@@ -178,18 +192,15 @@ authenticationCallback:(LVCClientAuthenticationCallback)authenticationCallback
                     [self.operationQueue setSuspended:NO];
                 }
 
-                // Save Credential
-                [AFOAuthCredential storeCredential:self.credential
-                                    withIdentifier:self.serviceProviderIdentifier];
-
                 // Set Authorization Header
                 [self setAuthorizationHeaderWithCredential:self.credential];
+                self.authenticationState = LVCAuthenticationStateAuthenticated;
 
                 // Get user info
                 [self getMeWithCompletion:^(LVCUser *user,
                                             NSError *error,
                                             AFHTTPRequestOperation *operation) {
-                    // We don't want to emit a KVO change if it doesn't
+                    // We don't want to trigger a KVO change if it doesn't
                     // *actually* change. This will occur when 
                     if (user != self.user) {
                         self.user = user;
@@ -206,7 +217,9 @@ authenticationCallback:(LVCClientAuthenticationCallback)authenticationCallback
                 // is returned as during a successful login (which is a security
                 // issue).
                 [self clearAuthorizationHeader];
-                [AFOAuthCredential deleteCredentialWithIdentifier:self.serviceProviderIdentifier];
+                self.authenticationState = LVCAuthenticationStateUnauthenticated;
+
+                // Remove user
                 if (self.user) {
                     self.user = nil;
                 }

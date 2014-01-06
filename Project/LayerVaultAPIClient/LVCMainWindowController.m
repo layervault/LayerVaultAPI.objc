@@ -13,10 +13,10 @@
 #import "LVConstants.h"
 #import "LVCFileRevisionsWindowController.h"
 #import <LayerVaultAPI/LayerVaultAPI.h>
-#import <LayerVaultAPI/LVCAuthenticatedClient.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <Mantle/EXTScope.h>
 #import <QuartzCore/QuartzCore.h>
+#import <AFOAuth2Client/AFOAuth2Client.h>
 
 static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 
@@ -35,12 +35,16 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 
 @implementation LVCMainWindowController
 
-- (id)initWithWindow:(NSWindow *)window
+- (instancetype)initWithWindow:(NSWindow *)window
 {
     self = [super initWithWindow:window];
     if (self) {
         _client = [[LVCAuthenticatedClient alloc] initWithClientID:LVClientID
                                                             secret:LVClientSecret];
+        AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:_client.serviceProviderIdentifier];
+        if (credential) {
+            [_client loginWithCredential:credential];
+        }
 
         _fileRevisionWindow = [[LVCFileRevisionsWindowController alloc] initWithWindowNibName:@"LVCFileRevisionsWindowController"];
         _fileRevisionWindow.client = _client;
