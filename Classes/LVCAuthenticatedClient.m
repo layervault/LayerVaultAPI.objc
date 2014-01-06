@@ -29,7 +29,6 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
 {
     self = [super initWithBaseURL:url clientID:clientID secret:secret];
     if (self) {
-        [self.operationQueue setSuspended:YES];
         _authenticationCallback = [authenticationCallback copy];
         _authenticationQueue = [[NSOperationQueue alloc] init];
         _authenticationQueue.maxConcurrentOperationCount = 1;
@@ -174,10 +173,19 @@ authenticationCallback:(LVCClientAuthenticationCallback)authenticationCallback
     if (context == LVCAuthenticatedClientContext) {
         if ([keyPath isEqualToString:@"credential"]) {
             if (self.credential) {
-                [self.operationQueue setSuspended:NO];
+                // Unsuspend queue if needed
+                if (self.operationQueue.isSuspended) {
+                    [self.operationQueue setSuspended:NO];
+                }
+
+                // Save Credential
                 [AFOAuthCredential storeCredential:self.credential
                                     withIdentifier:self.serviceProviderIdentifier];
+
+                // Set Authorization Header
                 [self setAuthorizationHeaderWithCredential:self.credential];
+
+                // Get user info
                 [self getMeWithCompletion:^(LVCUser *user,
                                             NSError *error,
                                             AFHTTPRequestOperation *operation) {
@@ -192,7 +200,11 @@ authenticationCallback:(LVCClientAuthenticationCallback)authenticationCallback
                 }];
             }
             else {
-                [self.operationQueue setSuspended:NO];
+                // If the credential gets explicitly set to nil, it means there
+                // was one previously which needs to be deleted and headers
+                // cleared. This happens on logout or if an invalid credential
+                // is returned as during a successful login (which is a security
+                // issue).
                 [self clearAuthorizationHeader];
                 [AFOAuthCredential deleteCredentialWithIdentifier:self.serviceProviderIdentifier];
                 if (self.user) {
