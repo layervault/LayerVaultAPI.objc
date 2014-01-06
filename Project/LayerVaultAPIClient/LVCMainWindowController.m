@@ -10,9 +10,10 @@
 #import "LVCOrganizationsViewController.h"
 #import "LVCProjectOutlineViewController.h"
 #import "LVCLoginViewController.h"
-#import "LVCAuthController.h"
+#import "LVConstants.h"
 #import "LVCFileRevisionsWindowController.h"
 #import <LayerVaultAPI/LayerVaultAPI.h>
+#import <LayerVaultAPI/LVCAuthenticatedClient.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import <Mantle/EXTScope.h>
 #import <QuartzCore/QuartzCore.h>
@@ -28,9 +29,7 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 @property (weak) IBOutlet NSView *sourceViewContainer;
 @property (weak) IBOutlet NSView *projectContainer;
 @property (weak) IBOutlet NSTextField *loggedInField;
-@property (readonly) LVCAuthController *authController;
-@property (nonatomic) LVCHTTPClient *client;
-@property (nonatomic) LVCUser *user;
+@property (nonatomic) LVCAuthenticatedClient *client;
 @property (nonatomic) LVCFileRevisionsWindowController *fileRevisionWindow;
 @end
 
@@ -40,8 +39,9 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 {
     self = [super initWithWindow:window];
     if (self) {
-        _authController = [[LVCAuthController alloc] init];
-        _client = _authController.client;
+        _client = [[LVCAuthenticatedClient alloc] initWithClientID:LVClientID
+                                                            secret:LVClientSecret];
+
         _fileRevisionWindow = [[LVCFileRevisionsWindowController alloc] initWithWindowNibName:@"LVCFileRevisionsWindowController"];
         _fileRevisionWindow.client = _client;
 
@@ -60,13 +60,7 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 
         _loginViewController.loginHander = ^(NSString *userName, NSString *password) {
             @strongify(self);
-            [self.authController loginWithEmail:userName
-                                       password:password
-                                     completion:^(LVCUser *user,
-                                                  LVCHTTPClient *client,
-                                                  NSError *error) {
-                                         self.user = user;
-                                     }];
+            [self.client loginWithEmail:userName password:password];
         };
     }
     return self;
@@ -80,7 +74,7 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
     self.contentView.wantsLayer = YES;
 
     // Place the organizations view controller in the source view container
-    self.organizationsViewController.organizations = self.user.organizations;
+    self.organizationsViewController.organizations = self.client.user.organizations;
     NSView *organizationsView = self.organizationsViewController.view;
     organizationsView.translatesAutoresizingMaskIntoConstraints = NO;
     [self.sourceViewContainer addSubview:organizationsView];
@@ -117,11 +111,6 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
     transition.type = kCATransitionFade;
     self.contentView.animations = @{@"subviews": transition};
 
-    // Start Observing
-    [RACObserve(_authController, user) subscribeNext:^(LVCUser *user) {
-        self.user = user;
-    }];
-
     [RACObserve(self, organizationsViewController.selectedProject) subscribeNext:^(LVCProject *project) {
         if (project) {
             [self.client getProjectFromPartial:project
@@ -133,7 +122,7 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
         }
     }];
 
-    [RACObserve(self, user) subscribeNext:^(LVCUser *user) {
+    [RACObserve(self.client, user) subscribeNext:^(LVCUser *user) {
         self.organizationsViewController.organizations = user.organizations;
         if (user) {
             self.loggedInField.stringValue = user.email;
@@ -148,7 +137,7 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 
 #pragma mark - Actions
 - (IBAction)logoutPressed:(id)sender {
-    [self.authController logout];
+    [self.client logout];
 }
 
 
