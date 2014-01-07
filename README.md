@@ -6,39 +6,41 @@
 ## Usage
 
 ### Authenticating
-`LVCHTTPClient` is the main interface to the LayerVault API and is based on [AFOAuth2Client](https://github.com/AFNetworking/AFOAuth2Client) for authentication. You can save an `AFOAuthCredential` to the keychain so you do not need to save the username or password.
+`LVCAuthenticatedClient` is the main interface to the LayerVault API and is based on [AFOAuth2Client](https://github.com/AFNetworking/AFOAuth2Client) for authentication. You can save an `AFOAuthCredential` to the keychain so you do not need to save the username or password.
 ``` objc
-LVCHTTPClient *client = [[LVCHTTPClient alloc] initWithClientID:@"CLIENT_ID" 
-													     secret:@"CLIENT_SECRET"];
+LVCAuthenticatedClient *client = [[LVCAuthenticatedClient alloc] initWithClientID:LVClientID
+                                                                           secret:LVClientSecret];
+
+client.authenticationCallback = ^(LVCUser *user, NSError *error) {
+	NSLog(@"logged in user: %@", user.email);
+	NSLog(@"error: %@", error);
+};
 
 // Authenticate with a username & password
-[client authenticateWithEmail:self.emailField.stringValue
-                     password:self.passwordField.stringValue
-                   completion:^(AFOAuthCredential *credential,
-                                NSError *error) {
-	if (credential) {
-		// Save Credential to Keychain
-		[AFOAuthCredential storeCredential:credential
-                    withIdentifier:client.serviceProviderIdentifier];
-
-        // Set Authorization Header
-        [client setAuthorizationHeaderWithCredential:credential];
-	} 
-}];
+[self.client loginWithEmail:userName password:password];
 ```
 
-### Getting User Information
-`LVCUser` contains all the information for a user including the organizations they are a part of and the projects they have access to. `LVCHTTPClient` can get your user information like so:
+By default, `LVCAuthenticatedClient` saves your OAuth information to the keychain which you can easily retrieve
+
 ``` objc
-[client getMeWithCompletion:^(LVCUser *user,
-                              NSError *error,
-                              AFHTTPRequestOperation *operation) {
-   NSLog(@"%@’s Projects: %@", user.firstName, user.projects);
-}];
+AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:client.serviceProviderIdentifier];
+if (credential) {
+    [client loginWithCredential:credential];
+}
+
+```
+
+`LVCAuthenticatedClient` will also handle refreshing the OAuth token when it expires automatically.
+
+
+### Getting User Information
+`LVCUser` contains all the information for a user including the organizations they are a part of and the projects they have access to. `LVCAuthenticatedClient` has a user property that is set automatically when authentication completes:
+``` objc
+NSLog(@"%@’s Projects: %@", client.user.firstName, client.user.projects);
 ```
 
 ### Getting Project Information
-`LVCProject` contains all the information for a project all the folders, files, and revisions. `LVCHTTPClient` can get your user information like so:
+`LVCProject` contains all the information for a project all the folders, files, and revisions. `LVCAuthenticatedClient` can get your user information like so:
 ``` objc
 [client getProjectWithName:@"My Awesome App"
      organizationPermalink:@"fancy-company"
