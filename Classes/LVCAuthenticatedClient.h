@@ -33,7 +33,7 @@ typedef void (^LVCClientAuthenticationCallback)(LVCUser *user, NSError *error);
 /**
  *  Returns if the client is unauthenticated, authenticating, or authenticated
  */
-@property (readonly, nonatomic, getter = isAuthenticated) LVCAuthenticationState authenticationState;
+@property (readonly, nonatomic) LVCAuthenticationState authenticationState;
 
 /**
  *  A handler called when the client is authenticated
