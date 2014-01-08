@@ -14,6 +14,11 @@
 @interface LVCUser : MTLModel <MTLJSONSerializing>
 
 /**
+ *  The numeric ID of the user
+ */
+@property (readonly, nonatomic) NSUInteger userID;
+
+/**
  *  The email address of the user
  */
 @property (readonly, nonatomic, copy) NSString *email;
