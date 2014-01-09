@@ -41,11 +41,11 @@
     if (item) {
         if ([item isKindOfClass:LVCFolder.class]) {
             LVCFolder *folder = (LVCFolder *)item;
-            return (folder.folders.count + folder.files.count);
+            return (NSInteger)(folder.folders.count + folder.files.count);
         }
         return 0;
     }
-    return (self.project.folders.count + self.project.files.count);
+    return (NSInteger)(self.project.folders.count + self.project.files.count);
 }
 
 
@@ -68,7 +68,7 @@
     else {
         children = [self.project.folders arrayByAddingObjectsFromArray:self.project.files];
     }
-    return [children sortedArrayUsingDescriptors:@[dateModified]][index];
+    return [children sortedArrayUsingDescriptors:@[dateModified]][(NSUInteger)index];
 }
 
 

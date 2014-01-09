@@ -38,11 +38,11 @@
             LVCOrganization *organization = (LVCOrganization *)item;
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"member = TRUE"];
             NSArray *filteredArray = [organization.projects filteredArrayUsingPredicate:predicate];
-            return filteredArray.count;
+            return (NSInteger)filteredArray.count;
         }
         return 0;
     }
-    return self.organizations.count;
+    return (NSInteger)self.organizations.count;
 }
 
 
@@ -58,11 +58,11 @@
             LVCOrganization *organization = (LVCOrganization *)item;
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"member = TRUE"];
             NSArray *filteredArray = [organization.projects filteredArrayUsingPredicate:predicate];
-            return filteredArray[index];
+            return filteredArray[(NSUInteger)index];
         }
         return nil;
     }
-    return self.organizations[index];
+    return self.organizations[(NSUInteger)index];
 }
 
 

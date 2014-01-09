@@ -118,10 +118,10 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
     [RACObserve(self, organizationsViewController.selectedProject) subscribeNext:^(LVCProject *project) {
         if (project) {
             [self.client getProjectFromPartial:project
-                                    completion:^(LVCProject *project,
+                                    completion:^(LVCProject *fullProject,
                                                  NSError *error,
                                                  AFHTTPRequestOperation *operation) {
-                                        self.projectOutlineViewController.project = project;
+                                        self.projectOutlineViewController.project = fullProject;
                                     }];
         }
     }];
@@ -183,7 +183,7 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
     } completionHandler:^{
         [self.window makeFirstResponder:self.organizationsViewController.outlineView];
         NSUInteger row = 1;
-        if ([self.organizationsViewController.outlineView itemAtRow:row]) {
+        if ([self.organizationsViewController.outlineView itemAtRow:(NSInteger)row]) {
             [self.organizationsViewController.outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:row]
                                                       byExtendingSelection:NO];
         }
