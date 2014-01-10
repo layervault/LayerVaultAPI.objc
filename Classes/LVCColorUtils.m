@@ -20,6 +20,16 @@ NSString *LVCDefaultColorDefaultColor = @"white";
              @"orange": @(LVCColorOrange)};
 }
 
++ (LVCColorLabel)colorLabelForName:(NSString *)colorName
+{
+    NSParameterAssert(colorName);
+    NSNumber *labelNumber = self.colorNamesToValue[colorName];
+    if (!labelNumber) {
+        labelNumber = self.colorNamesToValue[LVCDefaultColorDefaultColor];
+    }
+    return labelNumber.unsignedIntegerValue;
+}
+
 #if TARGET_OS_IPHONE
 + (UIColor *)colorForLabel:(LVCColorLabel)label
 {
@@ -53,9 +63,9 @@ NSString *LVCDefaultColorDefaultColor = @"white";
 + (NSString *)colorNameForLabel:(LVCColorLabel)label
 {
     __block NSString *colorName = LVCDefaultColorDefaultColor;
-    [[self colorNamesToValue] enumerateKeysAndObjectsUsingBlock:^(id key,
-                                                                  id obj,
-                                                                  BOOL *stop) {
+    [self.colorNamesToValue enumerateKeysAndObjectsUsingBlock:^(id key,
+                                                                id obj,
+                                                                BOOL *stop) {
         if ([@(label) isEqualToValue:obj]) {
             colorName = key;
             *stop = YES;

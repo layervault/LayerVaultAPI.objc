@@ -28,6 +28,13 @@ typedef enum : NSUInteger {
  */
 + (NSDictionary *)colorNamesToValue;
 
+/**
+ *  @param colorName of the color we are looking up
+ *
+ *  @return LVCColorLabel for a given color name, or LVCColorWhite
+ */
++ (LVCColorLabel)colorLabelForName:(NSString *)colorName;
+
 #if TARGET_OS_IPHONE
 /**
  *  @param label used to get UIColor for

@@ -28,4 +28,17 @@
                           @"should be white");
 }
 
+- (void)testRedStringGivesRedColorLabel
+{
+    LVCColorLabel label = [LVCColorUtils colorLabelForName:@"red"];
+    XCTAssertEqual(label, LVCColorRed, @"colors should be the same");
+}
+
+
+- (void)testUnknownStringGivesWhiteColorLabel
+{
+    LVCColorLabel label = [LVCColorUtils colorLabelForName:@"foobar"];
+    XCTAssertEqual(label, LVCColorWhite, @"unknown string should give white");
+}
+
 @end
