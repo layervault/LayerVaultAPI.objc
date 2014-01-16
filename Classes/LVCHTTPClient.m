@@ -364,9 +364,21 @@
                                AFHTTPRequestOperation *operation))completion
 {
     NSParameterAssert(folder);
+
+    [self deleteFolderAtPath:folder.urlPath
+                  completion:completion];
+}
+
+
+- (void)deleteFolderAtPath:(NSString *)path
+                completion:(void (^)(BOOL success,
+                                     NSError *error,
+                                     AFHTTPRequestOperation *operation))completion
+{
+    NSParameterAssert(path);
     NSParameterAssert(completion);
 
-    [self deletePath:[self sanitizeRequestPath:folder.urlPath]
+    [self deletePath:[self sanitizeRequestPath:path]
           parameters:nil
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
                  completion(YES, nil, operation);

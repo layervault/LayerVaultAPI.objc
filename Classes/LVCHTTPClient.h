@@ -272,6 +272,19 @@
                                NSError *error,
                                AFHTTPRequestOperation *operation))completion;
 
+
+/**
+ *  Deletes a folder at a specified path and all of it's contents.
+ *
+ *  @param path       Path of folder to delete
+ *  @param completion Callback that return YES on successful deletion, or NO
+ *                    with an error if the folder could not be deleted
+ */
+- (void)deleteFolderAtPath:(NSString *)path
+                completion:(void (^)(BOOL success,
+                                     NSError *error,
+                                     AFHTTPRequestOperation *operation))completion;
+
 /**
  *  Move a folder to a new path. This move is permitted across different 
  *  projects, but it has to be within the same Organization.
