@@ -396,16 +396,35 @@
                              NSError *error,
                              AFHTTPRequestOperation *operation))completion
 {
-    toPath = [self appendPath:toPath
-                    toProject:project
-          includeOrganization:NO];
+    [self moveFolderAtPath:folder.urlPath
+                    toPath:toPath
+                completion:completion];
+}
 
-    NSParameterAssert(folder);
+
+- (void)moveFolder:(LVCFolder *)folder
+            toPath:(NSString *)toPath
+        completion:(void (^)(LVCFolder *folder,
+                             NSError *error,
+                             AFHTTPRequestOperation *operation))completion
+{
+    [self moveFolderAtPath:folder.urlPath
+                    toPath:toPath
+                completion:completion];
+}
+
+
+- (void)moveFolderAtPath:(NSString *)path
+                  toPath:(NSString *)toPath
+              completion:(void (^)(LVCFolder *folder,
+                                   NSError *error,
+                                   AFHTTPRequestOperation *operation))completion
+{
+    NSParameterAssert(path);
     NSParameterAssert(toPath);
-    NSParameterAssert(project);
     NSParameterAssert(completion);
 
-    NSString *movePath = [folder.urlPath stringByAppendingPathComponent:@"move"];
+    NSString *movePath = [path stringByAppendingPathComponent:@"move"];
 
     [self postPath:[self sanitizeRequestPath:movePath]
         parameters:@{@"to": toPath}

@@ -295,13 +295,46 @@
  *                    LVCProject
  *  @param completion Callback that returns the LVCFolder on successful move, or
  *                    nil with an error if the move failed
+ *
+ *  @deprecated in 0.2.1 use moveFolder:toPath:completion: instead
  */
 - (void)moveFolder:(LVCFolder *)folder
             toPath:(NSString *)toPath
          inProject:(LVCProject *)project
         completion:(void (^)(LVCFolder *folder,
                              NSError *error,
+                             AFHTTPRequestOperation *operation))completion DEPRECATED_ATTRIBUTE;
+
+/**
+ *  Move a folder to a new path. This move is permitted across different
+ *  projects, but it has to be within the same Organization.
+ *
+ *  @param folder     LVCFolder to move
+ *  @param toPath     New folder path (excluding organization-permalink)
+ *  @param completion Callback that returns the LVCFolder on successful move, or
+ *                    nil with an error if the move failed
+ */
+- (void)moveFolder:(LVCFolder *)folder
+            toPath:(NSString *)toPath
+        completion:(void (^)(LVCFolder *folder,
+                             NSError *error,
                              AFHTTPRequestOperation *operation))completion;
+
+
+/**
+ *  Move a folder at a path to a new path. This move is permitted across 
+ *  different projects, but it has to be within the same Organization.
+ *
+ *  @param path       original path of folder
+ *  @param toPath     New folder path (excluding organization-permalink)
+ *  @param completion Callback that returns the LVCFolder on successful move, or
+ *                    nil with an error if the move failed
+ */
+- (void)moveFolderAtPath:(NSString *)path
+                  toPath:(NSString *)toPath
+              completion:(void (^)(LVCFolder *folder,
+                                   NSError *error,
+                                   AFHTTPRequestOperation *operation))completion;
 
 /**
  *  Update the color label for a folder. This is equivalent to the label or
