@@ -253,29 +253,9 @@
                                 NSError *error,
                                 AFHTTPRequestOperation *operation))completion
 {
-    NSParameterAssert(project);
-    NSParameterAssert(completion);
-
-    NSLog(@"updating color %@ \u2192 %@",
-          [LVCColorUtils colorNameForLabel:project.colorLabel],
-          [LVCColorUtils colorNameForLabel:colorLabel]);
-
-    NSString *colorPath = [[self pathForProject:project
-                           includeOrganization:YES] stringByAppendingPathComponent:@"color"];
-    colorPath = [colorPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-
-    NSDictionary *params = @{@"color": [LVCColorUtils colorNameForLabel:colorLabel]};
-
-    [self putPath:colorPath
-       parameters:params
-          success:^(AFHTTPRequestOperation *operation, id responseObject) {
-              project.colorLabel = colorLabel;
-              project.dateUpdated = [NSDate date];
-              completion(YES, Nil, operation);
-          }
-          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-              completion(NO, error, operation);
-          }];
+    [self updateFolder:project
+            colorLabel:colorLabel
+            completion:completion];
 }
 
 

@@ -173,12 +173,14 @@
  *  @param colorLabel New color label
  *  @param completion Callback that returns YES if the color change succeeded, 
  *                    or NO with an error if color change failed
+ *
+ *  @deprecated in 0.2.1. Use updateFolder:colorLabel:completion: instead
  */
 - (void)updateProject:(LVCProject *)project
            colorLabel:(LVCColorLabel)colorLabel
            completion:(void (^)(BOOL success,
                                 NSError *error,
-                                AFHTTPRequestOperation *operation))completion;
+                                AFHTTPRequestOperation *operation))completion DEPRECATED_ATTRIBUTE;
 
 
 /*************
