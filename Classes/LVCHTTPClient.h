@@ -432,6 +432,21 @@
                              NSError *error,
                              AFHTTPRequestOperation *operation))completion;
 
+
+/**
+ *  Deletes a file at a path.
+ *
+ *  @param filePath   File path to delete
+ *  @param md5        MD5 of file to delete
+ *  @param completion Callback that return YES on successful deletion, or NO
+ *                    with an error if the file could not be deleted
+ */
+- (void)deleteFileAtPath:(NSString *)filePath
+                     md5:(NSString *)md5
+              completion:(void (^)(BOOL success,
+                                   NSError *error,
+                                   AFHTTPRequestOperation *operation))completion;
+
 /**
  *  Move file to a new location within the organization.
  *

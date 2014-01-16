@@ -584,20 +584,27 @@
 
 
 - (void)deleteFile:(LVCFile *)file
-        completion:(void (^)(BOOL success,
-                             NSError *error,
-                             AFHTTPRequestOperation *operation))completion
+        completion:(void (^)(BOOL, NSError *, AFHTTPRequestOperation *))completion
 {
     NSParameterAssert(file);
+    [self deleteFileAtPath:file.urlPath
+                       md5:file.md5
+                completion:completion];
+}
+
+
+- (void)deleteFileAtPath:(NSString *)filePath
+                     md5:(NSString *)md5
+              completion:(void (^)(BOOL success,
+                                   NSError *error,
+                                   AFHTTPRequestOperation *operation))completion;
+{
+    NSParameterAssert(filePath);
+    NSParameterAssert(md5);
     NSParameterAssert(completion);
 
-    NSDictionary *params = nil;
-    if (file.md5) {
-        params = @{@"md5": file.md5};
-    }
-
-    [self deletePath:[self sanitizeRequestPath:file.urlPath]
-          parameters:params
+    [self deletePath:[self sanitizeRequestPath:filePath]
+          parameters:@{@"md5": md5}
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
                  completion(YES, nil, operation);
              }
