@@ -615,22 +615,50 @@
 
 
 - (void)moveFile:(LVCFile *)file
-          toPath:(NSString *)path
+          toPath:(NSString *)toPath
      newFileName:(NSString *)newFileName
       completion:(void (^)(BOOL success,
                            NSError *error,
                            AFHTTPRequestOperation *operation))completion
 {
-    NSParameterAssert(file);
-    NSParameterAssert(path);
+    [self moveFileAtPath:file.urlPath
+                  toPath:[toPath stringByAppendingPathComponent:newFileName]
+              completion:completion];
+}
+
+
+- (void)moveFile:(LVCFile *)file
+          toPath:(NSString *)toPath
+      completion:(void (^)(BOOL, NSError *, AFHTTPRequestOperation *))completion
+{
+    [self moveFileAtPath:file.urlPath
+                  toPath:toPath
+              completion:completion];
+}
+
+
+- (void)moveFileAtPath:(NSString *)filePath
+                toPath:(NSString *)toPath
+            completion:(void (^)(BOOL success,
+                                 NSError *error,
+                                 AFHTTPRequestOperation *operation))completion
+{
+    NSParameterAssert(filePath);
+    NSParameterAssert(toPath);
     NSParameterAssert(completion);
 
-    NSMutableDictionary *params = @{@"to": path}.mutableCopy;
-    if (newFileName.length > 0) {
-        params[@"new_file_name"] = newFileName;
+    NSString *toPathLessFileName = [toPath stringByReplacingOccurrencesOfString:toPath.lastPathComponent
+                                                                     withString:@""];
+    if ([toPathLessFileName hasSuffix:@"/"]) {
+        toPathLessFileName = [toPathLessFileName substringToIndex:(toPathLessFileName.length - 1)];
+    }
+    NSMutableDictionary *params = @{@"to": toPathLessFileName}.mutableCopy;
+
+    if (![filePath.lastPathComponent isEqualToString:toPath.lastPathComponent]) {
+        params[@"new_file_name"] = toPath.lastPathComponent;
     }
 
-    NSString *movePath = [file.urlPath stringByAppendingPathComponent:@"move"];
+    NSString *movePath = [filePath stringByAppendingPathComponent:@"move"];
 
     [self postPath:[self sanitizeRequestPath:movePath]
         parameters:params

@@ -207,7 +207,7 @@
  *  @param path       Path relative to project
  *  @param project    LVCProject that contains the path
  *  @param completion Callback that returns an LVCFolder on success, or nil on
- *                    failure with an error
+ *                    failure with an error (required)
  */
 - (void)getFolderAtPath:(NSString *)path
               inProject:(LVCProject *)project
@@ -456,13 +456,44 @@
  *  @param newFileName New filename, or nil to preserve filename
  *  @param completion  Callback that return YES on successful move, or NO
  *                     with an error if the file could not be moved
+ *
+ *  @deprecated in 0.2.1. Use moveFile:toPath:completion: instead
  */
 - (void)moveFile:(LVCFile *)file
           toPath:(NSString *)path
      newFileName:(NSString *)newFileName
       completion:(void (^)(BOOL success,
                            NSError *error,
-                           AFHTTPRequestOperation *operation))completion;
+                           AFHTTPRequestOperation *operation))completion DEPRECATED_ATTRIBUTE;
+
+
+/**
+ *  Move file to a new location within the organization.
+ *
+ *  @param file       LVCFile to move
+ *  @param toPath     New path within the LVCOrganization (excluding
+ *                    organization-permalink)
+ *  @param completion Callback that return YES on successful move, or NO
+ *                    with an error if the file could not be moved
+ */
+- (void)moveFile:(LVCFile *)file
+          toPath:(NSString *)toPath
+      completion:(void (^)(BOOL, NSError *, AFHTTPRequestOperation *))completion;
+
+
+/**
+ *  Move File at a path to a new path within the organization
+ *
+ *  @param filePath   filePath to move
+ *  @param toPath     New path within the organization
+ *  @param completion Callback that return YES on successful move, or NO
+ *                    with an error if the file could not be moved
+ */
+- (void)moveFileAtPath:(NSString *)filePath
+                toPath:(NSString *)toPath
+            completion:(void (^)(BOOL success,
+                                 NSError *error,
+                                 AFHTTPRequestOperation *operation))completion;
 
 /**
  *  Get all the preview URLs across all the revisions for a given file. The 
