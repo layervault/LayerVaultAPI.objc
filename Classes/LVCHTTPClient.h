@@ -277,6 +277,21 @@
                                AFHTTPRequestOperation *operation))completion;
 
 
+/**
+ *  Update the color label for a folder at a specified path. This is equivalent 
+ *  to the label or tag attribute on OS X.
+ *
+ *  @param path       remote path of the folder
+ *  @param colorLabel New color label
+ *  @param completion Callback that returns YES if the color change succeeded,
+ *                    or NO with an error if color change failed
+ */
+- (void)updateFolderAtPath:(NSString *)path
+                colorLabel:(LVCColorLabel)colorLabel
+                completion:(void (^)(BOOL success,
+                                     NSError *error,
+                                     AFHTTPRequestOperation *operation))completion;
+
 /***************
  @name Files
  ***************/

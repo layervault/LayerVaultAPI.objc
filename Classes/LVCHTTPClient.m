@@ -415,9 +415,24 @@
     NSParameterAssert(folder);
     NSParameterAssert(completion);
 
-    NSDictionary *params = @{@"color": [LVCColorUtils colorNameForLabel:colorLabel]};
+    [self updateFolderAtPath:folder.urlPath
+                  colorLabel:colorLabel
+                  completion:completion];
+}
 
-    NSString *colorPath = [folder.urlPath stringByAppendingPathComponent:@"color"];
+
+- (void)updateFolderAtPath:(NSString *)path
+                colorLabel:(LVCColorLabel)colorLabel
+                completion:(void (^)(BOOL success,
+                                     NSError *error,
+                                     AFHTTPRequestOperation *operation))completion
+{
+    NSParameterAssert(path);
+    NSParameterAssert(completion);
+
+    NSString *colorPath = [path stringByAppendingPathComponent:@"color"];
+
+    NSDictionary *params = @{@"color": [LVCColorUtils colorNameForLabel:colorLabel]};
 
     [self putPath:[self sanitizeRequestPath:colorPath]
        parameters:params
