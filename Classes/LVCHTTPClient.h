@@ -215,6 +215,31 @@
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion;
 
+/**
+ *  Create a folder with a given name inside a specified folder (or project).
+ *
+ *  @param name       New Folder Name (required)
+ *  @param folder     Folder our new folder will be created within (required)
+ *  @param completion Callback that returns an LVCFolder on success, or nil on
+ *                    failure with an error (required)
+ */
+- (void)createFolderWithName:(NSString *)name
+                    inFolder:(LVCFolder *)folder
+                  completion:(void (^)(LVCFolder *folder,
+                                       NSError *error,
+                                       AFHTTPRequestOperation *operation))completion;
+
+/**
+ *  Create a folder given a path (and any intermediate directories)
+ *
+ *  @param path       Path of new folder (required)
+ *  @param completion Callback that returns an LVCFolder on success, or nil on
+ *                    failure with an error (required)
+ */
+- (void)createFolderAtPath:(NSString *)path
+                completion:(void (^)(LVCFolder *folder,
+                                     NSError *error,
+                                     AFHTTPRequestOperation *operation))completion;
 
 /**
  *  Create a folder at a given path within a specified Project. This will 
@@ -225,12 +250,14 @@
  *  @param completion Callback that returns the LVCFolder if it was created
  *                    successfully, or nil with an error if the folder could 
  *                    not be created
+ *
+ *  @deprecated in 0.2.1 use `createFolderWithName:inFolder:completion:`
  */
 - (void)createFolderAtPath:(NSString *)path
                  inProject:(LVCProject *)project
                 completion:(void (^)(LVCFolder *folder,
                                      NSError *error,
-                                     AFHTTPRequestOperation *operation))completion;
+                                     AFHTTPRequestOperation *operation))completion DEPRECATED_ATTRIBUTE;
 
 
 /**

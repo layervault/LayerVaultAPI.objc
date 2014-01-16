@@ -303,6 +303,43 @@
 }
 
 
+- (void)createFolderWithName:(NSString *)name
+                    inFolder:(LVCFolder *)folder
+                  completion:(void (^)(LVCFolder *folder,
+                                       NSError *error,
+                                       AFHTTPRequestOperation *operation))completion
+{
+    NSParameterAssert(name);
+    NSParameterAssert(folder);
+
+    NSString *folderPath = [folder.urlPath stringByAppendingPathComponent:name];
+    [self createFolderAtPath:folderPath completion:completion];
+}
+
+
+- (void)createFolderAtPath:(NSString *)path
+                completion:(void (^)(LVCFolder *folder,
+                                     NSError *error,
+                                     AFHTTPRequestOperation *operation))completion
+{
+    NSParameterAssert(path);
+    NSParameterAssert(completion);
+
+    [self postPath:[self sanitizeRequestPath:path]
+        parameters:nil
+           success:^(AFHTTPRequestOperation *operation, id responseObject) {
+               NSError *error;
+               LVCFolder *folder = [MTLJSONAdapter modelOfClass:LVCFolder.class
+                                             fromJSONDictionary:responseObject
+                                                          error:&error];
+               completion(folder, error, operation);
+           }
+           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+               completion(nil, error, operation);
+           }];
+}
+
+
 - (void)createFolderAtPath:(NSString *)path
                  inProject:(LVCProject *)project
                 completion:(void (^)(LVCFolder *folder,
@@ -316,21 +353,8 @@
     NSString *folderPath = [self appendPath:path
                                   toProject:project
                         includeOrganization:YES];
-    folderPath = [self sanitizeRequestPath:folderPath];
-
-    [self postPath:folderPath
-        parameters:nil
-           success:^(AFHTTPRequestOperation *operation, id responseObject) {
-               NSError *error;
-               LVCFolder *folder = [MTLJSONAdapter modelOfClass:LVCFolder.class
-                                             fromJSONDictionary:responseObject
-                                                          error:&error];
-               completion(folder, error, operation);
-           }
-           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-               completion(nil, error, operation);
-           }];
-
+    [self createFolderAtPath:folderPath
+                  completion:completion];
 }
 
 
