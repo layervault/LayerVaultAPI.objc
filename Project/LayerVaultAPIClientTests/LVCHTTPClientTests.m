@@ -131,4 +131,74 @@
 }
 
 
+- (void)testMoveFileNewName
+{
+    [LVCMockURLConnection setResponseWithStatusCode:200
+                                       headerFields:nil
+                                           bodyData:nil];
+
+    __block AFHTTPRequestOperation *returnedOp = nil;
+    [self.client moveFileAtPath:@"foo/bar/file.jpg"
+                         toPath:@"bar/rename.jpg"
+                     completion:^(BOOL success,
+                                  NSError *error,
+                                  AFHTTPRequestOperation *operation) {
+                         returnedOp = operation;
+                     }];
+    [LVCAsyncHelper wait:0.1];
+    XCTAssertNotNil(returnedOp, @"should have returned an operation");
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:returnedOp.request.HTTPBody
+                                                         options:0
+                                                           error:nil];
+    XCTAssertEqualObjects(dict[@"to"], @"bar", @"to should be bar");
+    XCTAssertEqualObjects(dict[@"new_file_name"], @"rename.jpg", @"to should be rename.jpg");
+}
+
+- (void)testMoveFileSameNameNewPath
+{
+    [LVCMockURLConnection setResponseWithStatusCode:200
+                                       headerFields:nil
+                                           bodyData:nil];
+
+    __block AFHTTPRequestOperation *returnedOp = nil;
+    [self.client moveFileAtPath:@"foo/bar/file.jpg"
+                         toPath:@"baz/file.jpg"
+                     completion:^(BOOL success,
+                                  NSError *error,
+                                  AFHTTPRequestOperation *operation) {
+                         returnedOp = operation;
+                     }];
+    [LVCAsyncHelper wait:0.1];
+    XCTAssertNotNil(returnedOp, @"should have returned an operation");
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:returnedOp.request.HTTPBody
+                                                         options:0
+                                                           error:nil];
+    XCTAssertEqualObjects(dict[@"to"], @"baz", @"to should be baz");
+    XCTAssertNil(dict[@"new_file_name"], @"to should be nil");
+}
+
+
+- (void)testMoveFileSameNameRootOrg
+{
+    [LVCMockURLConnection setResponseWithStatusCode:200
+                                       headerFields:nil
+                                           bodyData:nil];
+
+    __block AFHTTPRequestOperation *returnedOp = nil;
+    [self.client moveFileAtPath:@"foo/bar/file.jpg"
+                         toPath:@"file.jpg"
+                     completion:^(BOOL success,
+                                  NSError *error,
+                                  AFHTTPRequestOperation *operation) {
+                         returnedOp = operation;
+                     }];
+    [LVCAsyncHelper wait:0.1];
+    XCTAssertNotNil(returnedOp, @"should have returned an operation");
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:returnedOp.request.HTTPBody
+                                                         options:0
+                                                           error:nil];
+    XCTAssertEqualObjects(dict[@"to"], @"", @"to should be empty string");
+    XCTAssertNil(dict[@"new_file_name"], @"to should be nil");
+}
+
 @end
