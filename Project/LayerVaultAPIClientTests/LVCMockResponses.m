@@ -16,40 +16,40 @@ NSString *const LVCMockProjectName = @"Very Hot";
 NSString *const LVCMockFolderName = @"oxchitl";
 NSString *const LVCMockFileName = @"salsa.png";
 
-NSNumber *LVCMockFileRevision() {
+NSNumber *LVCMockFileRevision(void) {
     return @(4);
 }
 
-NSString *LVCMockFullProjPath() {
+NSString *LVCMockFullProjPath(void) {
     return [LVCMockOrgName stringByAppendingPathComponent:LVCMockProjectName];
 }
 
-NSString *LVCMockFullProjURLPath() {
+NSString *LVCMockFullProjURLPath(void) {
     return [LVCMockOrgPermalink stringByAppendingPathComponent:LVCMockProjectName];
 }
 
-NSString *LVCMockFullFolderPath() {
+NSString *LVCMockFullFolderPath(void) {
     return [LVCMockFullProjPath() stringByAppendingPathComponent:LVCMockFolderName];
 }
 
-NSString *LVCMockFullFolderURLPath() {
+NSString *LVCMockFullFolderURLPath(void) {
     return [LVCMockFullProjURLPath() stringByAppendingPathComponent:LVCMockFolderName];
 }
 
-NSString *LVCMockFullFilePath() {
+NSString *LVCMockFullFilePath(void) {
     return [LVCMockFullFolderPath() stringByAppendingPathComponent:LVCMockFileName];
 }
 
-NSString *LVCMockFullFileURLPath() {
+NSString *LVCMockFullFileURLPath(void) {
     return [LVCMockFullFolderURLPath() stringByAppendingPathComponent:LVCMockFileName];
 }
 
-NSString *LVCMockFullFileRevisionURLPath() {
+NSString *LVCMockFullFileRevisionURLPath(void) {
     return [LVCMockFullFileURLPath() stringByAppendingPathComponent:LVCMockFileRevision().stringValue];
 }
 
 
-NSDictionary *LVCValidFileRevisionJSON() {
+NSDictionary *LVCValidFileRevisionJSON(void) {
     NSString *urlPath = [[NSString stringWithFormat:@"https://layervault.com/%@", LVCMockFullFileRevisionURLPath()] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     return @{@"revision_number": LVCMockFileRevision(),
              @"md5": LVCMockMD5,
@@ -60,7 +60,7 @@ NSDictionary *LVCValidFileRevisionJSON() {
              @"shortened_url": LVCMockShortenedURL};
 }
 
-NSDictionary *LVCValidFileJSON() {
+NSDictionary *LVCValidFileJSON(void) {
     NSString *localPath = [NSString stringWithFormat:@"~/LayerVault/%@", LVCMockFullFilePath()];
     NSString *urlPath = [[NSString stringWithFormat:@"https://layervault.com/%@", LVCMockFullFileURLPath()] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     return @{@"name": LVCMockFileName,
@@ -73,7 +73,7 @@ NSDictionary *LVCValidFileJSON() {
              @"revisions": @[LVCValidFileRevisionJSON()]};
 }
 
-NSDictionary *LVCValidFolderJSON() {
+NSDictionary *LVCValidFolderJSON(void) {
     NSString *localPath = [NSString stringWithFormat:@"~/LayerVault/%@", LVCMockFullFolderPath()];
     NSString *urlPath = [[NSString stringWithFormat:@"https://layervault.com/%@", LVCMockFullFolderURLPath()] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     return @{@"name": LVCMockFolderName,
@@ -90,7 +90,7 @@ NSDictionary *LVCValidFolderJSON() {
              @"files": @[LVCValidFileJSON()]};
 }
 
-NSDictionary *LVCValidProjectJSON() {
+NSDictionary *LVCValidProjectJSON(void) {
     NSString *localPath = [NSString stringWithFormat:@"~/LayerVault/%@", LVCMockFullProjPath()];
     NSString *urlPath = [[NSString stringWithFormat:@"https://layervault.com/%@", LVCMockFullProjURLPath()] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     return @{@"name": LVCMockProjectName,
@@ -108,13 +108,13 @@ NSDictionary *LVCValidProjectJSON() {
              @"files": @[]};
 }
 
-NSDictionary *LVCValidProjectPartialJSON() {
+NSDictionary *LVCValidProjectPartialJSON(void) {
     NSMutableDictionary *partialDict = LVCValidProjectJSON().mutableCopy;
     [partialDict removeObjectForKey:@"path"];
     return partialDict.copy;
 }
 
-NSDictionary *LVCValidOrganizationJSON() {
+NSDictionary *LVCValidOrganizationJSON(void) {
     return @{@"name": LVCMockOrgName,
              @"permalink": LVCMockOrgPermalink,
              @"deleted_at": @"3013-02-26T16:53:38Z",
