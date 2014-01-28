@@ -386,31 +386,14 @@
                                 AFHTTPRequestOperation *operation))completion;
 
 /**
- *  Uploads a local file to a full file path including organization-permalink
- *  and project. The file must be an image type (including Sketch and 
- *  OmniGraffle). Any intermediate folder needed will be created.
- *
- *  @param localFileURL Local file URL to upload
- *  @param filePath     File path including organization-permalink (should not
- *                      be URL encoded)
- *  @param completion   Callback that returns an LVCFile on successful upload, 
- *                      or nil on failure with an error
- */
-- (void)uploadLocalFile:(NSURL *)localFileURL
-                 toPath:(NSString *)filePath
-             completion:(void (^)(LVCFile *file,
-                                  NSError *error,
-                                  AFHTTPRequestOperation *operation))completion;
-
-/**
  *  Upload a local file to a path inside a project. The file must be an image
- *  type (including Sketch and OmniGraffle). Any intermediate folder needed 
+ *  type (including Sketch and OmniGraffle). Any intermediate folder needed
  *  will be created.
  *
  *  @param localFileURL Local file URL to upload
  *  @param filePath     Path inside project to upload the file to
  *  @param project      LVCProject the file will be uploaded to
- *  @param completion   Callback that returns an LVCFile on successful upload, 
+ *  @param completion   Callback that returns an LVCFile on successful upload,
  *                      or nil on failure with an error
  */
 - (void)uploadLocalFile:(NSURL *)localFileURL
@@ -419,6 +402,45 @@
              completion:(void (^)(LVCFile *file,
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion;
+
+
+/**
+ *  Uploads a local file to a full file path including organization-permalink
+ *  and project. The file must be an image type (including Sketch and
+ *  OmniGraffle). Any intermediate folder needed will be created.
+ *
+ *  @param localFileURL Local file URL to upload
+ *  @param filePath     File path including organization-permalink (should not
+ *                      be URL encoded)
+ *  @param completion   Callback that returns an LVCFile on successful upload,
+ *                      or nil on failure with an error
+ */
+- (void)uploadLocalFile:(NSURL *)localFileURL
+                 toPath:(NSString *)filePath
+             completion:(void (^)(LVCFile *file,
+                                  NSError *error,
+                                  AFHTTPRequestOperation *operation))completion;
+
+
+/**
+ *  Upload a local file to a path inside a project. The file must be an image
+ *  type (including Sketch and OmniGraffle). Any intermediate folder needed
+ *  will be created.
+ *
+ *  @param localFileURL Local file URL to upload.
+ *  @param filePath     Path inside project to upload the file to. This assumes
+ *                      the file path contains the file name.
+ *  @param parameters   Upload Parameters
+ *  @param completion   Callback that returns an LVCFile on successful upload,
+ *                      or nil on failure with an error
+ */
+- (void)uploadLocalFile:(NSURL *)localFileURL
+                 toPath:(NSString *)filePath
+             parameters:(NSDictionary *)parameters
+             completion:(void (^)(LVCFile *file,
+                                  NSError *error,
+                                  AFHTTPRequestOperation *operation))completion;
+
 
 /**
  *  Deletes a given file.
@@ -527,6 +549,20 @@
                                     NSError *error,
                                     AFHTTPRequestOperation *operation))completion;
 
+
+/**
+ *  Check the sync status of a LVCFile.
+ *
+ *  @param file       File we are comparing against the server with.
+ *  @param completion Callback that return a LVCFileSyncStatus. An error will
+ *                    be returned in each case except LVCFileSyncStatusUploadOK
+ */
+- (void)checkSyncStatusForFile:(LVCFile *)file
+                    completion:(void (^)(LVCFileSyncStatus syncStatus,
+                                         NSError *error,
+                                         AFHTTPRequestOperation *operation))completion;
+
+
 /**
  *  Check the sync status of a file against an MD5.
  *
@@ -542,17 +578,20 @@
                                              NSError *error,
                                              AFHTTPRequestOperation *operation))completion;
 
+
 /**
  *  Check the sync status of a LVCFile.
  *
- *  @param file       File we are comparing against the server with.
+ *  @param filePath   File we are comparing against the server with.
+ *  @param parameters Parameters used for check
  *  @param completion Callback that return a LVCFileSyncStatus. An error will
  *                    be returned in each case except LVCFileSyncStatusUploadOK
  */
-- (void)checkSyncStatusForFile:(LVCFile *)file
-                    completion:(void (^)(LVCFileSyncStatus syncStatus,
-                                         NSError *error,
-                                         AFHTTPRequestOperation *operation))completion;
+- (void)checkSyncStatusForFilePath:(NSString *)filePath
+                        parameters:(NSDictionary *)parameters
+                        completion:(void (^)(LVCFileSyncStatus syncStatus,
+                                             NSError *error,
+                                             AFHTTPRequestOperation *operation))completion;
 
 
 /*******************

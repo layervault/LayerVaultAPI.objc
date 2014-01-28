@@ -508,63 +508,6 @@
 
 - (void)uploadLocalFile:(NSURL *)localFileURL
                  toPath:(NSString *)filePath
-             completion:(void (^)(LVCFile *file,
-                                  NSError *error,
-                                  AFHTTPRequestOperation *operation))completion
-{
-    NSParameterAssert(localFileURL);
-    NSParameterAssert(filePath);
-    NSParameterAssert(completion);
-
-    // Add filename if it's not part of the path
-    NSString *fileName = localFileURL.lastPathComponent;
-    NSRange range = [filePath rangeOfString:fileName];
-    if (range.location == NSNotFound || range.location != (filePath.length - fileName.length)) {
-        filePath = [filePath stringByAppendingPathComponent:fileName];
-    }
-    filePath = [self sanitizeRequestPath:filePath];
-
-    NSString *md5 = md5ForFileURL(localFileURL);
-    NSDictionary *params = nil;
-    if (md5) {
-        params = @{@"md5":md5};
-    }
-
-    if (md5) {
-        [self putPath:filePath
-           parameters:params
-              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-
-                  AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:self.serviceProviderIdentifier];
-
-                  LVCAmazonS3Client *s3Client = [LVCAmazonS3Client new];
-                  [s3Client postFile:localFileURL
-                          parameters:responseObject
-                         accessToken:credential.accessToken
-                             success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                 NSError *error;
-                                 LVCFile *file = [MTLJSONAdapter modelOfClass:LVCFile.class
-                                                           fromJSONDictionary:responseObject
-                                                                        error:&error];
-                                 completion(file, error, operation);
-                             }
-                             failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                 completion(nil, error, operation);
-                             }];
-              }
-              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                  completion(nil, error, operation);
-              }];
-    }
-    else {
-        NSError *error = [NSError errorWithDomain:@"asdf" code:-100 userInfo:nil];
-        completion(nil, error, nil);
-    }
-}
-
-
-- (void)uploadLocalFile:(NSURL *)localFileURL
-                 toPath:(NSString *)filePath
               inProject:(LVCProject *)project
              completion:(void (^)(LVCFile *file,
                                   NSError *error,
@@ -580,6 +523,68 @@
     [self uploadLocalFile:localFileURL
                    toPath:filePath
                completion:completion];
+}
+
+
+- (void)uploadLocalFile:(NSURL *)localFileURL
+                 toPath:(NSString *)filePath
+             completion:(void (^)(LVCFile *file,
+                                  NSError *error,
+                                  AFHTTPRequestOperation *operation))completion
+{
+    NSParameterAssert(filePath);
+
+    // Add filename if it's not part of the path
+    NSString *fileName = localFileURL.lastPathComponent;
+    NSRange range = [filePath rangeOfString:fileName];
+    if (range.location == NSNotFound || range.location != (filePath.length - fileName.length)) {
+        filePath = [filePath stringByAppendingPathComponent:fileName];
+    }
+
+    NSString *md5 = md5ForFileURL(localFileURL);
+    NSDictionary *params = nil;
+    if (md5) {
+        params = @{@"md5":md5};
+    }
+
+    [self uploadLocalFile:localFileURL
+                   toPath:filePath
+                   parameters:params
+               completion:completion];
+}
+
+- (void)uploadLocalFile:(NSURL *)localFileURL
+                 toPath:(NSString *)filePath
+             parameters:(NSDictionary *)parameters
+             completion:(void (^)(LVCFile *file,
+                                  NSError *error,
+                                  AFHTTPRequestOperation *operation))completion
+{
+    NSParameterAssert(localFileURL);
+    NSParameterAssert(parameters);
+    NSParameterAssert(completion);
+
+    filePath = [LVCHTTPClient sanitizeRequestPath:filePath];
+
+    [self putPath:filePath parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:self.serviceProviderIdentifier];
+        LVCAmazonS3Client *s3Client = [LVCAmazonS3Client new];
+        [s3Client postFile:localFileURL
+                parameters:responseObject
+               accessToken:credential.accessToken
+                   success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                       NSError *error;
+                       LVCFile *file = [MTLJSONAdapter modelOfClass:LVCFile.class
+                                                 fromJSONDictionary:responseObject
+                                                              error:&error];
+                       completion(file, error, operation);
+                   }
+                   failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                       completion(nil, error, operation);
+                   }];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        completion(nil, error, operation);
+    }];
 }
 
 
@@ -603,7 +608,7 @@
     NSParameterAssert(md5);
     NSParameterAssert(completion);
 
-    [self deletePath:[self sanitizeRequestPath:filePath]
+    [self deletePath:[LVCHTTPClient sanitizeRequestPath:filePath]
           parameters:@{@"md5": md5}
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
                  completion(YES, nil, operation);
@@ -745,36 +750,6 @@
 }
 
 
-- (void)checkSyncStatusForFilePath:(NSString *)filePath
-                               md5:(NSString *)md5
-                        completion:(void (^)(LVCFileSyncStatus syncStatus,
-                                             NSError *error,
-                                             AFHTTPRequestOperation *operation))completion
-{
-    NSParameterAssert(filePath);
-    NSParameterAssert(md5);
-    NSParameterAssert(completion);
-
-    NSString *syncCheckPath = [filePath stringByAppendingPathComponent:@"sync_check"];
-
-    [self getPath:[self sanitizeRequestPath:syncCheckPath]
-       parameters:@{@"md5": md5}
-          success:^(AFHTTPRequestOperation *operation, id responseObject) {
-              completion(LVCFileSyncStatusUploadOK, nil, operation);
-          }
-          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-              LVCFileSyncStatus status = LVCFileSyncStatusError;
-              if (operation.response.statusCode  == (LVCFileSyncStatusFileSizeMissing) ||
-                  operation.response.statusCode  == (LVCFileSyncStatusFileTooLarge) ||
-                  operation.response.statusCode  == (LVCFileSyncStatusUploadFullFile) ||
-                  operation.response.statusCode  == (LVCFileSyncStatusUpToDate)) {
-                  status = operation.response.statusCode;
-              }
-              completion(status, error, operation);
-          }];
-}
-
-
 - (void)checkSyncStatusForFile:(LVCFile *)file
                     completion:(void (^)(LVCFileSyncStatus syncStatus,
                                          NSError *error,
@@ -784,6 +759,43 @@
                                  md5:file.md5
                           completion:completion];
 }
+
+
+- (void)checkSyncStatusForFilePath:(NSString *)filePath
+                               md5:(NSString *)md5
+                        completion:(void (^)(LVCFileSyncStatus syncStatus,
+                                             NSError *error,
+                                             AFHTTPRequestOperation *operation))completion
+{
+    NSParameterAssert(md5);
+    [self checkSyncStatusForFilePath:filePath
+                          parameters:@{@"md5": md5}
+                          completion:completion];
+}
+
+
+- (void)checkSyncStatusForFilePath:(NSString *)filePath
+                        parameters:(NSDictionary *)parameters
+                        completion:(void (^)(LVCFileSyncStatus syncStatus,
+                                             NSError *error,
+                                             AFHTTPRequestOperation *operation))completion
+{
+    NSParameterAssert(filePath);
+    NSParameterAssert(parameters);
+    NSParameterAssert(completion);
+
+    NSString *syncCheckPath = [filePath stringByAppendingPathComponent:@"sync_check"];
+
+    [self getPath:[LVCHTTPClient sanitizeRequestPath:syncCheckPath]
+       parameters:parameters
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              completion(LVCFileSyncStatusUploadOK, nil, operation);
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              completion(operation.response.statusCode, error, operation);
+          }];
+}
+
 
 #pragma mark - Revisions
 - (void)getMetaDataForFileRevision:(LVCFileRevision *)fileRevision
