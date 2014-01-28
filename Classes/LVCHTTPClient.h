@@ -174,13 +174,14 @@
  *  @param completion Callback that returns YES if the color change succeeded, 
  *                    or NO with an error if color change failed
  *
- *  @deprecated in 0.2.1. Use updateFolder:colorLabel:completion: instead
+ *  @deprecated in 0.2.1. Use `-updateFolder:colorLabel:completion:` instead
  */
 - (void)updateProject:(LVCProject *)project
            colorLabel:(LVCColorLabel)colorLabel
            completion:(void (^)(BOOL success,
                                 NSError *error,
-                                AFHTTPRequestOperation *operation))completion DEPRECATED_ATTRIBUTE;
+                                AFHTTPRequestOperation *operation))completion
+__attribute__((deprecated("Replaced by -updateFolder:colorLabel:completion:")));;
 
 
 /*************
@@ -251,13 +252,14 @@
  *                    successfully, or nil with an error if the folder could 
  *                    not be created
  *
- *  @deprecated in 0.2.1 use `createFolderWithName:inFolder:completion:`
+ *  @deprecated in 0.2.1 use `-createFolderWithName:inFolder:completion:`
  */
 - (void)createFolderAtPath:(NSString *)path
                  inProject:(LVCProject *)project
                 completion:(void (^)(LVCFolder *folder,
                                      NSError *error,
-                                     AFHTTPRequestOperation *operation))completion DEPRECATED_ATTRIBUTE;
+                                     AFHTTPRequestOperation *operation))completion
+__attribute__((deprecated("Replaced by -createFolderWithName:inFolder:completion:")));;
 
 
 /**
@@ -296,14 +298,15 @@
  *  @param completion Callback that returns the LVCFolder on successful move, or
  *                    nil with an error if the move failed
  *
- *  @deprecated in 0.2.1 use moveFolder:toPath:completion: instead
+ *  @deprecated in 0.2.1 use `-moveFolder:toPath:completion:` instead
  */
 - (void)moveFolder:(LVCFolder *)folder
             toPath:(NSString *)toPath
          inProject:(LVCProject *)project
         completion:(void (^)(LVCFolder *folder,
                              NSError *error,
-                             AFHTTPRequestOperation *operation))completion DEPRECATED_ATTRIBUTE;
+                             AFHTTPRequestOperation *operation))completion
+__attribute__((deprecated("Replaced by -moveFolder:toPath:completion:")));
 
 /**
  *  Move a folder to a new path. This move is permitted across different
@@ -479,14 +482,15 @@
  *  @param completion  Callback that return YES on successful move, or NO
  *                     with an error if the file could not be moved
  *
- *  @deprecated in 0.2.1. Use moveFile:toPath:completion: instead
+ *  @deprecated in 0.2.1. Use `-moveFile:toPath:completion:` instead
  */
 - (void)moveFile:(LVCFile *)file
           toPath:(NSString *)path
      newFileName:(NSString *)newFileName
       completion:(void (^)(BOOL success,
                            NSError *error,
-                           AFHTTPRequestOperation *operation))completion DEPRECATED_ATTRIBUTE;
+                           AFHTTPRequestOperation *operation))completion
+__attribute__((deprecated("Replaced by -moveFile:toPath:completion:")));
 
 
 /**
