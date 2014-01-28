@@ -183,7 +183,8 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
     } completionHandler:^{
         [self.window makeFirstResponder:self.organizationsViewController.outlineView];
         NSUInteger row = 1;
-        if ([self.organizationsViewController.outlineView itemAtRow:(NSInteger)row]) {
+        id itemAtRow = [self.organizationsViewController.outlineView itemAtRow:(NSInteger)row];
+        if ([itemAtRow isKindOfClass:LVCProject.class]) {
             [self.organizationsViewController.outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:row]
                                                       byExtendingSelection:NO];
         }
