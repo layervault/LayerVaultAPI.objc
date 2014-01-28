@@ -16,10 +16,10 @@
 typedef enum : NSUInteger {
     LVCFileSyncStatusError = 0,
     LVCFileSyncStatusUploadOK = 200,
-    LVCFileSyncStatusUpToDate = 409,
     LVCFileSyncStatusFileSizeMissing = 400,
-    LVCFileSyncStatusFileTooLarge = 413,
+    LVCFileSyncStatusNewerFileOnServer = 409,
     LVCFileSyncStatusUploadFullFile = 412,
+    LVCFileSyncStatusFileTooLarge = 413,
 } LVCFileSyncStatus;
 
 /**
