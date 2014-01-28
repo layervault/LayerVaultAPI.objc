@@ -268,7 +268,7 @@
     NSParameterAssert(path);
     NSParameterAssert(completion);
 
-    path = [self sanitizeRequestPath:path];
+    path = [LVCHTTPClient sanitizeRequestPath:path];
 
     [self getPath:path
        parameters:nil
@@ -325,7 +325,7 @@
     NSParameterAssert(path);
     NSParameterAssert(completion);
 
-    [self postPath:[self sanitizeRequestPath:path]
+    [self postPath:[LVCHTTPClient sanitizeRequestPath:path]
         parameters:nil
            success:^(AFHTTPRequestOperation *operation, id responseObject) {
                NSError *error;
@@ -378,7 +378,7 @@
     NSParameterAssert(path);
     NSParameterAssert(completion);
 
-    [self deletePath:[self sanitizeRequestPath:path]
+    [self deletePath:[LVCHTTPClient sanitizeRequestPath:path]
           parameters:nil
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
                  completion(YES, nil, operation);
@@ -426,7 +426,7 @@
 
     NSString *movePath = [path stringByAppendingPathComponent:@"move"];
 
-    [self postPath:[self sanitizeRequestPath:movePath]
+    [self postPath:[LVCHTTPClient sanitizeRequestPath:movePath]
         parameters:@{@"to": toPath}
            success:^(AFHTTPRequestOperation *operation, id responseObject) {
                NSError *error;
@@ -469,7 +469,7 @@
 
     NSDictionary *params = @{@"color": [LVCColorUtils colorNameForLabel:colorLabel]};
 
-    [self putPath:[self sanitizeRequestPath:colorPath]
+    [self putPath:[LVCHTTPClient sanitizeRequestPath:colorPath]
        parameters:params
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               completion(YES, nil, operation);
@@ -489,7 +489,7 @@
     NSParameterAssert(filePath);
     NSParameterAssert(completion);
 
-    filePath = [self sanitizeRequestPath:filePath];
+    filePath = [LVCHTTPClient sanitizeRequestPath:filePath];
 
     [self getPath:filePath
        parameters:nil
@@ -660,7 +660,7 @@
 
     NSString *movePath = [filePath stringByAppendingPathComponent:@"move"];
 
-    [self postPath:[self sanitizeRequestPath:movePath]
+    [self postPath:[LVCHTTPClient sanitizeRequestPath:movePath]
         parameters:params
            success:^(AFHTTPRequestOperation *operation, id responseObject) {
                completion(YES, nil, operation);
@@ -685,7 +685,7 @@
 
     NSString *previewsPath = [file.urlPath stringByAppendingPathComponent:@"previews"];
 
-    [self getPath:[self sanitizeRequestPath:previewsPath]
+    [self getPath:[LVCHTTPClient sanitizeRequestPath:previewsPath]
        parameters:@{@"w": @(width), @"h": @(height)}
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               NSMutableArray *previewURLs = @[].mutableCopy;
@@ -718,7 +718,7 @@
     NSString *feedbackPath = [file.urlPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%lu", (unsigned long)revision]];
     feedbackPath = [feedbackPath stringByAppendingPathComponent:@"feedback_items"];
 
-    [self getPath:[self sanitizeRequestPath:feedbackPath]
+    [self getPath:[LVCHTTPClient sanitizeRequestPath:feedbackPath]
        parameters:nil
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               NSMutableArray *feedbackItems = @[].mutableCopy;
@@ -795,7 +795,7 @@
     NSParameterAssert(completion);
 
     NSString *metaPath = [fileRevision.urlPath stringByAppendingPathComponent:@"meta"];
-    [self getPath:[self sanitizeRequestPath:metaPath]
+    [self getPath:[LVCHTTPClient sanitizeRequestPath:metaPath]
        parameters:nil
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               completion(responseObject, nil, operation);
@@ -819,7 +819,7 @@
     NSParameterAssert(completion);
 
     NSString *previewPath = [fileRevision.urlPath stringByAppendingPathComponent:@"previews"];
-    [self getPath:[self sanitizeRequestPath:previewPath]
+    [self getPath:[LVCHTTPClient sanitizeRequestPath:previewPath]
        parameters:@{@"w": @(width), @"h": @(height)}
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               // NOTE: I'm not too thrilled with how we handle failure cases
@@ -844,8 +844,9 @@
           }];
 }
 
-#pragma mark - Private Methods
-- (NSString *)sanitizeRequestPath:(NSString *)path
+
+#pragma mark - Cleanup Path
++ (NSString *)sanitizeRequestPath:(NSString *)path
 {
     if ([[path substringToIndex:1] isEqualToString:@"/"]) {
         path = [path substringFromIndex:1];
@@ -854,6 +855,7 @@
 }
 
 
+#pragma mark - Private Methods
 - (NSString *)appendPath:(NSString *)path
                toProject:(LVCProject *)project
      includeOrganization:(BOOL)includeOrganization
