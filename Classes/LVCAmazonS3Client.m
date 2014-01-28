@@ -17,7 +17,7 @@
 NSString *LVCAmazonS3ClientErrorDomain = @"LVCAmazonS3ClientErrorDomain";
 
 
-static NSString *mimeForFile(NSURL *fileURL)
+NSString *mimeForFile(NSURL *fileURL)
 {
     CFStringRef uti = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension,
                                                             (__bridge CFStringRef)fileURL.pathExtension,

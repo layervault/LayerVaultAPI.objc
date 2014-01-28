@@ -14,6 +14,9 @@ enum
     LVCAmazonS3ClientErrorNoFileData = 1
 };
 
+
+OBJC_EXPORT NSString *mimeForFile(NSURL *fileURL);
+
 /**
  *  LVCAmazonS3Client is the main interface for uploading images to the AmazonS3
  *  service.
