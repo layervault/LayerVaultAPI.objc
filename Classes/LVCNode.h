@@ -15,7 +15,9 @@
 @interface LVCNode : MTLModel <MTLJSONSerializing>
 
 /**
- *  The nodes name. Cannot be nil
+ *  The nodes name.
+ *
+ *  @note required
  */
 @property (readonly, nonatomic, copy) NSString *name;
 
