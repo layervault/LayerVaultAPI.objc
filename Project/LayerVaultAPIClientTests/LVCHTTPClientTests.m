@@ -86,10 +86,10 @@
     [LVCAsyncHelper wait:0.1];
     XCTAssertNil(returnedProject, @"should not have returned an project");
 
-    LVCProject *project = [MTLJSONAdapter modelOfClass:LVCProject.class
-                                    fromJSONDictionary:LVCValidProjectPartialJSON()
-                                                 error:nil];
-    [self.client getProjectFromPartial:project
+    LVCProject *partialProject = [MTLJSONAdapter modelOfClass:LVCProject.class
+                                           fromJSONDictionary:LVCValidProjectPartialJSON()
+                                                        error:nil];
+    [self.client getProjectFromPartial:partialProject
                             completion:^(LVCProject *project,
                                          NSError *error,
                                          AFHTTPRequestOperation *operation) {
@@ -117,10 +117,10 @@
     [LVCAsyncHelper wait:0.1];
     XCTAssertNil(returnedProject, @"should not have returned an project");
 
-    LVCProject *project = [MTLJSONAdapter modelOfClass:LVCProject.class
-                                    fromJSONDictionary:LVCValidProjectPartialJSON()
-                                                 error:nil];
-    [self.client getProjectFromPartial:project
+    LVCProject *partialProject = [MTLJSONAdapter modelOfClass:LVCProject.class
+                                           fromJSONDictionary:LVCValidProjectPartialJSON()
+                                                        error:nil];
+    [self.client getProjectFromPartial:partialProject
                             completion:^(LVCProject *project,
                                          NSError *error,
                                          AFHTTPRequestOperation *operation) {
