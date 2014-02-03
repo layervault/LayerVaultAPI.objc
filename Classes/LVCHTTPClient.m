@@ -566,12 +566,17 @@
 
     filePath = [LVCHTTPClient sanitizeRequestPath:filePath];
 
+    NSString *accessToken = nil;
+    NSString *authHeader = [self defaultValueForHeader:@"Authorization"];
+    if (authHeader.length > 7 && [authHeader hasPrefix:@"Bearer "]) {
+        accessToken = [authHeader substringFromIndex:7];
+    }
+
     [self putPath:filePath parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:self.serviceProviderIdentifier];
         LVCAmazonS3Client *s3Client = [LVCAmazonS3Client new];
         [s3Client postFile:localFileURL
                 parameters:responseObject
-               accessToken:credential.accessToken
+               accessToken:accessToken
                    success:^(AFHTTPRequestOperation *operation, id responseObject) {
                        NSError *error;
                        LVCFile *file = [MTLJSONAdapter modelOfClass:LVCFile.class
