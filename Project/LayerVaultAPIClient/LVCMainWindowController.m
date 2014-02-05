@@ -46,6 +46,17 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
             [_client loginWithCredential:credential];
         }
 
+        NSString *identifier = _client.serviceProviderIdentifier;
+        [RACObserve(_client, credential) subscribeNext:^(AFOAuthCredential *newCredential) {
+            if (newCredential) {
+                [AFOAuthCredential storeCredential:newCredential
+                                    withIdentifier:identifier];
+            }
+            else {
+                [AFOAuthCredential deleteCredentialWithIdentifier:identifier];
+            }
+        }];
+
         _fileRevisionWindow = [[LVCFileRevisionsWindowController alloc] initWithWindowNibName:@"LVCFileRevisionsWindowController"];
         _fileRevisionWindow.client = _client;
 
