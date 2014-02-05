@@ -26,8 +26,7 @@
     [NSURLProtocol registerClass:[LVCMockURLConnection class]];
     self.client = [[LVCAuthenticatedClient alloc] initWithBaseURL:LVCHTTPClient.defaultBaseURL
                                                          clientID:@"CLIENT_ID"
-                                                           secret:@"SECRET"
-                                                   saveToKeychain:NO];
+                                                           secret:@"SECRET"];
     self.goodCredential = [[AFOAuthCredential alloc] initWithOAuthToken:@"FEEDFACE"
                                                               tokenType:@"bearer"];
     self.expiredCredential = [[AFOAuthCredential alloc] initWithOAuthToken:@"8BADF00D"

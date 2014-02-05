@@ -26,11 +26,6 @@ typedef void (^LVCClientAuthenticationCallback)(LVCUser *user, NSError *error);
 @property (readonly, nonatomic) LVCUser *user;
 
 /**
- *  @note YES if we are saving the credentials to the keychain, otherwise NO
- */
-@property (nonatomic, readonly) BOOL saveCredentialToKeychain;
-
-/**
  *  Returns if the client is unauthenticated, authenticating, or authenticated
  */
 @property (readonly, nonatomic) LVCAuthenticationState authenticationState;
@@ -52,7 +47,6 @@ typedef void (^LVCClientAuthenticationCallback)(LVCUser *user, NSError *error);
  *  @param url                    URL endpoint we are making calls against (required)
  *  @param clientID               OAuth Client ID (required)
  *  @param secret                 OAuth Secret (required)
- *  @param saveToKeychain         YES to save Credential to keychain, otherwise NO (required)
  *
  *  @return AuthenticatedClient Instance
  *
@@ -60,14 +54,11 @@ typedef void (^LVCClientAuthenticationCallback)(LVCUser *user, NSError *error);
  */
 - (instancetype)initWithBaseURL:(NSURL *)url
                        clientID:(NSString *)clientID
-                         secret:(NSString *)secret
-                 saveToKeychain:(BOOL)saveToKeychain;
-
+                         secret:(NSString *)secret;
 
 /**
  *  Creates an authenticated client with default options:
  *    BaseURL                   LVCHTTPClient.defaultBaseURL
- *    saveToKeychain            YES
  *    authenticationCallback    nil
  *
  *  @param clientID   OAuth 2 Secret Client ID (required)
@@ -100,15 +91,7 @@ typedef void (^LVCClientAuthenticationCallback)(LVCUser *user, NSError *error);
 /**
  *  Logs the user out. Client will need to re-authenticate to call any further
  *  authenticated methods.
- *
- *  @note This does not remove the authentication from the keychain. Please call
- *        `clearCredentialFromKeychain` to do so.
  */
 - (void)logout;
-
-/**
- *  Removes the authentication credential from keychain
- */
-- (void)clearCredentialFromKeychain;
 
 @end

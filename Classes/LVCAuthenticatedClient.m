@@ -22,14 +22,10 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
 @implementation LVCAuthenticatedClient
 
 #pragma mark - Object Lifecycle
-- (instancetype)initWithBaseURL:(NSURL *)url
-                       clientID:(NSString *)clientID
-                         secret:(NSString *)secret
-                 saveToKeychain:(BOOL)saveToKeychain;
+- (instancetype)initWithBaseURL:(NSURL *)url clientID:(NSString *)clientID secret:(NSString *)secret
 {
     self = [super initWithBaseURL:url clientID:clientID secret:secret];
     if (self) {
-        _saveCredentialToKeychain = saveToKeychain;
         _authenticationState = LVCAuthenticationStateUnauthenticated;
         _authenticationQueue = [[NSOperationQueue alloc] init];
         _authenticationQueue.maxConcurrentOperationCount = 1;
@@ -48,15 +44,6 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
     return [self initWithBaseURL:LVCHTTPClient.defaultBaseURL
                         clientID:clientID
                           secret:secret];
-}
-
-
-- (instancetype)initWithBaseURL:(NSURL *)url clientID:(NSString *)clientID secret:(NSString *)secret
-{
-    return [self initWithBaseURL:url
-                        clientID:clientID
-                          secret:secret
-                  saveToKeychain:YES];
 }
 
 
@@ -84,12 +71,6 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
                                              success:^(AFOAuthCredential *credential) {
                                                  self.credential = credential;
 
-                                                 // Save Credential
-                                                 if (self.saveCredentialToKeychain) {
-                                                     [AFOAuthCredential storeCredential:self.credential
-                                                                         withIdentifier:self.serviceProviderIdentifier];
-                                                 }
-
                                                  // Setting the credential will automatically call /me
                                                  if (![urlRequest.URL.path isEqualToString:@"/api/v1/me"]) {
                                                      NSMutableURLRequest *newRequest = urlRequest.mutableCopy;
@@ -101,7 +82,6 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
                                                  }
                                              }
                                              failure:^(NSError *error) {
-                                                 [self clearCredentialFromKeychain];
                                                  [self logout];
                                                  if (failure) {
                                                      failure(nil, error);
@@ -154,12 +134,6 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
                                   NSError *error) {
                          if (credential) {
                              self.credential = credential;
-
-                             if (self.saveCredentialToKeychain) {
-                                 [AFOAuthCredential storeCredential:self.credential
-                                                     withIdentifier:self.serviceProviderIdentifier];
-
-                             }
                          }
                          else {
                              if (self.authenticationCallback) {
@@ -173,13 +147,6 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
 - (void)logout
 {
     self.credential = nil;
-}
-
-- (void)clearCredentialFromKeychain
-{
-    if (self.saveCredentialToKeychain) {
-        [AFOAuthCredential deleteCredentialWithIdentifier:self.serviceProviderIdentifier];
-    }
 }
 
 
