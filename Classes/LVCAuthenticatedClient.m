@@ -71,15 +71,11 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
                                              success:^(AFOAuthCredential *credential) {
                                                  self.credential = credential;
 
-                                                 // Setting the credential will automatically call /me
-                                                 if (![urlRequest.URL.path isEqualToString:@"/api/v1/me"]) {
-                                                     NSMutableURLRequest *newRequest = urlRequest.mutableCopy;
-                                                     [newRequest setValue:[NSString stringWithFormat:@"Bearer %@", self.credential.accessToken]
-                                                       forHTTPHeaderField:@"Authorization"];
-                                                     AFHTTPRequestOperation *attempt2 = [super HTTPRequestOperationWithRequest:newRequest success:success failure:failure];
-                                                     [self enqueueHTTPRequestOperation:attempt2];
-
-                                                 }
+                                                 NSMutableURLRequest *newRequest = urlRequest.mutableCopy;
+                                                 [newRequest setValue:[NSString stringWithFormat:@"Bearer %@", self.credential.accessToken]
+                                                   forHTTPHeaderField:@"Authorization"];
+                                                 AFHTTPRequestOperation *attempt2 = [super HTTPRequestOperationWithRequest:newRequest success:success failure:failure];
+                                                 [self enqueueHTTPRequestOperation:attempt2];
                                              }
                                              failure:^(NSError *error) {
                                                  [self logout];
