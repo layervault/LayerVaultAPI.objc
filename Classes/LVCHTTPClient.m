@@ -566,30 +566,32 @@
 
     filePath = [LVCHTTPClient sanitizeRequestPath:filePath];
 
-    NSString *accessToken = nil;
-    NSString *authHeader = [self defaultValueForHeader:@"Authorization"];
-    if (authHeader.length > 7 && [authHeader hasPrefix:@"Bearer "]) {
-        accessToken = [authHeader substringFromIndex:7];
-    }
+    NSError *accessTokenError;
+    NSString *accessToken = [self accessTokenWithError:&accessTokenError];
 
-    [self putPath:filePath parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        LVCAmazonS3Client *s3Client = [LVCAmazonS3Client new];
-        [s3Client postFile:localFileURL
-                parameters:responseObject
-               accessToken:accessToken
-                   success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                       NSError *error;
-                       LVCFile *file = [MTLJSONAdapter modelOfClass:LVCFile.class
-                                                 fromJSONDictionary:responseObject
-                                                              error:&error];
-                       completion(file, error, operation);
-                   }
-                   failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                       completion(nil, error, operation);
-                   }];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        completion(nil, error, operation);
-    }];
+    if (accessToken) {
+        [self putPath:filePath parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            LVCAmazonS3Client *s3Client = [LVCAmazonS3Client new];
+            [s3Client postFile:localFileURL
+                    parameters:responseObject
+                   accessToken:accessToken
+                       success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                           NSError *error;
+                           LVCFile *file = [MTLJSONAdapter modelOfClass:LVCFile.class
+                                                     fromJSONDictionary:responseObject
+                                                                  error:&error];
+                           completion(file, error, operation);
+                       }
+                       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                           completion(nil, error, operation);
+                       }];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            completion(nil, error, operation);
+        }];
+    }
+    else {
+        completion(nil, accessTokenError, nil);
+    }
 }
 
 
@@ -905,6 +907,24 @@
            organizationPermalink:(NSString *)organizationPermalink
 {
     return [NSString stringWithFormat:@"%@/%@", organizationPermalink, projectName];
+}
+
+
+- (NSString *)accessTokenWithError:(NSError * __autoreleasing *)error
+{
+    NSString *accessToken = nil;
+    NSString *authHeader = [self defaultValueForHeader:@"Authorization"];
+    if (authHeader.length > 7 && [authHeader hasPrefix:@"Bearer "]) {
+        accessToken = [authHeader substringFromIndex:7];
+    }
+
+    if (!accessToken && error) {
+        *error = [NSError errorWithDomain:@"LVCHTTPClientErrorDomain"
+                                     code:1
+                                 userInfo:@{NSLocalizedDescriptionKey: @"No Access Token Found. Check your authentication Credentials"}];
+    }
+
+    return accessToken;
 }
 
 @end
