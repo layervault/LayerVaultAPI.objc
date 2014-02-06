@@ -55,8 +55,10 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
 
 #pragma mark - AFHTTPClient
 - (AFHTTPRequestOperation *)HTTPRequestOperationWithRequest:(NSURLRequest *)urlRequest
-                                                    success:(void (^)(AFHTTPRequestOperation *, id))success
-                                                    failure:(void (^)(AFHTTPRequestOperation *, NSError *))failure
+                                                    success:(void (^)(AFHTTPRequestOperation *operation,
+                                                                      id responseObject))success
+                                                    failure:(void (^)(AFHTTPRequestOperation *operation,
+                                                                      NSError *error))failure
 {
     void (^adjustedFailure)(AFHTTPRequestOperation *operation, NSError *error) = failure;
 
@@ -106,6 +108,24 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
     else {
         [self.operationQueue addOperation:operation];
     }
+}
+
+
+#pragma mark - LVCHTTPClient
+- (void)getMeWithCompletion:(void (^)(LVCUser *user,
+                                      NSError *error,
+                                      AFHTTPRequestOperation *operation))completion
+{
+    __weak typeof(self) weakself = self;
+    [super getMeWithCompletion:^(LVCUser *user,
+                                 NSError *error,
+                                 AFHTTPRequestOperation *operation) {
+        __strong typeof(weakself) strongself = weakself;
+        if (![user isEqual:strongself.user]) {
+            strongself.user = user;
+        }
+        completion(user, error, operation);
+    }];
 }
 
 
