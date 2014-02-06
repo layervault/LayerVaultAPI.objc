@@ -20,6 +20,7 @@
 #import "LVCFolder.h"
 #import "LVCHTTPClient.h"
 #import "LVCNode.h"
+#import "LVCOAuthCredentialStorage.h"
 #import "LVCOrganization.h"
 #import "LVCProject.h"
 #import "LVCUser.h"

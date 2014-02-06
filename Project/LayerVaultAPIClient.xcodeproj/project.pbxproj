@@ -10,6 +10,7 @@
 		C90A07111850F22E00F87324 /* LVCFolderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C90A07101850F22E00F87324 /* LVCFolderTests.m */; };
 		C90A871D1863628400BA2FD1 /* LVCAsyncHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C90A871C1863628400BA2FD1 /* LVCAsyncHelper.m */; };
 		C9412732184CE47C0065072B /* LVCProjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9412731184CE47C0065072B /* LVCProjectTests.m */; };
+		C941856D18A3D39900E54A2B /* LVCOAuthCredentialStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C941856C18A3D39900E54A2B /* LVCOAuthCredentialStorageTests.m */; };
 		C9468117187B047500FAFE58 /* LVCAuthenticatedClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9468116187B047500FAFE58 /* LVCAuthenticatedClientTests.m */; };
 		C9546E97180C366C00C56AC1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9546E96180C366C00C56AC1 /* SystemConfiguration.framework */; };
 		C9546E99180C367500C56AC1 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9546E98180C367500C56AC1 /* CoreServices.framework */; };
@@ -66,6 +67,7 @@
 		C90A871B1863628400BA2FD1 /* LVCAsyncHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVCAsyncHelper.h; sourceTree = "<group>"; };
 		C90A871C1863628400BA2FD1 /* LVCAsyncHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCAsyncHelper.m; sourceTree = "<group>"; };
 		C9412731184CE47C0065072B /* LVCProjectTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LVCProjectTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		C941856C18A3D39900E54A2B /* LVCOAuthCredentialStorageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCOAuthCredentialStorageTests.m; sourceTree = "<group>"; };
 		C9468116187B047500FAFE58 /* LVCAuthenticatedClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCAuthenticatedClientTests.m; sourceTree = "<group>"; };
 		C9546E96180C366C00C56AC1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C9546E98180C367500C56AC1 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
@@ -252,6 +254,7 @@
 				C9829B0518634BF600FF419B /* LVCMockURLConnection.h */,
 				C9829B0618634BF600FF419B /* LVCMockURLConnection.m */,
 				C9EFE73918623A9400A87F81 /* LVCNodeTests.m */,
+				C941856C18A3D39900E54A2B /* LVCOAuthCredentialStorageTests.m */,
 				C9412731184CE47C0065072B /* LVCProjectTests.m */,
 				C96C0814180C7F23000149E3 /* LVCUserTest.m */,
 				C9FE2E3818622E5F00D7CE37 /* NSDateFormatter+RFC3339Tests.m */,
@@ -437,6 +440,7 @@
 				C90A07111850F22E00F87324 /* LVCFolderTests.m in Sources */,
 				C9EFE73C1862482E00A87F81 /* LVCFileRevisionFeedbackTests.m in Sources */,
 				C9829B0318634B9C00FF419B /* LVCAmazonS3ClientTests.m in Sources */,
+				C941856D18A3D39900E54A2B /* LVCOAuthCredentialStorageTests.m in Sources */,
 				C90A871D1863628400BA2FD1 /* LVCAsyncHelper.m in Sources */,
 				C9EFE740186253E400A87F81 /* LVCFileTests.m in Sources */,
 				C9FE2E3918622E5F00D7CE37 /* NSDateFormatter+RFC3339Tests.m in Sources */,
