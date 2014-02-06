@@ -41,19 +41,28 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
     if (self) {
         _client = [[LVCAuthenticatedClient alloc] initWithClientID:LVClientID
                                                             secret:LVClientSecret];
-        AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:_client.serviceProviderIdentifier];
+
+        NSString *serviceName = @"LayerVault API Demo App Login";
+        NSString *account = _client.serviceProviderIdentifier;
+
+        AFOAuthCredential *credential = [LVCOAuthCredentialStorage credentialWithServiceName:serviceName
+                                                                                     account:account
+                                                                                       error:nil];
         if (credential) {
             [_client loginWithCredential:credential];
         }
 
-        NSString *identifier = _client.serviceProviderIdentifier;
         [RACObserve(_client, credential) subscribeNext:^(AFOAuthCredential *newCredential) {
             if (newCredential) {
-                [AFOAuthCredential storeCredential:newCredential
-                                    withIdentifier:identifier];
+                [LVCOAuthCredentialStorage storeCredential:newCredential
+                                           withServiceName:serviceName
+                                                   account:account
+                                                     error:nil];
             }
             else {
-                [AFOAuthCredential deleteCredentialWithIdentifier:identifier];
+                [LVCOAuthCredentialStorage deleteCredentialWithServiceName:serviceName
+                                                                   account:account
+                                                                     error:nil];
             }
         }];
 
