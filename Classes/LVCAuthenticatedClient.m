@@ -121,7 +121,16 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
                                  NSError *error,
                                  AFHTTPRequestOperation *operation) {
         __strong typeof(weakself) strongself = weakself;
-        if (![user isEqual:strongself.user]) {
+        // 1. We only want to set the user if the credential is valid,
+        //    otherwise we will be in an unknown state.
+        // 2. If the user was previously set and we are given a nil user, this
+        //    means that the /me failed for some reason. This does not mean our
+        //    current user is invalid.
+        // 3. We do not want a KVO to be called if the actual object did not
+        //    change.
+        if (strongself.credential
+            && user
+            && ![user isEqual:strongself.user]) {
             strongself.user = user;
         }
         completion(user, error, operation);
