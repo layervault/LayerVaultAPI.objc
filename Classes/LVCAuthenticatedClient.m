@@ -185,13 +185,10 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
                 [self getMeWithCompletion:^(LVCUser *user,
                                             NSError *error,
                                             AFHTTPRequestOperation *operation) {
-                    // We don't want to trigger a KVO change if it doesn't
-                    // *actually* change. This will occur when 
-                    if (user != self.user) {
-                        self.user = user;
-                    }
+                    // Note: With our -getMeWithCompletion: override in this
+                    // class, self.user = self will automatically occur.
                     if (self.authenticationCallback) {
-                        self.authenticationCallback(self.user, error);
+                        self.authenticationCallback(user, error);
                     }
                 }];
             }
