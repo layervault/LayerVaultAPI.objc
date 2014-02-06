@@ -532,16 +532,24 @@
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion
 {
+    NSParameterAssert(localFileURL);
+
+    [self uploadLocalFile:localFileURL
+                   toPath:filePath
+                      md5:md5ForFileURL(localFileURL)
+               completion:completion];
+}
+
+
+- (void)uploadLocalFile:(NSURL *)localFileURL
+                 toPath:(NSString *)filePath
+                    md5:(NSString *)md5
+             completion:(void (^)(LVCFile *file,
+                                  NSError *error,
+                                  AFHTTPRequestOperation *operation))completion
+{
     NSParameterAssert(filePath);
 
-    // Add filename if it's not part of the path
-    NSString *fileName = localFileURL.lastPathComponent;
-    NSRange range = [filePath rangeOfString:fileName];
-    if (range.location == NSNotFound || range.location != (filePath.length - fileName.length)) {
-        filePath = [filePath stringByAppendingPathComponent:fileName];
-    }
-
-    NSString *md5 = md5ForFileURL(localFileURL);
     NSDictionary *params = nil;
     if (md5) {
         params = @{@"md5":md5};
@@ -549,9 +557,10 @@
 
     [self uploadLocalFile:localFileURL
                    toPath:filePath
-                   parameters:params
+               parameters:params
                completion:completion];
 }
+
 
 - (void)uploadLocalFile:(NSURL *)localFileURL
                  toPath:(NSString *)filePath
@@ -561,6 +570,7 @@
                                   AFHTTPRequestOperation *operation))completion
 {
     NSParameterAssert(localFileURL);
+    NSParameterAssert(filePath);
     NSParameterAssert(parameters);
     NSParameterAssert(completion);
 

@@ -426,6 +426,26 @@ __attribute__((deprecated("Replaced by -moveFolder:toPath:completion:")));
 
 
 /**
+ *  Uploads a local file to a full file path including organization-permalink
+ *  and project. The file must be an image type (including Sketch and
+ *  OmniGraffle). Any intermediate folder needed will be created.
+ *
+ *  @param localFileURL Local file URL to upload
+ *  @param filePath     File path including organization-permalink (should not
+ *                      be URL encoded)
+ *  @param md5          MD5 to list for the file
+ *  @param completion   Callback that returns an LVCFile on successful upload,
+ *                      or nil on failure with an error
+ */
+- (void)uploadLocalFile:(NSURL *)localFileURL
+                 toPath:(NSString *)filePath
+                    md5:(NSString *)md5
+             completion:(void (^)(LVCFile *file,
+                                  NSError *error,
+                                  AFHTTPRequestOperation *operation))completion;
+
+
+/**
  *  Upload a local file to a path inside a project. The file must be an image
  *  type (including Sketch and OmniGraffle). Any intermediate folder needed
  *  will be created.
