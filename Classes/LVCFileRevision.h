@@ -27,5 +27,6 @@
 
 @property (weak, nonatomic) LVCFile *file;
 @property (readonly, nonatomic) NSString *urlPath;
+@property (readonly, nonatomic) NSString *percentEncodedURLPath;
 
 @end

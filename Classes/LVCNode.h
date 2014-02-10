@@ -58,6 +58,13 @@
  */
 @property (readonly, nonatomic, copy) NSString *urlPath;
 
+
+/**
+ *  Path on the server
+ *  @note this IS percent encoded
+ */
+@property (readonly, nonatomic, copy) NSString *percentEncodedURLPath;
+
 /**
  *  The parent folder for this node. Will be nil for the root node (LVCProjects)
  */

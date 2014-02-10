@@ -9,6 +9,7 @@
 #import "LVCNode.h"
 #import "LVCFolder.h"
 #import "NSValueTransformer+LVCPredefinedTransformerAdditions.h"
+#import "NSString+PercentEncoding.h"
 
 @interface LVCNode ()
 @property (nonatomic, copy) NSString *md5;
@@ -124,6 +125,16 @@
         return [self.parentFolder.urlPath stringByAppendingPathComponent:self.name];
     }
     return self.name;
+}
+
+
+- (NSString *)percentEncodedURLPath
+{
+    NSString *percentEncodedName = [self.name lv_stringWithFullPercentEncoding];
+    if (self.parentFolder) {
+        return [self.parentFolder.percentEncodedURLPath stringByAppendingPathComponent:percentEncodedName];
+    }
+    return percentEncodedName;
 }
 
 

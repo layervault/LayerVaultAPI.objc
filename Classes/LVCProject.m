@@ -79,4 +79,9 @@
 }
 
 
+- (NSString *)percentEncodedURLPath
+{
+    return [self.organizationPermalink stringByAppendingPathComponent:[super percentEncodedURLPath]];
+}
+
 @end

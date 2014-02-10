@@ -105,4 +105,10 @@
     return [self.file.urlPath stringByAppendingPathComponent:[self.revision stringValue]];
 }
 
+
+- (NSString *)percentEncodedURLPath
+{
+    return [self.file.percentEncodedURLPath stringByAppendingPathComponent:[self.revision stringValue]];
+}
+
 @end
