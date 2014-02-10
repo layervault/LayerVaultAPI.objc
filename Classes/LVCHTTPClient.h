@@ -192,8 +192,8 @@ __attribute__((deprecated("Replaced by -updateFolder:colorLabel:completion:")));
  *  Returns a folder given a full folder path including organization-permalink
  *  and project.
  *
- *  @param path       Folder path including organization-permalink (should not 
- *                    be URL encoded)
+ *  @param path       Percent encoded folder path including 
+ *                    organization-permalink
  *  @param completion Callback that returns an LVCFolde on success, or nil on
  *                    failure with an error
  */
@@ -205,7 +205,7 @@ __attribute__((deprecated("Replaced by -updateFolder:colorLabel:completion:")));
 /**
  *  Returns a folder given a path within a specified project.
  *
- *  @param path       Path relative to project
+ *  @param path       Percent encoded path relative to project
  *  @param project    LVCProject that contains the path
  *  @param completion Callback that returns an LVCFolder on success, or nil on
  *                    failure with an error (required)
@@ -233,7 +233,7 @@ __attribute__((deprecated("Replaced by -updateFolder:colorLabel:completion:")));
 /**
  *  Create a folder given a path (and any intermediate directories)
  *
- *  @param path       Path of new folder (required)
+ *  @param path       Percent encoded path of new folder (required)
  *  @param completion Callback that returns an LVCFolder on success, or nil on
  *                    failure with an error (required)
  */
@@ -246,7 +246,7 @@ __attribute__((deprecated("Replaced by -updateFolder:colorLabel:completion:")));
  *  Create a folder at a given path within a specified Project. This will 
  *  create any intermediate folders if needed.
  *
- *  @param path       Path relative to project
+ *  @param path       Percent encoded path relative to project
  *  @param project    Project where new folder will be created.
  *  @param completion Callback that returns the LVCFolder if it was created
  *                    successfully, or nil with an error if the folder could 
@@ -278,7 +278,7 @@ __attribute__((deprecated("Replaced by -createFolderWithName:inFolder:completion
 /**
  *  Deletes a folder at a specified path and all of it's contents.
  *
- *  @param path       Path of folder to delete
+ *  @param path       Percent encoded path of folder to delete
  *  @param completion Callback that return YES on successful deletion, or NO
  *                    with an error if the folder could not be deleted
  */
@@ -292,7 +292,8 @@ __attribute__((deprecated("Replaced by -createFolderWithName:inFolder:completion
  *  projects, but it has to be within the same Organization.
  *
  *  @param folder     LVCFolder to move
- *  @param toPath     New folder path (excluding organization-permalink)
+ *  @param toPath     New folder path excluding organization-permalink. Must not
+ *                    be percent encoded
  *  @param project    New LVCProject or nil if toPath is within the same 
  *                    LVCProject
  *  @param completion Callback that returns the LVCFolder on successful move, or
@@ -313,7 +314,8 @@ __attribute__((deprecated("Replaced by -moveFolder:toPath:completion:")));
  *  projects, but it has to be within the same Organization.
  *
  *  @param folder     LVCFolder to move
- *  @param toPath     New folder path (excluding organization-permalink)
+ *  @param toPath     New folder path excluding organization-permalink. Must not
+ *                    be percent encoded
  *  @param completion Callback that returns the LVCFolder on successful move, or
  *                    nil with an error if the move failed
  */
@@ -328,8 +330,9 @@ __attribute__((deprecated("Replaced by -moveFolder:toPath:completion:")));
  *  Move a folder at a path to a new path. This move is permitted across 
  *  different projects, but it has to be within the same Organization.
  *
- *  @param path       original path of folder
- *  @param toPath     New folder path (excluding organization-permalink)
+ *  @param path       Percent encoded path of folder
+ *  @param toPath     New folder path excluding organization-permalink. Must not
+ *                    be percent encoded
  *  @param completion Callback that returns the LVCFolder on successful move, or
  *                    nil with an error if the move failed
  */
@@ -359,7 +362,7 @@ __attribute__((deprecated("Replaced by -moveFolder:toPath:completion:")));
  *  Update the color label for a folder at a specified path. This is equivalent 
  *  to the label or tag attribute on OS X.
  *
- *  @param path       remote path of the folder
+ *  @param path       Percent encoded path of the folder
  *  @param colorLabel New color label
  *  @param completion Callback that returns YES if the color change succeeded,
  *                    or NO with an error if color change failed
@@ -378,8 +381,8 @@ __attribute__((deprecated("Replaced by -moveFolder:toPath:completion:")));
  *  Returns a folder given a full file path including organization-permalink
  *  and project.
  *
- *  @param filePath   File path including organization-permalink (should not be 
- *                    URL encoded)
+ *  @param filePath   Percent encoded path of file including 
+ *                    organization-permalink
  *  @param completion Callback that returns an LVCFile on success, or nil on
  *                    failure with an error
  */
@@ -394,7 +397,7 @@ __attribute__((deprecated("Replaced by -moveFolder:toPath:completion:")));
  *  will be created.
  *
  *  @param localFileURL Local file URL to upload
- *  @param filePath     Path inside project to upload the file to
+ *  @param filePath     Percent encoded path inside project to upload the file
  *  @param project      LVCProject the file will be uploaded to
  *  @param completion   Callback that returns an LVCFile on successful upload,
  *                      or nil on failure with an error
@@ -431,8 +434,8 @@ __attribute__((deprecated("Replaced by -moveFolder:toPath:completion:")));
  *  OmniGraffle). Any intermediate folder needed will be created.
  *
  *  @param localFileURL Local file URL to upload
- *  @param filePath     File path including organization-permalink (should not
- *                      be URL encoded)
+ *  @param filePath     Percent encoded path of file including
+ *                      organization-permalink
  *  @param md5          MD5 to list for the file
  *  @param completion   Callback that returns an LVCFile on successful upload,
  *                      or nil on failure with an error
@@ -451,8 +454,8 @@ __attribute__((deprecated("Replaced by -moveFolder:toPath:completion:")));
  *  will be created.
  *
  *  @param localFileURL Local file URL to upload.
- *  @param filePath     Path inside project to upload the file to. This assumes
- *                      the file path contains the file name.
+ *  @param filePath     Percent encoded paath inside project to upload the file. 
+ *                      This assumes the file path contains the file name.
  *  @param parameters   Upload Parameters
  *  @param completion   Callback that returns an LVCFile on successful upload,
  *                      or nil on failure with an error
@@ -481,7 +484,7 @@ __attribute__((deprecated("Replaced by -moveFolder:toPath:completion:")));
 /**
  *  Deletes a file at a path.
  *
- *  @param filePath   File path to delete
+ *  @param filePath   Percent encoded path of file to delete
  *  @param md5        MD5 of file to delete
  *  @param completion Callback that return YES on successful deletion, or NO
  *                    with an error if the file could not be deleted
@@ -496,8 +499,8 @@ __attribute__((deprecated("Replaced by -moveFolder:toPath:completion:")));
  *  Move file to a new location within the organization.
  *
  *  @param file        LVCFile to move
- *  @param path        New path within the LVCOrganization (excluding
- *                     organization-permalink)
+ *  @param path        New path within the LVCOrganization excluding
+ *                     organization-permalink. This is NOT percent encoded.
  *  @param newFileName New filename, or nil to preserve filename
  *  @param completion  Callback that return YES on successful move, or NO
  *                     with an error if the file could not be moved
@@ -517,8 +520,8 @@ __attribute__((deprecated("Replaced by -moveFile:toPath:completion:")));
  *  Move file to a new location within the organization.
  *
  *  @param file       LVCFile to move
- *  @param toPath     New path within the LVCOrganization (excluding
- *                    organization-permalink)
+ *  @param toPath     New path within the LVCOrganization excluding
+ *                    organization-permalink. This is NOT percent encoded.
  *  @param completion Callback that return YES on successful move, or NO
  *                    with an error if the file could not be moved
  */
@@ -530,8 +533,9 @@ __attribute__((deprecated("Replaced by -moveFile:toPath:completion:")));
 /**
  *  Move File at a path to a new path within the organization
  *
- *  @param filePath   filePath to move
- *  @param toPath     New path within the organization
+ *  @param filePath   Percent encoded path of file to move
+ *  @param toPath     New path within the LVCOrganization excluding
+ *                    organization-permalink. This is NOT percent encoded.
  *  @param completion Callback that return YES on successful move, or NO
  *                    with an error if the file could not be moved
  */
@@ -590,8 +594,8 @@ __attribute__((deprecated("Replaced by -moveFile:toPath:completion:")));
 /**
  *  Check the sync status of a file against an MD5.
  *
- *  @param filePath   File path including organization-permalink (should not be
- *                    URL encoded)
+ *  @param filePath   Percent encoded path of file including 
+ *                    organization-permalink
  *  @param md5        New md5 we're comparing against
  *  @param completion Callback that return a LVCFileSyncStatus. An error will 
  *                    be returned in each case except LVCFileSyncStatusUploadOK
@@ -606,7 +610,8 @@ __attribute__((deprecated("Replaced by -moveFile:toPath:completion:")));
 /**
  *  Check the sync status of a LVCFile.
  *
- *  @param filePath   File we are comparing against the server with.
+ *  @param filePath   Percent encoded path of file we are comparing against the 
+ *                    server.
  *  @param parameters Parameters used for check
  *  @param completion Callback that return a LVCFileSyncStatus. An error will
  *                    be returned in each case except LVCFileSyncStatusUploadOK
