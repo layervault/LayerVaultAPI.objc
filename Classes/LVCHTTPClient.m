@@ -15,6 +15,7 @@
 #import "LVCAmazonS3Client.h"
 #import "LVCFileRevision.h"
 #import "LVCFileRevisionFeedback.h"
+#import "NSString+PercentEncoding.h"
 
 
 @implementation LVCHTTPClient
@@ -98,7 +99,7 @@
     NSParameterAssert(permalink);
     NSParameterAssert(block);
 
-    [self getPath:[permalink stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
+    [self getPath:permalink
        parameters:nil
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               NSError *error;
@@ -143,10 +144,8 @@
     NSParameterAssert(organizationPermalink);
     NSParameterAssert(completion);
 
-    NSString *projectPath = [self pathForProjectName:projectName
-                               organizationPermalink:organizationPermalink];
-
-    projectPath = [projectPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *percentEncodedName = [projectName lv_stringWithFullPercentEncoding];
+    NSString *projectPath = [organizationPermalink stringByAppendingPathComponent:percentEncodedName];
 
     [self getPath:projectPath
        parameters:nil
@@ -173,10 +172,8 @@
     NSParameterAssert(organizationPermalink);
     NSParameterAssert(completion);
 
-    NSString *projectPath = [self pathForProjectName:projectName
-                               organizationPermalink:organizationPermalink];
-
-    projectPath = [projectPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *percentEncodedName = [projectName lv_stringWithFullPercentEncoding];
+    NSString *projectPath = [organizationPermalink stringByAppendingPathComponent:percentEncodedName];
 
     [self postPath:projectPath
         parameters:nil
@@ -202,10 +199,7 @@
     NSParameterAssert(project);
     NSParameterAssert(completion);
 
-    NSString *projectPath = [self pathForProject:project includeOrganization:YES];
-    projectPath = [projectPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-
-    [self deletePath:projectPath
+    [self deletePath:project.percentEncodedURLPath
           parameters:nil
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
                  completion(YES, nil, operation);
@@ -226,9 +220,7 @@
     NSParameterAssert(newName);
     NSParameterAssert(completion);
 
-    NSString *movePath = [[self pathForProject:project
-                           includeOrganization:YES] stringByAppendingPathComponent:@"move"];
-    movePath = [movePath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *movePath = [project.percentEncodedURLPath stringByAppendingPathComponent:@"move"];
 
     NSDictionary *params = @{@"to": newName};
 
@@ -268,8 +260,6 @@
     NSParameterAssert(path);
     NSParameterAssert(completion);
 
-    path = [LVCHTTPClient sanitizeRequestPath:path];
-
     [self getPath:path
        parameters:nil
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -294,9 +284,9 @@
     NSParameterAssert(project);
     NSParameterAssert(completion);
 
-    NSString *folderPath = [self appendPath:path
-                                  toProject:project
-                        includeOrganization:YES];
+    NSString *folderPath = [[project.organizationPermalink
+                             stringByAppendingString:project.percentEncodedURLPath]
+                            stringByAppendingPathComponent:path];
 
     [self getFolderAtPath:folderPath
                completion:completion];
@@ -312,7 +302,8 @@
     NSParameterAssert(name);
     NSParameterAssert(folder);
 
-    NSString *folderPath = [folder.urlPath stringByAppendingPathComponent:name];
+    NSString *percentEncodedName = [name lv_stringWithFullPercentEncoding];
+    NSString *folderPath = [folder.percentEncodedURLPath stringByAppendingPathComponent:percentEncodedName];
     [self createFolderAtPath:folderPath completion:completion];
 }
 
@@ -325,7 +316,7 @@
     NSParameterAssert(path);
     NSParameterAssert(completion);
 
-    [self postPath:[LVCHTTPClient sanitizeRequestPath:path]
+    [self postPath:path
         parameters:nil
            success:^(AFHTTPRequestOperation *operation, id responseObject) {
                NSError *error;
@@ -350,9 +341,10 @@
     NSParameterAssert(project);
     NSParameterAssert(completion);
 
-    NSString *folderPath = [self appendPath:path
-                                  toProject:project
-                        includeOrganization:YES];
+    NSString *folderPath = [[project.organizationPermalink
+                             stringByAppendingString:project.percentEncodedURLPath]
+                            stringByAppendingPathComponent:path];
+
     [self createFolderAtPath:folderPath
                   completion:completion];
 }
@@ -365,7 +357,7 @@
 {
     NSParameterAssert(folder);
 
-    [self deleteFolderAtPath:folder.urlPath
+    [self deleteFolderAtPath:folder.percentEncodedURLPath
                   completion:completion];
 }
 
@@ -378,7 +370,7 @@
     NSParameterAssert(path);
     NSParameterAssert(completion);
 
-    [self deletePath:[LVCHTTPClient sanitizeRequestPath:path]
+    [self deletePath:path
           parameters:nil
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
                  completion(YES, nil, operation);
@@ -396,8 +388,11 @@
                              NSError *error,
                              AFHTTPRequestOperation *operation))completion
 {
-    [self moveFolderAtPath:folder.urlPath
-                    toPath:toPath
+    NSString *orgPlusSlash = [project.organizationPermalink stringByAppendingString:@"/"];
+    NSString *projectURLPath = [project.urlPath stringByReplacingOccurrencesOfString:orgPlusSlash
+                                                                          withString:@""];
+    [self moveFolderAtPath:folder.percentEncodedURLPath
+                    toPath:[projectURLPath stringByAppendingPathComponent:toPath]
                 completion:completion];
 }
 
@@ -408,7 +403,7 @@
                              NSError *error,
                              AFHTTPRequestOperation *operation))completion
 {
-    [self moveFolderAtPath:folder.urlPath
+    [self moveFolderAtPath:folder.percentEncodedURLPath
                     toPath:toPath
                 completion:completion];
 }
@@ -426,7 +421,7 @@
 
     NSString *movePath = [path stringByAppendingPathComponent:@"move"];
 
-    [self postPath:[LVCHTTPClient sanitizeRequestPath:movePath]
+    [self postPath:movePath
         parameters:@{@"to": toPath}
            success:^(AFHTTPRequestOperation *operation, id responseObject) {
                NSError *error;
@@ -450,7 +445,7 @@
     NSParameterAssert(folder);
     NSParameterAssert(completion);
 
-    [self updateFolderAtPath:folder.urlPath
+    [self updateFolderAtPath:folder.percentEncodedURLPath
                   colorLabel:colorLabel
                   completion:completion];
 }
@@ -469,7 +464,7 @@
 
     NSDictionary *params = @{@"color": [LVCColorUtils colorNameForLabel:colorLabel]};
 
-    [self putPath:[LVCHTTPClient sanitizeRequestPath:colorPath]
+    [self putPath:colorPath
        parameters:params
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               completion(YES, nil, operation);
@@ -488,8 +483,6 @@
 {
     NSParameterAssert(filePath);
     NSParameterAssert(completion);
-
-    filePath = [LVCHTTPClient sanitizeRequestPath:filePath];
 
     [self getPath:filePath
        parameters:nil
@@ -518,7 +511,7 @@
     NSParameterAssert(project);
     NSParameterAssert(completion);
 
-    filePath = [self appendPath:filePath toProject:project includeOrganization:YES];
+    filePath = [project.percentEncodedURLPath stringByAppendingPathComponent:filePath];
 
     [self uploadLocalFile:localFileURL
                    toPath:filePath
@@ -574,13 +567,13 @@
     NSParameterAssert(parameters);
     NSParameterAssert(completion);
 
-    filePath = [LVCHTTPClient sanitizeRequestPath:filePath];
-
     NSError *accessTokenError;
     NSString *accessToken = [self accessTokenWithError:&accessTokenError];
 
     if (accessToken) {
-        [self putPath:filePath parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self putPath:filePath
+           parameters:parameters
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
             LVCAmazonS3Client *s3Client = [LVCAmazonS3Client new];
             [s3Client postFile:localFileURL
                     parameters:responseObject
@@ -609,7 +602,7 @@
         completion:(void (^)(BOOL, NSError *, AFHTTPRequestOperation *))completion
 {
     NSParameterAssert(file);
-    [self deleteFileAtPath:file.urlPath
+    [self deleteFileAtPath:file.percentEncodedURLPath
                        md5:file.md5
                 completion:completion];
 }
@@ -625,7 +618,7 @@
     NSParameterAssert(md5);
     NSParameterAssert(completion);
 
-    [self deletePath:[LVCHTTPClient sanitizeRequestPath:filePath]
+    [self deletePath:filePath
           parameters:@{@"md5": md5}
              success:^(AFHTTPRequestOperation *operation, id responseObject) {
                  completion(YES, nil, operation);
@@ -643,7 +636,7 @@
                            NSError *error,
                            AFHTTPRequestOperation *operation))completion
 {
-    [self moveFileAtPath:file.urlPath
+    [self moveFileAtPath:file.percentEncodedURLPath
                   toPath:[toPath stringByAppendingPathComponent:newFileName]
               completion:completion];
 }
@@ -653,7 +646,7 @@
           toPath:(NSString *)toPath
       completion:(void (^)(BOOL, NSError *, AFHTTPRequestOperation *))completion
 {
-    [self moveFileAtPath:file.urlPath
+    [self moveFileAtPath:file.percentEncodedURLPath
                   toPath:toPath
               completion:completion];
 }
@@ -682,7 +675,7 @@
 
     NSString *movePath = [filePath stringByAppendingPathComponent:@"move"];
 
-    [self postPath:[LVCHTTPClient sanitizeRequestPath:movePath]
+    [self postPath:movePath
         parameters:params
            success:^(AFHTTPRequestOperation *operation, id responseObject) {
                completion(YES, nil, operation);
@@ -705,9 +698,9 @@
     NSParameterAssert(height);
     NSParameterAssert(completion);
 
-    NSString *previewsPath = [file.urlPath stringByAppendingPathComponent:@"previews"];
+    NSString *previewsPath = [file.percentEncodedURLPath stringByAppendingPathComponent:@"previews"];
 
-    [self getPath:[LVCHTTPClient sanitizeRequestPath:previewsPath]
+    [self getPath:previewsPath
        parameters:@{@"w": @(width), @"h": @(height)}
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               NSMutableArray *previewURLs = @[].mutableCopy;
@@ -737,10 +730,10 @@
     NSParameterAssert(revision);
     NSParameterAssert(completion);
 
-    NSString *feedbackPath = [file.urlPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%lu", (unsigned long)revision]];
+    NSString *feedbackPath = [file.percentEncodedURLPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%lu", (unsigned long)revision]];
     feedbackPath = [feedbackPath stringByAppendingPathComponent:@"feedback_items"];
 
-    [self getPath:[LVCHTTPClient sanitizeRequestPath:feedbackPath]
+    [self getPath:feedbackPath
        parameters:nil
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               NSMutableArray *feedbackItems = @[].mutableCopy;
@@ -772,7 +765,7 @@
                                          NSError *error,
                                          AFHTTPRequestOperation *operation))completion
 {
-    [self checkSyncStatusForFilePath:file.urlPath
+    [self checkSyncStatusForFilePath:file.percentEncodedURLPath
                                  md5:file.md5
                           completion:completion];
 }
@@ -803,7 +796,7 @@
 
     NSString *syncCheckPath = [filePath stringByAppendingPathComponent:@"sync_check"];
 
-    [self getPath:[LVCHTTPClient sanitizeRequestPath:syncCheckPath]
+    [self getPath:syncCheckPath
        parameters:parameters
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               completion(LVCFileSyncStatusUploadOK, nil, operation);
@@ -823,8 +816,8 @@
     NSParameterAssert(fileRevision);
     NSParameterAssert(completion);
 
-    NSString *metaPath = [fileRevision.urlPath stringByAppendingPathComponent:@"meta"];
-    [self getPath:[LVCHTTPClient sanitizeRequestPath:metaPath]
+    NSString *metaPath = [fileRevision.percentEncodedURLPath stringByAppendingPathComponent:@"meta"];
+    [self getPath:metaPath
        parameters:nil
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               completion(responseObject, nil, operation);
@@ -847,8 +840,8 @@
     NSParameterAssert(height);
     NSParameterAssert(completion);
 
-    NSString *previewPath = [fileRevision.urlPath stringByAppendingPathComponent:@"previews"];
-    [self getPath:[LVCHTTPClient sanitizeRequestPath:previewPath]
+    NSString *previewPath = [fileRevision.percentEncodedURLPath stringByAppendingPathComponent:@"previews"];
+    [self getPath:previewPath
        parameters:@{@"w": @(width), @"h": @(height)}
           success:^(AFHTTPRequestOperation *operation, id responseObject) {
               // NOTE: I'm not too thrilled with how we handle failure cases
