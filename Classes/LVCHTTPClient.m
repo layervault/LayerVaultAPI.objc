@@ -867,52 +867,7 @@
 }
 
 
-#pragma mark - Cleanup Path
-+ (NSString *)sanitizeRequestPath:(NSString *)path
-{
-    if ([[path substringToIndex:1] isEqualToString:@"/"]) {
-        path = [path substringFromIndex:1];
-    }
-    return [path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-}
-
-
 #pragma mark - Private Methods
-- (NSString *)appendPath:(NSString *)path
-               toProject:(LVCProject *)project
-     includeOrganization:(BOOL)includeOrganization
-{
-    NSParameterAssert(path);
-    NSParameterAssert(project);
-    if (![[path substringToIndex:1] isEqualToString:@"/"]) {
-        path = [NSString stringWithFormat:@"/%@", path];
-    }
-
-    return [NSString stringWithFormat:@"%@%@",
-            [self pathForProject:project
-             includeOrganization:includeOrganization],
-            path];
-}
-
-- (NSString *)pathForProject:(LVCProject *)project
-         includeOrganization:(BOOL)includeOrganization
-{
-    if (includeOrganization) {
-        return [self pathForProjectName:project.name
-                  organizationPermalink:project.organizationPermalink];
-    }
-    else {
-        return project.name;
-    }
-}
-
-- (NSString *)pathForProjectName:(NSString *)projectName
-           organizationPermalink:(NSString *)organizationPermalink
-{
-    return [NSString stringWithFormat:@"%@/%@", organizationPermalink, projectName];
-}
-
-
 - (NSString *)accessTokenWithError:(NSError * __autoreleasing *)error
 {
     NSString *accessToken = nil;

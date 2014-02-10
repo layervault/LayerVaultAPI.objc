@@ -653,7 +653,4 @@ __attribute__((deprecated("Replaced by -moveFile:toPath:completion:")));
 
 
 
-#pragma mark - File Path Operations
-+ (NSString *)sanitizeRequestPath:(NSString *)path;
-
 @end
