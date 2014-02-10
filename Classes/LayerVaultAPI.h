@@ -25,6 +25,7 @@
 #import "LVCProject.h"
 #import "LVCUser.h"
 #import "NSDateFormatter+RFC3339.h"
+#import "NSString+PercentEncoding.h"
 #import "NSValueTransformer+LVCPredefinedTransformerAdditions.h"
 
 #endif
