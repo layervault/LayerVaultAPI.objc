@@ -10,6 +10,13 @@
 
 @interface NSString (PercentEncoding)
 
+/**
+ *  This will return the string with all reserved characters percent encoded. 
+ *  Useful for filenames that contain characters which would otherwise not
+ *  be percent encoded like "Say What?.png"
+ *
+ *  @return the string with all reserved characters percent encoded
+ */
 - (NSString *)lv_stringWithFullPercentEncoding;
 
 @end
