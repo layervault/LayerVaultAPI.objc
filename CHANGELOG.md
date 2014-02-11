@@ -1,5 +1,9 @@
 # LayerVaultAPI CHANGELOG
 
+## 1.1.0
+- Only refresh credential when we get 401 AND the credential is expired.
+- Added `syncType` property to `LVCOrganization`. 
+
 ## 1.0.0
 
 - Added `LVCOAuthCredentialStorage` to give more flexibility with OAuth Credentials.
