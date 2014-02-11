@@ -64,7 +64,7 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
 
     if (![urlRequest.URL.path isEqualToString:@"/oauth/token"]) {
         adjustedFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
-            if (operation.response.statusCode == 401) {
+            if (operation.response.statusCode == 401 && self.credential.isExpired) {
                 self.authenticationState = LVCAuthenticationStateAuthenticating;
                 [self.operationQueue setSuspended:YES];
                 NSLog(@"Unauthorized Request. Attempting Refresh credential");
