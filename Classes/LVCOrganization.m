@@ -19,6 +19,7 @@
              @"dateDeleted": @"deleted_at",
              @"dateUpdated": @"updated_at",
              @"url": @"full_url",
+             @"syncType": @"sync_type",
              @"projects": @"projects"};
 }
 

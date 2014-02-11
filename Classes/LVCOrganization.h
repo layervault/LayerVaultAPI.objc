@@ -39,6 +39,11 @@
 @property (readonly, nonatomic, copy) NSURL *url;
 
 /**
+ *  Describes the sync type for this org.
+ */
+@property (readonly, nonatomic, copy) NSString *syncType;
+
+/**
  *  Array of all LVCProjects in the organization
  */
 @property (readonly, nonatomic, copy) NSArray *projects;
