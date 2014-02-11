@@ -7,6 +7,7 @@
 
 ### Authenticating
 `LVCAuthenticatedClient` is the main interface to the LayerVault API and is based on [AFOAuth2Client](https://github.com/AFNetworking/AFOAuth2Client) for authentication. You can save an `AFOAuthCredential` to the keychain so you do not need to save the username or password.
+
 ``` objc
 LVCAuthenticatedClient *client = [[LVCAuthenticatedClient alloc] initWithClientID:LVClientID
                                                                            secret:LVClientSecret];
@@ -20,11 +21,18 @@ client.authenticationCallback = ^(LVCUser *user, NSError *error) {
 [self.client loginWithEmail:userName password:password];
 ```
 
-By default, `LVCAuthenticatedClient` saves your OAuth information to the keychain which you can easily retrieve
+OAuth credentials can be saved, retrieved, and deleted from the keychain using LVCOAuthCredentialStorage.
 
 ``` objc
-AFOAuthCredential *credential = [AFOAuthCredential retrieveCredentialWithIdentifier:client.serviceProviderIdentifier];
+AFOAuthCredential *credential = [LVCOAuthCredentialStorage credentialWithServiceName:serviceName
+                                                                             account:account
+                                                                               error:nil];
 if (credential) {
+    [LVCOAuthCredentialStorage storeCredential:newCredential
+                               withServiceName:serviceName
+                                       account:account
+                                         error:nil];
+
     [client loginWithCredential:credential];
 }
 
