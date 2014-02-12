@@ -56,9 +56,11 @@ NSString *mimeForFile(NSURL *fileURL)
     NSParameterAssert(fileURL);
     NSParameterAssert(parameters);
 
-    NSString *fileMimeType = mimeForFile(fileURL);
     NSMutableDictionary *params = parameters.mutableCopy;
-    params[@"Content-Type"] = fileMimeType;
+    NSString *fileMimeType = mimeForFile(fileURL);
+    if (fileMimeType) {
+        params[@"Content-Type"] = fileMimeType;
+    }
 
     NSMutableURLRequest *fileRequest = [NSMutableURLRequest requestWithURL:fileURL];
     [fileRequest setCachePolicy:NSURLCacheStorageNotAllowed];
@@ -105,11 +107,13 @@ NSString *mimeForFile(NSURL *fileURL)
     }
     else {
         if (failure) {
+            id errorRequest = fileRequest ?: [NSNull null];
+            id errorResponse = response ?: [NSNull null];
             NSDictionary *userInfo = @{NSLocalizedDescriptionKey: NSLocalizedString(@"Cannot Upload File", nil),
                                        NSLocalizedFailureReasonErrorKey: NSLocalizedString(@"No Data Return From File", nil),
                                        NSLocalizedRecoveryOptionsErrorKey: NSLocalizedString(@"Make sure the file exists", nil),
-                                       @"fileRequest": fileRequest,
-                                       @"response": response};
+                                       @"fileRequest": errorRequest,
+                                       @"response": errorResponse};
             NSError *error = [NSError errorWithDomain:LVCAmazonS3ClientErrorDomain
                                                  code:LVCAmazonS3ClientErrorNoFileData
                                              userInfo:userInfo];
