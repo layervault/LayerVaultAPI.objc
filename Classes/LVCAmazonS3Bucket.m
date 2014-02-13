@@ -47,7 +47,7 @@ static NSDictionary *timeZoneIDToHost(void)
              @"America/Tijuana" : @"omnivore-scratch-west",
              @"America/Toronto" : @"omnivore-scratch",
              @"America/Tortola" : @"omnivore-scratch",
-             @"America/Vancouver" : @"omnivore-scratch",
+             @"America/Vancouver" : @"omnivore-scratch-west",
              @"America/Whitehorse" : @"omnivore-scratch-west",
              @"America/Winnipeg" : @"omnivore-scratch",
              @"America/Yakutat" : @"omnivore-scratch-west",
