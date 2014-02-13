@@ -12,5 +12,7 @@
 
 + (NSURL *)baseURLForLocalTimezone;
 + (NSURL *)baseURLForTimezone:(NSTimeZone *)timeZone;
++ (NSString *)bucketForLocalTimezone;
++ (NSString *)bucketForTimezone:(NSTimeZone *)timeZone;
 
 @end

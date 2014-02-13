@@ -12,6 +12,7 @@
 #import "LVCUser.h"
 #import "LVCOrganization.h"
 #import "LVCProject.h"
+#import "LVCAmazonS3Bucket.h"
 #import "LVCAmazonS3Client.h"
 #import "LVCFileRevision.h"
 #import "LVCFileRevisionFeedback.h"
@@ -566,6 +567,14 @@
     NSParameterAssert(filePath);
     NSParameterAssert(parameters);
     NSParameterAssert(completion);
+
+    // Given the way the code is structured, this is a bit of a race condition *if* the
+    // user ever changes a timezone drastically between the execution of these lines and
+    // the beginning of the upload. That would require travel at the speed of light, so we will
+    // leave it for now.
+    NSMutableDictionary *mutableParameters = parameters.mutableCopy;
+    mutableParameters[@"bucket"] = [LVCAmazonS3Bucket bucketForLocalTimezone];
+    parameters = [mutableParameters copy];
 
     NSError *accessTokenError;
     NSString *accessToken = [self accessTokenWithError:&accessTokenError];
