@@ -8,6 +8,14 @@
 
 #import "LVCAmazonS3Bucket.h"
 
+NSString *const LVCAmazonS3BucketDefault = @"omnivore-scratch";
+NSString *const LVCAmazonS3BucketEU = @"omnivore-scratch-eu";
+NSString *const LVCAmazonS3BucketWest = @"omnivore-scratch-west";
+NSString *const LVCAmazonS3BucketBrazil = @"omnivore-scratch-brazil";
+NSString *const LVCAmazonS3BucketSingapore = @"omnivore-scratch-singapore";
+NSString *const LVCAmazonS3BucketJapan = @"omnivore-scratch-japan";
+NSString *const LVCAmazonS3BucketAustralia = @"omnivore-scratch-australia";
+
 static NSDictionary *timeZoneIDToHost(void)
 {
     return @{@"Africa/Abidjan" : @"omnivore-scratch-eu",
@@ -401,6 +409,7 @@ static NSDictionary *timeZoneIDToHost(void)
              @"Pacific/Truk" : @"omnivore-scratch-japan",
              @"Pacific/Wake" : @"omnivore-scratch-japan",
              @"Pacific/Wallis": @"omnivore-scratch-japan"};
+
 }
 
 @implementation LVCAmazonS3Bucket
@@ -427,7 +436,7 @@ static NSDictionary *timeZoneIDToHost(void)
     if (timeZone.name.length > 0) {
         bucket = timeZoneIDToHost()[timeZone.name];
     }
-    return bucket ?: @"omnivore-scratch";
+    return bucket ?: LVCAmazonS3BucketDefault;
 }
 
 @end
