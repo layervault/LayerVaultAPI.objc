@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "LayerVaultAPI"
-  s.version      = "1.1.1"
+  s.version      = "1.2.0"
   s.summary      = "The LayerVaultAPI pod helps you get going quickly with the LayerVault API."
   s.description  = <<-DESC
                     The LayerVault API pod helps you get going quickly with the 
