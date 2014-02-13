@@ -7,6 +7,7 @@
 //
 
 #import "LVCAmazonS3Client.h"
+#import "LVCAmazonS3Bucket.h"
 
 #if TARGET_OS_IPHONE
 #import <MobileCoreServices/MobileCoreServices.h>
