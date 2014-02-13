@@ -32,8 +32,7 @@ NSString *mimeForFile(NSURL *fileURL)
 
 - (instancetype)init
 {
-    NSURL *url = [NSURL URLWithString:@"https://omnivore-scratch.s3.amazonaws.com"];
-    return [self initWithBaseURL:url];
+    return [self initWithBaseURL:[LVCAmazonS3Bucket baseURLForLocalTimezone]];
 }
 
 
