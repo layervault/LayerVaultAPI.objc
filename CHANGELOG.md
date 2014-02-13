@@ -1,5 +1,8 @@
 # LayerVaultAPI CHANGELOG
 
+## 1.2.0
+- Added `LVCAmazonS3Bucket` to handle S3 Region buckets.
+
 ## 1.1.1
 - Fixed `nil` key insertions in `LVCAmazonS3Client`.
 
