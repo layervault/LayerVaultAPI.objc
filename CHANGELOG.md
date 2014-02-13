@@ -1,5 +1,8 @@
 # LayerVaultAPI CHANGELOG
 
+## 1.1.1
+- Fixed `nil` key insertions in `LVCAmazonS3Client`.
+
 ## 1.1.0
 - Only refresh credential when we get 401 AND the credential is expired.
 - Added `syncType` property to `LVCOrganization`. 
