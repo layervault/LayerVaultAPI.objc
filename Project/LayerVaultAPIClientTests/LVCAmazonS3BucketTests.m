@@ -33,10 +33,24 @@
     XCTAssertEqualObjects(url, [NSURL URLWithString:@"https://omnivore-scratch.s3.amazonaws.com"]);
 }
 
-- (void)testAUSTimezone
+- (void)testSidnetTimezone
 {
     NSURL *url = [LVCAmazonS3Bucket baseURLForTimezone:[NSTimeZone timeZoneWithName:@"Australia/Sydney"]];
-    XCTAssertEqualObjects(url, [NSURL URLWithString:@"https://omnivore-scratch-aus.s3.amazonaws.com"]);
+    XCTAssertEqualObjects(url, [NSURL URLWithString:@"https://omnivore-scratch-australia.s3.amazonaws.com"]);
 }
+
+- (void)testNYCTimezone
+{
+    NSURL *url = [LVCAmazonS3Bucket baseURLForTimezone:[NSTimeZone timeZoneWithName:@"America/New_York"]];
+    XCTAssertEqualObjects(url, [NSURL URLWithString:@"https://omnivore-scratch.s3.amazonaws.com"]);
+}
+
+
+- (void)testDushanbeTimezone
+{
+    NSURL *url = [LVCAmazonS3Bucket baseURLForTimezone:[NSTimeZone timeZoneWithName:@"Asia/Dushanbe"]];
+    XCTAssertEqualObjects(url, [NSURL URLWithString:@"https://omnivore-scratch-singapore.s3.amazonaws.com"]);
+}
+
 
 @end
