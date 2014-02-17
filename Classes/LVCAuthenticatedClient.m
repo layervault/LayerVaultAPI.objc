@@ -60,31 +60,36 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
                                                     failure:(void (^)(AFHTTPRequestOperation *operation,
                                                                       NSError *error))failure
 {
+    void (^adjustedSuccess)(AFHTTPRequestOperation *operation, id responseObject) = success;
     void (^adjustedFailure)(AFHTTPRequestOperation *operation, NSError *error) = failure;
 
     if (![urlRequest.URL.path isEqualToString:@"/oauth/token"]) {
+        // If this is not a token request, inject refreshing the oauth
+        // credential if an HTTP 401 response is returned and the credential is
+        // expired.
         adjustedFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
             if (operation.response.statusCode == 401 && self.credential.isExpired) {
-                self.authenticationState = LVCAuthenticationStateAuthenticating;
                 [self.operationQueue setSuspended:YES];
-                NSLog(@"Unauthorized Request. Attempting Refresh credential");
+
                 [self authenticateUsingOAuthWithPath:@"/oauth/token"
                                         refreshToken:self.credential.refreshToken
                                              success:^(AFOAuthCredential *credential) {
-                                                 self.credential = credential;
+                    self.credential = credential;
 
-                                                 NSMutableURLRequest *newRequest = urlRequest.mutableCopy;
-                                                 [newRequest setValue:[NSString stringWithFormat:@"Bearer %@", self.credential.accessToken]
-                                                   forHTTPHeaderField:@"Authorization"];
-                                                 AFHTTPRequestOperation *attempt2 = [super HTTPRequestOperationWithRequest:newRequest success:success failure:failure];
-                                                 [self enqueueHTTPRequestOperation:attempt2];
-                                             }
+                    NSMutableURLRequest *newRequest = urlRequest.mutableCopy;
+                    [newRequest setValue:[NSString stringWithFormat:@"Bearer %@", self.credential.accessToken]
+                      forHTTPHeaderField:@"Authorization"];
+                    AFHTTPRequestOperation *attempt2 = [super HTTPRequestOperationWithRequest:newRequest
+                                                                                      success:success
+                                                                                      failure:failure];
+                    [self enqueueHTTPRequestOperation:attempt2];
+                }
                                              failure:^(NSError *error) {
-                                                 [self logout];
-                                                 if (failure) {
-                                                     failure(nil, error);
-                                                 }
-                                             }];
+                    [self logout];
+                    if (failure) {
+                        failure(nil, error);
+                    }
+                }];
             }
             else {
                 if (failure) {
@@ -124,6 +129,7 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
 - (void)enqueueHTTPRequestOperation:(AFHTTPRequestOperation *)operation
 {
     if ([operation.request.URL.path isEqualToString:@"/oauth/token"]) {
+        self.authenticationState = LVCAuthenticationStateAuthenticating;
         [self.authenticationQueue addOperation:operation];
     }
     else {
@@ -154,7 +160,9 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
             && ![user isEqual:strongself.user]) {
             strongself.user = user;
         }
-        completion(user, error, operation);
+        if (completion) {
+            completion(user, error, operation);
+        }
     }];
 }
 
@@ -163,7 +171,6 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
 - (void)loginWithCredential:(AFOAuthCredential *)credential
 {
     NSParameterAssert(credential);
-    self.authenticationState = LVCAuthenticationStateAuthenticating;
     self.credential = credential;
 }
 
@@ -173,7 +180,6 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
     NSParameterAssert(email);
     NSParameterAssert(password);
 
-    self.authenticationState = LVCAuthenticationStateAuthenticating;
     [self authenticateWithEmail:email
                        password:password
                      completion:^(AFOAuthCredential *credential,
@@ -204,15 +210,9 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
 
                 // Set Authorization Header
                 [self setAuthorizationHeaderWithCredential:self.credential];
-                self.authenticationState = LVCAuthenticationStateAuthenticated;
 
                 // Get user info
-                [self getMeWithCompletion:^(LVCUser *user,
-                                            NSError *error,
-                                            AFHTTPRequestOperation *operation) {
-                    // Note: With our -getMeWithCompletion: override in this
-                    // class, self.user = self will automatically occur.
-                }];
+                [self getMeWithCompletion:nil];
             }
             else {
                 // If the credential gets explicitly set to nil, it means there
@@ -221,13 +221,14 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
                 // is returned as during a successful login (which is a security
                 // issue).
                 [self clearAuthorizationHeader];
-                self.authenticationState = LVCAuthenticationStateUnauthenticated;
 
-                // Remove user
+                // Remove user. We don’t want to trigger a KVO if it’s nil and
+                // we are setting it to nil.
                 if (self.user) {
                     self.user = nil;
                 }
             }
+            self.authenticationState = self.credential? LVCAuthenticationStateAuthenticated : LVCAuthenticationStateUnauthenticated;
         }
     }
     else {
