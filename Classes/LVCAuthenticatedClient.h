@@ -9,6 +9,7 @@
 #import "LVCHTTPClient.h"
 @class LVCUser;
 @class AFOAuthCredential;
+@class AFHTTPRequestOperation;
 
 typedef NS_ENUM(NSInteger, LVCAuthenticationState) {
     LVCAuthenticationStateUnauthenticated = -1,
@@ -16,7 +17,7 @@ typedef NS_ENUM(NSInteger, LVCAuthenticationState) {
     LVCAuthenticationStateAuthenticated = 1
 };
 
-typedef void (^LVCClientAuthenticationCallback)(LVCUser *user, NSError *error);
+typedef void (^LVCClientAuthenticationCallback)(BOOL success, AFHTTPRequestOperation *operation, NSError *error);
 
 @interface LVCAuthenticatedClient : LVCHTTPClient
 

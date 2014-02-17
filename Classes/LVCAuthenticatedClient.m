@@ -93,9 +93,30 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
             }
         };
     }
+    else if (self.authenticationCallback) {
+        // If this *is* an /oauth/token request and we have an authentication
+        // callback, inject the authenticationCallback in the success and
+        // failure blocks
+        adjustedSuccess = ^(AFHTTPRequestOperation *operation, id responseObject) {
+            if (self.authenticationCallback) {
+                self.authenticationCallback(YES, operation, nil);
+            }
+            if (success) {
+                success(operation, responseObject);
+            }
+        };
+        adjustedFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
+            if (self.authenticationCallback) {
+                self.authenticationCallback(NO, operation, error);
+            }
+            if (failure) {
+                failure(operation, error);
+            }
+        };
+    }
 
     return [super HTTPRequestOperationWithRequest:urlRequest
-                                          success:success
+                                          success:adjustedSuccess
                                           failure:adjustedFailure];
 }
 
@@ -160,11 +181,6 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
                          if (credential) {
                              self.credential = credential;
                          }
-                         else {
-                             if (self.authenticationCallback) {
-                                 self.authenticationCallback(nil, error);
-                             }
-                         }
                      }];
 }
 
@@ -196,9 +212,6 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
                                             AFHTTPRequestOperation *operation) {
                     // Note: With our -getMeWithCompletion: override in this
                     // class, self.user = self will automatically occur.
-                    if (self.authenticationCallback) {
-                        self.authenticationCallback(user, error);
-                    }
                 }];
             }
             else {
@@ -213,9 +226,6 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
                 // Remove user
                 if (self.user) {
                     self.user = nil;
-                }
-                if (self.authenticationCallback) {
-                    self.authenticationCallback(self.user, nil);
                 }
             }
         }
