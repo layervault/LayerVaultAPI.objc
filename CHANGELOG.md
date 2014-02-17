@@ -1,5 +1,9 @@
 # LayerVaultAPI CHANGELOG
 
+## 2.0.0
+- `LVCAuthenticatedClient` is now considered authenticated only when a `credential` is set (`user` property no longer a factor).
+- `- [LVCAuthenticatedClient authenticationCallback]` no-longer passes a `user`. Instead passes `success` and `operation`.
+
 ## 1.2.0
 - Added `LVCAmazonS3Bucket` to handle S3 Region buckets.
 
