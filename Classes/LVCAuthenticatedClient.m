@@ -68,7 +68,7 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
         // credential if an HTTP 401 response is returned and the credential is
         // expired.
         adjustedFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
-            if (operation.response.statusCode == 401 && self.credential.isExpired) {
+            if (operation.response.statusCode == 401 || self.credential.isExpired) {
                 [self.operationQueue setSuspended:YES];
 
                 [self authenticateUsingOAuthWithPath:@"/oauth/token"
