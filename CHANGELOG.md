@@ -1,5 +1,8 @@
 # LayerVaultAPI CHANGELOG
 
+## 2.0.1
+- Fixed `LVCAuthenticatedClient`, refresh token always on 401 OR credential expired.
+
 ## 2.0.0
 - `LVCAuthenticatedClient` is now considered authenticated only when a `credential` is set (`user` property no longer a factor).
 - `- [LVCAuthenticatedClient authenticationCallback]` no-longer passes a `user`. Instead passes `success` and `operation`.
