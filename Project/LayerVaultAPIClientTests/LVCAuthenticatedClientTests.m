@@ -44,32 +44,69 @@
 
 - (void)testNoCredentialNotAuthenticated
 {
-    XCTAssertTrue(self.client.authenticationState == LVCAuthenticationStateUnauthenticated, @"should not be authenticated");
+    XCTAssertTrue(self.client.authenticationState == LVCAuthenticationStateUnauthenticated);
 }
 
 
-- (void)testClientWithGoodCredentialReturning400NoUser
+- (void)testCredential401LogsUserOut
 {
-    [LVCMockURLConnection setResponseWithStatusCode:400
-                                       headerFields:nil
-                                           bodyData:nil];
-    XCTAssertFalse(self.goodCredential.expired, @"should not be expired");
+    [LVCMockURLConnection setResponseForPath:@"/api/v1/me"
+                              withStatusCode:401
+                                headerFields:nil
+                                    bodyData:nil];
+    [LVCMockURLConnection setResponseForPath:@"/oauth/token"
+                              withStatusCode:401
+                                headerFields:nil
+                                    bodyData:nil];
+    [self.client loginWithCredential:self.goodCredential];
+    XCTAssertNotNil(self.client.credential);
 
-    __block BOOL callbackCalled = NO;
+    __block BOOL completionCalled = NO;
     __block LVCUser *userReturned = nil;
     __block NSError *errorReturned = nil;
-    self.client.authenticationCallback = ^(LVCUser *user, NSError *error) {
-        callbackCalled = YES;
+    [self.client getMeWithCompletion:^(LVCUser *user,
+                                       NSError *error,
+                                       AFHTTPRequestOperation *operation) {
+        completionCalled = YES;
         userReturned = user;
         errorReturned = error;
-    };
-    XCTAssertNotNil(self.goodCredential, @"Gah");
-    [self.client loginWithCredential:self.goodCredential];
+    }];
     [LVCAsyncHelper wait:0.1];
-    XCTAssertTrue(callbackCalled, @"callback should have been called");
-    XCTAssertNil(userReturned, @"user should be nil");
-    XCTAssertNotNil(errorReturned, @"error should return");
+    XCTAssertTrue(completionCalled);
+    XCTAssertNil(userReturned);
+    XCTAssertNotNil(errorReturned);
+    XCTAssertNil(self.client.credential);
 }
 
+
+- (void)testCredential500DoesNotLogUserOut
+{
+    [LVCMockURLConnection setResponseForPath:@"/api/v1/me"
+                              withStatusCode:401
+                                headerFields:nil
+                                    bodyData:nil];
+    [LVCMockURLConnection setResponseForPath:@"/oauth/token"
+                              withStatusCode:500
+                                headerFields:nil
+                                    bodyData:nil];
+    [self.client loginWithCredential:self.goodCredential];
+    XCTAssertNotNil(self.client.credential);
+
+    __block BOOL completionCalled = NO;
+    __block LVCUser *userReturned = nil;
+    __block NSError *errorReturned = nil;
+    [self.client getMeWithCompletion:^(LVCUser *user,
+                                       NSError *error,
+                                       AFHTTPRequestOperation *operation) {
+        completionCalled = YES;
+        userReturned = user;
+        errorReturned = error;
+    }];
+    [LVCAsyncHelper wait:0.1];
+    XCTAssertTrue(completionCalled);
+    XCTAssertNil(userReturned);
+    XCTAssertNotNil(errorReturned);
+    XCTAssertNotNil(self.client.credential);
+}
 
 @end
