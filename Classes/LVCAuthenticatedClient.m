@@ -85,9 +85,12 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
                     [self enqueueHTTPRequestOperation:attempt2];
                 }
                                              failure:^(NSError *error) {
-                    [self logout];
+                    NSHTTPURLResponse *response = error.userInfo[AFNetworkingOperationFailingURLResponseErrorKey];
+                    if ([response isKindOfClass:NSHTTPURLResponse.class] && response.statusCode == 401) {
+                        [self logout];
+                    }
                     if (failure) {
-                        failure(nil, error);
+                        failure(operation, error);
                     }
                 }];
             }
