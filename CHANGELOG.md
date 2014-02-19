@@ -1,5 +1,8 @@
 # LayerVaultAPI CHANGELOG
 
+## 2.0.2
+- Fixed `LVCAuthenticatedClient`, logout only called when `/oauth/token` return 401.
+
 ## 2.0.1
 - Fixed `LVCAuthenticatedClient`, refresh token always on 401 OR credential expired.
 
