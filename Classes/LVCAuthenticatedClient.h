@@ -80,7 +80,19 @@ typedef void (^LVCClientAuthenticationCallback)(BOOL success, AFHTTPRequestOpera
 
 
 /**
- *  Authenticates with username/password
+ *  Authenticates with email/password and a completion
+ *
+ *  @param email      email for authentication (required)
+ *  @param password   password for authentication (required)
+ *  @param completion callback on completion (optional)
+ */
+- (void)loginWithEmail:(NSString *)email
+              password:(NSString *)password
+            completion:(void (^)(BOOL success,
+                                 NSError *error))completion;
+
+/**
+ *  Authenticates with email/password
  *
  *  @param email                  email for authentication (required)
  *  @param password               password for authentication (required)

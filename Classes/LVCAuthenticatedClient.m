@@ -41,7 +41,6 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
     return self;
 }
 
-
 - (instancetype)initWithClientID:(NSString *)clientID
                           secret:(NSString *)secret
 {
@@ -50,12 +49,10 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
                           secret:secret];
 }
 
-
 - (void)dealloc
 {
     [self removeObserver:self forKeyPath:@"credential" context:LVCAuthenticatedClientContext];
 }
-
 
 #pragma mark - AFHTTPClient
 - (AFHTTPRequestOperation *)HTTPRequestOperationWithRequest:(NSURLRequest *)urlRequest
@@ -139,7 +136,6 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
                                           failure:adjustedFailure];
 }
 
-
 - (void)enqueueHTTPRequestOperation:(AFHTTPRequestOperation *)operation
 {
     if ([operation.request.URL.path isEqualToString:@"/oauth/token"]) {
@@ -150,7 +146,6 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
         [self.operationQueue addOperation:operation];
     }
 }
-
 
 #pragma mark - LVCHTTPClient
 - (void)getMeWithCompletion:(void (^)(LVCUser *user,
@@ -180,7 +175,6 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
     }];
 }
 
-
 #pragma mark - Instance Methods
 - (void)loginWithCredential:(AFOAuthCredential *)credential
 {
@@ -190,6 +184,8 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
 
 - (void)loginWithEmail:(NSString *)email
               password:(NSString *)password
+            completion:(void (^)(BOOL success,
+                                 NSError *error))completion
 {
     NSParameterAssert(email);
     NSParameterAssert(password);
@@ -201,15 +197,21 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
                          if (credential) {
                              self.credential = credential;
                          }
+                         if (completion) {
+                             completion(!!credential, error);
+                         }
                      }];
 }
 
+- (void)loginWithEmail:(NSString *)email password:(NSString *)password
+{
+    [self loginWithEmail:email password:password completion:nil];
+}
 
 - (void)logout
 {
     self.credential = nil;
 }
-
 
 #pragma mark - KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
