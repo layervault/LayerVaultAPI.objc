@@ -39,7 +39,7 @@ typedef void (^LVCClientAuthenticationCallback)(BOOL success, AFHTTPRequestOpera
 /**
  *  A credential to use for authentication
  */
-@property (nonatomic) AFOAuthCredential *credential;
+@property (atomic, readonly) AFOAuthCredential *credential;
 
 
 /**

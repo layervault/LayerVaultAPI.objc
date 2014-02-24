@@ -8,12 +8,16 @@
 
 #import "LVCAuthenticatedClient.h"
 #import "LVCUser.h"
+#import "NSURLRequest+OAuth2.h"
+#import "NSMutableURLRequest+OAuth2.h"
 #import <AFOAuth2Client/AFOAuth2Client.h>
 #import <AFNetworking/AFNetworking.h>
 
 static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
 
 @interface LVCAuthenticatedClient ()
+@property (atomic) AFOAuthCredential *credential;
+@property (atomic, getter = isRefreshingToken) BOOL refreshingToken;
 @property (nonatomic, getter = isAuthenticated) LVCAuthenticationState authenticationState;
 @property (nonatomic) NSOperationQueue *authenticationQueue;
 @property (nonatomic) LVCUser *user;
@@ -68,17 +72,21 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
         // credential if an HTTP 401 response is returned and the credential is
         // expired.
         adjustedFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
-            if (operation.response.statusCode == 401 || self.credential.isExpired) {
+            NSString *token = [operation.request lvc_bearerToken];
+
+            // Make sure our current token was the one that failed.
+            if (!self.refreshingToken &&
+                [token isEqualToString:self.credential.accessToken] &&
+                (operation.response.statusCode == 401 || self.credential.isExpired)) {
+                self.refreshingToken = YES;
                 [self.operationQueue setSuspended:YES];
 
-                [self authenticateUsingOAuthWithPath:@"/oauth/token"
-                                        refreshToken:self.credential.refreshToken
-                                             success:^(AFOAuthCredential *credential) {
+                [self authenticateUsingOAuthWithPath:@"/oauth/token" refreshToken:self.credential.refreshToken success:^(AFOAuthCredential *credential) {
                     self.credential = credential;
+                    self.refreshingToken = NO;
 
                     NSMutableURLRequest *newRequest = urlRequest.mutableCopy;
-                    [newRequest setValue:[NSString stringWithFormat:@"Bearer %@", self.credential.accessToken]
-                      forHTTPHeaderField:@"Authorization"];
+                    [newRequest lvc_setBearerToken:self.credential.accessToken];
                     AFHTTPRequestOperation *attempt2 = [super HTTPRequestOperationWithRequest:newRequest
                                                                                       success:success
                                                                                       failure:failure];
@@ -89,6 +97,7 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
                     if ([response isKindOfClass:NSHTTPURLResponse.class] && response.statusCode == 401) {
                         [self logout];
                     }
+                    self.refreshingToken = NO;
                     if (failure) {
                         failure(operation, error);
                     }
@@ -206,16 +215,28 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
     if (context == LVCAuthenticatedClientContext) {
         if ([keyPath isEqualToString:@"credential"]) {
             if (self.credential) {
+                // Set Authorization Header
+                [self setAuthorizationHeaderWithCredential:self.credential];
+
+                // Check for bad operations
+                for (NSOperation *op in self.operationQueue.operations) {
+                    if ([op isKindOfClass:AFURLConnectionOperation.class]) {
+                        AFURLConnectionOperation *urlOp = (AFURLConnectionOperation *)op;
+                        NSString *opToken = [urlOp.request lvc_bearerToken];
+                        if (![opToken isEqualToString:self.credential.accessToken]) {
+                            NSLog(@"bad operation found: %@", urlOp);
+                        }
+
+                    }
+                }
+
+                // Get user info
+                [self getMeWithCompletion:nil];
+
                 // Unsuspend queue if needed
                 if (self.operationQueue.isSuspended) {
                     [self.operationQueue setSuspended:NO];
                 }
-
-                // Set Authorization Header
-                [self setAuthorizationHeaderWithCredential:self.credential];
-
-                // Get user info
-                [self getMeWithCompletion:nil];
             }
             else {
                 // If the credential gets explicitly set to nil, it means there
