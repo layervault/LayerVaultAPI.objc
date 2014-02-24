@@ -36,6 +36,7 @@
 		C99C30801868BA9000D2C8F8 /* LVCFileRevisionsWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C99C307E1868BA9000D2C8F8 /* LVCFileRevisionsWindowController.xib */; };
 		C9AEAB44185E041300E9EC40 /* LVCOrganizationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9AEAB42185E041300E9EC40 /* LVCOrganizationsViewController.m */; };
 		C9AEAB45185E041300E9EC40 /* LVCOrganizationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9AEAB43185E041300E9EC40 /* LVCOrganizationsViewController.xib */; };
+		C9BAC05418BBA4B30087F12F /* NSURLRequest+OAuth2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9BAC05318BBA4B30087F12F /* NSURLRequest+OAuth2Tests.m */; };
 		C9C6186018648FF500CF2E40 /* LVCLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C6185E18648FF500CF2E40 /* LVCLoginViewController.m */; };
 		C9C6186118648FF500CF2E40 /* LVCLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9C6185F18648FF500CF2E40 /* LVCLoginViewController.xib */; };
 		C9C6E6671863666D008AFF21 /* LVCMockResponses.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C6E6661863666D008AFF21 /* LVCMockResponses.m */; };
@@ -107,6 +108,7 @@
 		C9AEAB41185E041300E9EC40 /* LVCOrganizationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVCOrganizationsViewController.h; sourceTree = "<group>"; };
 		C9AEAB42185E041300E9EC40 /* LVCOrganizationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCOrganizationsViewController.m; sourceTree = "<group>"; };
 		C9AEAB43185E041300E9EC40 /* LVCOrganizationsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LVCOrganizationsViewController.xib; sourceTree = "<group>"; };
+		C9BAC05318BBA4B30087F12F /* NSURLRequest+OAuth2Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLRequest+OAuth2Tests.m"; sourceTree = "<group>"; };
 		C9C6185D18648FF500CF2E40 /* LVCLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVCLoginViewController.h; sourceTree = "<group>"; };
 		C9C6185E18648FF500CF2E40 /* LVCLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCLoginViewController.m; sourceTree = "<group>"; };
 		C9C6185F18648FF500CF2E40 /* LVCLoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LVCLoginViewController.xib; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 				C96C0814180C7F23000149E3 /* LVCUserTest.m */,
 				C9FE2E3818622E5F00D7CE37 /* NSDateFormatter+RFC3339Tests.m */,
 				C91C995C18A9810000985D56 /* NSString+PercentEncodingTests.m */,
+				C9BAC05318BBA4B30087F12F /* NSURLRequest+OAuth2Tests.m */,
 				C9EFE7351862323C00A87F81 /* NSValueTransformer+LVCPredefinedTransformerAdditionsTests.m */,
 				C95CD2E7180B5F9500007F9B /* Supporting Files */,
 			);
@@ -436,6 +439,7 @@
 				C9829B0718634BF600FF419B /* LVCMockURLConnection.m in Sources */,
 				C9EFE73E18624A8A00A87F81 /* LVCFileRevisionTests.m in Sources */,
 				C9468117187B047500FAFE58 /* LVCAuthenticatedClientTests.m in Sources */,
+				C9BAC05418BBA4B30087F12F /* NSURLRequest+OAuth2Tests.m in Sources */,
 				C9EFE742186256C400A87F81 /* LVCColorUtilsTests.m in Sources */,
 				C91C995D18A9810000985D56 /* NSString+PercentEncodingTests.m in Sources */,
 				C9412732184CE47C0065072B /* LVCProjectTests.m in Sources */,

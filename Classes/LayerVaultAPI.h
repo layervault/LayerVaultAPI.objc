@@ -27,6 +27,7 @@
 #import "LVCUser.h"
 #import "NSDateFormatter+RFC3339.h"
 #import "NSString+PercentEncoding.h"
+#import "NSURLRequest+OAuth2.h"
 #import "NSValueTransformer+LVCPredefinedTransformerAdditions.h"
 
 #endif
