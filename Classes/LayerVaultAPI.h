@@ -26,6 +26,7 @@
 #import "LVCProject.h"
 #import "LVCUser.h"
 #import "NSDateFormatter+RFC3339.h"
+#import "NSMutableURLRequest+OAuth2.h"
 #import "NSString+PercentEncoding.h"
 #import "NSURLRequest+OAuth2.h"
 #import "NSValueTransformer+LVCPredefinedTransformerAdditions.h"

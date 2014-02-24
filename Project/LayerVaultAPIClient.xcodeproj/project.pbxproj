@@ -41,6 +41,7 @@
 		C9C6186118648FF500CF2E40 /* LVCLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9C6185F18648FF500CF2E40 /* LVCLoginViewController.xib */; };
 		C9C6E6671863666D008AFF21 /* LVCMockResponses.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C6E6661863666D008AFF21 /* LVCMockResponses.m */; };
 		C9C6E66918636E4F008AFF21 /* LVCHTTPClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C6E66818636E4F008AFF21 /* LVCHTTPClientTests.m */; };
+		C9D21FC318BBACC600BDC662 /* NSMutableURLRequest+OAuth2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D21FC218BBACC600BDC662 /* NSMutableURLRequest+OAuth2Tests.m */; };
 		C9DC2343185CCA4E00F9BE02 /* LVCMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9DC2341185CCA4E00F9BE02 /* LVCMainWindowController.m */; };
 		C9DC2344185CCA4E00F9BE02 /* LVCMainWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9DC2342185CCA4E00F9BE02 /* LVCMainWindowController.xib */; };
 		C9EFE7361862323C00A87F81 /* NSValueTransformer+LVCPredefinedTransformerAdditionsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EFE7351862323C00A87F81 /* NSValueTransformer+LVCPredefinedTransformerAdditionsTests.m */; };
@@ -115,6 +116,7 @@
 		C9C6E6651863666D008AFF21 /* LVCMockResponses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVCMockResponses.h; sourceTree = "<group>"; };
 		C9C6E6661863666D008AFF21 /* LVCMockResponses.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCMockResponses.m; sourceTree = "<group>"; };
 		C9C6E66818636E4F008AFF21 /* LVCHTTPClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCHTTPClientTests.m; sourceTree = "<group>"; };
+		C9D21FC218BBACC600BDC662 /* NSMutableURLRequest+OAuth2Tests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableURLRequest+OAuth2Tests.m"; sourceTree = "<group>"; };
 		C9DC2340185CCA4E00F9BE02 /* LVCMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LVCMainWindowController.h; sourceTree = "<group>"; };
 		C9DC2341185CCA4E00F9BE02 /* LVCMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCMainWindowController.m; sourceTree = "<group>"; };
 		C9DC2342185CCA4E00F9BE02 /* LVCMainWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LVCMainWindowController.xib; sourceTree = "<group>"; };
@@ -265,6 +267,7 @@
 				C9412731184CE47C0065072B /* LVCProjectTests.m */,
 				C96C0814180C7F23000149E3 /* LVCUserTest.m */,
 				C9FE2E3818622E5F00D7CE37 /* NSDateFormatter+RFC3339Tests.m */,
+				C9D21FC218BBACC600BDC662 /* NSMutableURLRequest+OAuth2Tests.m */,
 				C91C995C18A9810000985D56 /* NSString+PercentEncodingTests.m */,
 				C9BAC05318BBA4B30087F12F /* NSURLRequest+OAuth2Tests.m */,
 				C9EFE7351862323C00A87F81 /* NSValueTransformer+LVCPredefinedTransformerAdditionsTests.m */,
@@ -456,6 +459,7 @@
 				C90A871D1863628400BA2FD1 /* LVCAsyncHelper.m in Sources */,
 				C9EFE740186253E400A87F81 /* LVCFileTests.m in Sources */,
 				C9FE2E3918622E5F00D7CE37 /* NSDateFormatter+RFC3339Tests.m in Sources */,
+				C9D21FC318BBACC600BDC662 /* NSMutableURLRequest+OAuth2Tests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
