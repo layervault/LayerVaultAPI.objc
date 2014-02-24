@@ -2,7 +2,7 @@ PODS:
   - AFNetworking (1.3.3)
   - AFOAuth2Client (0.1.2):
     - AFNetworking (~> 1.3)
-  - LayerVaultAPI (1.1.1):
+  - LayerVaultAPI (2.0.2):
     - AFNetworking (~> 1.3.3)
     - AFOAuth2Client (~> 0.1.1)
     - Mantle (~> 1.3)
@@ -27,7 +27,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AFNetworking: 61fdd49e2ffe6380378df37b3b6e70630bb9dd66
   AFOAuth2Client: 579d6f298b0047dfd5a6eec6ab5b28c01f6b4547
-  LayerVaultAPI: df93559c82d7b65f9332bcfce992eb643916d93c
+  LayerVaultAPI: f3dc3d9d82bf8f67a16d3339813c2ce5f1ddab47
   Mantle: abc3b0c81bc66eb624cf9cebb8640e377d5a44ae
   ReactiveCocoa: 0db710a0afa1c627a64470e5c912a3870d4854ae
 
