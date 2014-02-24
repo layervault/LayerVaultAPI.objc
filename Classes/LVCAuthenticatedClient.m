@@ -81,7 +81,9 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
                 self.refreshingToken = YES;
                 [self.operationQueue setSuspended:YES];
 
-                [self authenticateUsingOAuthWithPath:@"/oauth/token" refreshToken:self.credential.refreshToken success:^(AFOAuthCredential *credential) {
+                [self authenticateUsingOAuthWithPath:@"/oauth/token"
+                                        refreshToken:self.credential.refreshToken
+                                             success:^(AFOAuthCredential *credential) {
                     self.credential = credential;
                     self.refreshingToken = NO;
 
