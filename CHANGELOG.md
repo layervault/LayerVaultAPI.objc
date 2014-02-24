@@ -1,5 +1,8 @@
 # LayerVaultAPI CHANGELOG
 
+## 2.2.0
+- Added `loginWithEmail:password:completion:` to `LVCAuthenticatedClient`
+
 ## 2.1.0
 - Fixed `LVCAuthenticatedClient` to only refresh the token once, even if multiple requests attempt it concurrently.
 - Added `NSURLRequest` and `NSMutableURLRequest` OAuth bearer additions.
