@@ -218,18 +218,6 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
                 // Set Authorization Header
                 [self setAuthorizationHeaderWithCredential:self.credential];
 
-                // Check for bad operations
-                for (NSOperation *op in self.operationQueue.operations) {
-                    if ([op isKindOfClass:AFURLConnectionOperation.class]) {
-                        AFURLConnectionOperation *urlOp = (AFURLConnectionOperation *)op;
-                        NSString *opToken = [urlOp.request lvc_bearerToken];
-                        if (![opToken isEqualToString:self.credential.accessToken]) {
-                            NSLog(@"bad operation found: %@", urlOp);
-                        }
-
-                    }
-                }
-
                 // Get user info
                 [self getMeWithCompletion:nil];
 
