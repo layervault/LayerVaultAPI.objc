@@ -12,6 +12,12 @@ OBJC_EXPORT NSString *const LVCBearerTokenPrefix;
 
 @interface NSURLRequest (OAuth2)
 
+/**
+ *  Convenience method to return just the token part of a bearer token from the
+ *  request's Authorization header.
+ *
+ *  @return Token part of the Bearer token
+ */
 - (NSString *)lvc_bearerToken;
 
 @end

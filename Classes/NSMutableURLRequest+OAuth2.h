@@ -10,6 +10,13 @@
 
 @interface NSMutableURLRequest (OAuth2)
 
+/**
+ *  Convenience method to add bearer token to the Authorization Header. The
+ *  request will have this header:
+ *    `Header: Bearer <token>`
+ *
+ *  @param token Bearer token
+ */
 - (void)lvc_setBearerToken:(NSString *)token;
 
 @end
