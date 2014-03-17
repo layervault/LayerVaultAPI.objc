@@ -1,5 +1,8 @@
 # LayerVaultAPI CHANGELOG
 
+## 2.2.1
+- Fixed an issue where failed refresh authentication would prevent other url requests from executing.
+
 ## 2.2.0
 - Added `loginWithEmail:password:completion:` to `LVCAuthenticatedClient`
 
