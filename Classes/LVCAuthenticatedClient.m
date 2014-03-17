@@ -83,6 +83,7 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
                                              success:^(AFOAuthCredential *credential) {
                     self.credential = credential;
                     self.refreshingToken = NO;
+                    [self.operationQueue setSuspended:NO];
 
                     NSMutableURLRequest *newRequest = urlRequest.mutableCopy;
                     [newRequest lvc_setBearerToken:self.credential.accessToken];
@@ -97,6 +98,8 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
                         [self logout];
                     }
                     self.refreshingToken = NO;
+                    [self.operationQueue setSuspended:NO];
+
                     if (failure) {
                         failure(operation, error);
                     }

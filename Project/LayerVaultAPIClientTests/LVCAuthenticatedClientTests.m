@@ -78,7 +78,6 @@
     XCTAssertNil(self.client.credential);
 }
 
-
 - (void)testCredential500DoesNotLogUserOut
 {
     [LVCMockURLConnection setResponseForPath:@"/api/v1/me"
@@ -108,5 +107,47 @@
     XCTAssertNotNil(errorReturned);
     XCTAssertNotNil(self.client.credential);
 }
+
+- (void)testCredential500ResumesQueue
+{
+    [LVCMockURLConnection setResponseForPath:@"/api/v1/me"
+                              withStatusCode:401
+                                headerFields:nil
+                                    bodyData:nil];
+    [LVCMockURLConnection setResponseForPath:@"/oauth/token"
+                              withStatusCode:500
+                                headerFields:nil
+                                    bodyData:nil];
+    [self.client loginWithCredential:self.expiredCredential];
+    XCTAssertNotNil(self.client.credential);
+
+    __block BOOL completionCalled = NO;
+    __block NSError *errorReturned = nil;
+    [self.client getMeWithCompletion:^(LVCUser *user,
+                                       NSError *error,
+                                       AFHTTPRequestOperation *operation) {
+        completionCalled = YES;
+        errorReturned = error;
+    }];
+    [LVCAsyncHelper wait:0.1];
+    XCTAssertTrue(completionCalled);
+    XCTAssertNotNil(errorReturned);
+    XCTAssertNotNil(self.client.credential);
+
+    // Second attempt
+    completionCalled = NO;
+    errorReturned = nil;
+    [self.client getMeWithCompletion:^(LVCUser *user,
+                                       NSError *error,
+                                       AFHTTPRequestOperation *operation) {
+        completionCalled = YES;
+        errorReturned = error;
+    }];
+    [LVCAsyncHelper wait:0.1];
+    XCTAssertTrue(completionCalled);
+    XCTAssertNotNil(errorReturned);
+    XCTAssertNotNil(self.client.credential);
+}
+
 
 @end
