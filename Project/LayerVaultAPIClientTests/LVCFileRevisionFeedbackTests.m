@@ -36,8 +36,9 @@
     LVCFileRevisionFeedback *feedback = [MTLJSONAdapter modelOfClass:LVCFileRevisionFeedback.class
                                                   fromJSONDictionary:dict
                                                                error:nil];
-    XCTAssertEqual(feedback.feedbackFrame,
-                   CGRectMake(10.0, 20.0, 30.0, 20.0), @"Size not correct");
+    CGRect feedbackFrame = feedback.feedbackFrame;
+    CGRect expectedFrame = CGRectMake(10.0, 20.0, 30.0, 20.0);
+    XCTAssertTrue(CGRectEqualToRect(feedbackFrame, expectedFrame));
 }
 
 @end
