@@ -18,6 +18,7 @@
 #import "LVCFileRevisionFeedback.h"
 #import "NSString+PercentEncoding.h"
 
+NSString *const LVCHTTPClientErrorDomain = @"LVCHTTPClientErrorDomain";
 
 @implementation LVCHTTPClient
 
@@ -774,9 +775,18 @@
                                          NSError *error,
                                          AFHTTPRequestOperation *operation))completion
 {
-    [self checkSyncStatusForFilePath:file.percentEncodedURLPath
-                                 md5:file.md5
-                          completion:completion];
+    NSError *attrError;
+    NSDictionary *attr = [[NSFileManager defaultManager] attributesOfItemAtPath:file.fileURL.path
+                                                                          error:&attrError];
+    if (attr) {
+        [self checkSyncStatusForFileAtRemotePath:file.percentEncodedURLPath
+                                             md5:file.md5
+                                        fileSize:attr.fileSize
+                                      completion:completion];
+    }
+    else if (completion) {
+        completion(LVCFileSyncStatusError, attrError, nil);
+    }
 }
 
 
@@ -786,9 +796,33 @@
                                              NSError *error,
                                              AFHTTPRequestOperation *operation))completion
 {
+    NSError *attrError;
+    NSDictionary *attr = [[NSFileManager defaultManager] attributesOfItemAtPath:filePath
+                                                                          error:&attrError];
+    if (attr) {
+        [self checkSyncStatusForFileAtRemotePath:filePath
+                                             md5:md5
+                                        fileSize:attr.fileSize
+                                      completion:completion];
+    }
+    else if (completion) {
+        completion(LVCFileSyncStatusError, attrError, nil);
+    }
+}
+
+
+- (void)checkSyncStatusForFileAtRemotePath:(NSString *)filePath
+                                       md5:(NSString *)md5
+                                  fileSize:(unsigned long long)fileSize
+                                completion:(void (^)(LVCFileSyncStatus syncStatus,
+                                                     NSError *error,
+                                                     AFHTTPRequestOperation *operation))completion
+{
     NSParameterAssert(md5);
+    NSParameterAssert(fileSize);
     [self checkSyncStatusForFilePath:filePath
-                          parameters:@{@"md5": md5}
+                          parameters:@{@"md5": md5,
+                                       @"file_size": @(fileSize)}
                           completion:completion];
 }
 
@@ -803,16 +837,38 @@
     NSParameterAssert(parameters);
     NSParameterAssert(completion);
 
-    NSString *syncCheckPath = [filePath stringByAppendingPathComponent:@"sync_check"];
+    BOOL missingMD5 = !parameters[@"md5"];
+    BOOL missingFileSize = !parameters[@"file_size"];
 
-    [self getPath:syncCheckPath
-       parameters:parameters
-          success:^(AFHTTPRequestOperation *operation, id responseObject) {
-              completion(LVCFileSyncStatusUploadOK, nil, operation);
-          }
-          failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-              completion(operation.response.statusCode, error, operation);
-          }];
+    if (missingMD5 || missingFileSize) {
+
+        NSMutableArray *missingParams = [NSMutableArray array];
+        if (missingMD5) [missingParams addObject:@"md5"];
+        if (missingFileSize) [missingParams addObject:@"file_size"];
+        NSMutableString *errorStr = [NSLocalizedString(@"Missing the following parameters: ",
+                                                       nil) mutableCopy];
+        [errorStr appendString:[missingParams componentsJoinedByString:@", "]];
+
+        NSError *error = [NSError errorWithDomain:LVCHTTPClientErrorDomain
+                                             code:LVCHTTPClientErrorMissingParameter
+                                         userInfo:@{NSLocalizedDescriptionKey: errorStr}];
+        if (completion) {
+            completion(LVCFileSyncStatusError, error, nil);
+        }
+
+    }
+    else {
+        NSString *syncCheckPath = [filePath stringByAppendingPathComponent:@"sync_check"];
+
+        [self getPath:syncCheckPath
+           parameters:parameters
+              success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                  completion(LVCFileSyncStatusUploadOK, nil, operation);
+              }
+              failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                  completion(operation.response.statusCode, error, operation);
+              }];
+    }
 }
 
 

@@ -201,4 +201,87 @@
     XCTAssertNil(dict[@"new_file_name"], @"to should be nil");
 }
 
+
+- (void)testFileSyncRequiresMD5
+{
+    [LVCMockURLConnection setResponseWithStatusCode:200
+                                       headerFields:nil
+                                           bodyData:nil];
+
+    __block BOOL blockCalled = NO;
+    __block LVCFileSyncStatus returnedSyncStatus = LVCFileSyncStatusUploadOK;
+    __block NSError *returnedError = nil;
+
+    [self.client checkSyncStatusForFilePath:@"foo/bar/baz.jpg"
+                                 parameters:@{@"file_size": @(123)}
+                                 completion:^(LVCFileSyncStatus syncStatus,
+                                              NSError *error,
+                                              AFHTTPRequestOperation *operation) {
+        blockCalled = YES;
+        returnedSyncStatus = syncStatus;
+        returnedError = error;
+    }];
+    [LVCAsyncHelper wait:0.1];
+    XCTAssertTrue(blockCalled);
+    XCTAssertTrue(returnedSyncStatus == LVCFileSyncStatusError);
+    XCTAssertNotNil(returnedError);
+    XCTAssertEqualObjects(returnedError.domain, LVCHTTPClientErrorDomain);
+    XCTAssertTrue(returnedError.code == LVCHTTPClientErrorMissingParameter);
+}
+
+- (void)testFileSyncRequiresFileSize
+{
+    [LVCMockURLConnection setResponseWithStatusCode:200
+                                       headerFields:nil
+                                           bodyData:nil];
+
+    __block BOOL blockCalled = NO;
+    __block LVCFileSyncStatus returnedSyncStatus = LVCFileSyncStatusUploadOK;
+    __block NSError *returnedError = nil;
+
+    [self.client checkSyncStatusForFilePath:@"foo/bar/baz.jpg"
+                                 parameters:@{@"md5": @"ASDF"}
+                                 completion:^(LVCFileSyncStatus syncStatus,
+                                              NSError *error,
+                                              AFHTTPRequestOperation *operation) {
+        blockCalled = YES;
+        returnedSyncStatus = syncStatus;
+        returnedError = error;
+    }];
+    [LVCAsyncHelper wait:0.1];
+    XCTAssertTrue(blockCalled);
+    XCTAssertTrue(returnedSyncStatus == LVCFileSyncStatusError);
+    XCTAssertNotNil(returnedError);
+    XCTAssertEqualObjects(returnedError.domain, LVCHTTPClientErrorDomain);
+    XCTAssertTrue(returnedError.code == LVCHTTPClientErrorMissingParameter);
+}
+
+
+- (void)testRequiredParamsCompleteSuccessfully
+{
+    [LVCMockURLConnection setResponseWithStatusCode:200
+                                       headerFields:nil
+                                           bodyData:nil];
+
+    __block BOOL blockCalled = NO;
+    __block LVCFileSyncStatus returnedSyncStatus = LVCFileSyncStatusError;
+    __block NSError *returnedError = nil;
+
+    [self.client checkSyncStatusForFilePath:@"foo/bar/baz.jpg"
+                                 parameters:@{@"md5": @"ASDF",
+                                              @"file_size": @(123)}
+                                 completion:^(LVCFileSyncStatus syncStatus,
+                                              NSError *error,
+                                              AFHTTPRequestOperation *operation) {
+        blockCalled = YES;
+        returnedSyncStatus = syncStatus;
+        returnedError = error;
+    }];
+    [LVCAsyncHelper wait:0.1];
+    XCTAssertTrue(blockCalled);
+    XCTAssertTrue(returnedSyncStatus == LVCFileSyncStatusUploadOK);
+    XCTAssertNil(returnedError);
+}
+
+
 @end

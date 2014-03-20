@@ -16,6 +16,11 @@
 @class LVCFolder;
 @class LVCFileRevision;
 
+OBJC_EXPORT NSString *const LVCHTTPClientErrorDomain;
+typedef enum LVCHTTPClientErrorCode : NSInteger {
+    LVCHTTPClientErrorMissingParameter = 1
+} LVCHTTPClientErrorCode;
+
 /**
  *  LVCHTTPClient is the main interface to the LayerVault web API. It contains 
  *  all the methods responsible for creating, retriving, updating, and deleting
@@ -590,6 +595,25 @@ __attribute__((deprecated("Replaced by -moveFile:toPath:completion:")));
                                          NSError *error,
                                          AFHTTPRequestOperation *operation))completion;
 
+/**
+ *  Check the sync status of a file against an MD5.
+ *
+ *  @param filePath   Percent encoded path of file including
+ *                    organization-permalink
+ *  @param md5        New md5 we're comparing against
+ *  @param completion Callback that return a LVCFileSyncStatus. An error will
+ *                    be returned in each case except LVCFileSyncStatusUploadOK
+ *
+ *  @deprecated in 0.3.0, Use 
+ *              `-checkSyncStatusForFilePath:md5:fileSize:completion:` instead.
+ */
+- (void)checkSyncStatusForFilePath:(NSString *)filePath
+                               md5:(NSString *)md5
+                        completion:(void (^)(LVCFileSyncStatus syncStatus,
+                                             NSError *error,
+                                             AFHTTPRequestOperation *operation))completion
+__attribute__((deprecated("Replaced by -checkSyncStatusForFilePath:md5:fileSize:completion:")));
+
 
 /**
  *  Check the sync status of a file against an MD5.
@@ -600,11 +624,12 @@ __attribute__((deprecated("Replaced by -moveFile:toPath:completion:")));
  *  @param completion Callback that return a LVCFileSyncStatus. An error will 
  *                    be returned in each case except LVCFileSyncStatusUploadOK
  */
-- (void)checkSyncStatusForFilePath:(NSString *)filePath
-                               md5:(NSString *)md5
-                        completion:(void (^)(LVCFileSyncStatus syncStatus,
-                                             NSError *error,
-                                             AFHTTPRequestOperation *operation))completion;
+- (void)checkSyncStatusForFileAtRemotePath:(NSString *)filePath
+                                       md5:(NSString *)md5
+                                  fileSize:(unsigned long long)fileSize
+                                completion:(void (^)(LVCFileSyncStatus syncStatus,
+                                                     NSError *error,
+                                                     AFHTTPRequestOperation *operation))completion;
 
 
 /**
