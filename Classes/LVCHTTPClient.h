@@ -604,7 +604,7 @@ __attribute__((deprecated("Replaced by -moveFile:toPath:completion:")));
  *  @param completion Callback that return a LVCFileSyncStatus. An error will
  *                    be returned in each case except LVCFileSyncStatusUploadOK
  *
- *  @deprecated in 0.3.0, Use 
+ *  @deprecated in 2.3.0, Use 
  *              `-checkSyncStatusForFilePath:md5:fileSize:completion:` instead.
  */
 - (void)checkSyncStatusForFilePath:(NSString *)filePath
@@ -612,7 +612,7 @@ __attribute__((deprecated("Replaced by -moveFile:toPath:completion:")));
                         completion:(void (^)(LVCFileSyncStatus syncStatus,
                                              NSError *error,
                                              AFHTTPRequestOperation *operation))completion
-__attribute__((deprecated("Replaced by -checkSyncStatusForFilePath:md5:fileSize:completion:")));
+__attribute__((deprecated("Replaced by -checkSyncStatusForFileAtRemotePath:md5:fileSize:completion:")));
 
 
 /**
