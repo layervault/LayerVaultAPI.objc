@@ -620,7 +620,8 @@ __attribute__((deprecated("Replaced by -checkSyncStatusForFilePath:md5:fileSize:
  *
  *  @param filePath   Percent encoded path of file including 
  *                    organization-permalink
- *  @param md5        New md5 we're comparing against
+ *  @param md5        Local md5 we're comparing against
+ *  @param fileSize   Local size in bytes of the file
  *  @param completion Callback that return a LVCFileSyncStatus. An error will 
  *                    be returned in each case except LVCFileSyncStatusUploadOK
  */
@@ -637,9 +638,15 @@ __attribute__((deprecated("Replaced by -checkSyncStatusForFilePath:md5:fileSize:
  *
  *  @param filePath   Percent encoded path of file we are comparing against the 
  *                    server.
- *  @param parameters Parameters used for check
+ *  @param parameters Parameters used for check. md5 and file_size are required
  *  @param completion Callback that return a LVCFileSyncStatus. An error will
  *                    be returned in each case except LVCFileSyncStatusUploadOK
+ *
+ *  @discussion The parameters MUST contain md5 (NSString) and file_size 
+ *              (NSNumber) otherwise this method will complete with a syncStatus 
+ *              of LVCFileSyncStatusError. The error object will contain a 
+ *              domain of LVCHTTPClientErrorDomain and a code of 
+ *              LVCHTTPClientErrorMissingParameter.
  */
 - (void)checkSyncStatusForFilePath:(NSString *)filePath
                         parameters:(NSDictionary *)parameters
