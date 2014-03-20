@@ -1,5 +1,11 @@
 # LayerVaultAPI CHANGELOG
 
+## 2.3.0
+- All syncChecking requires a file size parameter.
+- Deprecated `checkSyncStatusForFilePath:md5:completion:`
+- Added `checkSyncStatusForFileAtRemotePath:md5:fileSize:completion:`
+
+
 ## 2.2.1
 - Fixed an issue where failed refresh authentication would prevent other url requests from executing.
 
