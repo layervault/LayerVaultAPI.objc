@@ -19,6 +19,11 @@
 @property (readonly, nonatomic, copy) NSString *name;
 
 /**
+ *  The user’s role for this organization.
+ */
+@property (readonly, nonatomic, copy) NSString *userRole;
+
+/**
  *  @note permalink should be used in all URL calls for the organization
  */
 @property (readonly, nonatomic, copy) NSString *permalink;

@@ -15,6 +15,7 @@
 + (NSDictionary *)JSONKeyPathsByPropertyKey
 {
     return @{@"name": @"name",
+             @"userRole": @"user_role",
              @"permalink": @"permalink",
              @"dateDeleted": @"deleted_at",
              @"dateUpdated": @"updated_at",
