@@ -1,5 +1,9 @@
 # LayerVaultAPI CHANGELOG
 
+## 2.4.0
+- Added `userRole` to `LVCOrganization`.
+- Added `LVCFileSyncStatusUnsupportedType` to `LVCFile`.
+
 ## 2.3.0
 - All syncChecking requires a file size parameter.
 - Deprecated `checkSyncStatusForFilePath:md5:completion:`
