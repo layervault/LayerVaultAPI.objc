@@ -819,7 +819,7 @@ NSString *const LVCHTTPClientErrorDomain = @"LVCHTTPClientErrorDomain";
                                                      AFHTTPRequestOperation *operation))completion
 {
     NSParameterAssert(md5);
-    NSParameterAssert(fileSize);
+
     [self checkSyncStatusForFilePath:filePath
                           parameters:@{@"md5": md5,
                                        @"file_size": @(fileSize)}
