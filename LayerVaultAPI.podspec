@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
                     [LayerVault API](https://developers.layervault.com). It requires
                     ARC and is iOS and OS X compatible.
                    DESC
-  s.homepage     = "http://github.com/layervault/LayerVaultAPI.objc"
+  s.homepage     = "https://github.com/layervault/LayerVaultAPI.objc"
   s.license      = 'MIT'
   s.author       = { "Matt Thomas" => "matt@codecaffeine.com" }
   s.source       = { :git => "https://github.com/layervault/LayerVaultAPI.objc.git", :tag => s.version.to_s }
