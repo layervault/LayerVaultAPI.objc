@@ -1,5 +1,8 @@
 # LayerVaultAPI CHANGELOG
 
+## 2.4.1
+- Remove `file_size` assert. File size of 0 issues should be handled higher up the stack, or in the response.
+
 ## 2.4.0
 - Added `userRole` to `LVCOrganization`.
 - Added `LVCFileSyncStatusUnsupportedType` to `LVCFile`.
