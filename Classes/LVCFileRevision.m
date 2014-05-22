@@ -16,6 +16,7 @@
 {
     return @{@"revision": @"revision_number",
              @"md5": @"md5",
+             @"size": @"file_size",
              @"dateCreated": @"created_at",
              @"dateUpdated": @"updated_at",
              @"webURL": @"full_url",

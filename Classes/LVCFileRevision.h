@@ -19,6 +19,7 @@
  */
 @property (readonly, nonatomic) NSNumber *revision;
 @property (readonly, nonatomic, copy) NSString *md5;
+@property (readonly, nonatomic) NSNumber *size;
 @property (readonly, nonatomic) NSDate *dateCreated;
 @property (readonly, nonatomic) NSDate *dateUpdated;
 @property (readonly, nonatomic) NSURL *webURL;
