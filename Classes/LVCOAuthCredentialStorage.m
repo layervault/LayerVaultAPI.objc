@@ -33,8 +33,9 @@ static NSDictionary *LVCOAuthCredentialLookup(NSString *serviceName, NSString *a
     // archive data
     NSData *credentialData = [NSKeyedArchiver archivedDataWithRootObject:credential];
     if (!credentialData) {
-        // Populate Error
-        [self unableToArchiveCredentialError:error];
+        if (error) {
+            *error = [self unableToArchiveCredentialError];
+        }
         return NO;
     }
 
@@ -57,8 +58,7 @@ static NSDictionary *LVCOAuthCredentialLookup(NSString *serviceName, NSString *a
     }
 
     if ((status != errSecSuccess) && error) {
-        // Populate Error
-        [self keychainStatus:status error:error];
+        *error = [self keychainErrorWithStatus:status];
     }
 
     return (status == errSecSuccess);
@@ -80,8 +80,9 @@ static NSDictionary *LVCOAuthCredentialLookup(NSString *serviceName, NSString *a
                                           (CFTypeRef *)&credentialDataRef);
 
     if (status != errSecSuccess) {
-        // Populate Error
-        [self keychainStatus:status error:error];
+        if (error) {
+            *error = [self keychainErrorWithStatus:status];
+        }
         return nil;
     }
 
@@ -101,8 +102,8 @@ static NSDictionary *LVCOAuthCredentialLookup(NSString *serviceName, NSString *a
     NSDictionary *lookupDict = LVCOAuthCredentialLookup(serviceName, account);
     OSStatus status = SecItemDelete((__bridge CFDictionaryRef)lookupDict);
 
-    if (status != errSecSuccess) {
-        [self keychainStatus:status error:error];
+    if (status != errSecSuccess && error) {
+        *error = [self keychainErrorWithStatus:status];
     }
 
     return (status == errSecSuccess);
@@ -110,25 +111,21 @@ static NSDictionary *LVCOAuthCredentialLookup(NSString *serviceName, NSString *a
 
 
 #pragma mark - Errors
-+ (void)unableToArchiveCredentialError:(NSError * __autoreleasing *)error
++ (NSError *)unableToArchiveCredentialError
 {
-    if (error) {
-        NSString *localizedDescription = NSLocalizedString(@"Unable to archive credential", nil);
-        *error = [NSError errorWithDomain:LVCOAuthCredentialStorageErrorDomain
-                                     code:LVCOAuthCredentialStorageErrorUnableToArchiveCredential
-                                 userInfo:@{NSLocalizedDescriptionKey: localizedDescription}];
-    }
+    NSString *localizedDescription = NSLocalizedString(@"Unable to archive credential", nil);
+    return [NSError errorWithDomain:LVCOAuthCredentialStorageErrorDomain
+                               code:LVCOAuthCredentialStorageErrorUnableToArchiveCredential
+                           userInfo:@{NSLocalizedDescriptionKey: localizedDescription}];
 }
 
-+ (void)keychainStatus:(OSStatus)status error:(NSError * __autoreleasing *)error
++ (NSError *)keychainErrorWithStatus:(OSStatus)status
 {
-    if (error) {
-        NSString *localizedDescription = NSLocalizedString(@"Unexpected Keychain Status", nil);
-        *error = [NSError errorWithDomain:LVCOAuthCredentialStorageErrorDomain
-                                     code:LVCOAuthCredentialStorageErrorKeychainStatus
-                                 userInfo:@{NSLocalizedDescriptionKey: localizedDescription,
-                                            @"OSStatus": @(status)}];
-    }
+    NSString *localizedDescription = NSLocalizedString(@"Unexpected Keychain Status", nil);
+    return [NSError errorWithDomain:LVCOAuthCredentialStorageErrorDomain
+                               code:LVCOAuthCredentialStorageErrorKeychainStatus
+                           userInfo:@{NSLocalizedDescriptionKey: localizedDescription,
+                                      @"OSStatus": @(status)}];
 }
 
 @end
