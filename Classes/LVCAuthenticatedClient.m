@@ -78,9 +78,7 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
                 self.refreshingToken = YES;
                 [self.operationQueue setSuspended:YES];
 
-                [self authenticateUsingOAuthWithPath:@"/oauth/token"
-                                        refreshToken:self.credential.refreshToken
-                                             success:^(AFOAuthCredential *credential) {
+                [self authenticateUsingOAuthWithPath:@"/oauth/token" refreshToken:self.credential.refreshToken success:^(AFOAuthCredential *credential) {
                     self.credential = credential;
                     self.refreshingToken = NO;
                     [self.operationQueue setSuspended:NO];
@@ -91,12 +89,12 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
                                                                                       success:success
                                                                                       failure:failure];
                     [self enqueueHTTPRequestOperation:attempt2];
-                }
-                                             failure:^(NSError *error) {
-                    NSHTTPURLResponse *response = error.userInfo[AFNetworkingOperationFailingURLResponseErrorKey];
-                    if ([response isKindOfClass:NSHTTPURLResponse.class] && response.statusCode == 401) {
-                        [self logout];
-                    }
+                } failure:^(NSError *error) {
+                    // If for any reason the refresh fails, force a logout.
+                    // We only get to this state when authenticated requests
+                    // fail and if refresh token fails *for any reason*, we
+                    // wont be able to do any authenticated requests anyway.
+                    [self logout];
                     self.refreshingToken = NO;
                     [self.operationQueue setSuspended:NO];
 
@@ -117,17 +115,13 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
         // callback, inject the authenticationCallback in the success and
         // failure blocks
         adjustedSuccess = ^(AFHTTPRequestOperation *operation, id responseObject) {
-            if (self.authenticationCallback) {
-                self.authenticationCallback(YES, operation, nil);
-            }
+            self.authenticationCallback(YES, operation, nil);
             if (success) {
                 success(operation, responseObject);
             }
         };
         adjustedFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
-            if (self.authenticationCallback) {
-                self.authenticationCallback(NO, operation, error);
-            }
+            self.authenticationCallback(NO, operation, error);
             if (failure) {
                 failure(operation, error);
             }
