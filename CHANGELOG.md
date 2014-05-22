@@ -1,5 +1,8 @@
 # LayerVaultAPI CHANGELOG
 
+## 2.4.2
+- Fix issue where unexpected refresh token failure would not log us out.
+
 ## 2.4.1
 - Remove `file_size` assert. File size of 0 issues should be handled higher up the stack, or in the response.
 
