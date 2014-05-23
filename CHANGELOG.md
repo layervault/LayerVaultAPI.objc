@@ -1,5 +1,9 @@
 # LayerVaultAPI CHANGELOG
 
+## 2.5.0
+- Added `size` to `LVCFileRevision`.
+- Fixed an alert about coding convention.
+
 ## 2.4.2
 - Fix issue where unexpected refresh token failure would not log us out.
 
