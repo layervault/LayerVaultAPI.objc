@@ -17,8 +17,11 @@
 #import <Mantle/EXTScope.h>
 #import <QuartzCore/QuartzCore.h>
 #import <AFOAuth2Client/AFOAuth2Client.h>
+#import <SSKeychain/SSKeychain.h>
 
 static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
+
+NSString *const LVCKeychainService = @"LayerVaultAPIDemoApp";
 
 @interface LVCMainWindowController () <NSOutlineViewDataSource, NSOutlineViewDelegate>
 @property (strong) LVCOrganizationsViewController *organizationsViewController;
@@ -39,30 +42,29 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 {
     self = [super initWithWindow:window];
     if (self) {
-        _client = [[LVCAuthenticatedClient alloc] initWithClientID:LVClientID
-                                                            secret:LVClientSecret];
+        NSURL *url = [NSURL URLWithString:@"https://beta.layervault.com/api/v1/"];
+        _client = [[LVCAuthenticatedClient alloc] initWithBaseURL:url
+                                                         clientID:LVClientID
+                                                           secret:LVClientSecret];
 
-        NSString *serviceName = @"LayerVault API Demo App Login";
-        NSString *account = _client.serviceProviderIdentifier;
-
-        AFOAuthCredential *credential = [LVCOAuthCredentialStorage credentialWithServiceName:serviceName
-                                                                                     account:account
-                                                                                       error:nil];
-        if (credential) {
-            [_client loginWithCredential:credential];
-        }
-
-        [RACObserve(_client, credential) subscribeNext:^(AFOAuthCredential *newCredential) {
-            if (newCredential) {
-                [LVCOAuthCredentialStorage storeCredential:newCredential
-                                           withServiceName:serviceName
-                                                   account:account
-                                                     error:nil];
-            }
-            else {
-                [LVCOAuthCredentialStorage deleteCredentialWithServiceName:serviceName
-                                                                   account:account
-                                                                     error:nil];
+        @weakify(self);
+        [RACObserve(_client, authenticationState) subscribeNext:^(NSNumber *authStateNumber) {
+            @strongify(self);
+            LVCAuthenticationState authenticationState = [authStateNumber integerValue];
+            switch (authenticationState) {
+                case LVCAuthenticationStateUnauthenticated:
+                    NSLog(@"Unauthenticated");
+                    break;
+                case LVCAuthenticationStateAuthenticating:
+                    NSLog(@"Authenticating");
+                    break;
+                case LVCAuthenticationStateAuthenticated:
+                    NSLog(@"Authenticated");
+                    break;
+                case LVCAuthenticationStateTokenExpired:
+                    NSLog(@"Token Expired");
+                    [self loginWithCredentialsFromKeychain];
+                    break;
             }
         }];
 
@@ -70,7 +72,7 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
         _fileRevisionWindow.client = _client;
 
         _projectOutlineViewController = [[LVCProjectOutlineViewController alloc] initWithNibName:@"LVCProjectOutlineViewController" bundle:nil];
-        @weakify(self);
+
         _projectOutlineViewController.fileSelectedHandler = ^(LVCFile *file) {
             @strongify(self);
             [self.fileRevisionWindow showWindow:nil];
@@ -84,10 +86,68 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 
         _loginViewController.loginHander = ^(NSString *userName, NSString *password) {
             @strongify(self);
-            [self.client loginWithEmail:userName password:password];
+            [self loginWithEmail:userName password:password];
         };
     }
     return self;
+}
+
+
+- (void)loginWithCredentialsFromKeychain
+{
+    NSString *accountEmail = nil;
+    NSString *accountPassword = nil;
+    NSArray *accounts = [SSKeychain accountsForService:LVCKeychainService];
+    if (accounts.count > 0) {
+        accountEmail = accounts[0][kSSKeychainAccountKey];
+        accountPassword = [SSKeychain passwordForService:LVCKeychainService
+                                                 account:accountEmail];
+    }
+
+    [self loginWithEmail:accountEmail password:accountPassword];
+}
+
+
+- (void)loginWithEmail:(NSString *)email password:(NSString *)password
+{
+    if (email.length > 0 && password.length > 0) {
+        @weakify(self);
+        [self.client loginWithEmail:email password:password completion:^(BOOL success,
+                                                                         NSError *error) {
+            @strongify(self);
+            if (success) {
+                [SSKeychain setPassword:password
+                             forService:LVCKeychainService
+                                account:email
+                                  error:nil];
+            }
+            else {
+                // Ugh, if the login fails with 401, we should do this.
+                // Otherwise report error and retry.
+                [SSKeychain deletePasswordForService:LVCKeychainService
+                                             account:email];
+                [self.client logout];
+            }
+        }];
+    }
+    else {
+        // This is because the logout might be because of a token expiration
+        // Akward.
+        [self.client logout];
+    }
+}
+
+
+- (void)logout
+{
+    NSArray *accounts = [SSKeychain accountsForService:LVCKeychainService];
+    if (accounts.count > 0) {
+        NSString *email = accounts[0][kSSKeychainAccountKey];
+        [SSKeychain deletePasswordForService:LVCKeychainService
+                                     account:email];
+    }
+
+    [self.client logout];
 }
 
 
@@ -156,6 +216,8 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
             [self placeLoginViewController];
         }
     }];
+
+    [self loginWithCredentialsFromKeychain];
 }
 
 
