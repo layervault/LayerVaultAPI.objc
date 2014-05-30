@@ -24,6 +24,7 @@
 #import "LVCOAuthCredentialStorage.h"
 #import "LVCOrganization.h"
 #import "LVCProject.h"
+#import "LVCRetryOperationShell.h"
 #import "LVCUser.h"
 #import "NSDateFormatter+RFC3339.h"
 #import "NSMutableURLRequest+OAuth2.h"
