@@ -59,11 +59,6 @@ extern NSString *md5ForFileURL(NSURL *fileURL);
 @property (readonly, nonatomic) NSURL *downloadURL;
 
 /**
- *  Update the file MD5 from the value calculated on the filesystem
- */
-- (void)updateMD5FromLocalFile;
-
-/**
  *  Gets a revision with a specific number, or nil.
  *
  *  @param number Revision Number
