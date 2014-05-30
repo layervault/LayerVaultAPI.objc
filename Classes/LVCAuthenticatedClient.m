@@ -8,6 +8,7 @@
 
 #import "LVCAuthenticatedClient.h"
 #import "LVCUser.h"
+#import "LVCRetryOperationShell.h"
 #import "NSURLRequest+OAuth2.h"
 #import "NSMutableURLRequest+OAuth2.h"
 #import <AFOAuth2Client/AFOAuth2Client.h>
@@ -15,12 +16,19 @@
 
 static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
 
+NSString * const LVCAuthenticationStateDescription[] = {
+    [LVCAuthenticationStateUnauthenticated] = @"LVCAuthenticationStateUnauthenticated",
+    [LVCAuthenticationStateAuthenticating] = @"LVCAuthenticationStateAuthenticating",
+    [LVCAuthenticationStateAuthenticated] = @"LVCAuthenticationStateAuthenticated",
+    [LVCAuthenticationStateTokenExpired] = @"LVCAuthenticationStateTokenExpired"
+};
+
 @interface LVCAuthenticatedClient ()
 @property (atomic) AFOAuthCredential *credential;
-@property (atomic, getter = isRefreshingToken) BOOL refreshingToken;
 @property (nonatomic, getter = isAuthenticated) LVCAuthenticationState authenticationState;
 @property (nonatomic) NSOperationQueue *authenticationQueue;
 @property (nonatomic) LVCUser *user;
+@property (nonatomic) NSMutableArray *authFailedOperations;
 @end
 
 @implementation LVCAuthenticatedClient
@@ -61,47 +69,19 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
                                                     failure:(void (^)(AFHTTPRequestOperation *operation,
                                                                       NSError *error))failure
 {
-    void (^adjustedSuccess)(AFHTTPRequestOperation *operation, id responseObject) = success;
     void (^adjustedFailure)(AFHTTPRequestOperation *operation, NSError *error) = failure;
 
     if (![urlRequest.URL.path isEqualToString:@"/oauth/token"]) {
-        // If this is not a token request, inject refreshing the oauth
-        // credential if an HTTP 401 response is returned and the credential is
-        // expired.
+        __weak typeof(self) weakSelf = self;
+        // If this is not a token request and the credential fails, suspend the
+        // queue and save the failed requests.
         adjustedFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSString *token = [operation.request lvc_bearerToken];
-
-            // Make sure our current token was the one that failed.
-            if (!self.refreshingToken &&
-                [token isEqualToString:self.credential.accessToken] &&
-                (operation.response.statusCode == 401 || self.credential.isExpired)) {
-                self.refreshingToken = YES;
-                [self.operationQueue setSuspended:YES];
-
-                [self authenticateUsingOAuthWithPath:@"/oauth/token" refreshToken:self.credential.refreshToken success:^(AFOAuthCredential *credential) {
-                    self.credential = credential;
-                    self.refreshingToken = NO;
-                    [self.operationQueue setSuspended:NO];
-
-                    NSMutableURLRequest *newRequest = urlRequest.mutableCopy;
-                    [newRequest lvc_setBearerToken:self.credential.accessToken];
-                    AFHTTPRequestOperation *attempt2 = [super HTTPRequestOperationWithRequest:newRequest
-                                                                                      success:success
-                                                                                      failure:failure];
-                    [self enqueueHTTPRequestOperation:attempt2];
-                } failure:^(NSError *error) {
-                    // If for any reason the refresh fails, force a logout.
-                    // We only get to this state when authenticated requests
-                    // fail and if refresh token fails *for any reason*, we
-                    // wont be able to do any authenticated requests anyway.
-                    [self logout];
-                    self.refreshingToken = NO;
-                    [self.operationQueue setSuspended:NO];
-
-                    if (failure) {
-                        failure(operation, error);
-                    }
-                }];
+            __strong typeof(weakSelf) strongSelf = weakSelf;
+            if ((operation.response.statusCode == 401 || strongSelf.credential.isExpired)) {
+                [strongSelf.operationQueue setSuspended:YES];
+                strongSelf.authenticationState = LVCAuthenticationStateTokenExpired;
+                LVCRetryOperationShell *retry = [LVCRetryOperationShell retryOperationShellWithURLRequest:operation.request success:success failure:failure];
+                [strongSelf.authFailedOperations addObject:retry];
             }
             else {
                 if (failure) {
@@ -110,26 +90,9 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
             }
         };
     }
-    else if (self.authenticationCallback) {
-        // If this *is* an /oauth/token request and we have an authentication
-        // callback, inject the authenticationCallback in the success and
-        // failure blocks
-        adjustedSuccess = ^(AFHTTPRequestOperation *operation, id responseObject) {
-            self.authenticationCallback(YES, operation, nil);
-            if (success) {
-                success(operation, responseObject);
-            }
-        };
-        adjustedFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
-            self.authenticationCallback(NO, operation, error);
-            if (failure) {
-                failure(operation, error);
-            }
-        };
-    }
 
     return [super HTTPRequestOperationWithRequest:urlRequest
-                                          success:adjustedSuccess
+                                          success:success
                                           failure:adjustedFailure];
 }
 
@@ -173,12 +136,6 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
 }
 
 #pragma mark - Instance Methods
-- (void)loginWithCredential:(AFOAuthCredential *)credential
-{
-    NSParameterAssert(credential);
-    self.credential = credential;
-}
-
 - (void)loginWithEmail:(NSString *)email
               password:(NSString *)password
             completion:(void (^)(BOOL success,
@@ -187,17 +144,28 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
     NSParameterAssert(email);
     NSParameterAssert(password);
 
-    [self authenticateWithEmail:email
-                       password:password
-                     completion:^(AFOAuthCredential *credential,
-                                  NSError *error) {
-                         if (credential) {
-                             self.credential = credential;
-                         }
-                         if (completion) {
-                             completion(!!credential, error);
-                         }
-                     }];
+    __weak typeof(self) weakSelf = self;
+    [self authenticateWithEmail:email password:password completion:^(AFOAuthCredential *credential,
+                                                                     NSError *error) {
+
+        __strong typeof(self) strongSelf = weakSelf;
+
+        if (credential) {
+            strongSelf.credential = credential;
+            for (LVCRetryOperationShell *retryShell in strongSelf.authFailedOperations) {
+                NSURLRequest *request = [retryShell requestWithBearerToken:strongSelf.credential.accessToken];
+                AFHTTPRequestOperation *retryOperation = [self HTTPRequestOperationWithRequest:request
+                                                                                       success:retryShell.success
+                                                                                       failure:retryShell.failure];
+                [strongSelf enqueueHTTPRequestOperation:retryOperation];
+            }
+            strongSelf.authFailedOperations = [NSMutableArray array];
+            [strongSelf.operationQueue setSuspended:NO];
+        }
+        if (completion) {
+            completion(!!credential, error);
+        }
+    }];
 }
 
 - (void)loginWithEmail:(NSString *)email password:(NSString *)password
@@ -221,11 +189,6 @@ static void *LVCAuthenticatedClientContext = &LVCAuthenticatedClientContext;
 
                 // Get user info
                 [self getMeWithCompletion:nil];
-
-                // Unsuspend queue if needed
-                if (self.operationQueue.isSuspended) {
-                    [self.operationQueue setSuspended:NO];
-                }
             }
             else {
                 // If the credential gets explicitly set to nil, it means there

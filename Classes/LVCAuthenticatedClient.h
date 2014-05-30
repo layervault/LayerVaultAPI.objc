@@ -11,11 +11,14 @@
 @class AFOAuthCredential;
 @class AFHTTPRequestOperation;
 
-typedef NS_ENUM(NSInteger, LVCAuthenticationState) {
-    LVCAuthenticationStateUnauthenticated = -1,
-    LVCAuthenticationStateAuthenticating = 0,
-    LVCAuthenticationStateAuthenticated = 1
+typedef NS_ENUM(NSUInteger, LVCAuthenticationState) {
+    LVCAuthenticationStateUnauthenticated = 0,
+    LVCAuthenticationStateAuthenticating,
+    LVCAuthenticationStateAuthenticated,
+    LVCAuthenticationStateTokenExpired
 };
+
+OBJC_EXPORT NSString * const LVCAuthenticationStateDescription[];
 
 typedef void (^LVCClientAuthenticationCallback)(BOOL success, AFHTTPRequestOperation *operation, NSError *error);
 
@@ -30,11 +33,6 @@ typedef void (^LVCClientAuthenticationCallback)(BOOL success, AFHTTPRequestOpera
  *  Returns if the client is unauthenticated, authenticating, or authenticated
  */
 @property (readonly, nonatomic) LVCAuthenticationState authenticationState;
-
-/**
- *  A handler called when the client is authenticated
- */
-@property (nonatomic, copy) LVCClientAuthenticationCallback authenticationCallback;
 
 /**
  *  A credential to use for authentication
@@ -69,15 +67,6 @@ typedef void (^LVCClientAuthenticationCallback)(BOOL success, AFHTTPRequestOpera
  */
 - (instancetype)initWithClientID:(NSString *)clientID
                           secret:(NSString *)secret;
-
-
-/**
- *  Authenticates with a credential
- *
- *  @param credential             Credential to authenticate with
- */
-- (void)loginWithCredential:(AFOAuthCredential *)credential;
-
 
 /**
  *  Authenticates with email/password and a completion
