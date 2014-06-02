@@ -50,7 +50,7 @@ NSString *const LVCKeychainService = @"LayerVaultAPIDemoApp";
         @weakify(self);
         [RACObserve(_client, authenticationState) subscribeNext:^(NSNumber *authStateNumber) {
             @strongify(self);
-            LVCAuthenticationState authenticationState = [authStateNumber integerValue];
+            LVCAuthenticationState authenticationState = (LVCAuthenticationState)[authStateNumber integerValue];
             switch (authenticationState) {
                 case LVCAuthenticationStateUnauthenticated:
                     NSLog(@"Unauthenticated");
