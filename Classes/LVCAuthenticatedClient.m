@@ -28,7 +28,7 @@ NSString * const LVCAuthenticationStateDescription[] = {
 @property (nonatomic, getter = isAuthenticated) LVCAuthenticationState authenticationState;
 @property (nonatomic) NSOperationQueue *authenticationQueue;
 @property (nonatomic) LVCUser *user;
-@property (nonatomic) NSMutableArray *authFailedOperations;
+@property (nonatomic) NSMutableArray *requestsWhileTokenExpired;
 @end
 
 @implementation LVCAuthenticatedClient
@@ -81,7 +81,7 @@ NSString * const LVCAuthenticationStateDescription[] = {
                 [strongSelf.operationQueue setSuspended:YES];
                 strongSelf.authenticationState = LVCAuthenticationStateTokenExpired;
                 LVCRetryOperationShell *retry = [LVCRetryOperationShell retryOperationShellWithURLRequest:operation.request success:success failure:failure];
-                [strongSelf.authFailedOperations addObject:retry];
+                [strongSelf.requestsWhileTokenExpired addObject:retry];
             }
             else {
                 if (failure) {
@@ -152,14 +152,14 @@ NSString * const LVCAuthenticationStateDescription[] = {
 
         if (credential) {
             strongSelf.credential = credential;
-            for (LVCRetryOperationShell *retryShell in strongSelf.authFailedOperations) {
+            for (LVCRetryOperationShell *retryShell in strongSelf.requestsWhileTokenExpired) {
                 NSURLRequest *request = [retryShell requestWithBearerToken:strongSelf.credential.accessToken];
                 AFHTTPRequestOperation *retryOperation = [self HTTPRequestOperationWithRequest:request
                                                                                        success:retryShell.success
                                                                                        failure:retryShell.failure];
                 [strongSelf enqueueHTTPRequestOperation:retryOperation];
             }
-            strongSelf.authFailedOperations = [NSMutableArray array];
+            strongSelf.requestsWhileTokenExpired = [NSMutableArray array];
             [strongSelf.operationQueue setSuspended:NO];
         }
         if (completion) {
