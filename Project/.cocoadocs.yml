@@ -1,0 +1,17 @@
+highlight-font: '"Avenir Next", "Helvetica Neue", "Helvetica", "Arial", sans-serif'
+
+body: '"Helvetica Neue", "Helvetica", "Arial", san-serif'
+code: '"Menlo", "Consolas", "Monaco", "Courier New", monospace'
+
+highlight-color: '#DD4A38'
+highlight-dark-color: '#DD4A38'
+
+darker-color: '#9EA7B1'
+darker-dark-color: '#9EA7B1'
+
+background-color: '#FFFFFF'
+alt-link-color: '#2F79E7'
+warning-color: '#FF1E00'
+
+additional_guides:
+     - https://github.com/magicalpanda/MagicalRecord/wiki/Installation
