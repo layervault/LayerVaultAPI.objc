@@ -30,7 +30,8 @@ typedef void (^LVCClientAuthenticationCallback)(BOOL success, AFHTTPRequestOpera
 @property (readonly, nonatomic) LVCUser *user;
 
 /**
- *  Returns if the client is unauthenticated, authenticating, or authenticated
+ *  Returns if the client is unauthenticated, authenticating, authenticated, or 
+ *  if the token has expired
  */
 @property (readonly, nonatomic) LVCAuthenticationState authenticationState;
 
@@ -43,9 +44,9 @@ typedef void (^LVCClientAuthenticationCallback)(BOOL success, AFHTTPRequestOpera
 /**
  *  Created an authenticated client with all the options
  *
- *  @param url                    URL endpoint we are making calls against (required)
- *  @param clientID               OAuth Client ID (required)
- *  @param secret                 OAuth Secret (required)
+ *  @param url          URL endpoint we are making calls against (required)
+ *  @param clientID     OAuth Client ID (required)
+ *  @param secret       OAuth Secret (required)
  *
  *  @return AuthenticatedClient Instance
  *
@@ -95,5 +96,35 @@ typedef void (^LVCClientAuthenticationCallback)(BOOL success, AFHTTPRequestOpera
  *  authenticated methods.
  */
 - (void)logout;
+
+
+///----------------
+/// @name Constants
+///----------------
+
+/**
+ ## Authentication
+
+ Possible Authentication States
+
+ enum {
+ LVCAuthenticationStateUnauthenticated,
+ LVCAuthenticationStateAuthenticating,
+ LVCAuthenticationStateAuthenticated,
+ LVCAuthenticationStateTokenExpired
+ }
+
+ `LVCAuthenticationStateAuthenticating`
+ Client is unauthenticated.
+
+ `AFNetworkReachabilityStatusNotReachable`
+ Client is currently authenticating.
+
+ `LVCAuthenticationStateAuthenticated`
+ Client has successfully authenticated.
+
+ `LVCAuthenticationStateTokenExpired`
+ Client had previously authenticated, but access token is expired.
+ **/
 
 @end
