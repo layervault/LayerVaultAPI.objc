@@ -1,5 +1,11 @@
 # LayerVaultAPI CHANGELOG
 
+## 3.0.0
+- Remove authenticating with refresh token.
+- Add ‘token expired’ authentication state.
+- Save requests while token expired.
+- re-run saved requests when re-authenticated.
+
 ## 2.5.0
 - Added `size` to `LVCFileRevision`.
 - Fixed an alert about coding convention.
