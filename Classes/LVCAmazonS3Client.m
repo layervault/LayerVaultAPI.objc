@@ -63,7 +63,7 @@ NSString *mimeForFile(NSURL *fileURL)
     }
 
     NSMutableURLRequest *fileRequest = [NSMutableURLRequest requestWithURL:fileURL];
-    [fileRequest setCachePolicy:NSURLCacheStorageNotAllowed];
+    [fileRequest setCachePolicy:NSURLRequestReloadIgnoringCacheData];
 
     NSURLResponse *response = nil;
     NSError *fileError = nil;

@@ -11,11 +11,14 @@
 @class AFOAuthCredential;
 @class AFHTTPRequestOperation;
 
-typedef NS_ENUM(NSInteger, LVCAuthenticationState) {
-    LVCAuthenticationStateUnauthenticated = -1,
-    LVCAuthenticationStateAuthenticating = 0,
-    LVCAuthenticationStateAuthenticated = 1
+typedef NS_ENUM(NSUInteger, LVCAuthenticationState) {
+    LVCAuthenticationStateUnauthenticated = 0,
+    LVCAuthenticationStateAuthenticating,
+    LVCAuthenticationStateAuthenticated,
+    LVCAuthenticationStateTokenExpired
 };
+
+OBJC_EXPORT NSString * const LVCAuthenticationStateDescription[];
 
 typedef void (^LVCClientAuthenticationCallback)(BOOL success, AFHTTPRequestOperation *operation, NSError *error);
 
@@ -27,14 +30,10 @@ typedef void (^LVCClientAuthenticationCallback)(BOOL success, AFHTTPRequestOpera
 @property (readonly, nonatomic) LVCUser *user;
 
 /**
- *  Returns if the client is unauthenticated, authenticating, or authenticated
+ *  Returns if the client is unauthenticated, authenticating, authenticated, or 
+ *  if the token has expired
  */
 @property (readonly, nonatomic) LVCAuthenticationState authenticationState;
-
-/**
- *  A handler called when the client is authenticated
- */
-@property (nonatomic, copy) LVCClientAuthenticationCallback authenticationCallback;
 
 /**
  *  A credential to use for authentication
@@ -45,9 +44,9 @@ typedef void (^LVCClientAuthenticationCallback)(BOOL success, AFHTTPRequestOpera
 /**
  *  Created an authenticated client with all the options
  *
- *  @param url                    URL endpoint we are making calls against (required)
- *  @param clientID               OAuth Client ID (required)
- *  @param secret                 OAuth Secret (required)
+ *  @param url          URL endpoint we are making calls against (required)
+ *  @param clientID     OAuth Client ID (required)
+ *  @param secret       OAuth Secret (required)
  *
  *  @return AuthenticatedClient Instance
  *
@@ -69,15 +68,6 @@ typedef void (^LVCClientAuthenticationCallback)(BOOL success, AFHTTPRequestOpera
  */
 - (instancetype)initWithClientID:(NSString *)clientID
                           secret:(NSString *)secret;
-
-
-/**
- *  Authenticates with a credential
- *
- *  @param credential             Credential to authenticate with
- */
-- (void)loginWithCredential:(AFOAuthCredential *)credential;
-
 
 /**
  *  Authenticates with email/password and a completion
@@ -106,5 +96,35 @@ typedef void (^LVCClientAuthenticationCallback)(BOOL success, AFHTTPRequestOpera
  *  authenticated methods.
  */
 - (void)logout;
+
+
+///----------------
+/// @name Constants
+///----------------
+
+/**
+ ## Authentication
+
+ Possible Authentication States
+
+ enum {
+ LVCAuthenticationStateUnauthenticated,
+ LVCAuthenticationStateAuthenticating,
+ LVCAuthenticationStateAuthenticated,
+ LVCAuthenticationStateTokenExpired
+ }
+
+ `LVCAuthenticationStateAuthenticating`
+ Client is unauthenticated.
+
+ `AFNetworkReachabilityStatusNotReachable`
+ Client is currently authenticating.
+
+ `LVCAuthenticationStateAuthenticated`
+ Client has successfully authenticated.
+
+ `LVCAuthenticationStateTokenExpired`
+ Client had previously authenticated, but access token is expired.
+ **/
 
 @end

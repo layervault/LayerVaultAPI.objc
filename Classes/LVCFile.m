@@ -33,11 +33,6 @@ NSString *md5ForFileURL(NSURL *fileURL)
     return md5;
 }
 
-@interface LVCFile ()
-@property (nonatomic, copy) NSString *md5;
-@end
-
-
 @implementation LVCFile
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey
@@ -83,17 +78,6 @@ NSString *md5ForFileURL(NSURL *fileURL)
 
 
 #pragma mark - Instance Methods
-- (void)updateMD5FromLocalFile
-{
-    if ([[NSFileManager defaultManager] fileExistsAtPath:self.fileURL.path]) {
-        self.md5 = md5ForFileURL(self.fileURL);
-    }
-    else {
-        NSLog(@"File not found locally: %@", self.fileURL);
-    }
-}
-
-
 - (LVCFileRevision *)revisionWithNumber:(NSNumber *)number
 {
     LVCFileRevision *revision = nil;
