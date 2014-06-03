@@ -1,4 +1,4 @@
-highlight-font: '"Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;'
+highlight-font: '"Avenir Next Bold", "Helvetica Neue Bold", Helvetica, Arial, sans-serif;'
 
 body: '"Helvetica Neue", Helvetica, "Arial", san-serif'
 code: '"Menlo", "Monaco", "Consolas", "Courier New", monospace'
@@ -9,6 +9,6 @@ highlight-dark-color: '#B03B2C'
 darker-color: '#9EA7B1'
 darker-dark-color: '#7E858D'
 
-background-color: '#FFFFFF'
+background-color: '#F8F8F8'
 alt-link-color: '#2F79E7'
 warning-color: '#DD9C38'
