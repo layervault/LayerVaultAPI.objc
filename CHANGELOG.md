@@ -1,5 +1,8 @@
 # LayerVaultAPI CHANGELOG
 
+## 3.0.1
+- Updating documentation might be useful.
+
 ## 3.0.0
 - Remove authenticating with refresh token.
 - Add ‘token expired’ authentication state.
