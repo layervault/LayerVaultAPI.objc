@@ -22,9 +22,9 @@ The authentication state can be observed. Because OAuth tokens expire, users wil
               forKeyPath:@"authenticationState"
                  options:NSKeyValueObservingOptionNew
                  context:kMyContext];
+```
 
-…
-
+``` objc
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (context == kMyContext) {
