@@ -19,9 +19,9 @@ The authentication state can be observed. Because OAuth tokens expire, users wil
 
 ``` objc
 [self.client addObserver:self
-                      forKeyPath:@"authenticationState"
-                         options:NSKeyValueObservingOptionNew
-                         context:kMyContext];
+              forKeyPath:@"authenticationState"
+                 options:NSKeyValueObservingOptionNew
+                 context:kMyContext];
 
 …
 
