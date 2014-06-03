@@ -1,6 +1,6 @@
 highlight-font: '"Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;'
 
-body: '"Helvetica Neue", "Arial", san-serif'
+body: '"Helvetica Neue", Helvetica, "Arial", san-serif'
 code: '"Menlo", "Monaco", "Consolas", "Courier New", monospace'
 
 highlight-color: '#DD4A38'
