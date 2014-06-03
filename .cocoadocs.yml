@@ -1,4 +1,4 @@
-highlight-font: '"Avenir Next Bold", "Helvetica Neue Bold", Helvetica, Arial, sans-serif;'
+highlight-font: '"AvenirNext-DemiBold", "Helvetica Neue", Helvetica, Arial, sans-serif;'
 
 body: '"Helvetica Neue", Helvetica, "Arial", san-serif'
 code: '"Menlo", "Monaco", "Consolas", "Courier New", monospace'
