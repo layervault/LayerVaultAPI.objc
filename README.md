@@ -11,35 +11,35 @@
 ``` objc
 LVCAuthenticatedClient *client = [[LVCAuthenticatedClient alloc] initWithClientID:LVClientID
                                                                            secret:LVClientSecret];
-
-client.authenticationCallback = ^(LVCUser *user, NSError *error) {
-	NSLog(@"logged in user: %@", user.email);
-	NSLog(@"error: %@", error);
-};
-
 // Authenticate with a username & password
 [self.client loginWithEmail:userName password:password];
 ```
 
-OAuth credentials can be saved, retrieved, and deleted from the keychain using LVCOAuthCredentialStorage.
+The authentication state can be observed. Because OAuth tokens expire, users will need to be re-authenticated
 
 ``` objc
-AFOAuthCredential *credential = [LVCOAuthCredentialStorage credentialWithServiceName:serviceName
-                                                                             account:account
-                                                                               error:nil];
-if (credential) {
-    [LVCOAuthCredentialStorage storeCredential:newCredential
-                               withServiceName:serviceName
-                                       account:account
-                                         error:nil];
+[self.client addObserver:self
+                      forKeyPath:@"authenticationState"
+                         options:NSKeyValueObservingOptionNew
+                         context:kMyContext];
 
-    [client loginWithCredential:credential];
+…
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (context == kMyContext) {
+        if ([keyPath isEqualToString:@"authenticationState"]) {
+            LVCAuthenticationState authenticationState = (LVCAuthenticationState)[change[@"new"] integerValue];
+            if (authenticationState == LVCAuthenticationStateTokenExpired) {
+                [self.client loginWithEmail:self.email password:self.password];
+            }
+        }
+    }
+    else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
-
 ```
-
-`LVCAuthenticatedClient` will also handle refreshing the OAuth token when it expires automatically.
-
 
 ### Getting User Information
 `LVCUser` contains all the information for a user including the organizations they are a part of and the projects they have access to. `LVCAuthenticatedClient` has a user property that is set automatically when authentication completes:
