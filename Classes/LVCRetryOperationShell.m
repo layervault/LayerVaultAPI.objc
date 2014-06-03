@@ -8,7 +8,7 @@
 
 @implementation LVCRetryOperationShell
 
-+ (instancetype)retryOperationShellWithURLRequest:urlRequest
++ (instancetype)retryOperationShellWithURLRequest:(NSURLRequest *)urlRequest
                                           success:(void (^)(AFHTTPRequestOperation *operation,
                                                             id responseObject))success
                                           failure:(void (^)(AFHTTPRequestOperation *operation,

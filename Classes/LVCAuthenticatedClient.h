@@ -11,16 +11,30 @@
 @class AFOAuthCredential;
 @class AFHTTPRequestOperation;
 
+/**
+ *  Various authentication states the authenticated client can be in
+ */
 typedef NS_ENUM(NSUInteger, LVCAuthenticationState) {
+    /**
+     *  Unauthenticated. User & Credential should be nil.
+     */
     LVCAuthenticationStateUnauthenticated = 0,
+    /**
+     *  Authenticating. User & Credential should be nil.
+     */
     LVCAuthenticationStateAuthenticating,
+    /**
+     *  Authenticated. User & Credential are set.
+     */
     LVCAuthenticationStateAuthenticated,
+    /**
+     *  Token Expired. User & Credential are set, but the access token is 
+     *  expired and request will return HTTP 401.
+     */
     LVCAuthenticationStateTokenExpired
 };
 
 OBJC_EXPORT NSString * const LVCAuthenticationStateDescription[];
-
-typedef void (^LVCClientAuthenticationCallback)(BOOL success, AFHTTPRequestOperation *operation, NSError *error);
 
 @interface LVCAuthenticatedClient : LVCHTTPClient
 
@@ -97,34 +111,5 @@ typedef void (^LVCClientAuthenticationCallback)(BOOL success, AFHTTPRequestOpera
  */
 - (void)logout;
 
-
-///----------------
-/// @name Constants
-///----------------
-
-/**
- ## Authentication
-
- Possible Authentication States
-
- enum {
- LVCAuthenticationStateUnauthenticated,
- LVCAuthenticationStateAuthenticating,
- LVCAuthenticationStateAuthenticated,
- LVCAuthenticationStateTokenExpired
- }
-
- `LVCAuthenticationStateAuthenticating`
- Client is unauthenticated.
-
- `AFNetworkReachabilityStatusNotReachable`
- Client is currently authenticating.
-
- `LVCAuthenticationStateAuthenticated`
- Client has successfully authenticated.
-
- `LVCAuthenticationStateTokenExpired`
- Client had previously authenticated, but access token is expired.
- **/
 
 @end

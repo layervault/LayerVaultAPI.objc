@@ -14,7 +14,11 @@ enum
     LVCAmazonS3ClientErrorNoFileData = 1
 };
 
-
+/**
+ *  @param fileURL Local fileURL to search mimetype
+ *
+ *  @return mime type for fileURL parameter
+ */
 OBJC_EXPORT NSString *mimeForFile(NSURL *fileURL);
 
 /**

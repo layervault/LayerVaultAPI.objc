@@ -13,16 +13,59 @@
  */
 @interface LVCFileRevisionFeedback : MTLModel <MTLJSONSerializing>
 
+/**
+ *  Feedback ID
+ */
 @property (readonly, nonatomic) NSNumber *feedbackID;
+
+/**
+ *  Preview ID
+ */
 @property (readonly, nonatomic) NSNumber *previewID;
+
+/**
+ *  Signpost ID
+ */
 @property (readonly, nonatomic) NSNumber *signpostID;
+
+/**
+ *  User ID
+ */
 @property (readonly, nonatomic) NSNumber *userID;
+
+/**
+ *  Comment box bounding top
+ */
 @property (readonly, nonatomic) NSNumber *top;
+
+/**
+ *  Comment box bounding right
+ */
 @property (readonly, nonatomic) NSNumber *right;
+
+/**
+ *  Comment box bounding left
+ */
 @property (readonly, nonatomic) NSNumber *left;
+
+/**
+ *  Comment box bounding bottom
+ */
 @property (readonly, nonatomic) NSNumber *bottom;
+
+/**
+ *  Comment message
+ */
 @property (readonly, nonatomic) NSString *message;
+
+/**
+ *  Associated Signpost
+ */
 @property (readonly, nonatomic) NSNumber *associatedSignpostID;
+
+/**
+ *  Date feedback was created
+ */
 @property (readonly, nonatomic) NSDate *dateCreated;
 
 /**
