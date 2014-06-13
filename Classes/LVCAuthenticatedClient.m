@@ -77,7 +77,7 @@ NSString * const LVCAuthenticationStateDescription[] = {
         // queue and save the failed requests.
         adjustedFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
-            if ((operation.response.statusCode == 401 || strongSelf.credential.isExpired)) {
+            if (operation.response.statusCode == 401) {
                 [strongSelf.operationQueue setSuspended:YES];
                 strongSelf.authenticationState = LVCAuthenticationStateTokenExpired;
                 LVCRetryOperationShell *retry = [LVCRetryOperationShell retryOperationShellWithURLRequest:operation.request success:success failure:failure];
