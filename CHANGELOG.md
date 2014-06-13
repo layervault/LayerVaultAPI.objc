@@ -1,5 +1,8 @@
 # LayerVaultAPI CHANGELOG
 
+## 3.0.2
+- Remove credential.expired check for deciding if we need to request a new credential. If the client time is ahead of the server time, the server could still send the same credential even though the client things it’s expired. Instead, we will rely on HTTP 401 exclusively to determine if we need to request a new credential.
+
 ## 3.0.1
 - Updating documentation might be useful.
 
