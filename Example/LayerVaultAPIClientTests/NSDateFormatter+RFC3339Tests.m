@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import <LayerVaultAPI/NSDateFormatter+RFC3339.h>
+#import "LVCAsyncHelper.h"
 
 @interface NSDateFormatter_RFC3339Tests : XCTestCase
 @property (nonatomic) NSString *rfc3339Epoch;
@@ -47,4 +48,28 @@
                           self.rfc3339Epoch,
                           @"string should be equal");
 }
+
+- (void)testSameQueueSameFormatter
+{
+    NSDateFormatter *dateFormatter1 = [NSDateFormatter lvc_rfc3339DateFormatter];
+    NSDateFormatter *dateFormatter2 = [NSDateFormatter lvc_rfc3339DateFormatter];
+    XCTAssertEqualObjects(dateFormatter1, dateFormatter2);
+}
+
+- (void)testDifferentQueueDifferentFormatter
+{
+    NSDateFormatter *dateFormatter1 = [NSDateFormatter lvc_rfc3339DateFormatter];
+    __block NSDateFormatter *dateFormatter2 = nil;
+
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    [queue addOperation:[NSBlockOperation blockOperationWithBlock:^{
+        dateFormatter2 = [NSDateFormatter lvc_rfc3339DateFormatter];
+    }]];
+
+    [LVCAsyncHelper wait:0.1];
+
+    XCTAssertNotEqualObjects(dateFormatter1, dateFormatter2);
+}
+
+
 @end
