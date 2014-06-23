@@ -21,7 +21,7 @@ static NSCache *LVCDateFormatterCache = nil;
 
     NSDateFormatter *dateFormatter = nil;
 
-    NSString *queueName = [NSOperationQueue currentQueue].name;
+    NSString *queueName = [[NSOperationQueue currentQueue] name];
     if (queueName) {
         dateFormatter = [LVCDateFormatterCache objectForKey:queueName];
     }
