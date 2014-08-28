@@ -9,10 +9,11 @@
 #import <AFNetworking/AFNetworking.h>
 
 OBJC_EXPORT NSString *LVCAmazonS3ClientErrorDomain;
-enum
+typedef enum LVCAmazonS3ClientErrorCode : NSInteger
 {
-    LVCAmazonS3ClientErrorNoFileData = 1
-};
+    LVCAmazonS3ClientErrorNoFileData = 1,
+    LVCAmazonS3ClientErrorUnableToCreateOperation
+} LVCAmazonS3ClientErrorCode;
 
 /**
  *  @param fileURL Local fileURL to search mimetype
@@ -43,5 +44,24 @@ OBJC_EXPORT NSString *mimeForFile(NSURL *fileURL);
      accessToken:(NSString *)accessToken
          success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
          failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
+
+
+/**
+ *  Returns an operation that will upload a file to the LayerVault S3 bucket.
+ *
+ *  @param fileURL     The local URL of the file to upload
+ *  @param parameters  Parameter AmazonS3 needs to upload
+ *  @param accessToken Access token used to redirect back to LayerVault
+ *  @param success     Callback when the operation succeeds. Response object
+ *                     should contain JSON dictionary to create an LVCFile
+ *                     object
+ *  @param failure     Callback when the operation fails with an error.
+
+ */
+- (AFHTTPRequestOperation *)uploadOperationForFile:(NSURL *)fileURL
+                                        parameters:(NSDictionary *)parameters
+                                       accessToken:(NSString *)accessToken
+                                           success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                                           failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure;
 
 @end

@@ -580,27 +580,34 @@ NSString *const LVCHTTPClientErrorDomain = @"LVCHTTPClientErrorDomain";
     NSError *accessTokenError;
     NSString *accessToken = [self accessTokenWithError:&accessTokenError];
 
+    void (^uploadSuccess)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSError *error;
+        LVCFile *file = [MTLJSONAdapter modelOfClass:LVCFile.class
+                                  fromJSONDictionary:responseObject
+                                               error:&error];
+        completion(file, error, operation);
+    };
+
+    void (^uploadFailure)(AFHTTPRequestOperation *, NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        completion(nil, error, operation);
+    };
+
+    __weak typeof(self) weakSelf = self;
+    void (^uploadS3)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        LVCAmazonS3Client *s3Client = [LVCAmazonS3Client new];
+        AFHTTPRequestOperation *s3Op = [s3Client uploadOperationForFile:localFileURL
+                                                             parameters:responseObject
+                                                            accessToken:accessToken
+                                                                success:uploadSuccess
+                                                                failure:uploadFailure];
+        [weakSelf enqueueHTTPRequestOperation:s3Op];
+    };
+
     if (accessToken) {
         [self putPath:filePath
            parameters:parameters
-              success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            LVCAmazonS3Client *s3Client = [LVCAmazonS3Client new];
-            [s3Client postFile:localFileURL
-                    parameters:responseObject
-                   accessToken:accessToken
-                       success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                           NSError *error;
-                           LVCFile *file = [MTLJSONAdapter modelOfClass:LVCFile.class
-                                                     fromJSONDictionary:responseObject
-                                                                  error:&error];
-                           completion(file, error, operation);
-                       }
-                       failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                           completion(nil, error, operation);
-                       }];
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            completion(nil, error, operation);
-        }];
+              success:uploadS3
+              failure:uploadFailure];
     }
     else {
         completion(nil, accessTokenError, nil);
@@ -949,5 +956,6 @@ NSString *const LVCHTTPClientErrorDomain = @"LVCHTTPClientErrorDomain";
 
     return accessToken;
 }
+
 
 @end
