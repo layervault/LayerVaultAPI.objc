@@ -26,7 +26,7 @@ Pod::Spec.new do |s|
   s.ios.exclude_files = 'Classes/osx'
   s.osx.exclude_files = 'Classes/ios'
   s.public_header_files = 'Classes/**/*.h'
-  s.dependency 'AFNetworking', '~> 1.3.3'
+  s.dependency 'AFNetworking', '~> 1.3.4'
   s.dependency 'Mantle', '~> 1.3'
   s.dependency 'AFOAuth2Client', '~> 0.1.1'
 
