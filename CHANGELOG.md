@@ -1,5 +1,8 @@
 # LayerVaultAPI CHANGELOG
 
+## 3.0.4
+- Using a file stream instead of reading file data into memory.
+
 ## 3.0.3
 - Caching NSDateFormatter so we don’t have to create multiple copies during each difference operation.
 
