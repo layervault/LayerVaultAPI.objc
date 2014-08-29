@@ -84,7 +84,7 @@ NSString *mimeForFile(NSURL *fileURL)
                                               mimeType:fileMimeType
                                                  error:&error];
         if (!success) {
-            NSLog(@"error: %@", error);
+            NSLog(@"Unable to attach file data: %@", error);
         }
     }];
 
