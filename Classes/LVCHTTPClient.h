@@ -414,7 +414,6 @@ __attribute__((deprecated("Replaced by -moveFolder:toPath:completion:")));
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion;
 
-
 /**
  *  Uploads a local file to a full file path including organization-permalink
  *  and project. The file must be an image type (including Sketch and
@@ -452,6 +451,15 @@ __attribute__((deprecated("Replaced by -moveFolder:toPath:completion:")));
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion;
 
+- (void)uploadLocalFile:(NSURL *)localFileURL
+                 toPath:(NSString *)filePath
+                    md5:(NSString *)md5
+          progressBlock:(void (^)(NSUInteger bytesWritten,
+                                  long long totalBytesWritten,
+                                  long long totalBytesExpectedToWrite))progressBlock
+             completion:(void (^)(LVCFile *file,
+                                  NSError *error,
+                                  AFHTTPRequestOperation *operation))completion;
 
 /**
  *  Upload a local file to a path inside a project. The file must be an image
@@ -468,6 +476,16 @@ __attribute__((deprecated("Replaced by -moveFolder:toPath:completion:")));
 - (void)uploadLocalFile:(NSURL *)localFileURL
                  toPath:(NSString *)filePath
              parameters:(NSDictionary *)parameters
+             completion:(void (^)(LVCFile *file,
+                                  NSError *error,
+                                  AFHTTPRequestOperation *operation))completion;
+
+- (void)uploadLocalFile:(NSURL *)localFileURL
+                 toPath:(NSString *)filePath
+             parameters:(NSDictionary *)parameters
+          progressBlock:(void (^)(NSUInteger bytesWritten,
+                                  long long totalBytesWritten,
+                                  long long totalBytesExpectedToWrite))progressBlock
              completion:(void (^)(LVCFile *file,
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion;

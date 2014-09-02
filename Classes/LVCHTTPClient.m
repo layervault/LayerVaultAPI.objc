@@ -543,6 +543,22 @@ NSString *const LVCHTTPClientErrorDomain = @"LVCHTTPClientErrorDomain";
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion
 {
+    [self uploadLocalFile:localFileURL
+                   toPath:filePath md5:md5
+            progressBlock:nil
+               completion:completion];
+}
+
+- (void)uploadLocalFile:(NSURL *)localFileURL
+                 toPath:(NSString *)filePath
+                    md5:(NSString *)md5
+          progressBlock:(void (^)(NSUInteger bytesWritten,
+                                  long long totalBytesWritten,
+                                  long long totalBytesExpectedToWrite))progressBlock
+             completion:(void (^)(LVCFile *file,
+                                  NSError *error,
+                                  AFHTTPRequestOperation *operation))completion
+{
     NSParameterAssert(filePath);
 
     NSDictionary *params = nil;
@@ -553,13 +569,30 @@ NSString *const LVCHTTPClientErrorDomain = @"LVCHTTPClientErrorDomain";
     [self uploadLocalFile:localFileURL
                    toPath:filePath
                parameters:params
+            progressBlock:progressBlock
                completion:completion];
 }
-
 
 - (void)uploadLocalFile:(NSURL *)localFileURL
                  toPath:(NSString *)filePath
              parameters:(NSDictionary *)parameters
+             completion:(void (^)(LVCFile *file,
+                                  NSError *error,
+                                  AFHTTPRequestOperation *operation))completion
+{
+    [self uploadLocalFile:localFileURL
+                   toPath:filePath
+               parameters:parameters
+            progressBlock:nil
+               completion:completion];
+}
+
+- (void)uploadLocalFile:(NSURL *)localFileURL
+                 toPath:(NSString *)filePath
+             parameters:(NSDictionary *)parameters
+          progressBlock:(void (^)(NSUInteger bytesWritten,
+                                  long long totalBytesWritten,
+                                  long long totalBytesExpectedToWrite))progressBlock
              completion:(void (^)(LVCFile *file,
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion
@@ -600,6 +633,11 @@ NSString *const LVCHTTPClientErrorDomain = @"LVCHTTPClientErrorDomain";
                                                             accessToken:accessToken
                                                                 success:uploadSuccess
                                                                 failure:uploadFailure];
+
+        if (progressBlock) {
+            [s3Op setUploadProgressBlock:progressBlock];
+        }
+        
         [weakSelf enqueueHTTPRequestOperation:s3Op];
     };
 

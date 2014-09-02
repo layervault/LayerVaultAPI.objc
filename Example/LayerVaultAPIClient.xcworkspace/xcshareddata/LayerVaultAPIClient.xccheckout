@@ -12,20 +12,24 @@
 	<dict>
 		<key>1F068A3F-5FCB-4AD3-B8B7-ED3AF927FF6F</key>
 		<string>ssh://github.com/layervault/LayerVaultAPI.objc.git</string>
+		<key>CCDF257153AE420EF81E614B16A642F7F9402EC3</key>
+		<string>github.com:layervault/LayerVaultAPI.objc.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Project/LayerVaultAPIClient.xcworkspace</string>
+	<string>Example/LayerVaultAPIClient.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>1F068A3F-5FCB-4AD3-B8B7-ED3AF927FF6F</key>
+		<string>../../../LayerVaultAPI</string>
+		<key>CCDF257153AE420EF81E614B16A642F7F9402EC3</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://github.com/layervault/LayerVaultAPI.objc.git</string>
+	<string>github.com:layervault/LayerVaultAPI.objc.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>1F068A3F-5FCB-4AD3-B8B7-ED3AF927FF6F</string>
+	<string>CCDF257153AE420EF81E614B16A642F7F9402EC3</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
@@ -35,6 +39,14 @@
 			<string>1F068A3F-5FCB-4AD3-B8B7-ED3AF927FF6F</string>
 			<key>IDESourceControlWCCName</key>
 			<string>LayerVaultAPI</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>CCDF257153AE420EF81E614B16A642F7F9402EC3</string>
+			<key>IDESourceControlWCCName</key>
+			<string>LayerVaultAPI.objc</string>
 		</dict>
 	</array>
 </dict>
