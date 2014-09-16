@@ -8,46 +8,34 @@
 
 #import <XCTest/XCTest.h>
 #import <LayerVaultAPI/LVCFile.h>
-#import <LayerVaultAPI/LVCFileRevision.h>
-#import "LVCMockResponses.h"
 
 @interface LVCFileTests : XCTestCase
-@property (nonatomic, copy) NSDictionary *validJSON;
 @end
 
 @implementation LVCFileTests
 
-- (void)setUp
+- (void)testValidJSON
 {
-    [super setUp];
-    self.validJSON = LVCValidFileJSON();
-}
+    NSURL *fileURL = [NSURL fileURLWithPath:@"LayerVaultAPIClientTests/Test Files/Valid File.json"];
+    NSData *data = [NSData dataWithContentsOfURL:fileURL];
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data
+                                                         options:0
+                                                           error:nil];
+    LVCFile *file = [MTLJSONAdapter modelOfClass:LVCFile.class fromJSONDictionary:dict error:nil];
+    XCTAssertNotNil(file);
+    XCTAssertEqualObjects(file.fileID, @"817542");
+    XCTAssertEqualObjects(file.name, @"IMG_0001.JPG");
+    XCTAssertEqualObjects(file.slug, @"img-0001--jpg");
+    XCTAssertTrue(file.canEditNode);
+    XCTAssertTrue(file.canCommentOnFile);
+    XCTAssertEqualObjects(file.folderID, @"812674");
+    XCTAssertEqual(file.revisionClusterIDs.count, (unsigned long)0);
+    XCTAssertEqual(file.feedbackThreadIDs.count, (unsigned long)0);
 
-- (void)testRevisionHasFile
-{
-    LVCFile *file = [MTLJSONAdapter modelOfClass:LVCFile.class
-                              fromJSONDictionary:self.validJSON
-                                           error:nil];
-    XCTAssertNotNil(file, @"file should exist");
-    XCTAssertEqual(file,
-                   [file.revisions[0] file],
-                   @"Revision should point to file");
-}
-
-- (void)testLookupByRevision
-{
-    LVCFile *file = [MTLJSONAdapter modelOfClass:LVCFile.class
-                              fromJSONDictionary:self.validJSON
-                                           error:nil];
-    XCTAssertNotNil(file, @"file should exist");
-    LVCFileRevision *revision = [file revisionWithNumber:@(4)];
-    XCTAssertNotNil(file, @"file should exist");
-    XCTAssertEqual(file,
-                   revision.file,
-                   @"Revision should point to file");
-    XCTAssertEqual(revision,
-                   file.revisions[0],
-                   @"Should be the same");
+#warning - LAZY
+    XCTAssertNotNil(file.dateCreated);
+    XCTAssertNotNil(file.dateModified);
+    XCTAssertNil(file.dateDeleted);
 }
 
 @end
