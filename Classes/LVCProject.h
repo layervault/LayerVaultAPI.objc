@@ -7,41 +7,32 @@
 //
 
 #import <Mantle/Mantle.h>
-#import "LVCFolder.h"
 
 /**
  *  LVCProject is a root level folder. All files and folder must be contained
  *  in a project.
  */
-@interface LVCProject : LVCFolder <MTLJSONSerializing>
+@interface LVCProject : MTLModel <MTLJSONSerializing>
 
-/**
- *  YES if user has joined the project, NO if they have not
- */
-@property (readonly, nonatomic) BOOL member;
+@property (readonly, nonatomic, copy) NSString *projectID;
 
-/**
- *  @note Some calls do not return the files and folders of a project, just the
- *        project information. In these situation, partial will be YES, 
- *        otherwise NO.
- */
-@property (readonly, nonatomic) BOOL partial;
+@property (readonly, nonatomic, copy) NSString *name;
 
-/**
- *  @note Projects created with initWithName:organizatonPermalink: that have 
- *        not been uploaded to the server will return NO for this property
- */
-@property (readonly, nonatomic) BOOL synced;
+@property (readonly, nonatomic, copy) NSString *slug;
 
-/**
- *  Create a new project object without uploading it to the server.
- *
- *  @param name                  Name of organization. Cannot be nil
- *  @param organizationPermalink Permalink for the organization of new project
- *
- *  @return A new LVCProject with synced property set to NO
- */
-- (instancetype)initWithName:(NSString *)name
-       organizationPermalink:(NSString *)organizationPermalink;
+@property (readonly, nonatomic, copy) NSURL *url;
+
+@property (readonly, nonatomic, copy) NSString *organizationID;
+
+@property (readonly, nonatomic, copy) NSArray *folderIDs;
+
+@property (readonly, nonatomic, copy) NSArray *fileIDs;
+
+@property (readonly, nonatomic, copy) NSArray *presentationIDs;
+
+@property (readonly, nonatomic, copy) NSArray *userIDs;
+
+/// FIXME: member is based on if the userID is included in the userIDs array
+//@property (readonly, nonatomic) BOOL member;
 
 @end

@@ -10,6 +10,7 @@
 		C90A07111850F22E00F87324 /* LVCFolderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C90A07101850F22E00F87324 /* LVCFolderTests.m */; };
 		C90A871D1863628400BA2FD1 /* LVCAsyncHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C90A871C1863628400BA2FD1 /* LVCAsyncHelper.m */; };
 		C91C995D18A9810000985D56 /* NSString+PercentEncodingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C91C995C18A9810000985D56 /* NSString+PercentEncodingTests.m */; };
+		C9326C6F19C8D28400B2FDF9 /* Valid Project.json in Resources */ = {isa = PBXBuildFile; fileRef = C9326C6E19C8D28400B2FDF9 /* Valid Project.json */; };
 		C93999B719C8C22F006E6D45 /* LVCOrganizationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C93999B619C8C22F006E6D45 /* LVCOrganizationTests.m */; };
 		C9412732184CE47C0065072B /* LVCProjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9412731184CE47C0065072B /* LVCProjectTests.m */; };
 		C941856D18A3D39900E54A2B /* LVCOAuthCredentialStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C941856C18A3D39900E54A2B /* LVCOAuthCredentialStorageTests.m */; };
@@ -74,6 +75,7 @@
 		C9130DBE19C8B229000D185C /* Valid User.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Valid User.json"; sourceTree = "<group>"; };
 		C9130DC119C8BC90000D185C /* Valid Org.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Valid Org.json"; sourceTree = "<group>"; };
 		C91C995C18A9810000985D56 /* NSString+PercentEncodingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+PercentEncodingTests.m"; sourceTree = "<group>"; };
+		C9326C6E19C8D28400B2FDF9 /* Valid Project.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Valid Project.json"; sourceTree = "<group>"; };
 		C93999B619C8C22F006E6D45 /* LVCOrganizationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCOrganizationTests.m; sourceTree = "<group>"; };
 		C9412731184CE47C0065072B /* LVCProjectTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LVCProjectTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		C941856C18A3D39900E54A2B /* LVCOAuthCredentialStorageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCOAuthCredentialStorageTests.m; sourceTree = "<group>"; };
@@ -166,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				C9130DC119C8BC90000D185C /* Valid Org.json */,
+				C9326C6E19C8D28400B2FDF9 /* Valid Project.json */,
 				C9130DBE19C8B229000D185C /* Valid User.json */,
 			);
 			path = "Test Files";
@@ -396,6 +399,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C95CD2EB180B5F9500007F9B /* InfoPlist.strings in Resources */,
+				C9326C6F19C8D28400B2FDF9 /* Valid Project.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
