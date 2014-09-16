@@ -42,7 +42,7 @@ NSString *const LVCKeychainService = @"LayerVaultAPIDemoApp";
 {
     self = [super initWithWindow:window];
     if (self) {
-        NSURL *url = [NSURL URLWithString:@"https://beta.layervault.com/api/v1/"];
+        NSURL *url = [NSURL URLWithString:@"https://api.layervault.com/api/v1/"];
         _client = [[LVCAuthenticatedClient alloc] initWithBaseURL:url
                                                          clientID:LVClientID
                                                            secret:LVClientSecret];
