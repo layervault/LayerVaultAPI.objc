@@ -16,7 +16,7 @@
 /**
  *  The numeric ID of the user
  */
-@property (readonly, nonatomic) NSUInteger userID;
+@property (readonly, nonatomic, copy) NSString *userID;
 
 /**
  *  The email address of the user
@@ -34,18 +34,10 @@
 @property (readonly, nonatomic, copy) NSString *lastName;
 
 /**
- *  Whether the user is an admin of the site or not.
- */
-@property (readonly, nonatomic, getter = isAdmin) BOOL admin;
-
-/**
  *  All organizations the user belongs to
  */
-@property (readonly, nonatomic, copy) NSArray *organizations;
+@property (readonly, nonatomic, copy) NSArray *organizationIDs;
 
-/**
- *  All projects the user has access to
- *  @note They may or may not be a member of these projects
- */
-@property (readonly, nonatomic, copy) NSArray *projects;
+#warning - Not in v2
+//@property (readonly, nonatomic, getter = isAdmin) BOOL admin;
 @end
