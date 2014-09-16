@@ -14,14 +14,20 @@
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey
 {
-    return @{@"name": @"name",
-             @"userRole": @"user_role",
-             @"permalink": @"permalink",
+    return @{@"organizationID": @"id",
+             @"name": @"name",
+             @"slug": @"slug",
+             @"isFree": @"is_free",
              @"dateDeleted": @"deleted_at",
              @"dateUpdated": @"updated_at",
-             @"url": @"full_url",
+             @"dateCreated": @"created_at",
+             @"dateCancelled": @"cancelled_at",
+             @"url": @"url",
              @"syncType": @"sync_type",
-             @"projects": @"projects"};
+             @"projectIDs": @"links.projects",
+             @"administratorIDs": @"links.administrators",
+             @"editorIDs": @"links.editors",
+             @"spectatorIDs": @"links.spectators"};
 }
 
 
@@ -36,16 +42,26 @@
     return [NSValueTransformer valueTransformerForName:LVCRFC3339DateTransformerName];
 }
 
++ (NSValueTransformer *)dateCreatedJSONTransformer
+{
+    return [NSValueTransformer valueTransformerForName:LVCRFC3339DateTransformerName];
+}
+
+
++ (NSValueTransformer *)dateCancelledJSONTransformer
+{
+    return [NSValueTransformer valueTransformerForName:LVCRFC3339DateTransformerName];
+}
 
 + (NSValueTransformer *)urlJSONTransformer
 {
     return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 }
 
-
-+ (NSValueTransformer *)projectsJSONTransformer
-{
-    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVCProject.class];
++ (NSValueTransformer *)syncTypeJSONTransformer {
+    return [NSValueTransformer mtl_valueMappingTransformerWithDictionary:
+            @{@"layervault": @(LVCSyncTypeLayerVault),
+              @"dropbox": @(LVCSyncTypeDropBox)}];
 }
 
 @end
