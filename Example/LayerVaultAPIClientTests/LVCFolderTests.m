@@ -24,12 +24,12 @@
     LVCFolder *folder = [MTLJSONAdapter modelOfClass:LVCFolder.class fromJSONDictionary:dict error:nil];
     XCTAssertNotNil(folder);
     XCTAssertEqualObjects(folder.projectID, @"595206");
-    XCTAssertEqualObjects(folder.url, [NSURL URLWithString:@"https://layervault.com/codecaffeine/awesome~o/one"]);
-    XCTAssertEqualObjects(folder.name, @"one");
-    XCTAssertEqualObjects(folder.slug, @"one");
+    XCTAssertEqualObjects(folder.url, [NSURL URLWithString:@"https://layervault.com/codecaffeine/awesome~o/an-awesome"]);
+    XCTAssertEqualObjects(folder.name, @"an awesome");
+    XCTAssertEqualObjects(folder.slug, @"an-awesome");
     XCTAssertEqualObjects(folder.projectID, @"595206");
-    XCTAssertEqual(folder.folderIDs.count, (unsigned long)1);
-    XCTAssertEqual(folder.fileIDs.count, (unsigned long)0);
+    XCTAssertEqual(folder.folderIDs.count, (unsigned long)0);
+    XCTAssertEqual(folder.fileIDs.count, (unsigned long)1);
 }
 
 @end
