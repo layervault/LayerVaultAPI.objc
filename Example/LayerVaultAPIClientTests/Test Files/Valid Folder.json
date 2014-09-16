@@ -1,0 +1,14 @@
+{
+  "id": "926452",
+  "href": "https://layervault.com/api/v2/folders/926452",
+  "url": "https://layervault.com/codecaffeine/awesome~o/one",
+  "links": {
+    "files": [],
+    "folders": [
+      "926453"
+    ],
+    "project": "595206"
+  },
+  "name": "one",
+  "slug": "one"
+}

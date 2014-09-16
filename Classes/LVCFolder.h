@@ -6,37 +6,25 @@
 //  Copyright (c) 2013 LayerVault. All rights reserved.
 //
 
-#import "LVCNode.h"
-#import "LVCColorUtils.h"
+#import <Mantle/Mantle.h>
 
-/**
- *  Representation of a folder on LayerVaule
- */
-@interface LVCFolder : LVCNode <MTLJSONSerializing>
+@interface LVCFolder : MTLModel <MTLJSONSerializing>
 
-/**
- *  Color label corresponds to NSURLLabelNumberKey
- */
-@property (nonatomic) LVCColorLabel colorLabel;
+@property (readonly, nonatomic, copy) NSString *folderID;
 
-/**
- *  The local path of the file
- */
-@property (readonly, nonatomic, copy) NSString *path;
+@property (readonly, nonatomic, copy) NSString *name;
 
-/**
- *  @note this should be nil
- */
-@property (readonly, nonatomic, copy) NSString *organizationPermalink;
+@property (readonly, nonatomic, copy) NSString *slug;
 
-/**
- *  Subfolders of this folder
- */
-@property (readonly, nonatomic, copy) NSArray *folders;
+@property (readonly, nonatomic, copy) NSURL *url;
 
-/**
- *  Files directly in this folder, but not ones in subfolder
- */
-@property (readonly, nonatomic, copy) NSArray *files;
+@property (readonly, nonatomic, copy) NSString *projectID;
+
+@property (readonly, nonatomic, copy) NSArray *folderIDs;
+
+@property (readonly, nonatomic, copy) NSArray *fileIDs;
+
+#warning - need color label
+//@property (nonatomic) LVCColorLabel colorLabel;
 
 @end
