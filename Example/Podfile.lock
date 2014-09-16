@@ -2,36 +2,37 @@ PODS:
   - AFNetworking (1.3.4)
   - AFOAuth2Client (0.1.2):
     - AFNetworking (~> 1.3)
-  - LayerVaultAPI (3.0.1):
-    - AFNetworking (~> 1.3.3)
-    - AFOAuth2Client (~> 0.1.1)
-    - Mantle (~> 1.3)
+  - LayerVaultAPI (3.0.4):
+    - AFNetworking (~> 1.3.4)
+    - AFOAuth2Client (~> 0.1.2)
+    - Mantle (~> 1.5)
   - Mantle (1.5):
     - Mantle/extobjc
   - Mantle/extobjc (1.5)
-  - ReactiveCocoa (2.1.8):
+  - ReactiveCocoa (2.3.1):
+    - ReactiveCocoa/UI
+  - ReactiveCocoa/Core (2.3.1):
+    - ReactiveCocoa/no-arc
+  - ReactiveCocoa/no-arc (2.3.1)
+  - ReactiveCocoa/UI (2.3.1):
     - ReactiveCocoa/Core
-    - ReactiveCocoa/no-arc
-  - ReactiveCocoa/Core (2.1.8):
-    - ReactiveCocoa/no-arc
-  - ReactiveCocoa/no-arc (2.1.8)
   - SSKeychain (1.2.2)
 
 DEPENDENCIES:
-  - LayerVaultAPI (from `../LayerVaultAPI.podspec`)
-  - ReactiveCocoa (~> 2.1.1)
-  - SSKeychain
+  - LayerVaultAPI (from `../`)
+  - ReactiveCocoa (~> 2.3.1)
+  - SSKeychain (~> 1.2.2)
 
 EXTERNAL SOURCES:
   LayerVaultAPI:
-    :path: ../LayerVaultAPI.podspec
+    :path: ../
 
 SPEC CHECKSUMS:
   AFNetworking: 80c4e0652b08eb34e25b9c0ff3c82556fe5967b4
   AFOAuth2Client: 4f05d29e0a26c7ddf529dd7c4480af6ee1e982c6
-  LayerVaultAPI: 187fd62bffd5669c59d1a142b05a8b3ba3dbff95
+  LayerVaultAPI: e4aa20d6b787d5680ef38d2b0d77a3dc2d631280
   Mantle: c67a7e45e14196ed42b2a7cbb98ff6a9920e6b92
-  ReactiveCocoa: 399d3ad0c8ac73d79bed5bcd076a04f46ec635fc
+  ReactiveCocoa: dca75777b9d18990c8714a3a6f2149f29b4d1462
   SSKeychain: cc48bd3ad24fcd9125adb9e0d23dd50b8bbd08b9
 
 COCOAPODS: 0.33.1
