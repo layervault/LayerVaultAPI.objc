@@ -1,0 +1,54 @@
+{
+  "folders": [
+    {
+      "id": "3747355",
+      "href": "https://layervault.com/api/v2/folders/3747355",
+      "url": "https://layervault.com/codecaffeine/matt-s-cool-s-b%C3%B8x/prokroll",
+      "links": {
+        "files": [],
+        "folders": [],
+        "project": "3747354"
+      },
+      "name": "prokroll",
+      "slug": "prokroll"
+    },
+    {
+      "id": "3747357",
+      "href": "https://layervault.com/api/v2/folders/3747357",
+      "url": "https://layervault.com/codecaffeine/matt-s-cool-s-b%C3%B8x/morememorytests",
+      "links": {
+        "files": [],
+        "folders": [],
+        "project": "3747354"
+      },
+      "name": "moreMemoryTests",
+      "slug": "morememorytests"
+    },
+    {
+      "id": "3747359",
+      "href": "https://layervault.com/api/v2/folders/3747359",
+      "url": "https://layervault.com/codecaffeine/matt-s-cool-s-b%C3%B8x/assets",
+      "links": {
+        "files": [],
+        "folders": [],
+        "project": "3747354"
+      },
+      "name": "Assets",
+      "slug": "assets"
+    },
+    {
+      "id": "3747363",
+      "href": "https://layervault.com/api/v2/folders/3747363",
+      "url": "https://layervault.com/codecaffeine/matt-s-cool-s-b%C3%B8x/multiple-large-files",
+      "links": {
+        "files": [],
+        "folders": [],
+        "project": "3747354"
+      },
+      "name": "multiple large files",
+      "slug": "multiple-large-files"
+    }
+  ],
+  "linked": {},
+  "links": {}
+}

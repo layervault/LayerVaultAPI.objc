@@ -1,0 +1,26 @@
+{
+  "users": [
+    {
+      "id": "11296",
+      "links": {
+        "organizations": [
+          "569442",
+          "1307",
+          "1450",
+          "1524903",
+          "1175"
+        ]
+      },
+      "href": "https://layervault.com/api/v2/users/11296",
+      "first_name": "Matt",
+      "last_name": "Thomas",
+      "portrait_url": "https://layervault-s3-2.imgix.net/11296/original/avatar.png20130924-14994-1n3xnrq?w=220&h=220&crop=faces&fit=crop&dpr=2&s=2642b6032a287bb5a173309ce1335a75",
+      "portrait_url_26": "https://layervault-s3-2.imgix.net/11296/original/avatar.png20130924-14994-1n3xnrq?w=26&h=26&crop=faces&fit=crop&dpr=2&s=486e69eb994a34c67883e886c3ccbaa3",
+      "portrait_url_32": "https://layervault-s3-2.imgix.net/11296/original/avatar.png20130924-14994-1n3xnrq?w=32&h=32&crop=faces&fit=crop&dpr=2&s=1d32ecfddde7ae8231a43a6b011915aa",
+      "portrait_url_40": "https://layervault-s3-2.imgix.net/11296/original/avatar.png20130924-14994-1n3xnrq?w=40&h=40&crop=faces&fit=crop&dpr=2&s=02d2beaef6d7b1d2c9e6ca0fc3b7c4ae",
+      "email": "matt+test@layervault.com",
+      "has_seen_tour": true,
+      "has_configured_account": true
+    }
+  ]
+}

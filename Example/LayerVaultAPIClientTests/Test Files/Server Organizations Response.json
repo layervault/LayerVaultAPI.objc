@@ -1,0 +1,110 @@
+{
+  "organizations": [
+    {
+      "id": "1307",
+      "links": {
+        "projects": [
+          "595206",
+          "800439",
+          "595192",
+          "3409711",
+          "981872",
+          "3418961",
+          "3747350",
+          "498729",
+          "800427",
+          "3404587",
+          "3409569",
+          "804704",
+          "3747345",
+          "3536772",
+          "3747354",
+          "3553734",
+          "650293",
+          "3662132",
+          "3747349",
+          "3747360"
+        ],
+        "users": [
+          "2678",
+          "11296",
+          "16517",
+          "23307"
+        ],
+        "administrators": [
+          "2678"
+        ],
+        "editors": [
+          "11296",
+          "16517",
+          "23307"
+        ],
+        "spectators": []
+      },
+      "href": "https://layervault.com/api/v2/organizations/1307",
+      "url": "https://layervault.com/codecaffeine",
+      "name": "CodeCaffeine",
+      "slug": "codecaffeine",
+      "is_free": true,
+      "deleted_at": null,
+      "updated_at": "2014-09-18T11:59:38Z",
+      "created_at": "2013-02-12T17:17:49Z",
+      "sync_type": "layervault",
+      "cancelled_at": null
+    },
+    {
+      "id": "569442",
+      "links": {
+        "projects": [
+          "1073941",
+          "1073961",
+          "1073962",
+          "1075491"
+        ],
+        "users": [
+          "11296",
+          "16519"
+        ],
+        "administrators": [
+          "11296",
+          "16519"
+        ],
+        "editors": [],
+        "spectators": []
+      },
+      "href": "https://layervault.com/api/v2/organizations/569442",
+      "url": "https://layervault.com/mattco",
+      "name": "MattCo",
+      "slug": "mattco",
+      "is_free": true,
+      "deleted_at": null,
+      "updated_at": "2014-08-28T15:59:34Z",
+      "created_at": "2013-09-24T18:32:48Z",
+      "sync_type": "dropbox",
+      "cancelled_at": null
+    }
+  ],
+  "linked": {},
+  "links": {
+    "organizations.projects": {
+      "href": "https://api.layervault.com/api/v2/projects/{organizations.projects}",
+      "type": "projects"
+    },
+    "organizations.users": {
+      "href": "https://api.layervault.com/api/v2/users/{organizations.users}",
+      "type": "users"
+    },
+    "organizations.administrators": {
+      "href": "https://api.layervault.com/api/v2/users/{organizations.administrators}",
+      "type": "users"
+    },
+    "organizations.editors": {
+      "href": "https://api.layervault.com/api/v2/users/{organizations.editors}",
+      "type": "users"
+    },
+    "organizations.spectators": {
+      "href": "https://api.layervault.com/api/v2/users/{organizations.spectators}",
+      "type": "users"
+    }
+  }
+}

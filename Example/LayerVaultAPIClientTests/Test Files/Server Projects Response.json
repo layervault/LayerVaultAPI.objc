@@ -1,0 +1,596 @@
+{
+  "projects": [
+    {
+      "id": "498729",
+      "href": "https://layervault.com/api/v2/projects/498729",
+      "url": "https://layervault.com/codecaffeine/foobar",
+      "links": {
+        "users": [],
+        "organization": "1307",
+        "folders": [
+          "936460",
+          "812357"
+        ],
+        "files": [],
+        "presentations": []
+      },
+      "name": "foobar",
+      "slug": "foobar"
+    },
+    {
+      "id": "595192",
+      "href": "https://layervault.com/api/v2/projects/595192",
+      "url": "https://layervault.com/codecaffeine/baz-rename",
+      "links": {
+        "users": [],
+        "organization": "1307",
+        "folders": [
+          "653125",
+          "653134",
+          "653142",
+          "595193",
+          "599080",
+          "595194",
+          "595195"
+        ],
+        "files": [
+          "1790644"
+        ],
+        "presentations": []
+      },
+      "name": "baz rename",
+      "slug": "baz-rename"
+    },
+    {
+      "id": "595206",
+      "href": "https://layervault.com/api/v2/projects/595206",
+      "url": "https://layervault.com/codecaffeine/awesome~o",
+      "links": {
+        "users": [
+          "11296"
+        ],
+        "organization": "1307",
+        "folders": [
+          "812674",
+          "595207",
+          "926452",
+          "595208",
+          "595209"
+        ],
+        "files": [
+          "487949",
+          "487933",
+          "487944",
+          "487946",
+          "487955",
+          "487942",
+          "3523447",
+          "595562",
+          "1000737",
+          "875229",
+          "595244",
+          "595425",
+          "595418",
+          "807745",
+          "489258",
+          "815016",
+          "920347",
+          "3523437",
+          "3448668",
+          "869748",
+          "3448670",
+          "597969",
+          "488144",
+          "875149",
+          "875182",
+          "595413",
+          "637963",
+          "815045",
+          "815043",
+          "815035",
+          "815031",
+          "815049"
+        ],
+        "presentations": []
+      },
+      "name": "awesome-o",
+      "slug": "awesome~o"
+    },
+    {
+      "id": "650293",
+      "href": "https://layervault.com/api/v2/projects/650293",
+      "url": "https://layervault.com/codecaffeine/skitch-md5",
+      "links": {
+        "users": [],
+        "organization": "1307",
+        "folders": [],
+        "files": [
+          "650378",
+          "650321",
+          "650318",
+          "650312",
+          "650315",
+          "650338",
+          "3312083",
+          "650589",
+          "650578",
+          "650547",
+          "650323"
+        ],
+        "presentations": []
+      },
+      "name": "skitch md5",
+      "slug": "skitch-md5"
+    },
+    {
+      "id": "800427",
+      "href": "https://layervault.com/api/v2/projects/800427",
+      "url": "https://layervault.com/codecaffeine/football-american",
+      "links": {
+        "users": [],
+        "organization": "1307",
+        "folders": [
+          "1092392"
+        ],
+        "files": [
+          "1092481",
+          "1092483",
+          "1092485"
+        ],
+        "presentations": []
+      },
+      "name": "football (american)",
+      "slug": "football-american"
+    },
+    {
+      "id": "800439",
+      "href": "https://layervault.com/api/v2/projects/800439",
+      "url": "https://layervault.com/codecaffeine/badsanta",
+      "links": {
+        "users": [],
+        "organization": "1307",
+        "folders": [
+          "1083608",
+          "1081491",
+          "1065708"
+        ],
+        "files": [
+          "3456579",
+          "3452838",
+          "3331867",
+          "3448712",
+          "3448774",
+          "3448772",
+          "878598",
+          "3452867",
+          "1083336",
+          "1082785",
+          "3452842",
+          "1082747",
+          "1082732",
+          "3456575",
+          "3456577",
+          "1082711"
+        ],
+        "presentations": []
+      },
+      "name": "badsanta",
+      "slug": "badsanta"
+    },
+    {
+      "id": "804704",
+      "href": "https://layervault.com/api/v2/projects/804704",
+      "url": "https://layervault.com/codecaffeine/hello-everyone",
+      "links": {
+        "users": [
+          "16517"
+        ],
+        "organization": "1307",
+        "folders": [
+          "3562390",
+          "3254784",
+          "3254756",
+          "1797703",
+          "2129736"
+        ],
+        "files": [
+          "3562388",
+          "1339284",
+          "1339321",
+          "3091906",
+          "1797737",
+          "1136643",
+          "1981794",
+          "808156",
+          "736288",
+          "872141",
+          "1981510",
+          "736290",
+          "1419104",
+          "1339287",
+          "2182309",
+          "690565",
+          "2805186",
+          "2599516",
+          "2825869",
+          "1148931",
+          "1294100",
+          "1294058",
+          "1350560",
+          "672449",
+          "669237",
+          "1083621",
+          "1339282",
+          "1349715",
+          "3103717",
+          "3103710",
+          "3103702",
+          "2953337",
+          "2952737",
+          "2805132",
+          "2952722",
+          "1339311",
+          "3254753",
+          "616210",
+          "669239",
+          "1083619",
+          "1083617",
+          "1083614",
+          "1083612",
+          "1083610",
+          "616220",
+          "3254751",
+          "1339277",
+          "2598695",
+          "616214",
+          "1797735",
+          "3560299"
+        ],
+        "presentations": []
+      },
+      "name": "Hello everyone",
+      "slug": "hello-everyone"
+    },
+    {
+      "id": "981872",
+      "href": "https://layervault.com/api/v2/projects/981872",
+      "url": "https://layervault.com/codecaffeine/blooos",
+      "links": {
+        "users": [],
+        "organization": "1307",
+        "folders": [
+          "1065776",
+          "1066106",
+          "1066366",
+          "1083898",
+          "982017",
+          "1070884",
+          "1083919",
+          "1066338",
+          "1043684"
+        ],
+        "files": [
+          "1075642",
+          "1043931"
+        ],
+        "presentations": []
+      },
+      "name": "BLOOOS",
+      "slug": "blooos"
+    },
+    {
+      "id": "3404587",
+      "href": "https://layervault.com/api/v2/projects/3404587",
+      "url": "https://layervault.com/codecaffeine/foozbarbs",
+      "links": {
+        "users": [],
+        "organization": "1307",
+        "folders": [
+          "3404671",
+          "3404596",
+          "3404590",
+          "3404616",
+          "3404617",
+          "3404670",
+          "3404593"
+        ],
+        "files": [
+          "504367",
+          "549746",
+          "504372",
+          "503633",
+          "503805",
+          "525864",
+          "503808",
+          "551978",
+          "1332014",
+          "552005",
+          "543163",
+          "1009611",
+          "935547",
+          "563444",
+          "521992",
+          "513950",
+          "504375",
+          "1266722",
+          "544019",
+          "549769",
+          "549318",
+          "559847",
+          "559844",
+          "545633",
+          "569572",
+          "545682",
+          "543150",
+          "545638",
+          "1266718",
+          "525813",
+          "595640",
+          "1000731",
+          "935556",
+          "545996",
+          "549753",
+          "544021",
+          "585506",
+          "585510",
+          "549740",
+          "682882",
+          "549761",
+          "543947",
+          "516352",
+          "1331522",
+          "1331490",
+          "510090",
+          "504262",
+          "563416",
+          "1266720",
+          "585486",
+          "1014012",
+          "585484",
+          "563422",
+          "973798",
+          "563401",
+          "585491",
+          "516545",
+          "560259",
+          "585504",
+          "552119",
+          "1332007",
+          "549759",
+          "545987",
+          "560291",
+          "1071566",
+          "935602",
+          "936125",
+          "549751",
+          "570786",
+          "549743",
+          "549327",
+          "549324",
+          "549335",
+          "549778"
+        ],
+        "presentations": []
+      },
+      "name": "FOOZBARBS",
+      "slug": "foozbarbs"
+    },
+    {
+      "id": "3409569",
+      "href": "https://layervault.com/api/v2/projects/3409569",
+      "url": "https://layervault.com/codecaffeine/foozbars",
+      "links": {
+        "users": [],
+        "organization": "1307",
+        "folders": [
+          "3409577",
+          "3409575",
+          "3409572",
+          "3409570",
+          "3409588",
+          "3409571",
+          "3409583",
+          "3409581",
+          "3409574"
+        ],
+        "files": [],
+        "presentations": []
+      },
+      "name": "FOOZBARS",
+      "slug": "foozbars"
+    },
+    {
+      "id": "3409711",
+      "href": "https://layervault.com/api/v2/projects/3409711",
+      "url": "https://layervault.com/codecaffeine/belch",
+      "links": {
+        "users": [
+          "23307"
+        ],
+        "organization": "1307",
+        "folders": [
+          "3409715",
+          "3409716",
+          "3409717",
+          "3409722",
+          "3409713",
+          "3409726",
+          "3409718",
+          "3409714",
+          "3409723",
+          "3409720",
+          "3409725",
+          "3409712"
+        ],
+        "files": [
+          "3540060",
+          "3540064",
+          "3540062"
+        ],
+        "presentations": []
+      },
+      "name": "belch",
+      "slug": "belch"
+    },
+    {
+      "id": "3418961",
+      "href": "https://layervault.com/api/v2/projects/3418961",
+      "url": "https://layervault.com/codecaffeine/demo-project",
+      "links": {
+        "users": [
+          "23307"
+        ],
+        "organization": "1307",
+        "folders": [],
+        "files": [
+          "3431854"
+        ],
+        "presentations": []
+      },
+      "name": "Demo Project",
+      "slug": "demo-project"
+    },
+    {
+      "id": "3536772",
+      "href": "https://layervault.com/api/v2/projects/3536772",
+      "url": "https://layervault.com/codecaffeine/large-file-project",
+      "links": {
+        "users": [],
+        "organization": "1307",
+        "folders": [],
+        "files": [],
+        "presentations": []
+      },
+      "name": "Large File Project",
+      "slug": "large-file-project"
+    },
+    {
+      "id": "3553734",
+      "href": "https://layervault.com/api/v2/projects/3553734",
+      "url": "https://layervault.com/codecaffeine/omega",
+      "links": {
+        "users": [],
+        "organization": "1307",
+        "folders": [],
+        "files": [],
+        "presentations": []
+      },
+      "name": "Omega",
+      "slug": "omega"
+    },
+    {
+      "id": "3662132",
+      "href": "https://layervault.com/api/v2/projects/3662132",
+      "url": "https://layervault.com/codecaffeine/test-blank-project-2",
+      "links": {
+        "users": [],
+        "organization": "1307",
+        "folders": [],
+        "files": [],
+        "presentations": []
+      },
+      "name": "Test Blank Project 2",
+      "slug": "test-blank-project-2"
+    },
+    {
+      "id": "3747345",
+      "href": "https://layervault.com/api/v2/projects/3747345",
+      "url": "https://layervault.com/codecaffeine/kelly-s-sandbox",
+      "links": {
+        "users": [
+          "23307"
+        ],
+        "organization": "1307",
+        "folders": [
+          "3747346"
+        ],
+        "files": [],
+        "presentations": []
+      },
+      "name": "Kelly's Sandbox",
+      "slug": "kelly-s-sandbox"
+    },
+    {
+      "id": "3747349",
+      "href": "https://layervault.com/api/v2/projects/3747349",
+      "url": "https://layervault.com/codecaffeine/upload-test-1",
+      "links": {
+        "users": [
+          "23307"
+        ],
+        "organization": "1307",
+        "folders": [],
+        "files": [],
+        "presentations": []
+      },
+      "name": "Upload Test 1",
+      "slug": "upload-test-1"
+    },
+    {
+      "id": "3747350",
+      "href": "https://layervault.com/api/v2/projects/3747350",
+      "url": "https://layervault.com/codecaffeine/flat-flags",
+      "links": {
+        "users": [
+          "23307"
+        ],
+        "organization": "1307",
+        "folders": [
+          "3747351"
+        ],
+        "files": [],
+        "presentations": []
+      },
+      "name": "Flat Flags",
+      "slug": "flat-flags"
+    },
+    {
+      "id": "3747354",
+      "href": "https://layervault.com/api/v2/projects/3747354",
+      "url": "https://layervault.com/codecaffeine/matt-s-cool-s-b%C3%B8x",
+      "links": {
+        "users": [
+          "23307"
+        ],
+        "organization": "1307",
+        "folders": [
+          "3747363",
+          "3747359",
+          "3747357",
+          "3747355"
+        ],
+        "files": [],
+        "presentations": []
+      },
+      "name": "Matt’s Cool S&bøx",
+      "slug": "matt-s-cool-s-bøx"
+    },
+    {
+      "id": "3747360",
+      "href": "https://layervault.com/api/v2/projects/3747360",
+      "url": "https://layervault.com/codecaffeine/upload-test-3",
+      "links": {
+        "users": [
+          "23307"
+        ],
+        "organization": "1307",
+        "folders": [],
+        "files": [],
+        "presentations": []
+      },
+      "name": "upload test 3",
+      "slug": "upload-test-3"
+    }
+  ],
+  "linked": {},
+  "links": {
+    "projects.users": {
+      "href": "https://api.layervault.com/api/v2/users/{projects.users}",
+      "type": "users"
+    },
+    "projects.folders": {
+      "href": "https://api.layervault.com/api/v2/folders/{projects.folders}",
+      "type": "folders"
+    }
+  }
+}
