@@ -8,19 +8,22 @@
 
 #import "LVCAppDelegate.h"
 #import "LVCMainWindowController.h"
+#import "LVCTreeBuilder.h"
 
 
 @interface LVCAppDelegate ()
 @property (nonatomic) LVCMainWindowController *mainWindowController;
+@property (nonatomic) LVCTreeBuilder *treeBuilder;
 @end
 
 @implementation LVCAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    self.mainWindowController = [[LVCMainWindowController alloc] initWithWindowNibName:@"LVCMainWindowController"];
-    [self.mainWindowController showWindow:nil];
-    [self.mainWindowController.window makeKeyAndOrderFront:self];
+    self.treeBuilder = [[LVCTreeBuilder alloc] init];
+//    self.mainWindowController = [[LVCMainWindowController alloc] initWithWindowNibName:@"LVCMainWindowController"];
+//    [self.mainWindowController showWindow:nil];
+//    [self.mainWindowController.window makeKeyAndOrderFront:self];
 }
 
 @end
