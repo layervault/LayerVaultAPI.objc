@@ -19,6 +19,7 @@
 #import <LayerVaultAPI/MRTProjectsResponse.h>
 #import <LayerVaultAPI/MRTFoldersResponse.h>
 #import <LayerVaultAPI/MRTFilesResponse.h>
+#import <LayerVaultAPI/MRTRevisionsResponse.h>
 
 NSString *const LVCTreeBuilderKeychain = @"LayerVaultAPIDemoApp";
 
@@ -63,6 +64,7 @@ NSString *const LVCTreeBuilderKeychain = @"LayerVaultAPIDemoApp";
     __block NSString *userID = nil;
 
     __weak typeof(self) weakSelf = self;
+    NSDate *startDate = [NSDate date];
     self.authenticatedClient.me.then(^(MRTUserResponse *userResponse) {
         NSLog(@"%@", userResponse);
         userID = userResponse.userID;
@@ -95,18 +97,29 @@ NSString *const LVCTreeBuilderKeychain = @"LayerVaultAPIDemoApp";
         for (MRTFoldersResponse *foldersResponse in foldersResponses) {
             for (MRTFolderResponse *folderResponse in foldersResponse.folderResponses) {
                 if (folderResponse.fileIDs.count > 0) {
-                    NSLog(@"folder (%lu files): %@", (unsigned long)folderResponse.fileIDs.count, folderResponse.slug);
+                    NSLog(@"folder: %@", folderResponse.slug);
                     [fileRequests addObject:[weakSelf.authenticatedClient filesWithIDs:folderResponse.fileIDs]];
                 }
             }
         }
         return [PMKPromise when:fileRequests];
     }).then(^(NSArray *filesResponses) {
+        NSMutableArray *revisionRequests = @[].mutableCopy;
         for (MRTFilesResponse *filesResponse in filesResponses) {
             for (MRTFileResponse *fileResponse in filesResponse.fileResponses) {
                 NSLog(@"file: %@", fileResponse.slug);
+                [revisionRequests addObject:[weakSelf.authenticatedClient revisionsWithIDs:@[fileResponse.lastRevisionID]]];
             }
         }
+        return [PMKPromise when:revisionRequests];
+    }).then(^(NSArray *revisionsResponses) {
+        for (MRTRevisionsResponse *revisionsResponse in revisionsResponses) {
+            for (MRTRevisionResponse *revisionResponse in revisionsResponse.revisionResponses) {
+                NSLog(@"revision: %@", revisionResponse.downloadURL);
+            }
+        }
+
+        NSLog(@"completed in: %f", [[NSDate date] timeIntervalSinceDate:startDate]);
     }).catch(^(NSError *error) {
         NSLog(@"%@", error);
     });
