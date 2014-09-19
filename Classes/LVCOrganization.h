@@ -8,50 +8,49 @@
 
 #import <Mantle/Mantle.h>
 
-typedef enum : NSUInteger {
-    LVCSyncTypeLayerVault,
-    LVCSyncTypeDropBox
-} LVCSyncType;
-
-typedef enum : NSUInteger {
-    LVCUserRoleSpectator,
-    LVCUserRoleEditor,
-    LVCUserRoleAdministrator
-} LVCUserRole;
-
 /**
  *  LVCOrganization is a representation of an organization on LayerVault.
  */
 @interface LVCOrganization : MTLModel <MTLJSONSerializing>
 
-@property (readonly, nonatomic, copy) NSString *organizationID;
-
+/**
+ *  Organization name
+ */
 @property (readonly, nonatomic, copy) NSString *name;
 
-@property (readonly, nonatomic, copy) NSString *slug;
+/**
+ *  The user’s role for this organization.
+ */
+@property (readonly, nonatomic, copy) NSString *userRole;
 
-@property (readonly, nonatomic) BOOL isFree;
+/**
+ *  @note permalink should be used in all URL calls for the organization
+ */
+@property (readonly, nonatomic, copy) NSString *permalink;
 
-/// @note should be nil
+/**
+ *  @note should be nil
+ */
 @property (readonly, nonatomic) NSDate *dateDeleted;
 
+/**
+ *  Date a file in the organization was last updated
+ */
 @property (readonly, nonatomic) NSDate *dateUpdated;
 
-@property (readonly, nonatomic) NSDate *dateCreated;
-
-@property (readonly, nonatomic) NSDate *dateCancelled;
-
+/**
+ *  Website URL of the organization
+ */
 @property (readonly, nonatomic, copy) NSURL *url;
 
-@property (readonly, nonatomic) LVCSyncType syncType;
+/**
+ *  Describes the sync type for this org.
+ */
+@property (readonly, nonatomic, copy) NSString *syncType;
 
-@property (readonly, nonatomic, copy) NSArray *projectIDs;
-
-/// TODO: translate these into userRole
-//@property (readonly, nonatomic) LVCUserRole userRole;
-
-@property (readonly, nonatomic, copy) NSArray *administratorIDs;
-@property (readonly, nonatomic, copy) NSArray *editorIDs;
-@property (readonly, nonatomic, copy) NSArray *spectatorIDs;
+/**
+ *  Array of all LVCProjects in the organization
+ */
+@property (readonly, nonatomic, copy) NSArray *projects;
 
 @end

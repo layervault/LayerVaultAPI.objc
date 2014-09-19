@@ -7,43 +7,100 @@
 //
 
 #import "LVCFile.h"
+#import "LVCFileRevision.h"
 #import "NSValueTransformer+LVCPredefinedTransformerAdditions.h"
+#import <CommonCrypto/CommonDigest.h>
+
+
+NSString *md5ForFileURL(NSURL *fileURL)
+{
+    NSError *error;
+    NSData *data = [NSData dataWithContentsOfURL:fileURL
+                                         options:NSDataReadingMappedIfSafe
+                                           error:&error];
+    if (!data) {
+        NSLog(@"%@", error);
+        return nil;
+    }
+
+    unsigned char md[CC_MD5_DIGEST_LENGTH];
+    CC_MD5([data bytes], (unsigned int)[data length], md);
+    NSMutableString *md5 = [NSMutableString string];
+    for (NSUInteger i = 0; i < CC_MD5_DIGEST_LENGTH; ++i) {
+        [md5 appendFormat:@"%02x", md[i]];
+    }
+
+    return md5;
+}
 
 @implementation LVCFile
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey
 {
-    return @{@"fileID": @"id",
-             @"name": @"name",
-             @"slug": @"slug",
-             @"canEditNode": @"can_edit_node",
-             @"canCommentOnFile": @"can_comment_on_file",
-             @"folderID": @"links.folder",
-             @"revisionClusterIDs": @"links.revision_clusters",
-             @"feedbackThreadIDs": @"links.feedback_threads",
-             @"dateCreated": @"created_at",
-             @"dateModified": @"updated_at",
-             @"dateDeleted": @"deleted_at"};
+    NSMutableDictionary *JSONKeyPathsByPropertyKey = [super JSONKeyPathsByPropertyKey].mutableCopy;
+    [JSONKeyPathsByPropertyKey addEntriesFromDictionary:@{@"revisionNumber": @"revision_number",
+                                                          @"revisions": @"revisions",
+                                                          @"dateModified": @"modified_at",
+                                                          @"downloadURL": @"download_url"}];
+    return JSONKeyPathsByPropertyKey.copy;
 }
 
-+ (NSValueTransformer *)dateCreatedJSONTransformer
+
++ (NSValueTransformer *)revisionsJSONTransformer
 {
-    return [NSValueTransformer valueTransformerForName:LVCRFC3339DateTransformerName];
+    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVCFileRevision.class];
 }
+
 
 + (NSValueTransformer *)dateModifiedJSONTransformer
 {
     return [NSValueTransformer valueTransformerForName:LVCRFC3339DateTransformerName];
 }
 
-+ (NSValueTransformer *)dateDeletedJSONTransformer
+
++ (NSValueTransformer *)downloadURLJSONTransformer
 {
-    return [NSValueTransformer valueTransformerForName:LVCRFC3339DateTransformerName];
+    return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 }
 
-//+ (NSValueTransformer *)downloadURLJSONTransformer
-//{
-//    return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
-//}
+
+- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue
+                             error:(NSError *__autoreleasing *)error
+{
+    self = [super initWithDictionary:dictionaryValue error:error];
+    if (self) {
+        for (LVCFileRevision *fileRevision in _revisions) {
+            fileRevision.file = self;
+        }
+    }
+    return self;
+}
+
+
+#pragma mark - Instance Methods
+- (LVCFileRevision *)revisionWithNumber:(NSNumber *)number
+{
+    LVCFileRevision *revision = nil;
+
+    // Check by array position
+    if (number.unsignedIntegerValue <= self.revisions.count) {
+        LVCFileRevision *candidate = self.revisions[(number.unsignedIntegerValue - 1)];
+        if ([candidate.revision isEqual:number]) {
+            revision = candidate;
+        }
+    }
+
+    // If not found, iterate array
+    if (!revision) {
+        for (LVCFileRevision *candidate in self.revisions) {
+            if ([candidate.revision isEqual:number]) {
+                revision = candidate;
+                break;
+            }
+        }
+    }
+
+    return revision;
+}
 
 @end

@@ -6,39 +6,65 @@
 //  Copyright (c) 2013 LayerVault. All rights reserved.
 //
 
-#import <Mantle/Mantle.h>
+#import "LVCNode.h"
+@class LVCFolder;
+@class LVCFileRevision;
+
+/**
+ *  FileSync Status Responses
+ */
+typedef enum : NSUInteger {
+    LVCFileSyncStatusError = 0,
+    LVCFileSyncStatusUploadOK = 200,
+    LVCFileSyncStatusFileSizeMissing = 400,
+    LVCFileSyncStatusNewerFileOnServer = 409,
+    LVCFileSyncStatusUploadFullFile = 412,
+    LVCFileSyncStatusFileTooLarge = 413,
+    LVCFileSyncStatusUnsupportedType = 415
+} LVCFileSyncStatus;
+
+/**
+ *  Returns the MD5 for a file or nil if no file found
+ *
+ *  @param fileURL data processed by MD5 hashing algorithm
+ *
+ *  @return MD5 for a file, or nil if no file found
+ */
+extern NSString *md5ForFileURL(NSURL *fileURL);
+
 
 /**
  *  LVCFile is a representation of a file on LayerVault.
  */
-@interface LVCFile : MTLModel <MTLJSONSerializing>
+@interface LVCFile : LVCNode <MTLJSONSerializing>
 
-@property (readonly, nonatomic, copy) NSString *fileID;
+/**
+ *  Last revision number
+ */
+@property (readonly, nonatomic) NSNumber *revisionNumber;
 
-@property (readonly, nonatomic, copy) NSString *name;
+/**
+ *  All the revisions for the file
+ */
+@property (readonly, nonatomic, copy) NSArray *revisions;
 
-@property (readonly, nonatomic, copy) NSString *slug;
+/**
+ *  Date the file was last modified
+ */
+@property (readonly, nonatomic) NSDate *dateModified;
 
-@property (readonly, nonatomic) BOOL canEditNode;
+/**
+ *  URL to download the latest file revision directly
+ */
+@property (readonly, nonatomic) NSURL *downloadURL;
 
-@property (readonly, nonatomic) BOOL canCommentOnFile;
-
-@property (readonly, nonatomic, copy) NSString *folderID;
-
-@property (readonly, nonatomic, copy) NSArray *revisionClusterIDs;
-
-@property (readonly, nonatomic, copy) NSArray *feedbackThreadIDs;
-
-@property (readonly, nonatomic, copy) NSDate *dateCreated;
-
-@property (readonly, nonatomic, copy) NSDate *dateModified;
-
-@property (readonly, nonatomic, copy) NSDate *dateDeleted;
-
-#warning - Revisions?
-//@property (readonly, nonatomic, copy) NSArray *revisionIDs;
-
-#warning - Download URL?
-//@property (readonly, nonatomic) NSURL *downloadURL;
+/**
+ *  Gets a revision with a specific number, or nil.
+ *
+ *  @param number Revision Number
+ *
+ *  @return LVCFileRevision if found, or nil
+ */
+- (LVCFileRevision *)revisionWithNumber:(NSNumber *)number;
 
 @end

@@ -12,7 +12,6 @@
 
 @implementation LVCUser
 
-#warning - Is this really needed?
 + (NSSet *)requiredProperties
 {
     return [NSSet setWithArray:@[@"email"]];
@@ -24,26 +23,28 @@
              @"email": @"email",
              @"firstName": @"first_name",
              @"lastName": @"last_name",
-             @"organizationIDs": @"links.organizations"};
+             @"admin": @"is_admin",
+             @"organizations": @"organizations",
+             @"projects": @"projects"};
 }
 
 
-//+ (NSValueTransformer *)adminJSONTransformer
-//{
-//    return [NSValueTransformer valueTransformerForName:MTLBooleanValueTransformerName];
-//}
++ (NSValueTransformer *)adminJSONTransformer
+{
+    return [NSValueTransformer valueTransformerForName:MTLBooleanValueTransformerName];
+}
 
 
-//+ (NSValueTransformer *)organizationsJSONTransformer
-//{
-//    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVCOrganization.class];
-//}
++ (NSValueTransformer *)organizationsJSONTransformer
+{
+    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVCOrganization.class];
+}
 
 
-//+ (NSValueTransformer *)projectsJSONTransformer
-//{
-//    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVCProject.class];
-//}
++ (NSValueTransformer *)projectsJSONTransformer
+{
+    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVCProject.class];
+}
 
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue
