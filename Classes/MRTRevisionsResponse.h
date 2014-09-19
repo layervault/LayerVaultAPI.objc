@@ -9,7 +9,7 @@
 #import <Mantle/Mantle.h>
 
 @interface MRTRevisionsResponse : MTLModel <MTLJSONSerializing>
-@property (nonatomic, readonly, copy) NSArray *requestResponses;
+@property (nonatomic, readonly, copy) NSArray *revisionResponses;
 @end
 
 @interface MRTRevisionResponse : MTLModel <MTLJSONSerializing>

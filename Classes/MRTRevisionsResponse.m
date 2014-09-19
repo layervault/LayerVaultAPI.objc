@@ -11,10 +11,10 @@
 
 @implementation MRTRevisionsResponse
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
-    return @{@"requestResponses": @"requests"};
+    return @{@"revisionResponses": @"revisions"};
 }
 
-+ (NSValueTransformer *)projectResponsesJSONTransformer {
++ (NSValueTransformer *)revisionResponsesJSONTransformer {
     return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:MRTRevisionResponse.class];
 }
 @end
