@@ -7,7 +7,7 @@
 //
 
 #import "MRTOrganizationsResponse.h"
-#import <LayerVaultAPI/LayerVaultAPI.h>
+#import "NSValueTransformer+LVCPredefinedTransformerAdditions.h"
 
 @implementation MRTOrganizationsResponse
 + (NSDictionary *)JSONKeyPathsByPropertyKey {

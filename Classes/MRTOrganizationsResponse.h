@@ -7,7 +7,7 @@
 //
 
 #import <Mantle/Mantle.h>
-#import <LayerVaultAPI/LVCOrganization.h>
+#import "LVCOrganization.h" /// for LCVSyncType
 
 @interface MRTOrganizationsResponse : MTLModel <MTLJSONSerializing>
 @property (readonly, nonatomic, copy) NSArray *organizationResponses;
