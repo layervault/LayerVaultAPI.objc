@@ -14,6 +14,7 @@
 #import "MRTProjectsResponse.h"
 #import "MRTFoldersResponse.h"
 #import "MRTFilesResponse.h"
+#import "MRTRevisionsResponse.h"
 #import "LVCOrganization.h"
 #import "LVCProject.h"
 
@@ -44,12 +45,12 @@
         NSError *error = nil;
         MRTUserResponse *userResponse = nil;
 
-        if ([responseObject isKindOfClass:NSDictionary.class]) {
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
             NSDictionary *responseDict = (NSDictionary *)responseObject;
             NSArray *users = responseDict[@"users"];
-            if ((users.count == 1) && [users[0] isKindOfClass:NSDictionary.class]) {
+            if ((users.count == 1) && [users[0] isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *userDict = users[0];
-                userResponse = [MTLJSONAdapter modelOfClass:MRTUserResponse.class
+                userResponse = [MTLJSONAdapter modelOfClass:[MRTUserResponse class]
                                          fromJSONDictionary:userDict
                                                       error:&error];
             }
@@ -72,7 +73,7 @@
                                           NSError *error,
                                           AFHTTPRequestOperation *operation))completion
 {
-    [self getCollectionOfClass:MRTOrganizationsResponse.class
+    [self getCollectionOfClass:[MRTOrganizationsResponse class]
                    resourceKey:@"organizations"
                        withIDs:organizationIDs
                     completion:completion];
@@ -83,7 +84,7 @@
                                    NSError *error,
                                    AFHTTPRequestOperation *operation))completion
 {
-    [self getCollectionOfClass:MRTProjectsResponse.class
+    [self getCollectionOfClass:[MRTProjectsResponse class]
                    resourceKey:@"projects"
                        withIDs:projectIDs
                     completion:completion];
@@ -94,7 +95,7 @@
                                      NSError *error,
                                      AFHTTPRequestOperation *operation))completion
 {
-    [self getCollectionOfClass:MRTFoldersResponse.class
+    [self getCollectionOfClass:[MRTFoldersResponse class]
                    resourceKey:@"folders"
                        withIDs:folderIDs
                     completion:completion];
@@ -105,9 +106,20 @@
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion
 {
-    [self getCollectionOfClass:MRTFilesResponse.class
+    [self getCollectionOfClass:[MRTFilesResponse class]
                    resourceKey:@"files"
                        withIDs:fileIDs
+                    completion:completion];
+}
+
+- (void)getRevisionsWithIDs:(NSArray *)revisionIDs
+                 completion:(void (^)(MRTRevisionsResponse *revisionsResponse,
+                                      NSError *error,
+                                      AFHTTPRequestOperation *operation))completion
+{
+    [self getCollectionOfClass:[MRTRevisionsResponse class]
+                   resourceKey:@"revisions"
+                       withIDs:revisionIDs
                     completion:completion];
 }
 
@@ -129,7 +141,7 @@
         NSError *error = nil;
         MRTProjectsResponse *collectionResponses = nil;
 
-        if ([responseObject isKindOfClass:NSDictionary.class]) {
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
             NSDictionary *responseDict = (NSDictionary *)responseObject;
             collectionResponses = [MTLJSONAdapter modelOfClass:class
                                          fromJSONDictionary:responseDict
@@ -196,6 +208,13 @@
     return [self collectionsOfClass:[MRTFilesResponse class]
                         resourceKey:@"files"
                             withIDs:fileIDs];
+}
+
+- (PMKPromise *)revisionsWithIDs:(NSArray *)revisionIDs
+{
+    return [self collectionsOfClass:[MRTRevisionsResponse class]
+                        resourceKey:@"revisions"
+                            withIDs:revisionIDs];
 }
 
 - (PMKPromise *)collectionsOfClass:(Class)class resourceKey:(NSString *)resourceKey withIDs:(NSArray *)ids

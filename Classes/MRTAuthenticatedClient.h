@@ -13,6 +13,7 @@
 @class MRTProjectsResponse;
 @class MRTFoldersResponse;
 @class MRTFilesResponse;
+@class MRTRevisionsResponse;
 @class PMKPromise;
 
 @interface MRTAuthenticatedClient : AFOAuth2Client
@@ -45,6 +46,11 @@
              completion:(void (^)(MRTFilesResponse *filesResponse,
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion;
+
+- (void)getRevisionsWithIDs:(NSArray *)revisionIDs
+             completion:(void (^)(MRTRevisionsResponse *revisionsResponse,
+                                  NSError *error,
+                                  AFHTTPRequestOperation *operation))completion;
 @end
 
 @interface MRTAuthenticatedClient (PromiseKit)
@@ -53,4 +59,5 @@
 - (PMKPromise *)projectsWithIDs:(NSArray *)projectIDs;
 - (PMKPromise *)foldersWithIDs:(NSArray *)folderIDs;
 - (PMKPromise *)filesWithIDs:(NSArray *)fileIDs;
+- (PMKPromise *)revisionsWithIDs:(NSArray *)revisionIDs;
 @end
