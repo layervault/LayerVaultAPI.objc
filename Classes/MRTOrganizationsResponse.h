@@ -9,6 +9,11 @@
 #import <Mantle/Mantle.h>
 #import "LVCOrganization.h" /// for LCVSyncType
 
+typedef enum : NSUInteger {
+    LVCSyncTypeLayerVault,
+    LVCSyncTypeDropBox
+} LVCSyncType;
+
 @interface MRTOrganizationsResponse : MTLModel <MTLJSONSerializing>
 @property (readonly, nonatomic, copy) NSArray *organizationResponses;
 @end
