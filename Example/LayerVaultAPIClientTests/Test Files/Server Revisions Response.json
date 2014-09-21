@@ -1,8 +1,10 @@
 {
   "revisions": [
     {
+      "created_at": "2014-09-05T14:49:55Z",
+      "updated_at": "2014-09-05T14:49:58Z",
       "id": "3751243",
-      "href": "https://layervault.com/api/v2/revisions/3751243",
+      "href": "https://beta.layervault.com/api/v2/revisions/3751243",
       "links": {
         "previews": [
           "16027320"
@@ -13,30 +15,28 @@
       "slug": "2",
       "revision_number": 2,
       "shortened_url": "http://lyrv.lt/AWpnvLm4SG",
-      "created_at": "2014-09-05T14:49:55Z",
       "deleted_at": "3013-01-01T00:00:00Z",
-      "updated_at": "2014-09-15T23:06:15Z",
       "parent_md5": "b08dce5916c38bf83421b91f251bc8f4",
       "md5": "1915a417958b828bd1aced1c02d901ad",
       "assembled_file_data_fingerprint": "1915a417958b828bd1aced1c02d901ad",
       "file_data_fingerprint": "1e94ef7574ed4808ebd327e64ee019f1",
       "remote_url": null,
-      "download_url": "https://layervault.com/files/download_node/AWpnvLm4SG",
+      "download_url": "https://beta.layervault.com/files/download_node/AWpnvLm4SG",
       "dropbox_sync_revision": false
     }
   ],
   "linked": {},
   "links": {
     "revisions.revision_cluster": {
-      "href": "https://api.layervault.com/api/v2/revision_clusters/{revisions.revision_cluster}",
+      "href": "https://beta.layervault.com/api/v2/revision_clusters/{revisions.revision_cluster}",
       "type": "revision_clusters"
     },
     "revisions.user": {
-      "href": "https://api.layervault.com/api/v2/users/{revisions.user}",
+      "href": "https://beta.layervault.com/api/v2/users/{revisions.user}",
       "type": "users"
     },
     "revisions.previews": {
-      "href": "https://api.layervault.com/api/v2/previews/{revisions.previews}",
+      "href": "https://beta.layervault.com/api/v2/previews/{revisions.previews}",
       "type": "previews"
     }
   }

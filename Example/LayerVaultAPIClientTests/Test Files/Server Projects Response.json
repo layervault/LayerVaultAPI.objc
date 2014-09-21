@@ -1,9 +1,11 @@
 {
   "projects": [
     {
+      "created_at": "2013-08-20T14:38:37Z",
+      "updated_at": "2014-08-08T16:51:13Z",
       "id": "498729",
-      "href": "https://layervault.com/api/v2/projects/498729",
-      "url": "https://layervault.com/codecaffeine/foobar",
+      "href": "https://beta.layervault.com/api/v2/projects/498729",
+      "url": "https://beta.layervault.com/codecaffeine/foobar",
       "links": {
         "users": [],
         "organization": "1307",
@@ -15,12 +17,17 @@
         "presentations": []
       },
       "name": "foobar",
-      "slug": "foobar"
+      "slug": "foobar",
+      "is_public": true,
+      "color": "red",
+      "files_count": 232
     },
     {
+      "created_at": "2013-10-09T14:17:38Z",
+      "updated_at": "2014-08-08T16:51:11Z",
       "id": "595192",
-      "href": "https://layervault.com/api/v2/projects/595192",
-      "url": "https://layervault.com/codecaffeine/baz-rename",
+      "href": "https://beta.layervault.com/api/v2/projects/595192",
+      "url": "https://beta.layervault.com/codecaffeine/baz-rename",
       "links": {
         "users": [],
         "organization": "1307",
@@ -39,16 +46,19 @@
         "presentations": []
       },
       "name": "baz rename",
-      "slug": "baz-rename"
+      "slug": "baz-rename",
+      "is_public": true,
+      "color": "red",
+      "files_count": 34
     },
     {
+      "created_at": "2013-10-09T14:34:54Z",
+      "updated_at": "2014-08-19T15:58:53Z",
       "id": "595206",
-      "href": "https://layervault.com/api/v2/projects/595206",
-      "url": "https://layervault.com/codecaffeine/awesome~o",
+      "href": "https://beta.layervault.com/api/v2/projects/595206",
+      "url": "https://beta.layervault.com/codecaffeine/awesome~o",
       "links": {
-        "users": [
-          "11296"
-        ],
+        "users": [],
         "organization": "1307",
         "folders": [
           "812674",
@@ -94,12 +104,17 @@
         "presentations": []
       },
       "name": "awesome-o",
-      "slug": "awesome~o"
+      "slug": "awesome~o",
+      "is_public": true,
+      "color": "green",
+      "files_count": 41
     },
     {
+      "created_at": "2013-11-01T13:28:50Z",
+      "updated_at": "2014-08-19T15:58:56Z",
       "id": "650293",
-      "href": "https://layervault.com/api/v2/projects/650293",
-      "url": "https://layervault.com/codecaffeine/skitch-md5",
+      "href": "https://beta.layervault.com/api/v2/projects/650293",
+      "url": "https://beta.layervault.com/codecaffeine/skitch-md5",
       "links": {
         "users": [],
         "organization": "1307",
@@ -120,12 +135,17 @@
         "presentations": []
       },
       "name": "skitch md5",
-      "slug": "skitch-md5"
+      "slug": "skitch-md5",
+      "is_public": true,
+      "color": "white",
+      "files_count": 19
     },
     {
+      "created_at": "2013-12-05T02:28:14Z",
+      "updated_at": "2014-09-03T19:30:18Z",
       "id": "800427",
-      "href": "https://layervault.com/api/v2/projects/800427",
-      "url": "https://layervault.com/codecaffeine/football-american",
+      "href": "https://beta.layervault.com/api/v2/projects/800427",
+      "url": "https://beta.layervault.com/codecaffeine/football-american",
       "links": {
         "users": [],
         "organization": "1307",
@@ -140,12 +160,17 @@
         "presentations": []
       },
       "name": "football (american)",
-      "slug": "football-american"
+      "slug": "football-american",
+      "is_public": true,
+      "color": "red",
+      "files_count": 136
     },
     {
+      "created_at": "2013-12-05T02:36:08Z",
+      "updated_at": "2014-09-03T19:30:15Z",
       "id": "800439",
-      "href": "https://layervault.com/api/v2/projects/800439",
-      "url": "https://layervault.com/codecaffeine/badsanta",
+      "href": "https://beta.layervault.com/api/v2/projects/800439",
+      "url": "https://beta.layervault.com/codecaffeine/badsanta",
       "links": {
         "users": [],
         "organization": "1307",
@@ -175,12 +200,17 @@
         "presentations": []
       },
       "name": "badsanta",
-      "slug": "badsanta"
+      "slug": "badsanta",
+      "is_public": true,
+      "color": "green",
+      "files_count": 42
     },
     {
+      "created_at": "2013-12-06T16:24:53Z",
+      "updated_at": "2014-08-18T17:56:02Z",
       "id": "804704",
-      "href": "https://layervault.com/api/v2/projects/804704",
-      "url": "https://layervault.com/codecaffeine/hello-everyone",
+      "href": "https://beta.layervault.com/api/v2/projects/804704",
+      "url": "https://beta.layervault.com/codecaffeine/hello-everyone",
       "links": {
         "users": [
           "16517"
@@ -249,12 +279,17 @@
         "presentations": []
       },
       "name": "Hello everyone",
-      "slug": "hello-everyone"
+      "slug": "hello-everyone",
+      "is_public": true,
+      "color": "orange",
+      "files_count": 66
     },
     {
+      "created_at": "2014-01-30T00:23:32Z",
+      "updated_at": "2014-08-08T16:51:24Z",
       "id": "981872",
-      "href": "https://layervault.com/api/v2/projects/981872",
-      "url": "https://layervault.com/codecaffeine/blooos",
+      "href": "https://beta.layervault.com/api/v2/projects/981872",
+      "url": "https://beta.layervault.com/codecaffeine/blooos",
       "links": {
         "users": [],
         "organization": "1307",
@@ -276,12 +311,17 @@
         "presentations": []
       },
       "name": "BLOOOS",
-      "slug": "blooos"
+      "slug": "blooos",
+      "is_public": true,
+      "color": "red",
+      "files_count": 334
     },
     {
+      "created_at": "2014-07-17T19:08:29Z",
+      "updated_at": "2014-08-08T16:51:19Z",
       "id": "3404587",
-      "href": "https://layervault.com/api/v2/projects/3404587",
-      "url": "https://layervault.com/codecaffeine/foozbarbs",
+      "href": "https://beta.layervault.com/api/v2/projects/3404587",
+      "url": "https://beta.layervault.com/codecaffeine/foozbarbs",
       "links": {
         "users": [],
         "organization": "1307",
@@ -373,12 +413,17 @@
         "presentations": []
       },
       "name": "FOOZBARBS",
-      "slug": "foozbarbs"
+      "slug": "foozbarbs",
+      "is_public": true,
+      "color": "red",
+      "files_count": 105
     },
     {
+      "created_at": "2014-07-18T15:15:36Z",
+      "updated_at": "2014-08-08T16:51:34Z",
       "id": "3409569",
-      "href": "https://layervault.com/api/v2/projects/3409569",
-      "url": "https://layervault.com/codecaffeine/foozbars",
+      "href": "https://beta.layervault.com/api/v2/projects/3409569",
+      "url": "https://beta.layervault.com/codecaffeine/foozbars",
       "links": {
         "users": [],
         "organization": "1307",
@@ -397,12 +442,17 @@
         "presentations": []
       },
       "name": "FOOZBARS",
-      "slug": "foozbars"
+      "slug": "foozbars",
+      "is_public": true,
+      "color": null,
+      "files_count": 24
     },
     {
+      "created_at": "2014-07-18T15:29:35Z",
+      "updated_at": "2014-08-18T17:56:38Z",
       "id": "3409711",
-      "href": "https://layervault.com/api/v2/projects/3409711",
-      "url": "https://layervault.com/codecaffeine/belch",
+      "href": "https://beta.layervault.com/api/v2/projects/3409711",
+      "url": "https://beta.layervault.com/codecaffeine/belch",
       "links": {
         "users": [
           "23307"
@@ -430,12 +480,17 @@
         "presentations": []
       },
       "name": "belch",
-      "slug": "belch"
+      "slug": "belch",
+      "is_public": true,
+      "color": "white",
+      "files_count": 30
     },
     {
+      "created_at": "2014-07-21T16:43:32Z",
+      "updated_at": "2014-09-03T19:30:23Z",
       "id": "3418961",
-      "href": "https://layervault.com/api/v2/projects/3418961",
-      "url": "https://layervault.com/codecaffeine/demo-project",
+      "href": "https://beta.layervault.com/api/v2/projects/3418961",
+      "url": "https://beta.layervault.com/codecaffeine/demo-project",
       "links": {
         "users": [
           "23307"
@@ -448,12 +503,17 @@
         "presentations": []
       },
       "name": "Demo Project",
-      "slug": "demo-project"
+      "slug": "demo-project",
+      "is_public": true,
+      "color": null,
+      "files_count": 1
     },
     {
+      "created_at": "2014-08-08T17:58:00Z",
+      "updated_at": "2014-08-08T20:31:32Z",
       "id": "3536772",
-      "href": "https://layervault.com/api/v2/projects/3536772",
-      "url": "https://layervault.com/codecaffeine/large-file-project",
+      "href": "https://beta.layervault.com/api/v2/projects/3536772",
+      "url": "https://beta.layervault.com/codecaffeine/large-file-project",
       "links": {
         "users": [],
         "organization": "1307",
@@ -462,12 +522,17 @@
         "presentations": []
       },
       "name": "Large File Project",
-      "slug": "large-file-project"
+      "slug": "large-file-project",
+      "is_public": true,
+      "color": "white",
+      "files_count": 0
     },
     {
+      "created_at": "2014-08-11T20:12:29Z",
+      "updated_at": "2014-08-18T17:56:04Z",
       "id": "3553734",
-      "href": "https://layervault.com/api/v2/projects/3553734",
-      "url": "https://layervault.com/codecaffeine/omega",
+      "href": "https://beta.layervault.com/api/v2/projects/3553734",
+      "url": "https://beta.layervault.com/codecaffeine/omega",
       "links": {
         "users": [],
         "organization": "1307",
@@ -476,12 +541,17 @@
         "presentations": []
       },
       "name": "Omega",
-      "slug": "omega"
+      "slug": "omega",
+      "is_public": true,
+      "color": "white",
+      "files_count": 0
     },
     {
+      "created_at": "2014-08-25T14:50:13Z",
+      "updated_at": "2014-09-03T19:30:21Z",
       "id": "3662132",
-      "href": "https://layervault.com/api/v2/projects/3662132",
-      "url": "https://layervault.com/codecaffeine/test-blank-project-2",
+      "href": "https://beta.layervault.com/api/v2/projects/3662132",
+      "url": "https://beta.layervault.com/codecaffeine/test-blank-project-2",
       "links": {
         "users": [],
         "organization": "1307",
@@ -490,12 +560,17 @@
         "presentations": []
       },
       "name": "Test Blank Project 2",
-      "slug": "test-blank-project-2"
+      "slug": "test-blank-project-2",
+      "is_public": true,
+      "color": "white",
+      "files_count": 0
     },
     {
+      "created_at": "2014-09-04T21:38:23Z",
+      "updated_at": "2014-09-04T21:38:23Z",
       "id": "3747345",
-      "href": "https://layervault.com/api/v2/projects/3747345",
-      "url": "https://layervault.com/codecaffeine/kelly-s-sandbox",
+      "href": "https://beta.layervault.com/api/v2/projects/3747345",
+      "url": "https://beta.layervault.com/codecaffeine/kelly-s-sandbox",
       "links": {
         "users": [
           "23307"
@@ -508,12 +583,17 @@
         "presentations": []
       },
       "name": "Kelly's Sandbox",
-      "slug": "kelly-s-sandbox"
+      "slug": "kelly-s-sandbox",
+      "is_public": true,
+      "color": null,
+      "files_count": 0
     },
     {
+      "created_at": "2014-09-04T21:38:24Z",
+      "updated_at": "2014-09-04T21:38:24Z",
       "id": "3747349",
-      "href": "https://layervault.com/api/v2/projects/3747349",
-      "url": "https://layervault.com/codecaffeine/upload-test-1",
+      "href": "https://beta.layervault.com/api/v2/projects/3747349",
+      "url": "https://beta.layervault.com/codecaffeine/upload-test-1",
       "links": {
         "users": [
           "23307"
@@ -524,12 +604,17 @@
         "presentations": []
       },
       "name": "Upload Test 1",
-      "slug": "upload-test-1"
+      "slug": "upload-test-1",
+      "is_public": true,
+      "color": "white",
+      "files_count": 0
     },
     {
+      "created_at": "2014-09-04T21:38:25Z",
+      "updated_at": "2014-09-04T21:38:35Z",
       "id": "3747350",
-      "href": "https://layervault.com/api/v2/projects/3747350",
-      "url": "https://layervault.com/codecaffeine/flat-flags",
+      "href": "https://beta.layervault.com/api/v2/projects/3747350",
+      "url": "https://beta.layervault.com/codecaffeine/flat-flags",
       "links": {
         "users": [
           "23307"
@@ -542,12 +627,17 @@
         "presentations": []
       },
       "name": "Flat Flags",
-      "slug": "flat-flags"
+      "slug": "flat-flags",
+      "is_public": true,
+      "color": null,
+      "files_count": 0
     },
     {
+      "created_at": "2014-09-04T21:38:28Z",
+      "updated_at": "2014-09-04T21:38:36Z",
       "id": "3747354",
-      "href": "https://layervault.com/api/v2/projects/3747354",
-      "url": "https://layervault.com/codecaffeine/matt-s-cool-s-b%C3%B8x",
+      "href": "https://beta.layervault.com/api/v2/projects/3747354",
+      "url": "https://beta.layervault.com/codecaffeine/matt-s-cool-s-b%C3%B8x",
       "links": {
         "users": [
           "23307"
@@ -563,12 +653,17 @@
         "presentations": []
       },
       "name": "Matt’s Cool S&bøx",
-      "slug": "matt-s-cool-s-bøx"
+      "slug": "matt-s-cool-s-bøx",
+      "is_public": true,
+      "color": null,
+      "files_count": 0
     },
     {
+      "created_at": "2014-09-04T21:38:34Z",
+      "updated_at": "2014-09-04T21:38:34Z",
       "id": "3747360",
-      "href": "https://layervault.com/api/v2/projects/3747360",
-      "url": "https://layervault.com/codecaffeine/upload-test-3",
+      "href": "https://beta.layervault.com/api/v2/projects/3747360",
+      "url": "https://beta.layervault.com/codecaffeine/upload-test-3",
       "links": {
         "users": [
           "23307"
@@ -579,17 +674,20 @@
         "presentations": []
       },
       "name": "upload test 3",
-      "slug": "upload-test-3"
+      "slug": "upload-test-3",
+      "is_public": true,
+      "color": "white",
+      "files_count": 0
     }
   ],
   "linked": {},
   "links": {
     "projects.users": {
-      "href": "https://api.layervault.com/api/v2/users/{projects.users}",
+      "href": "https://beta.layervault.com/api/v2/users/{projects.users}",
       "type": "users"
     },
     "projects.folders": {
-      "href": "https://api.layervault.com/api/v2/folders/{projects.folders}",
+      "href": "https://beta.layervault.com/api/v2/folders/{projects.folders}",
       "type": "folders"
     }
   }

@@ -1,45 +1,11 @@
 {
   "folders": [
     {
-      "id": "3747355",
-      "href": "https://layervault.com/api/v2/folders/3747355",
-      "url": "https://layervault.com/codecaffeine/matt-s-cool-s-b%C3%B8x/prokroll",
-      "links": {
-        "files": [],
-        "folders": [],
-        "project": "3747354"
-      },
-      "name": "prokroll",
-      "slug": "prokroll"
-    },
-    {
-      "id": "3747357",
-      "href": "https://layervault.com/api/v2/folders/3747357",
-      "url": "https://layervault.com/codecaffeine/matt-s-cool-s-b%C3%B8x/morememorytests",
-      "links": {
-        "files": [],
-        "folders": [],
-        "project": "3747354"
-      },
-      "name": "moreMemoryTests",
-      "slug": "morememorytests"
-    },
-    {
-      "id": "3747359",
-      "href": "https://layervault.com/api/v2/folders/3747359",
-      "url": "https://layervault.com/codecaffeine/matt-s-cool-s-b%C3%B8x/assets",
-      "links": {
-        "files": [],
-        "folders": [],
-        "project": "3747354"
-      },
-      "name": "Assets",
-      "slug": "assets"
-    },
-    {
+      "created_at": "2014-09-04T21:38:36Z",
+      "updated_at": "2014-09-04T21:38:36Z",
       "id": "3747363",
-      "href": "https://layervault.com/api/v2/folders/3747363",
-      "url": "https://layervault.com/codecaffeine/matt-s-cool-s-b%C3%B8x/multiple-large-files",
+      "href": "https://beta.layervault.com/api/v2/folders/3747363",
+      "url": "https://beta.layervault.com/codecaffeine/matt-s-cool-s-b%C3%B8x/multiple-large-files",
       "links": {
         "files": [],
         "folders": [],
@@ -47,8 +13,41 @@
       },
       "name": "multiple large files",
       "slug": "multiple-large-files"
+    },
+    {
+      "created_at": "2014-09-05T14:47:06Z",
+      "updated_at": "2014-09-05T14:47:07Z",
+      "id": "3751112",
+      "href": "https://beta.layervault.com/api/v2/folders/3751112",
+      "url": "https://beta.layervault.com/layervault-test/upload-test-1/lv~site/css",
+      "links": {
+        "files": [
+          "3751113"
+        ],
+        "folders": [],
+        "parent_folder": "3751072"
+      },
+      "name": "css",
+      "slug": "css"
     }
   ],
   "linked": {},
-  "links": {}
+  "links": {
+    "folders.folders": {
+      "href": "https://beta.layervault.com/api/v2/folders/{folders.folders}",
+      "type": "folders"
+    },
+    "folders.files": {
+      "href": "https://beta.layervault.com/api/v2/files/{folders.files}",
+      "type": "files"
+    },
+    "folders.parent_folder": {
+      "href": "https://beta.layervault.com/api/v2/folders/{folders.parent_folder}",
+      "type": "folders"
+    },
+    "folders.project": {
+      "href": "https://beta.layervault.com/api/v2/projects/{folders.project}",
+      "type": "folders"
+    }
+  }
 }
