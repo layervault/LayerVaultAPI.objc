@@ -20,12 +20,15 @@
 
 @implementation MRTUserResponse
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
-    return @{@"userID": @"id",
-             @"email": @"email",
+    return @{@"email": @"email",
              @"firstName": @"first_name",
              @"lastName": @"last_name",
              @"organizationIDs": @"links.organizations",
              @"hasSeenTour": @"has_seen_tour",
-             @"hasConfiguredAccount": @"has_configured_account"};
+             @"hasConfiguredAccount": @"has_configured_account",
+             @"uid": @"id",
+             @"href": @"href",
+             @"dateCreated": @"created_at",
+             @"dateUpdated": @"updated_at"};
 }
 @end
