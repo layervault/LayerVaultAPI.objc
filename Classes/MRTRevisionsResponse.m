@@ -22,26 +22,27 @@
 
 @implementation MRTRevisionResponse
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
-    return @{@"revisionID": @"id",
-             @"previewIDs": @"links.previews",
-             @"userID": @"links.user",
-             @"metadataID": @"links.metadatum",
+    return @{@"uid": @"id",
+             @"href": @"href",
+             @"dateCreated": @"created_at",
+             @"dateUpdated": @"updated_at",
              @"slug": @"slug",
              @"revisionNumber": @"revision_number",
              @"shortURL": @"shortened_url",
-             @"dateCreated": @"created_at",
              @"dateDeleted": @"deleted_at",
-             @"dateUpdated": @"updated_at",
              @"parentMD5": @"parent_md5",
              @"md5": @"md5",
              @"assembledFileDataFingerprint": @"assembled_file_data_fingerprint",
              @"fileDataFingerprint": @"file_data_fingerprint",
              @"remoteURL": @"remote_url",
              @"downloadURL": @"download_url",
-             @"dropboxSyncRevision": @"dropbox_sync_revision"};
+             @"dropboxSyncRevision": @"dropbox_sync_revision",
+             @"previewIDs": @"links.previews",
+             @"userID": @"links.user",
+             @"metadataID": @"links.metadatum"};
 }
 
-+ (NSValueTransformer *)shortURLJSONTransformer {
++ (NSValueTransformer *)hrefJSONTransformer {
     return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 }
 
@@ -49,8 +50,12 @@
     return [NSValueTransformer valueTransformerForName:LVCRFC3339DateTransformerName];
 }
 
-+ (NSValueTransformer *)dateModifiedJSONTransformer {
++ (NSValueTransformer *)dateUpdatedJSONTransformer {
     return [NSValueTransformer valueTransformerForName:LVCRFC3339DateTransformerName];
+}
+
++ (NSValueTransformer *)shortURLJSONTransformer {
+    return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 }
 
 + (NSValueTransformer *)dateDeletedJSONTransformer {
