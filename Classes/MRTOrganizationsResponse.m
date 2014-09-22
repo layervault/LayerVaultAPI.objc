@@ -22,23 +22,30 @@
 
 @implementation MRTOrganizationResponse
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
-    return @{@"organizationID": @"id",
+    return @{@"uid": @"id",
+             @"href": @"href",
+             @"dateCreated": @"created_at",
+             @"dateUpdated": @"updated_at",
              @"name": @"name",
              @"slug": @"slug",
+             @"url": @"url",
              @"isFree": @"is_free",
              @"dateDeleted": @"deleted_at",
-             @"dateUpdated": @"updated_at",
-             @"dateCreated": @"created_at",
              @"dateCancelled": @"cancelled_at",
-             @"url": @"url",
              @"syncType": @"sync_type",
+             @"isTrialingWithoutPayment": @"is_trialing_without_payment",
+             @"dateTrialEnds": @"trial_end_at",
              @"projectIDs": @"links.projects",
              @"administratorIDs": @"links.administrators",
              @"editorIDs": @"links.editors",
              @"spectatorIDs": @"links.spectators"};
 }
 
-+ (NSValueTransformer *)dateDeletedJSONTransformer {
++ (NSValueTransformer *)hrefJSONTransformer {
+    return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
+}
+
++ (NSValueTransformer *)dateCreatedJSONTransformer {
     return [NSValueTransformer valueTransformerForName:LVCRFC3339DateTransformerName];
 }
 
@@ -46,17 +53,20 @@
     return [NSValueTransformer valueTransformerForName:LVCRFC3339DateTransformerName];
 }
 
-+ (NSValueTransformer *)dateCreatedJSONTransformer {
-    return [NSValueTransformer valueTransformerForName:LVCRFC3339DateTransformerName];
++ (NSValueTransformer *)urlJSONTransformer {
+    return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 }
 
++ (NSValueTransformer *)dateDeletedJSONTransformer {
+    return [NSValueTransformer valueTransformerForName:LVCRFC3339DateTransformerName];
+}
 
 + (NSValueTransformer *)dateCancelledJSONTransformer {
     return [NSValueTransformer valueTransformerForName:LVCRFC3339DateTransformerName];
 }
 
-+ (NSValueTransformer *)urlJSONTransformer {
-    return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
++ (NSValueTransformer *)dateTrialEndsJSONTransformer {
+    return [NSValueTransformer valueTransformerForName:LVCRFC3339DateTransformerName];
 }
 
 + (NSValueTransformer *)syncTypeJSONTransformer {
