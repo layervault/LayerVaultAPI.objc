@@ -218,14 +218,14 @@
                                           AFHTTPRequestOperation *operation))completion
 {
     NSDictionary *dict = @{@"md5": md5,
-                           @"remoteURL": [remoteURL absoluteString],
+                           @"remote_url": [remoteURL absoluteString],
                            @"links": @{@"file": fileID}};
     if (parentMD5.length > 0) {
         NSMutableDictionary *mDict = dict.mutableCopy;
         mDict[@"parent_md5"] = parentMD5;
         dict = mDict.copy;
     }
-    [self createResourceWithCollectionClass:[MRTFilesResponse class]
+    [self createResourceWithCollectionClass:[MRTRevisionsResponse class]
                                 resourceKey:@"revisions"
                                resourceInfo:dict
                                  completion:completion];
