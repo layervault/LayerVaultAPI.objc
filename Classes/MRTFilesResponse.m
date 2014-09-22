@@ -22,26 +22,39 @@
 
 @implementation MRTFileResponse
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
-    return @{@"fileID": @"id",
+    return @{@"uid": @"id",
+             @"href": @"href",
+             @"dateCreated": @"created_at",
+             @"dateUpdated": @"updated_at",
              @"name": @"name",
              @"slug": @"slug",
-             @"lastRevisionID": @"links.last_revision",
+             @"url": @"url",
              @"canEditNode": @"can_edit_node",
              @"canCommentOnFile": @"can_comment_on_file",
+             @"dateDeleted": @"deleted_at",
+             @"revisionCount": @"num_revisions",
+             @"lastRevisionID": @"links.last_revision",
+             @"lastPreviewID": @"links.last_preview",
+             @"projectID": @"links.project",
              @"folderID": @"links.folder",
              @"revisionClusterIDs": @"links.revision_clusters",
-             @"feedbackThreadIDs": @"links.feedback_threads",
-             @"dateCreated": @"created_at",
-             @"dateModified": @"updated_at",
-             @"dateDeleted": @"deleted_at"};
+             @"feedbackThreadIDs": @"links.feedback_threads"};
+}
+
++ (NSValueTransformer *)hrefJSONTransformer {
+    return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 }
 
 + (NSValueTransformer *)dateCreatedJSONTransformer {
     return [NSValueTransformer valueTransformerForName:LVCRFC3339DateTransformerName];
 }
 
-+ (NSValueTransformer *)dateModifiedJSONTransformer {
++ (NSValueTransformer *)dateUpdatedJSONTransformer {
     return [NSValueTransformer valueTransformerForName:LVCRFC3339DateTransformerName];
+}
+
++ (NSValueTransformer *)urlJSONTransformer {
+    return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 }
 
 + (NSValueTransformer *)dateDeletedJSONTransformer {
