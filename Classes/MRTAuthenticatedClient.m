@@ -17,7 +17,11 @@
 #import "MRTRevisionsResponse.h"
 #import "LVCOrganization.h"
 #import "LVCProject.h"
+#import "LVCAmazonS3Client.h"
 
+@interface MRTAuthenticatedClient ()
+@property (nonatomic) LVCAmazonS3Client *amazonS3Client;
+@end
 
 @implementation MRTAuthenticatedClient
 
@@ -225,6 +229,48 @@
                                 resourceKey:@"revisions"
                                resourceInfo:dict
                                  completion:completion];
+}
+
+#pragma mark - S3
+- (void)generateS3ResourceForPath:(NSString *)path
+                           bucket:(NSString *)bucket
+                      maxFileSize:(NSString *)maxFileSize
+                       completion:(void (^)(NSDictionary *responseParams,
+                                            NSError *error,
+                                            AFHTTPRequestOperation *operation))completion
+{
+    NSMutableDictionary *dict = @{@"path": path}.mutableCopy;
+    if (bucket.length > 0) {
+        dict[@"bucket"] = bucket;
+    }
+    if (maxFileSize.length > 0) {
+        dict[@"max_file_size"] = maxFileSize;
+    }
+
+    NSString *mime = @"application/json";
+    NSDictionary *params = @{@"Content-Type": mime};
+
+    NSError *error;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dict
+                                                   options:0
+                                                     error:&error];
+
+    NSMutableURLRequest *request = [self requestWithMethod:@"POST" path:@"/api/s3/generate" parameters:params];
+    [request setValue:mime forHTTPHeaderField:@"Content-Type"];
+    request.HTTPBody = data;
+
+    AFHTTPRequestOperation *op = [self HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        if ([responseObject isKindOfClass:[NSDictionary class]]) {
+            completion(responseObject, nil, operation);
+        } else {
+#warning - TODO Real Error
+            NSError *error = [NSError errorWithDomain:@"asdf" code:1234 userInfo:nil];
+            completion(nil, error, operation);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        completion(nil, error, operation);
+    }];
+    [self enqueueHTTPRequestOperation:op];
 }
 
 #pragma mark - Generic Methods
@@ -454,6 +500,46 @@
     }];
 }
 
+#pragma mark - S3
+- (PMKPromise *)generateS3ResourceForPath:(NSString *)path
+                                   bucket:(NSString *)bucket
+                              maxFileSize:(NSString *)maxFileSize
+{
+    __weak typeof(self) weakSelf = self;
+    return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
+        [weakSelf generateS3ResourceForPath:path bucket:bucket maxFileSize:maxFileSize completion:^(NSDictionary *response, NSError *error, AFHTTPRequestOperation *operation) {
+            if (response) {
+                fulfill(response);
+            } else {
+                reject(error);
+            }
+        }];
+    }];
+}
+
+
+#pragma mark - Promises
+- (PMKPromise *)uploadFile:(NSURL *)fileURL
+                parameters:(NSDictionary *)parameters
+{
+    NSError *accessTokenError;
+    NSString *accessToken = [self accessTokenWithError:&accessTokenError];
+    __weak typeof(self) weakSelf = self;
+    return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
+
+        if (!accessToken) {
+            reject(accessTokenError);
+        } else {
+            weakSelf.amazonS3Client = [[LVCAmazonS3Client alloc] init];
+            AFHTTPRequestOperation *s3Op = [weakSelf.amazonS3Client uploadOperationForFile:fileURL parameters:parameters accessToken:accessToken success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                fulfill(responseObject);
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                reject(error);
+            }];
+            [weakSelf enqueueHTTPRequestOperation:s3Op];
+        }
+    }];
+}
 
 #pragma mark - Private
 - (PMKPromise *)collectionsOfClass:(Class)class resourceKey:(NSString *)resourceKey withIDs:(NSArray *)ids
@@ -467,6 +553,23 @@
             }
         }];
     }];
+}
+
+- (NSString *)accessTokenWithError:(NSError * __autoreleasing *)error
+{
+    NSString *accessToken = nil;
+    NSString *authHeader = [self defaultValueForHeader:@"Authorization"];
+    if (authHeader.length > 7 && [authHeader hasPrefix:@"Bearer "]) {
+        accessToken = [authHeader substringFromIndex:7];
+    }
+
+    if (!accessToken && error) {
+        *error = [NSError errorWithDomain:@"LVCHTTPClientErrorDomain"
+                                     code:1
+                                 userInfo:@{NSLocalizedDescriptionKey: @"No Access Token Found. Check your authentication Credentials"}];
+    }
+
+    return accessToken;
 }
 
 @end
