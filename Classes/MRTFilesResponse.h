@@ -18,8 +18,8 @@
 @property (readonly, nonatomic, copy) NSURL *href;
 @property (readonly, nonatomic, copy) NSDate *dateCreated;
 @property (readonly, nonatomic, copy) NSDate *dateUpdated;
-@property (readonly, nonatomic, copy) NSString *name;
 @property (readonly, nonatomic, copy) NSString *slug;
+@property (readonly, nonatomic, copy) NSString *name;
 @property (readonly, nonatomic, copy) NSURL *url;
 @property (readonly, nonatomic) BOOL canEditNode;
 @property (readonly, nonatomic) BOOL canCommentOnFile;
