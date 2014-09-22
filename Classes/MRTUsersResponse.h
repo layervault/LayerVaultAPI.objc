@@ -23,11 +23,12 @@
 @property (readonly, nonatomic, copy) NSString *email;
 @property (readonly, nonatomic, copy) NSString *firstName;
 @property (readonly, nonatomic, copy) NSString *lastName;
-@property (readonly, nonatomic, copy) NSArray *organizationIDs;
 @property (readonly, nonatomic) BOOL hasSeenTour;
 @property (readonly, nonatomic) BOOL hasConfiguredAccount;
 
+/// @note External Resource IDs
+@property (readonly, nonatomic, copy) NSArray *organizationIDs;
+
 #warning - Not in v2
 //@property (readonly, nonatomic, getter = isAdmin) BOOL admin;
-
 @end

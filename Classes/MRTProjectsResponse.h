@@ -24,11 +24,10 @@
 @property (readonly, nonatomic) BOOL isPublic;
 @property (readonly, nonatomic) LVCColorLabel colorLabel;
 
-/// Returned from the JSON
+/// @note External Resource IDs
 @property (readonly, nonatomic, copy) NSString *organizationID;
 @property (readonly, nonatomic, copy) NSArray *folderIDs;
 @property (readonly, nonatomic, copy) NSArray *fileIDs;
 @property (readonly, nonatomic, copy) NSArray *presentationIDs;
 @property (readonly, nonatomic, copy) NSArray *userIDs;
-
 @end

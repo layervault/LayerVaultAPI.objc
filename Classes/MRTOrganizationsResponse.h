@@ -33,12 +33,9 @@ typedef enum : NSUInteger {
 @property (readonly, nonatomic) BOOL isTrialingWithoutPayment;
 @property (readonly, nonatomic, copy) NSDate *dateTrialEnds;
 
-
-/// from the JSON
+/// @note External Resource IDs
 @property (readonly, nonatomic, copy) NSArray *projectIDs;
 @property (readonly, nonatomic, copy) NSArray *administratorIDs;
 @property (readonly, nonatomic, copy) NSArray *editorIDs;
 @property (readonly, nonatomic, copy) NSArray *spectatorIDs;
-
-@property (nonatomic, copy) NSArray *projects;
 @end
