@@ -7,6 +7,7 @@
 //
 
 #import "MRTProjectsResponse.h"
+#import "NSValueTransformer+LVCPredefinedTransformerAdditions.h"
 
 @implementation MRTProjectsResponse
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
@@ -21,10 +22,15 @@
 
 @implementation MRTProjectResponse
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
-    return @{@"projectID": @"id",
+    return @{@"uid": @"id",
+             @"href": @"href",
+             @"dateCreated": @"created_at",
+             @"dateUpdated": @"updated_at",
              @"name": @"name",
              @"slug": @"slug",
              @"url": @"url",
+             @"isPublic": @"is_public",
+             @"colorLabel": @"color",
              @"organizationID": @"links.organization",
              @"folderIDs": @"links.folders",
              @"fileIDs": @"links.files",
@@ -32,7 +38,24 @@
              @"userIDs": @"links.users"};
 }
 
++ (NSValueTransformer *)hrefJSONTransformer {
+    return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
+}
+
++ (NSValueTransformer *)dateCreatedJSONTransformer {
+    return [NSValueTransformer valueTransformerForName:LVCRFC3339DateTransformerName];
+}
+
++ (NSValueTransformer *)dateUpdatedJSONTransformer {
+    return [NSValueTransformer valueTransformerForName:LVCRFC3339DateTransformerName];
+}
+
 + (NSValueTransformer *)urlJSONTransformer {
     return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
+}
+
++ (NSValueTransformer *)syncTypeJSONTransformer {
+    return [NSValueTransformer mtl_valueMappingTransformerWithDictionary:
+            [LVCColorUtils colorNamesToValue]];
 }
 @end

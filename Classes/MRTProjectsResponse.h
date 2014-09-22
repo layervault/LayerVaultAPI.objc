@@ -7,21 +7,28 @@
 //
 
 #import <Mantle/Mantle.h>
+#import "LVCColorUtils.h"
 
 @interface MRTProjectsResponse : MTLModel <MTLJSONSerializing>
 @property (readonly, nonatomic, copy) NSArray *projectResponses;
 @end
 
 @interface MRTProjectResponse : MTLModel <MTLJSONSerializing>
-@property (readonly, nonatomic, copy) NSString *projectID;
+@property (readonly, nonatomic, copy) NSString *uid;
+@property (readonly, nonatomic, copy) NSURL *href;
+@property (readonly, nonatomic, copy) NSDate *dateCreated;
+@property (readonly, nonatomic, copy) NSDate *dateUpdated;
 @property (readonly, nonatomic, copy) NSString *name;
 @property (readonly, nonatomic, copy) NSString *slug;
 @property (readonly, nonatomic, copy) NSURL *url;
+@property (readonly, nonatomic) BOOL isPublic;
+@property (readonly, nonatomic) LVCColorLabel colorLabel;
+
+/// Returned from the JSON
 @property (readonly, nonatomic, copy) NSString *organizationID;
 @property (readonly, nonatomic, copy) NSArray *folderIDs;
 @property (readonly, nonatomic, copy) NSArray *fileIDs;
 @property (readonly, nonatomic, copy) NSArray *presentationIDs;
 @property (readonly, nonatomic, copy) NSArray *userIDs;
-#warning - need color label
-//@property (nonatomic) LVCColorLabel colorLabel;
+
 @end
