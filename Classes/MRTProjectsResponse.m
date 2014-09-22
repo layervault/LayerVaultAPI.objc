@@ -54,7 +54,7 @@
     return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 }
 
-+ (NSValueTransformer *)syncTypeJSONTransformer {
++ (NSValueTransformer *)colorLabelJSONTransformer {
     return [NSValueTransformer mtl_valueMappingTransformerWithDictionary:
             [LVCColorUtils colorNamesToValue]];
 }
