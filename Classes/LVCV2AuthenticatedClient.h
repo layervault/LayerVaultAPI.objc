@@ -1,5 +1,5 @@
 //
-//  MRTAuthenticatedClient.h
+//  LVCV2AuthenticatedClient.h
 //  Pods
 //
 //  Created by Matt Thomas on 9/17/14.
@@ -8,16 +8,16 @@
 
 #import <AFOAuth2Client/AFOAuth2Client.h>
 @class AFOAuthCredential;
-@class MRTUserResponse;
+@class LVCUserValue;
 @class MRTOrganizationsResponse;
 @class MRTProjectsResponse;
 @class MRTFoldersResponse;
-@class MRTFilesResponse;
+@class LVCFileCollection;
 @class MRTRevisionsResponse;
 @class PMKPromise;
 @class MRTProjectResponse;
 
-@interface MRTAuthenticatedClient : AFOAuth2Client
+@interface LVCV2AuthenticatedClient : AFOAuth2Client
 
 @property (nonatomic, readonly) AFOAuthCredential *oAuthCredential;
 
@@ -25,7 +25,7 @@
                 oAuthCredential:(AFOAuthCredential *)oAuthCredential;
 
 #pragma mark - User
-- (void)getMeWithCompletion:(void (^)(MRTUserResponse *userResponse,
+- (void)getMeWithCompletion:(void (^)(LVCUserValue *userValue,
                                       NSError *error,
                                       AFHTTPRequestOperation *operation))completion;
 
@@ -75,19 +75,19 @@
 
 #pragma mark - Files
 - (void)getFilesWithIDs:(NSArray *)fileIDs
-             completion:(void (^)(MRTFilesResponse *filesResponse,
+             completion:(void (^)(LVCFileCollection *filesCollection,
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion;
 
 - (void)createFileWithName:(NSString *)name
                  projectID:(NSString *)projectID
-                completion:(void (^)(MRTFilesResponse *filesResponse,
+                completion:(void (^)(LVCFileCollection *filesCollection,
                                      NSError *error,
                                      AFHTTPRequestOperation *operation))completion;
 
 - (void)createFileWithName:(NSString *)name
             parentFolderID:(NSString *)parentFolderID
-                completion:(void (^)(MRTFilesResponse *filesResponse,
+                completion:(void (^)(LVCFileCollection *filesCollection,
                                      NSError *error,
                                      AFHTTPRequestOperation *operation))completion;
 
@@ -114,7 +114,7 @@
                                             AFHTTPRequestOperation *operation))completion;
 @end
 
-@interface MRTAuthenticatedClient (PromiseKit)
+@interface LVCV2AuthenticatedClient (PromiseKit)
 - (PMKPromise *)me;
 
 - (PMKPromise *)organizationsWithIDs:(NSArray *)organizationIDs;

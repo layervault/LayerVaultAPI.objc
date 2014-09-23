@@ -1,29 +1,29 @@
 //
-//  MRTAuthenticatedClient.m
+//  LVCV2AuthenticatedClient.m
 //  Pods
 //
 //  Created by Matt Thomas on 9/17/14.
 //
 //
 
-#import "MRTAuthenticatedClient.h"
+#import "LVCV2AuthenticatedClient.h"
 #import <AFNetworking/AFNetworking.h>
 #import <PromiseKit/PromiseKit.h>
-#import "MRTUsersResponse.h"
+#import "LVCUserCollection.h"
 #import "MRTOrganizationsResponse.h"
 #import "MRTProjectsResponse.h"
 #import "MRTFoldersResponse.h"
-#import "MRTFilesResponse.h"
+#import "LVCFileCollection.h"
 #import "MRTRevisionsResponse.h"
 #import "LVCOrganization.h"
 #import "LVCProject.h"
 #import "LVCAmazonS3Client.h"
 
-@interface MRTAuthenticatedClient ()
+@interface LVCV2AuthenticatedClient ()
 @property (nonatomic) LVCAmazonS3Client *amazonS3Client;
 @end
 
-@implementation MRTAuthenticatedClient
+@implementation LVCV2AuthenticatedClient
 
 - (instancetype)initWithBaseURL:(NSURL *)url
                 oAuthCredential:(AFOAuthCredential *)oAuthCredential
@@ -40,7 +40,7 @@
     return self;
 }
 
-- (void)getMeWithCompletion:(void (^)(MRTUserResponse *userResponse,
+- (void)getMeWithCompletion:(void (^)(LVCUserValue *userValue,
                                       NSError *error,
                                       AFHTTPRequestOperation *operation))completion
 {
@@ -48,14 +48,14 @@
 
     [self getPath:@"me" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
-        MRTUserResponse *userResponse = nil;
+        LVCUserValue *userValue = nil;
 
         if ([responseObject isKindOfClass:[NSDictionary class]]) {
             NSDictionary *responseDict = (NSDictionary *)responseObject;
             NSArray *users = responseDict[@"users"];
             if ((users.count == 1) && [users[0] isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *userDict = users[0];
-                userResponse = [MTLJSONAdapter modelOfClass:[MRTUserResponse class]
+                userValue = [MTLJSONAdapter modelOfClass:[LVCUserValue class]
                                          fromJSONDictionary:userDict
                                                       error:&error];
             }
@@ -67,7 +67,7 @@
             /// TODO: Unexpected object return type
         }
 
-        completion(userResponse, error, operation);
+        completion(userValue, error, operation);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         completion(nil, error, operation);
     }];
@@ -162,11 +162,11 @@
 }
 
 - (void)getFilesWithIDs:(NSArray *)fileIDs
-             completion:(void (^)(MRTFilesResponse *filesResponse,
+             completion:(void (^)(LVCFileCollection *filesCollection,
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion
 {
-    [self getCollectionOfClass:[MRTFilesResponse class]
+    [self getCollectionOfClass:[LVCFileCollection class]
                    resourceKey:@"files"
                        withIDs:fileIDs
                     completion:completion];
@@ -174,11 +174,11 @@
 
 - (void)createFileWithName:(NSString *)name
                  projectID:(NSString *)projectID
-                completion:(void (^)(MRTFilesResponse *filesResponse,
+                completion:(void (^)(LVCFileCollection *filesCollection,
                                      NSError *error,
                                      AFHTTPRequestOperation *operation))completion
 {
-    [self createResourceWithCollectionClass:[MRTFilesResponse class]
+    [self createResourceWithCollectionClass:[LVCFileCollection class]
                                 resourceKey:@"files"
                                resourceInfo:@{@"name": name,
                                               @"links": @{@"project": projectID}}
@@ -187,11 +187,11 @@
 
 - (void)createFileWithName:(NSString *)name
             parentFolderID:(NSString *)parentFolderID
-                completion:(void (^)(MRTFilesResponse *filesResponse,
+                completion:(void (^)(LVCFileCollection *filesCollection,
                                      NSError *error,
                                      AFHTTPRequestOperation *operation))completion
 {
-    [self createResourceWithCollectionClass:[MRTFilesResponse class]
+    [self createResourceWithCollectionClass:[LVCFileCollection class]
                                 resourceKey:@"files"
                                resourceInfo:@{@"name": name,
                                               @"links": @{@"folder": parentFolderID}}
@@ -297,7 +297,7 @@
 
     AFHTTPRequestOperation *op = [self HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error;
-        id resourceResponse = [MRTAuthenticatedClient parseCollectionResponse:responseObject
+        id resourceResponse = [LVCV2AuthenticatedClient parseCollectionResponse:responseObject
                                                                       ofClass:class
                                                                   resourceKey:resourceKey
                                                                         error:&error];
@@ -324,7 +324,7 @@
 
     [self getPath:resourcePath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
-        id collectionResponse = [MRTAuthenticatedClient parseCollectionResponse:responseObject
+        id collectionResponse = [LVCV2AuthenticatedClient parseCollectionResponse:responseObject
                                                                         ofClass:class
                                                                     resourceKey:resourceKey
                                                                           error:&error];
@@ -358,16 +358,16 @@
 }
 @end
 
-@implementation MRTAuthenticatedClient (PromiseKit)
+@implementation LVCV2AuthenticatedClient (PromiseKit)
 
 - (PMKPromise *)me
 {
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject){
-        [self getMeWithCompletion:^(MRTUserResponse *userResponse,
+        [self getMeWithCompletion:^(LVCUserValue *userValue,
                                     NSError *error,
                                     AFHTTPRequestOperation *operation) {
-            if (userResponse) {
-                fulfill(userResponse);
+            if (userValue) {
+                fulfill(userValue);
             }
             else {
                 reject(error);
@@ -443,7 +443,7 @@
 
 - (PMKPromise *)filesWithIDs:(NSArray *)fileIDs
 {
-    return [self collectionsOfClass:[MRTFilesResponse class]
+    return [self collectionsOfClass:[LVCFileCollection class]
                         resourceKey:@"files"
                             withIDs:fileIDs];
 }
@@ -452,9 +452,11 @@
                          projectID:(NSString *)projectID
 {
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
-        [self createFileWithName:name projectID:projectID completion:^(MRTFilesResponse *filesResponse, NSError *error, AFHTTPRequestOperation *operation) {
-            if (filesResponse.fileResponses.count == 1) {
-                fulfill(filesResponse.fileResponses[0]);
+        [self createFileWithName:name projectID:projectID completion:^(LVCFileCollection *fileCollection,
+                                                                       NSError *error,
+                                                                       AFHTTPRequestOperation *operation) {
+            if (fileCollection.files.count == 1) {
+                fulfill(fileCollection.files[0]);
             } else {
                 reject(error);
             }
@@ -466,9 +468,11 @@
                     parentFolderID:(NSString *)parentFolderID
 {
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
-        [self createFileWithName:name parentFolderID:parentFolderID completion:^(MRTFilesResponse *filesResponse, NSError *error, AFHTTPRequestOperation *operation) {
-            if (filesResponse) {
-                fulfill(filesResponse.fileResponses[0]);
+        [self createFileWithName:name parentFolderID:parentFolderID completion:^(LVCFileCollection *filesCollection,
+                                                                                 NSError *error,
+                                                                                 AFHTTPRequestOperation *operation) {
+            if (filesCollection) {
+                fulfill(filesCollection.files[0]);
             } else {
                 reject(error);
             }

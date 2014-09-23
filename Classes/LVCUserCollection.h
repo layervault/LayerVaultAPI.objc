@@ -1,5 +1,5 @@
 //
-//  MRTUsersResponse.h
+//  LVCUserCollection.h
 //  Pods
 //
 //  Created by Matt Thomas on 9/18/14.
@@ -7,14 +7,13 @@
 //
 
 #import <Mantle/Mantle.h>
+#import "LVCModelCollection.h"
 
-
-@interface MRTUsersResponse : MTLModel <MTLJSONSerializing>
-@property (readonly, nonatomic, copy) NSArray *userResponses;
+@interface LVCUserCollection : MTLModel <LVCModelCollection, MTLJSONSerializing>
+@property (readonly, nonatomic, copy) NSArray *users;
 @end
 
-
-@interface MRTUserResponse : MTLModel <MTLJSONSerializing>
+@interface LVCUserValue : MTLModel <MTLJSONSerializing>
 
 @property (readonly, nonatomic, copy) NSString *uid;
 @property (readonly, nonatomic, copy) NSURL *href;

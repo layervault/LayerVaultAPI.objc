@@ -1,26 +1,34 @@
 //
-//  MRTFilesResponse.m
+//  LVCFileCollection.m
 //  Pods
 //
 //  Created by Matt Thomas on 9/18/14.
 //
 //
 
-#import "MRTFilesResponse.h"
+#import "LVCFileCollection.h"
 #import "NSValueTransformer+LVCPredefinedTransformerAdditions.h"
 
-@implementation MRTFilesResponse
-+ (NSDictionary *)JSONKeyPathsByPropertyKey {
-    return @{@"fileResponses": @"files"};
+@implementation LVCFileCollection
++ (NSString *)collectionKey {
+    return @"files";
 }
 
-+ (NSValueTransformer *)fileResponsesJSONTransformer {
-    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:MRTFileResponse.class];
++ (Class)modelClass {
+    return [LVCFileValue class];
+}
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+    return @{@"files": [self collectionKey]};
+}
+
++ (NSValueTransformer *)filesJSONTransformer {
+    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:[self modelClass]];
 }
 @end
 
 
-@implementation MRTFileResponse
+@implementation LVCFileValue
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{@"uid": @"id",
              @"href": @"href",

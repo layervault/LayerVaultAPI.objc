@@ -1,5 +1,5 @@
 //
-//  MRTFilesResponse.h
+//  LVCFileCollection.h
 //  Pods
 //
 //  Created by Matt Thomas on 9/18/14.
@@ -7,13 +7,14 @@
 //
 
 #import <Mantle/Mantle.h>
+#import "LVCModelCollection.h"
 @class MRTRevisionResponse;
 
-@interface MRTFilesResponse : MTLModel <MTLJSONSerializing>
-@property (nonatomic, readonly, copy) NSArray *fileResponses;
+@interface LVCFileCollection : MTLModel <LVCModelCollection, MTLJSONSerializing>
+@property (nonatomic, readonly, copy) NSArray *files;
 @end
 
-@interface MRTFileResponse : MTLModel <MTLJSONSerializing>
+@interface LVCFileValue : MTLModel <MTLJSONSerializing>
 @property (readonly, nonatomic, copy) NSString *uid;
 @property (readonly, nonatomic, copy) NSURL *href;
 @property (readonly, nonatomic, copy) NSDate *dateCreated;

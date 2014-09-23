@@ -1,25 +1,34 @@
 //
-//  MRTUsersResponse.m
+//  LVCUserCollection.m
 //  Pods
 //
 //  Created by Matt Thomas on 9/18/14.
 //
 //
 
-#import "MRTUsersResponse.h"
+#import "LVCUserCollection.h"
 #import "NSValueTransformer+LVCPredefinedTransformerAdditions.h"
 
-@implementation MRTUsersResponse
-+ (NSDictionary *)JSONKeyPathsByPropertyKey {
-    return @{@"userResponses": @"users"};
+@implementation LVCUserCollection
+
++ (NSString *)collectionKey {
+    return @"users";
 }
 
-+ (NSValueTransformer *)userResponsesJSONTransformer {
-    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:MRTUserResponse.class];
++ (Class)modelClass {
+    return [LVCUserValue class];
+}
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+    return @{@"users": [self collectionKey]};
+}
+
++ (NSValueTransformer *)usersJSONTransformer {
+    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:[self modelClass]];
 }
 @end
 
-@implementation MRTUserResponse
+@implementation LVCUserValue
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{@"uid": @"id",
              @"href": @"href",
