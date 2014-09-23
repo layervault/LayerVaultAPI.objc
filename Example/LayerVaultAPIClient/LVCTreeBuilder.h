@@ -7,7 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+@class AFOAuthCredential;
+@class LVCUser;
 
 @interface LVCTreeBuilder : NSObject
+
+- (instancetype)initWithAuthenticationCredential:(AFOAuthCredential *)authenticationCredential;
+
+- (void)buildUserTreeWithCompletion:(void (^)(LVCUser *user, NSError *error))completion;
 
 @end
