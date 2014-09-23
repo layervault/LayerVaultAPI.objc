@@ -63,7 +63,10 @@
 }
 
 + (NSValueTransformer *)colorLabelJSONTransformer {
-    return [NSValueTransformer mtl_valueMappingTransformerWithDictionary:
-            [LVCColorUtils colorNamesToValue]];
+    return [MTLValueTransformer reversibleTransformerWithForwardBlock:^NSNumber *(NSString *colorName) {
+        return [NSNumber numberWithUnsignedInteger:[LVCColorUtils colorLabelForName:colorName]];
+    } reverseBlock:^NSString *(NSNumber *colorValue) {
+        return [LVCColorUtils colorNameForLabel:colorValue.unsignedIntegerValue];
+    }];
 }
 @end
