@@ -9,6 +9,7 @@
 #import "LVCTreeBuilder.h"
 #import <AFNetworking/AFNetworking.h>
 #import <PromiseKit/PromiseKit.h>
+#import <PromiseKit/Promise+When.h>
 
 #import "LVCFile.h"
 #import "LVCFileCollection.h"
@@ -173,6 +174,11 @@
             user.firstName = userValue.firstName;
             user.lastName = userValue.lastName;
             user.organizations = organizations;
+            NSMutableArray *projects = @[].mutableCopy;
+            for (LVCOrganization *org in organizations) {
+                [projects addObjectsFromArray:org.projects];
+            }
+            user.projects = projects;
 #warning - No admin
             user.admin = NO;
             fulfill(user);
