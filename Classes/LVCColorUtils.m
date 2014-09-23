@@ -22,7 +22,9 @@ NSString *LVCDefaultColorDefaultColor = @"white";
 
 + (LVCColorLabel)colorLabelForName:(NSString *)colorName
 {
-    NSParameterAssert(colorName);
+    if (!colorName) {
+        colorName = LVCDefaultColorDefaultColor;
+    }
     NSNumber *labelNumber = self.colorNamesToValue[colorName];
     if (!labelNumber) {
         labelNumber = self.colorNamesToValue[LVCDefaultColorDefaultColor];
