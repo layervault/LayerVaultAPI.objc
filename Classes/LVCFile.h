@@ -41,22 +41,22 @@ extern NSString *md5ForFileURL(NSURL *fileURL);
 /**
  *  Last revision number
  */
-@property (readonly, nonatomic) NSNumber *revisionNumber;
+@property (nonatomic) NSNumber *revisionNumber;
 
 /**
  *  All the revisions for the file
  */
-@property (readonly, nonatomic, copy) NSArray *revisions;
+@property (nonatomic, copy) NSArray *revisions;
 
 /**
  *  Date the file was last modified
  */
-@property (readonly, nonatomic) NSDate *dateModified;
+@property (nonatomic) NSDate *dateModified;
 
 /**
  *  URL to download the latest file revision directly
  */
-@property (readonly, nonatomic) NSURL *downloadURL;
+@property (nonatomic) NSURL *downloadURL;
 
 /**
  *  Gets a revision with a specific number, or nil.

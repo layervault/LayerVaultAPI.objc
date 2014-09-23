@@ -19,17 +19,17 @@
  *
  *  @note required
  */
-@property (readonly, nonatomic, copy) NSString *name;
+@property (nonatomic, copy) NSString *name;
 
 /**
  *  The URL of the node on the file system
  */
-@property (readonly, nonatomic, copy) NSURL *fileURL;
+@property (nonatomic, copy) NSURL *fileURL;
 
 /**
  *  The MD5 of the file (nil for non files)
  */
-@property (readonly, nonatomic, copy) NSString *md5;
+@property (nonatomic, copy) NSString *md5;
 
 /**
  *  Date this node was updated
@@ -40,30 +40,30 @@
  *  Date this node was deleted.
  *  @note will always be nil
  */
-@property (readonly, nonatomic) NSDate *dateDeleted;
+@property (nonatomic) NSDate *dateDeleted;
 
 /**
  *  URL on layervault.com for this node
  */
-@property (readonly, nonatomic, copy) NSURL *url;
+@property (nonatomic, copy) NSURL *url;
 
 /**
  *  Same as URL, but through shortener service
  */
-@property (readonly, nonatomic, copy) NSURL *shortURL;
+@property (nonatomic, copy) NSURL *shortURL;
 
 /**
  *  Path on the server
  *  @note this is not percent encoded
  */
-@property (readonly, nonatomic, copy) NSString *urlPath;
+@property (nonatomic, copy) NSString *urlPath;
 
 
 /**
  *  Path on the server
  *  @note this IS percent encoded
  */
-@property (readonly, nonatomic, copy) NSString *percentEncodedURLPath;
+@property (nonatomic, copy) NSString *percentEncodedURLPath;
 
 /**
  *  The parent folder for this node. Will be nil for the root node (LVCProjects)

@@ -22,21 +22,21 @@
 /**
  *  The local path of the file
  */
-@property (readonly, nonatomic, copy) NSString *path;
+@property (nonatomic, copy) NSString *path;
 
 /**
  *  @note this should be nil
  */
-@property (readonly, nonatomic, copy) NSString *organizationPermalink;
+@property (nonatomic, copy) NSString *organizationPermalink;
 
 /**
  *  Subfolders of this folder
  */
-@property (readonly, nonatomic, copy) NSArray *folders;
+@property (nonatomic, copy) NSArray *folders;
 
 /**
  *  Files directly in this folder, but not ones in subfolder
  */
-@property (readonly, nonatomic, copy) NSArray *files;
+@property (nonatomic, copy) NSArray *files;
 
 @end

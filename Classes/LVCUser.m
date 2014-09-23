@@ -12,11 +12,6 @@
 
 @implementation LVCUser
 
-+ (NSSet *)requiredProperties
-{
-    return [NSSet setWithArray:@[@"email"]];
-}
-
 + (NSDictionary *)JSONKeyPathsByPropertyKey
 {
     return @{@"userID": @"id",
@@ -28,35 +23,19 @@
              @"projects": @"projects"};
 }
 
-
 + (NSValueTransformer *)adminJSONTransformer
 {
     return [NSValueTransformer valueTransformerForName:MTLBooleanValueTransformerName];
 }
-
 
 + (NSValueTransformer *)organizationsJSONTransformer
 {
     return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVCOrganization.class];
 }
 
-
 + (NSValueTransformer *)projectsJSONTransformer
 {
     return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVCProject.class];
-}
-
-
-- (instancetype)initWithDictionary:(NSDictionary *)dictionaryValue
-                             error:(NSError *__autoreleasing *)error
-{
-    for (NSString *key in [LVCUser requiredProperties]) {
-        if (!dictionaryValue[key]) {
-            NSLog(@"%@ cannot have nil %@", NSStringFromClass(self.class), key);
-            return nil;
-        }
-    }
-    return [super initWithDictionary:dictionaryValue error:error];
 }
 
 @end

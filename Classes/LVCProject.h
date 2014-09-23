@@ -18,20 +18,20 @@
 /**
  *  YES if user has joined the project, NO if they have not
  */
-@property (readonly, nonatomic) BOOL member;
+@property (nonatomic) BOOL member;
 
 /**
  *  @note Some calls do not return the files and folders of a project, just the
  *        project information. In these situation, partial will be YES, 
  *        otherwise NO.
  */
-@property (readonly, nonatomic) BOOL partial;
+@property (nonatomic) BOOL partial;
 
 /**
  *  @note Projects created with initWithName:organizatonPermalink: that have 
  *        not been uploaded to the server will return NO for this property
  */
-@property (readonly, nonatomic) BOOL synced;
+@property (nonatomic) BOOL synced;
 
 /**
  *  Create a new project object without uploading it to the server.

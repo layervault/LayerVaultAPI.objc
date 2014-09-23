@@ -11,10 +11,6 @@
 #import "NSValueTransformer+LVCPredefinedTransformerAdditions.h"
 #import "NSString+PercentEncoding.h"
 
-@interface LVCNode ()
-@property (nonatomic, copy) NSString *md5;
-@end
-
 @implementation LVCNode {
     __weak LVCFolder *_parentFolder;
 }
