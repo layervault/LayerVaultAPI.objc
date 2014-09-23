@@ -1,5 +1,5 @@
 //
-//  MRTProjectsResponse.h
+//  LVCProjectCollection.h
 //  Pods
 //
 //  Created by Matt Thomas on 9/18/14.
@@ -14,7 +14,7 @@
 @property (readonly, nonatomic, copy) NSArray *projects;
 @end
 
-@interface MRTProjectResponse : MTLModel <MTLJSONSerializing>
+@interface LVCProjectValue : MTLModel <MTLJSONSerializing>
 @property (readonly, nonatomic, copy) NSString *uid;
 @property (readonly, nonatomic, copy) NSURL *href;
 @property (readonly, nonatomic, copy) NSDate *dateCreated;

@@ -15,7 +15,7 @@
 @class LVCFileCollection;
 @class MRTRevisionsResponse;
 @class PMKPromise;
-@class MRTProjectResponse;
+@class LVCProjectValue;
 
 @interface LVCV2AuthenticatedClient : AFOAuth2Client
 
@@ -49,10 +49,10 @@
                                         NSError *error,
                                         AFHTTPRequestOperation *operation))completion;
 
-- (void)updateProject:(MRTProjectResponse *)project
+- (void)updateProject:(LVCProjectValue *)project
            completion:(void (^)(LVCProjectCollection *projectCollection, NSError *error, AFHTTPRequestOperation *operation))completion;
 
-- (void)deleteProject:(MRTProjectResponse *)project
+- (void)deleteProject:(LVCProjectValue *)project
            completion:(void (^)(LVCProjectCollection *projectCollection, NSError *error, AFHTTPRequestOperation *operation))completion;
 
 #pragma mark - Folders

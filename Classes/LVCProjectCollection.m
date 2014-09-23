@@ -1,5 +1,5 @@
 //
-//  MRTProjectsResponse.m
+//  LVCProjectCollection.m
 //  Pods
 //
 //  Created by Matt Thomas on 9/18/14.
@@ -15,7 +15,7 @@
 }
 
 + (Class)modelClass {
-    return [MRTProjectResponse class];
+    return [LVCProjectValue class];
 }
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
@@ -28,7 +28,7 @@
 @end
 
 
-@implementation MRTProjectResponse
+@implementation LVCProjectValue
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{@"uid": @"id",
              @"href": @"href",
