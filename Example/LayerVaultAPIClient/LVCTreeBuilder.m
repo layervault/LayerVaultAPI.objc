@@ -18,7 +18,7 @@
 #import "LVMUser.h"
 #import "LVCAppDelegate.h"
 #import <LayerVaultAPI/MRTOrganizationsResponse.h>
-#import <LayerVaultAPI/MRTProjectsResponse.h>
+#import <LayerVaultAPI/LVCProjectCollection.h>
 #import <LayerVaultAPI/MRTFoldersResponse.h>
 #import <LayerVaultAPI/LVCFileCollection.h>
 #import <LayerVaultAPI/MRTRevisionsResponse.h>
@@ -262,7 +262,7 @@ NSString *const LVCTreeBuilderKeychain = @"LayerVaultAPIDemoApp";
     __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
 
-        [self.authenticatedClient projectsWithIDs:organizationsResponse.projectIDs].then(^(MRTProjectsResponse *projectsRespnse) {
+        [self.authenticatedClient projectsWithIDs:organizationsResponse.projectIDs].then(^(LVCProjectCollection *projectsRespnse) {
             return [weakSelf projectsWithMember:userID fromProjectsResponse:projectsRespnse];
         }).then(^(NSArray *projects) {
 //            organizationsResponse.projects = projects;
@@ -273,11 +273,11 @@ NSString *const LVCTreeBuilderKeychain = @"LayerVaultAPIDemoApp";
     }];
 }
 
-- (PMKPromise *)projectsWithMember:(NSString *)userID fromProjectsResponse:(MRTProjectsResponse *)projectsResponse {
+- (PMKPromise *)projectsWithMember:(NSString *)userID fromProjectsResponse:(LVCProjectCollection *)projectCollection {
     __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
         NSMutableArray *projectRequests = @[].mutableCopy;
-        for (MRTProjectResponse *projectResponse in projectsResponse.projectResponses) {
+        for (MRTProjectResponse *projectResponse in projectCollection.projects) {
             if ([projectResponse.userIDs containsObject:userID]) {
                 [projectRequests addObject:[weakSelf projectFromProjectResponse:projectResponse]];
             }

@@ -7,10 +7,11 @@
 //
 
 #import <Mantle/Mantle.h>
+#import "LVCModelCollection.h"
 #import "LVCColorUtils.h"
 
-@interface MRTProjectsResponse : MTLModel <MTLJSONSerializing>
-@property (readonly, nonatomic, copy) NSArray *projectResponses;
+@interface LVCProjectCollection : MTLModel <LVCModelCollection, MTLJSONSerializing>
+@property (readonly, nonatomic, copy) NSArray *projects;
 @end
 
 @interface MRTProjectResponse : MTLModel <MTLJSONSerializing>

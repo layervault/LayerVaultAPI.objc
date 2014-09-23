@@ -6,16 +6,24 @@
 //
 //
 
-#import "MRTProjectsResponse.h"
+#import "LVCProjectCollection.h"
 #import "NSValueTransformer+LVCPredefinedTransformerAdditions.h"
 
-@implementation MRTProjectsResponse
-+ (NSDictionary *)JSONKeyPathsByPropertyKey {
-    return @{@"projectResponses": @"projects"};
+@implementation LVCProjectCollection
++ (NSString *)collectionKey {
+    return @"projects";
 }
 
-+ (NSValueTransformer *)projectResponsesJSONTransformer {
-    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:MRTProjectResponse.class];
++ (Class)modelClass {
+    return [MRTProjectResponse class];
+}
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+    return @{@"projects": [self collectionKey]};
+}
+
++ (NSValueTransformer *)projectsJSONTransformer {
+    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:[self modelClass]];
 }
 @end
 

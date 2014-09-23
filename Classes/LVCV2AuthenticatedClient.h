@@ -10,7 +10,7 @@
 @class AFOAuthCredential;
 @class LVCUserValue;
 @class MRTOrganizationsResponse;
-@class MRTProjectsResponse;
+@class LVCProjectCollection;
 @class MRTFoldersResponse;
 @class LVCFileCollection;
 @class MRTRevisionsResponse;
@@ -37,7 +37,7 @@
 
 #pragma mark - Projects
 - (void)getProjectsWithIDs:(NSArray *)projectIDs
-                completion:(void (^)(MRTProjectsResponse *projectsResponse,
+                completion:(void (^)(LVCProjectCollection *projectCollection,
                                      NSError *error,
                                      AFHTTPRequestOperation *operation))completion;
 
@@ -45,15 +45,15 @@
                organizationID:(NSString *)organizationID
                      isPublic:(BOOL)isPublic
                     colorName:(NSString *)colorName
-                   completion:(void (^)(MRTProjectsResponse *projectsResponse,
+                   completion:(void (^)(LVCProjectCollection *projectCollection,
                                         NSError *error,
                                         AFHTTPRequestOperation *operation))completion;
 
 - (void)updateProject:(MRTProjectResponse *)project
-           completion:(void (^)(MRTProjectsResponse *projectsResponse, NSError *error, AFHTTPRequestOperation *operation))completion;
+           completion:(void (^)(LVCProjectCollection *projectCollection, NSError *error, AFHTTPRequestOperation *operation))completion;
 
 - (void)deleteProject:(MRTProjectResponse *)project
-           completion:(void (^)(MRTProjectsResponse *projectsResponse, NSError *error, AFHTTPRequestOperation *operation))completion;
+           completion:(void (^)(LVCProjectCollection *projectCollection, NSError *error, AFHTTPRequestOperation *operation))completion;
 
 #pragma mark - Folders
 - (void)getFoldersWithIDs:(NSArray *)folderIDs

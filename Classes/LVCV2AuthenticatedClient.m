@@ -11,7 +11,7 @@
 #import <PromiseKit/PromiseKit.h>
 #import "LVCUserCollection.h"
 #import "MRTOrganizationsResponse.h"
-#import "MRTProjectsResponse.h"
+#import "LVCProjectCollection.h"
 #import "MRTFoldersResponse.h"
 #import "LVCFileCollection.h"
 #import "MRTRevisionsResponse.h"
@@ -85,11 +85,11 @@
 }
 
 - (void)getProjectsWithIDs:(NSArray *)projectIDs
-                completion:(void (^)(MRTProjectsResponse *projectsResponse,
+                completion:(void (^)(LVCProjectCollection *projectCollection,
                                      NSError *error,
                                      AFHTTPRequestOperation *operation))completion
 {
-    [self getCollectionOfClass:[MRTProjectsResponse class]
+    [self getCollectionOfClass:[LVCProjectCollection class]
                    resourceKey:@"projects"
                        withIDs:projectIDs
                     completion:completion];
@@ -99,11 +99,11 @@
                organizationID:(NSString *)organizationID
                      isPublic:(BOOL)isPublic
                     colorName:(NSString *)colorName
-                   completion:(void (^)(MRTProjectsResponse *projectsResponse,
+                   completion:(void (^)(LVCProjectCollection *projectCollection,
                                         NSError *error,
                                         AFHTTPRequestOperation *operation))completion
 {
-    [self createResourceWithCollectionClass:[MRTProjectsResponse class]
+    [self createResourceWithCollectionClass:[LVCProjectCollection class]
                                 resourceKey:@"projects"
                                resourceInfo:@{@"name": name,
                                               @"is_public": @(isPublic),
@@ -113,13 +113,13 @@
 }
 
 - (void)updateProject:(MRTProjectResponse *)project
-           completion:(void (^)(MRTProjectsResponse *projectsResponse, NSError *error, AFHTTPRequestOperation *operation))completion
+           completion:(void (^)(LVCProjectCollection *projectCollection, NSError *error, AFHTTPRequestOperation *operation))completion
 {
 
 }
 
 - (void)deleteProject:(MRTProjectResponse *)project
-           completion:(void (^)(MRTProjectsResponse *projectsResponse, NSError *error, AFHTTPRequestOperation *operation))completion
+           completion:(void (^)(LVCProjectCollection *projectCollection, NSError *error, AFHTTPRequestOperation *operation))completion
 {
 
 }
@@ -385,7 +385,7 @@
 
 - (PMKPromise *)projectsWithIDs:(NSArray *)projectIDs
 {
-    return [self collectionsOfClass:[MRTProjectsResponse class]
+    return [self collectionsOfClass:[LVCProjectCollection class]
                         resourceKey:@"projects"
                             withIDs:projectIDs];
 }
@@ -396,9 +396,9 @@
                             colorName:(NSString *)colorName
 {
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
-        [self createProjectWithName:name organizationID:organizationID isPublic:isPublic colorName:colorName completion:^(MRTProjectsResponse *projectsResponse, NSError *error, AFHTTPRequestOperation *operation) {
-            if (projectsResponse.projectResponses.count == 1) {
-                fulfill(projectsResponse.projectResponses[0]);
+        [self createProjectWithName:name organizationID:organizationID isPublic:isPublic colorName:colorName completion:^(LVCProjectCollection *projectCollection, NSError *error, AFHTTPRequestOperation *operation) {
+            if (projectCollection.projects.count == 1) {
+                fulfill(projectCollection.projects[0]);
             } else {
                 reject(error);
             }
