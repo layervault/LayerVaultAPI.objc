@@ -21,7 +21,7 @@
 #import <LayerVaultAPI/LVCProjectCollection.h>
 #import <LayerVaultAPI/LVCFolderCollection.h>
 #import <LayerVaultAPI/LVCFileCollection.h>
-#import <LayerVaultAPI/MRTRevisionsResponse.h>
+#import <LayerVaultAPI/LVCRevisionCollection.h>
 #import "MRTUserResponse+ManagedObjectSerialization.h"
 #import "LVCModelResponseGlue.h"
 
@@ -121,8 +121,8 @@ NSString *const LVCTreeBuilderKeychain = @"LayerVaultAPIDemoApp";
 //                                             parameters:responseParameters];
 //    }).then(^(id response) {
 //        return [weakSelf.authenticatedClient createRevisionForFileID:fileID md5:md5 remoteURL:remoteURL parentMD5:nil];
-//    }).then(^(MRTRevisionResponse *revisionResponse) {
-//        NSLog(@"revision response: %@", revisionResponse);
+//    }).then(^(LVCRevisionValue *revision) {
+//        NSLog(@"revision response: %@", revision);
 //    }).catch(^(NSError *error) {
 //        NSLog(@"Error: %@", error);
 //    });
@@ -413,11 +413,11 @@ NSString *const LVCTreeBuilderKeychain = @"LayerVaultAPIDemoApp";
 - (PMKPromise *)fileFromFileResponse:(LVCFileValue *)file {
     __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
-        [weakSelf.authenticatedClient revisionsWithIDs:@[file.lastRevisionID]].thenOn(dispatch_get_main_queue(), ^(MRTRevisionsResponse *revisionsResponse) {
+        [weakSelf.authenticatedClient revisionsWithIDs:@[file.lastRevisionID]].thenOn(dispatch_get_main_queue(), ^(LVCRevisionCollection *revisionCollection) {
 
 //            LVMRevision *lastRevision = nil;
-//            if (revisionsResponse.revisionResponses.count > 0) {
-//                MRTRevisionResponse *revision = revisionsResponse.revisionResponses[0];
+//            if (revisionCollection.revisions.count > 0) {
+//                LVCRevisionValue *revision = revisionCollection.revisions[0];
 //            }
 //            file.lastRevision = lastRevision;
             fulfill(file);

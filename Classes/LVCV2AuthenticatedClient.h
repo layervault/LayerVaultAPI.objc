@@ -13,7 +13,7 @@
 @class LVCProjectCollection;
 @class LVCFolderCollection;
 @class LVCFileCollection;
-@class MRTRevisionsResponse;
+@class LVCRevisionCollection;
 @class PMKPromise;
 @class LVCProjectValue;
 
@@ -93,7 +93,7 @@
 
 #pragma mark - Revisions
 - (void)getRevisionsWithIDs:(NSArray *)revisionIDs
-             completion:(void (^)(MRTRevisionsResponse *revisionsResponse,
+             completion:(void (^)(LVCRevisionCollection *revisionCollection,
                                   NSError *error,
                                   AFHTTPRequestOperation *operation))completion;
 
@@ -101,7 +101,7 @@
                             md5:(NSString *)md5
                       remoteURL:(NSURL *)remoteURL
                       parentMD5:(NSString *)parentMD5
-                     completion:(void (^)(MRTRevisionsResponse *revisionsResponse,
+                     completion:(void (^)(LVCRevisionCollection *revisionCollection,
                                           NSError *error,
                                           AFHTTPRequestOperation *operation))completion;
 

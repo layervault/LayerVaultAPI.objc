@@ -14,7 +14,7 @@
 #import "LVCProjectCollection.h"
 #import "LVCFolderCollection.h"
 #import "LVCFileCollection.h"
-#import "MRTRevisionsResponse.h"
+#import "LVCRevisionCollection.h"
 #import "LVCOrganization.h"
 #import "LVCProject.h"
 #import "LVCAmazonS3Client.h"
@@ -199,11 +199,11 @@
 }
 
 - (void)getRevisionsWithIDs:(NSArray *)revisionIDs
-                 completion:(void (^)(MRTRevisionsResponse *revisionsResponse,
+                 completion:(void (^)(LVCRevisionCollection *revisionCollection,
                                       NSError *error,
                                       AFHTTPRequestOperation *operation))completion
 {
-    [self getCollectionOfClass:[MRTRevisionsResponse class]
+    [self getCollectionOfClass:[LVCRevisionCollection class]
                    resourceKey:@"revisions"
                        withIDs:revisionIDs
                     completion:completion];
@@ -213,7 +213,7 @@
                             md5:(NSString *)md5
                       remoteURL:(NSURL *)remoteURL
                       parentMD5:(NSString *)parentMD5
-                     completion:(void (^)(MRTRevisionsResponse *revisionsResponse,
+                     completion:(void (^)(LVCRevisionCollection *revisionCollection,
                                           NSError *error,
                                           AFHTTPRequestOperation *operation))completion
 {
@@ -225,7 +225,7 @@
         mDict[@"parent_md5"] = parentMD5;
         dict = mDict.copy;
     }
-    [self createResourceWithCollectionClass:[MRTRevisionsResponse class]
+    [self createResourceWithCollectionClass:[LVCRevisionCollection class]
                                 resourceKey:@"revisions"
                                resourceInfo:dict
                                  completion:completion];
@@ -482,7 +482,7 @@
 
 - (PMKPromise *)revisionsWithIDs:(NSArray *)revisionIDs
 {
-    return [self collectionsOfClass:[MRTRevisionsResponse class]
+    return [self collectionsOfClass:[LVCRevisionCollection class]
                         resourceKey:@"revisions"
                             withIDs:revisionIDs];
 }
@@ -494,9 +494,9 @@
 {
     __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
-        [weakSelf createRevisionForFileID:fileID md5:md5 remoteURL:remoteURL parentMD5:parentMD5 completion:^(MRTRevisionsResponse *revisionsResponse, NSError *error, AFHTTPRequestOperation *operation) {
-            if (revisionsResponse.revisionResponses.count == 1) {
-                fulfill(revisionsResponse.revisionResponses[0]);
+        [weakSelf createRevisionForFileID:fileID md5:md5 remoteURL:remoteURL parentMD5:parentMD5 completion:^(LVCRevisionCollection *revisionCollection, NSError *error, AFHTTPRequestOperation *operation) {
+            if (revisionCollection.revisions.count == 1) {
+                fulfill(revisionCollection.revisions[0]);
             } else {
                 reject(error);
             }

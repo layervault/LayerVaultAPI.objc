@@ -1,5 +1,5 @@
 //
-//  MRTRevisionsResponse.h
+//  LVCRevisionCollection.h
 //  Pods
 //
 //  Created by Matt Thomas on 9/18/14.
@@ -7,12 +7,13 @@
 //
 
 #import <Mantle/Mantle.h>
+#import "LVCModelCollection.h"
 
-@interface MRTRevisionsResponse : MTLModel <MTLJSONSerializing>
-@property (nonatomic, readonly, copy) NSArray *revisionResponses;
+@interface LVCRevisionCollection : MTLModel <LVCModelCollection, MTLJSONSerializing>
+@property (nonatomic, readonly, copy) NSArray *revisions;
 @end
 
-@interface MRTRevisionResponse : MTLModel <MTLJSONSerializing>
+@interface LVCRevisionValue : MTLModel <MTLJSONSerializing>
 @property (readonly, nonatomic, copy) NSString *uid;
 @property (readonly, nonatomic, copy) NSURL *href;
 @property (readonly, nonatomic, copy) NSDate *dateCreated;

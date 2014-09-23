@@ -8,7 +8,7 @@
 
 #import <Mantle/Mantle.h>
 #import "LVCModelCollection.h"
-@class MRTRevisionResponse;
+@class LVCRevisionValue;
 
 @interface LVCFileCollection : MTLModel <LVCModelCollection, MTLJSONSerializing>
 @property (nonatomic, readonly, copy) NSArray *files;

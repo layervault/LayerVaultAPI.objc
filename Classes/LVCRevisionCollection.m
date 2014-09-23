@@ -1,26 +1,34 @@
 //
-//  MRTRevisionsResponse.m
+//  LVCRevisionCollection.m
 //  Pods
 //
 //  Created by Matt Thomas on 9/18/14.
 //
 //
 
-#import "MRTRevisionsResponse.h"
+#import "LVCRevisionCollection.h"
 #import "NSValueTransformer+LVCPredefinedTransformerAdditions.h"
 
-@implementation MRTRevisionsResponse
-+ (NSDictionary *)JSONKeyPathsByPropertyKey {
-    return @{@"revisionResponses": @"revisions"};
+@implementation LVCRevisionCollection
++ (NSString *)collectionKey {
+    return @"revisions";
 }
 
-+ (NSValueTransformer *)revisionResponsesJSONTransformer {
-    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:MRTRevisionResponse.class];
++ (Class)modelClass {
+    return [LVCRevisionValue class];
+}
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+    return @{@"revisions": [self collectionKey]};
+}
+
++ (NSValueTransformer *)revisionsJSONTransformer {
+    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:[self modelClass]];
 }
 @end
 
 
-@implementation MRTRevisionResponse
+@implementation LVCRevisionValue
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{@"uid": @"id",
              @"href": @"href",
