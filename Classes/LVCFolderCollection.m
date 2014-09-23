@@ -1,26 +1,34 @@
 //
-//  MRTFoldersResponse.m
+//  LVCFolderCollection.m
 //  Pods
 //
 //  Created by Matt Thomas on 9/18/14.
 //
 //
 
-#import "MRTFoldersResponse.h"
+#import "LVCFolderCollection.h"
 #import "NSValueTransformer+LVCPredefinedTransformerAdditions.h"
 
-@implementation MRTFoldersResponse
-+ (NSDictionary *)JSONKeyPathsByPropertyKey {
-    return @{@"folderResponses": @"folders"};
+@implementation LVCFolderCollection
++ (NSString *)collectionKey {
+    return @"folders";
 }
 
-+ (NSValueTransformer *)folderResponsesJSONTransformer {
-    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:MRTFolderResponse.class];
++ (Class)modelClass {
+    return [LVCFolderValue class];
+}
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+    return @{@"folders": [self collectionKey]};
+}
+
++ (NSValueTransformer *)foldersJSONTransformer {
+    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:[self modelClass]];
 }
 @end
 
 
-@implementation MRTFolderResponse
+@implementation LVCFolderValue
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{@"uid": @"id",
              @"href": @"href",

@@ -17,9 +17,9 @@
 #import <LayerVaultAPI/LVCUserCollection.h>
 #import "LVMUser.h"
 #import "LVCAppDelegate.h"
-#import <LayerVaultAPI/MRTOrganizationsResponse.h>
+#import <LayerVaultAPI/LVCOrganizationCollection.h>
 #import <LayerVaultAPI/LVCProjectCollection.h>
-#import <LayerVaultAPI/MRTFoldersResponse.h>
+#import <LayerVaultAPI/LVCFolderCollection.h>
 #import <LayerVaultAPI/LVCFileCollection.h>
 #import <LayerVaultAPI/MRTRevisionsResponse.h>
 #import "MRTUserResponse+ManagedObjectSerialization.h"
@@ -76,20 +76,20 @@ NSString *const LVCTreeBuilderKeychain = @"LayerVaultAPIDemoApp";
 //
 //    __weak typeof(self) weakSelf = self;
 //
-//    [self.authenticatedClient organizationsWithIDs:@[orgID]].then(^(MRTOrganizationsResponse *organizationsResponse) {
-//        MRTOrganizationResponse *organizationResponse = nil;
-//        if (organizationsResponse.organizationResponses.count == 1) {
-//            organizationResponse = organizationsResponse.organizationResponses[0];
+//    [self.authenticatedClient organizationsWithIDs:@[orgID]].then(^(LVCOrganizationCollection *organizationCollection) {
+//        LVCOrganizationValue *organization = nil;
+//        if (organizationCollection.organizations.count == 1) {
+//            organization = organizationCollection.organizations[0];
 //        }
 //
 //        return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
-//            if (organizationResponse) {
-//                fulfill(organizationResponse);
+//            if (organization) {
+//                fulfill(organization);
 //            } else {
 //                reject([NSError errorWithDomain:@"asdf" code:1234 userInfo:nil]);
 //            }
 //        }];
-//    }).then(^(MRTOrganizationResponse *orgaizationResponse) {
+//    }).then(^(LVCOrganizationValue *orgaizationResponse) {
 //        slugPath = orgaizationResponse.slug;
 //        return [weakSelf.authenticatedClient createProjectWithName:@"The Beatles"
 //                                                    organizationID:@"1450"
@@ -99,14 +99,14 @@ NSString *const LVCTreeBuilderKeychain = @"LayerVaultAPIDemoApp";
 //        slugPath = [slugPath stringByAppendingPathComponent:project.slug];
 //        return [weakSelf.authenticatedClient createFolderWithName:@"George"
 //                                                        projectID:project.uid];
-//    }).then(^(MRTFolderResponse *folderResponse) {
-//        slugPath = [slugPath stringByAppendingPathComponent:folderResponse.slug];
+//    }).then(^(LVCFolderValue *folder) {
+//        slugPath = [slugPath stringByAppendingPathComponent:folder.slug];
 //        return [weakSelf.authenticatedClient createFolderWithName:@"Ringo"
-//                                                   parentFolderID:folderResponse.uid];
-//    }).then(^(MRTFolderResponse *folderResponse) {
-//        slugPath = [slugPath stringByAppendingPathComponent:folderResponse.slug];
+//                                                   parentFolderID:folder.uid];
+//    }).then(^(LVCFolderValue *folder) {
+//        slugPath = [slugPath stringByAppendingPathComponent:folder.slug];
 //        return [weakSelf.authenticatedClient createFileWithName:@"John.png"
-//                                                 parentFolderID:folderResponse.uid];
+//                                                 parentFolderID:folder.uid];
 //    }).then(^(LVCFileValue *file) {
 //        fileID = file.uid;
 //        slugPath = [slugPath stringByAppendingPathComponent:file.slug];
@@ -129,20 +129,20 @@ NSString *const LVCTreeBuilderKeychain = @"LayerVaultAPIDemoApp";
 
 
 //    __weak typeof(self) weakSelf = self;
-//    [self.authenticatedClient organizationsWithIDs:@[orgID]].then(^(MRTOrganizationsResponse *organizationsResponse) {
-//        MRTOrganizationResponse *organizationResponse = nil;
-//        if (organizationsResponse.organizationResponses.count == 1) {
-//            organizationResponse = organizationsResponse.organizationResponses[0];
+//    [self.authenticatedClient organizationsWithIDs:@[orgID]].then(^(LVCOrganizationCollection *organizationCollection) {
+//        LVCOrganizationValue *organization = nil;
+//        if (organizationCollection.organizations.count == 1) {
+//            organization = organizationCollection.organizations[0];
 //        }
 //
 //        return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
-//            if (organizationResponse) {
-//                fulfill(organizationResponse);
+//            if (organization) {
+//                fulfill(organization);
 //            } else {
 //                reject([NSError errorWithDomain:@"asdf" code:1234 userInfo:nil]);
 //            }
 //        }];
-//    }).then(^(MRTOrganizationResponse *orgaizationResponse) {
+//    }).then(^(LVCOrganizationValue *orgaizationResponse) {
 //        slugPath = orgaizationResponse.slug;
 //        return [weakSelf.authenticatedClient createProjectWithName:@"Music"
 //                                                    organizationID:@"1450"
@@ -152,14 +152,14 @@ NSString *const LVCTreeBuilderKeychain = @"LayerVaultAPIDemoApp";
 //        slugPath = [slugPath stringByAppendingPathComponent:project.slug];
 //        return [weakSelf.authenticatedClient createFolderWithName:@"Bill Evans"
 //                                                        projectID:project.uid];
-//    }).then(^(MRTFolderResponse *folderResponse) {
-//        slugPath = [slugPath stringByAppendingPathComponent:folderResponse.slug];
+//    }).then(^(LVCFolderValue *folder) {
+//        slugPath = [slugPath stringByAppendingPathComponent:folder.slug];
 //        return [weakSelf.authenticatedClient createFolderWithName:@"Conversations with Myself"
-//                                                   parentFolderID:folderResponse.uid];
-//    }).then(^(MRTFolderResponse *folderResponse) {
-//        slugPath = [slugPath stringByAppendingPathComponent:folderResponse.slug];
+//                                                   parentFolderID:folder.uid];
+//    }).then(^(LVCFolderValue *folder) {
+//        slugPath = [slugPath stringByAppendingPathComponent:folder.slug];
 //        return [weakSelf.authenticatedClient createFileWithName:@"Blue Monk"
-//                                                 parentFolderID:folderResponse.uid];
+//                                                 parentFolderID:folder.uid];
 //    }).then(^(LVCFileValue *file) {
 //        slugPath = [slugPath stringByAppendingPathComponent:file.slug];
 //        return [weakSelf.authenticatedClient createFileWithName:@"Blue Monk"
@@ -187,9 +187,9 @@ NSString *const LVCTreeBuilderKeychain = @"LayerVaultAPIDemoApp";
 - (PMKPromise *)userFromUserResponse:(LVCUserValue *)userValue {
     __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
-        [weakSelf.authenticatedClient organizationsWithIDs:userValue.organizationIDs].then(^(MRTOrganizationsResponse *organizationsResponse) {
+        [weakSelf.authenticatedClient organizationsWithIDs:userValue.organizationIDs].then(^(LVCOrganizationCollection *organizationCollection) {
             return [weakSelf organizationsWithUserID:userValue.uid
-                           fromOrganizationsResponse:organizationsResponse];
+                           fromOrganizationsResponse:organizationCollection];
         }).thenOn(dispatch_get_main_queue(), ^(NSArray *organizations) {
 
             NSManagedObjectContext *moc = [(LVCAppDelegate *)[[NSApplication sharedApplication] delegate] managedObjectContext];
@@ -236,12 +236,12 @@ NSString *const LVCTreeBuilderKeychain = @"LayerVaultAPIDemoApp";
 }
 
 - (PMKPromise *)organizationsWithUserID:(NSString *)userID
-              fromOrganizationsResponse:(MRTOrganizationsResponse *)organizationsResponse {
+              fromOrganizationsResponse:(LVCOrganizationCollection *)organizationCollection {
     __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
         // Create Organizations with the projects
         NSMutableArray *organizationRequests = @[].mutableCopy;
-        for (MRTOrganizationResponse *orgResponse in organizationsResponse.organizationResponses) {
+        for (LVCOrganizationValue *orgResponse in organizationCollection.organizations) {
             if ((orgResponse.syncType == LVCSyncTypeLayerVault)
                 && (orgResponse.projectIDs.count > 0)
                 && (![orgResponse.spectatorIDs containsObject:userID])) {
@@ -258,15 +258,15 @@ NSString *const LVCTreeBuilderKeychain = @"LayerVaultAPIDemoApp";
 }
 
 - (PMKPromise *)organizationWithUserID:(NSString *)userID
-              fromOrganizationResponse:(MRTOrganizationResponse *)organizationsResponse {
+              fromOrganizationResponse:(LVCOrganizationValue *)organizationCollection {
     __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
 
-        [self.authenticatedClient projectsWithIDs:organizationsResponse.projectIDs].then(^(LVCProjectCollection *projectsRespnse) {
+        [self.authenticatedClient projectsWithIDs:organizationCollection.projectIDs].then(^(LVCProjectCollection *projectsRespnse) {
             return [weakSelf projectsWithMember:userID fromProjectsResponse:projectsRespnse];
         }).then(^(NSArray *projects) {
-//            organizationsResponse.projects = projects;
-            fulfill(organizationsResponse);
+//            organizationCollection.projects = projects;
+            fulfill(organizationCollection);
         }).catch(^(NSError *error) {
             reject(error);
         });
@@ -305,9 +305,9 @@ NSString *const LVCTreeBuilderKeychain = @"LayerVaultAPIDemoApp";
         [PMKPromise when:resourceRequests].then(^(NSArray *foldersAndFiles) {
             NSMutableArray *foldersAndFilesRequests = @[].mutableCopy;
             for (id foldersOrFiles in foldersAndFiles) {
-                if ([foldersOrFiles isKindOfClass:[MRTFoldersResponse class]]) {
-                    MRTFoldersResponse *foldersResponse = (MRTFoldersResponse *)foldersOrFiles;
-                    [foldersAndFilesRequests addObject:[weakSelf foldersFromFoldersResponse:foldersResponse]];
+                if ([foldersOrFiles isKindOfClass:[LVCFolderCollection class]]) {
+                    LVCFolderCollection *folderCollection = (LVCFolderCollection *)foldersOrFiles;
+                    [foldersAndFilesRequests addObject:[weakSelf foldersFromFoldersResponse:folderCollection]];
                 }
                 else if ([foldersOrFiles isKindOfClass:[LVCFileCollection class]]) {
                     LVCFileCollection *files = (LVCFileCollection *)foldersOrFiles;
@@ -318,10 +318,10 @@ NSString *const LVCTreeBuilderKeychain = @"LayerVaultAPIDemoApp";
         }).then(^(NSArray *foldersOrFiles) {
             for (NSArray *folderOrFileArray in foldersOrFiles) {
                 if ((folderOrFileArray.count > 0)
-                    && [folderOrFileArray[0] isKindOfClass:[MRTFolderResponse class]]) {
+                    && [folderOrFileArray[0] isKindOfClass:[LVCFolderValue class]]) {
 //                    project.folders = folderOrFileArray;
                 } else if ((folderOrFileArray.count > 0)
-                           && [folderOrFileArray[0] isKindOfClass:[MRTFolderResponse class]]) {
+                           && [folderOrFileArray[0] isKindOfClass:[LVCFolderValue class]]) {
 //                    project.files = folderOrFileArray;
                 }
             }
@@ -332,12 +332,12 @@ NSString *const LVCTreeBuilderKeychain = @"LayerVaultAPIDemoApp";
     }];
 }
 
-- (PMKPromise *)foldersFromFoldersResponse:(MRTFoldersResponse *)foldersResponse {
+- (PMKPromise *)foldersFromFoldersResponse:(LVCFolderCollection *)folderCollection {
     __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
         NSMutableArray *foldersRequests = @[].mutableCopy;
-        for (MRTFolderResponse *folderResponse in foldersResponse.folderResponses) {
-            [foldersRequests addObject:[weakSelf folderFromFolderResponse:folderResponse]];
+        for (LVCFolderValue *folder in folderCollection.folders) {
+            [foldersRequests addObject:[weakSelf folderFromFolderResponse:folder]];
         }
         [PMKPromise when:foldersRequests].then(^(NSArray *folders) {
             fulfill(folders);
@@ -348,24 +348,24 @@ NSString *const LVCTreeBuilderKeychain = @"LayerVaultAPIDemoApp";
 }
 
 
-- (PMKPromise *)folderFromFolderResponse:(MRTFolderResponse *)folderResponse {
+- (PMKPromise *)folderFromFolderResponse:(LVCFolderValue *)folder {
     __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
 
         NSMutableArray *resourceRequests = @[].mutableCopy;
-        if (folderResponse.folderIDs.count > 0) {
-            [resourceRequests addObject:[weakSelf.authenticatedClient foldersWithIDs:folderResponse.folderIDs]];
+        if (folder.folderIDs.count > 0) {
+            [resourceRequests addObject:[weakSelf.authenticatedClient foldersWithIDs:folder.folderIDs]];
         }
-        if (folderResponse.fileIDs.count > 0) {
-            [resourceRequests addObject:[weakSelf.authenticatedClient filesWithIDs:folderResponse.fileIDs]];
+        if (folder.fileIDs.count > 0) {
+            [resourceRequests addObject:[weakSelf.authenticatedClient filesWithIDs:folder.fileIDs]];
         }
 
         [PMKPromise when:resourceRequests].then(^(NSArray *foldersAndFiles) {
             NSMutableArray *foldersAndFilesRequests = @[].mutableCopy;
             for (id foldersOrFiles in foldersAndFiles) {
-                if ([foldersOrFiles isKindOfClass:[MRTFoldersResponse class]]) {
-                    MRTFoldersResponse *foldersResponse = (MRTFoldersResponse *)foldersOrFiles;
-                    [foldersAndFilesRequests addObject:[weakSelf foldersFromFoldersResponse:foldersResponse]];
+                if ([foldersOrFiles isKindOfClass:[LVCFolderCollection class]]) {
+                    LVCFolderCollection *folderCollection = (LVCFolderCollection *)foldersOrFiles;
+                    [foldersAndFilesRequests addObject:[weakSelf foldersFromFoldersResponse:folderCollection]];
                 }
                 else if ([foldersOrFiles isKindOfClass:[LVCFileCollection class]]) {
                     LVCFileCollection *files = (LVCFileCollection *)foldersOrFiles;
@@ -377,15 +377,15 @@ NSString *const LVCTreeBuilderKeychain = @"LayerVaultAPIDemoApp";
 
             for (NSArray *folderOrFileArray in foldersOrFiles) {
                 if ((folderOrFileArray.count > 0)
-                    && [folderOrFileArray[0] isKindOfClass:[MRTFolderResponse class]]) {
-//                    folderResponse.folders = folderOrFileArray;
+                    && [folderOrFileArray[0] isKindOfClass:[LVCFolderValue class]]) {
+//                    folder.folders = folderOrFileArray;
                 } else if ((folderOrFileArray.count > 0)
                            && [folderOrFileArray[0] isKindOfClass:[LVCFileValue class]]) {
-//                    folderResponse.files = folderOrFileArray;
+//                    folder.files = folderOrFileArray;
                 }
             }
 
-            fulfill(folderResponse);
+            fulfill(folder);
 
         }).catch(^(NSError *error) {
             reject(error);

@@ -1,5 +1,5 @@
 //
-//  MRTOrganizationsResponse.h
+//  LVCOrganizationCollection.h
 //  Pods
 //
 //  Created by Matt Thomas on 9/18/14.
@@ -7,6 +7,7 @@
 //
 
 #import <Mantle/Mantle.h>
+#import "LVCModelCollection.h"
 #import "LVCOrganization.h" /// for LCVSyncType
 
 typedef enum : NSUInteger {
@@ -14,11 +15,11 @@ typedef enum : NSUInteger {
     LVCSyncTypeDropBox
 } LVCSyncType;
 
-@interface MRTOrganizationsResponse : MTLModel <MTLJSONSerializing>
-@property (readonly, nonatomic, copy) NSArray *organizationResponses;
+@interface LVCOrganizationCollection : MTLModel <LVCModelCollection, MTLJSONSerializing>
+@property (readonly, nonatomic, copy) NSArray *organizations;
 @end
 
-@interface MRTOrganizationResponse : MTLModel <MTLJSONSerializing>
+@interface LVCOrganizationValue : MTLModel <MTLJSONSerializing>
 @property (readonly, nonatomic, copy) NSString *uid;
 @property (readonly, nonatomic, copy) NSURL *href;
 @property (readonly, nonatomic, copy) NSDate *dateCreated;

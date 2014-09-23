@@ -1,26 +1,34 @@
 //
-//  MRTOrganizationsResponse.m
+//  LVCOrganizationCollection.m
 //  Pods
 //
 //  Created by Matt Thomas on 9/18/14.
 //
 //
 
-#import "MRTOrganizationsResponse.h"
+#import "LVCOrganizationCollection.h"
 #import "NSValueTransformer+LVCPredefinedTransformerAdditions.h"
 
-@implementation MRTOrganizationsResponse
-+ (NSDictionary *)JSONKeyPathsByPropertyKey {
-    return @{@"organizationResponses": @"organizations"};
+@implementation LVCOrganizationCollection
++ (NSString *)collectionKey {
+    return @"organizations";
 }
 
-+ (NSValueTransformer *)organizationResponsesJSONTransformer {
-    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:MRTOrganizationResponse.class];
++ (Class)modelClass {
+    return [LVCOrganizationValue class];
+}
+
++ (NSDictionary *)JSONKeyPathsByPropertyKey {
+    return @{@"organizations": [self collectionKey]};
+}
+
++ (NSValueTransformer *)organizationsJSONTransformer {
+    return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:[self modelClass]];
 }
 @end
 
 
-@implementation MRTOrganizationResponse
+@implementation LVCOrganizationValue
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{@"uid": @"id",
              @"href": @"href",

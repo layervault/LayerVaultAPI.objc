@@ -9,9 +9,9 @@
 #import <AFOAuth2Client/AFOAuth2Client.h>
 @class AFOAuthCredential;
 @class LVCUserValue;
-@class MRTOrganizationsResponse;
+@class LVCOrganizationCollection;
 @class LVCProjectCollection;
-@class MRTFoldersResponse;
+@class LVCFolderCollection;
 @class LVCFileCollection;
 @class MRTRevisionsResponse;
 @class PMKPromise;
@@ -31,7 +31,7 @@
 
 #pragma mark - Organizations
 - (void)getOrganizationsWithIDs:(NSArray *)organizationIDs
-                     completion:(void (^)(MRTOrganizationsResponse *organizationsResponse,
+                     completion:(void (^)(LVCOrganizationCollection *organizationCollection,
                                           NSError *error,
                                           AFHTTPRequestOperation *operation))completion;
 
@@ -57,19 +57,19 @@
 
 #pragma mark - Folders
 - (void)getFoldersWithIDs:(NSArray *)folderIDs
-               completion:(void (^)(MRTFoldersResponse *foldersResponse,
+               completion:(void (^)(LVCFolderCollection *folderCollection,
                                     NSError *error,
                                     AFHTTPRequestOperation *operation))completion;
 
 - (void)createFolderWithName:(NSString *)name
                    projectID:(NSString *)projectID
-                  completion:(void (^)(MRTFoldersResponse *foldersResponse,
+                  completion:(void (^)(LVCFolderCollection *folderCollection,
                                        NSError *error,
                                        AFHTTPRequestOperation *operation))completion;
 
 - (void)createFolderWithName:(NSString *)name
               parentFolderID:(NSString *)parentFolderID
-                  completion:(void (^)(MRTFoldersResponse *foldersResponse,
+                  completion:(void (^)(LVCFolderCollection *folderCollection,
                                        NSError *error,
                                        AFHTTPRequestOperation *operation))completion;
 

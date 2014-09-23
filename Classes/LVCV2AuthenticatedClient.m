@@ -10,9 +10,9 @@
 #import <AFNetworking/AFNetworking.h>
 #import <PromiseKit/PromiseKit.h>
 #import "LVCUserCollection.h"
-#import "MRTOrganizationsResponse.h"
+#import "LVCOrganizationCollection.h"
 #import "LVCProjectCollection.h"
-#import "MRTFoldersResponse.h"
+#import "LVCFolderCollection.h"
 #import "LVCFileCollection.h"
 #import "MRTRevisionsResponse.h"
 #import "LVCOrganization.h"
@@ -74,11 +74,11 @@
 }
 
 - (void)getOrganizationsWithIDs:(NSArray *)organizationIDs
-                     completion:(void (^)(MRTOrganizationsResponse *organizationsResponse,
+                     completion:(void (^)(LVCOrganizationCollection *organizationCollection,
                                           NSError *error,
                                           AFHTTPRequestOperation *operation))completion
 {
-    [self getCollectionOfClass:[MRTOrganizationsResponse class]
+    [self getCollectionOfClass:[LVCOrganizationCollection class]
                    resourceKey:@"organizations"
                        withIDs:organizationIDs
                     completion:completion];
@@ -125,11 +125,11 @@
 }
 
 - (void)getFoldersWithIDs:(NSArray *)folderIDs
-               completion:(void (^)(MRTFoldersResponse *foldersResponse,
+               completion:(void (^)(LVCFolderCollection *folderCollection,
                                     NSError *error,
                                     AFHTTPRequestOperation *operation))completion
 {
-    [self getCollectionOfClass:[MRTFoldersResponse class]
+    [self getCollectionOfClass:[LVCFolderCollection class]
                    resourceKey:@"folders"
                        withIDs:folderIDs
                     completion:completion];
@@ -137,11 +137,11 @@
 
 - (void)createFolderWithName:(NSString *)name
                    projectID:(NSString *)projectID
-                  completion:(void (^)(MRTFoldersResponse *foldersResponse,
+                  completion:(void (^)(LVCFolderCollection *folderCollection,
                                        NSError *error,
                                        AFHTTPRequestOperation *operation))completion
 {
-    [self createResourceWithCollectionClass:[MRTFoldersResponse class]
+    [self createResourceWithCollectionClass:[LVCFolderCollection class]
                                 resourceKey:@"folders"
                                resourceInfo:@{@"name": name,
                                               @"links": @{@"project": projectID}}
@@ -150,11 +150,11 @@
 
 - (void)createFolderWithName:(NSString *)name
               parentFolderID:(NSString *)parentFolderID
-                  completion:(void (^)(MRTFoldersResponse *foldersResponse,
+                  completion:(void (^)(LVCFolderCollection *folderCollection,
                                        NSError *error,
                                        AFHTTPRequestOperation *operation))completion
 {
-    [self createResourceWithCollectionClass:[MRTFoldersResponse class]
+    [self createResourceWithCollectionClass:[LVCFolderCollection class]
                                 resourceKey:@"folders"
                                resourceInfo:@{@"name": name,
                                               @"links": @{@"parent_folder": parentFolderID}}
@@ -378,7 +378,7 @@
 
 - (PMKPromise *)organizationsWithIDs:(NSArray *)organizationIDs
 {
-    return [self collectionsOfClass:[MRTOrganizationsResponse class]
+    return [self collectionsOfClass:[LVCOrganizationCollection class]
                         resourceKey:@"organizations"
                             withIDs:organizationIDs];
 }
@@ -408,7 +408,7 @@
 
 - (PMKPromise *)foldersWithIDs:(NSArray *)folderIDs
 {
-    return [self collectionsOfClass:[MRTFoldersResponse class]
+    return [self collectionsOfClass:[LVCFolderCollection class]
                         resourceKey:@"folders"
                             withIDs:folderIDs];
 }
@@ -417,9 +417,9 @@
                            projectID:(NSString *)projectID
 {
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
-        [self createFolderWithName:name projectID:projectID completion:^(MRTFoldersResponse *foldersResponse, NSError *error, AFHTTPRequestOperation *operation) {
-            if (foldersResponse.folderResponses.count == 1) {
-                fulfill(foldersResponse.folderResponses[0]);
+        [self createFolderWithName:name projectID:projectID completion:^(LVCFolderCollection *folderCollection, NSError *error, AFHTTPRequestOperation *operation) {
+            if (folderCollection.folders.count == 1) {
+                fulfill(folderCollection.folders[0]);
             } else {
                 reject(error);
             }
@@ -431,9 +431,9 @@
                       parentFolderID:(NSString *)parentFolderID
 {
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
-        [self createFolderWithName:name parentFolderID:parentFolderID completion:^(MRTFoldersResponse *foldersResponse, NSError *error, AFHTTPRequestOperation *operation) {
-            if (foldersResponse.folderResponses.count == 1) {
-                fulfill(foldersResponse.folderResponses[0]);
+        [self createFolderWithName:name parentFolderID:parentFolderID completion:^(LVCFolderCollection *folderCollection, NSError *error, AFHTTPRequestOperation *operation) {
+            if (folderCollection.folders.count == 1) {
+                fulfill(folderCollection.folders[0]);
             } else {
                 reject(error);
             }
