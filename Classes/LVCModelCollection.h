@@ -11,4 +11,5 @@
 @protocol LVCModelCollection <NSObject>
 + (NSString *)collectionKey;
 + (Class)modelClass;
+- (NSArray *)allModels;
 @end

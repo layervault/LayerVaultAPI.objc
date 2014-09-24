@@ -25,6 +25,10 @@
 + (NSValueTransformer *)organizationsJSONTransformer {
     return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:[self modelClass]];
 }
+
+- (NSArray *)allModels {
+    return [self organizations];
+}
 @end
 
 

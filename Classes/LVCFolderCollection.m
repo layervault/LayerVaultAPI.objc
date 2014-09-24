@@ -25,6 +25,10 @@
 + (NSValueTransformer *)foldersJSONTransformer {
     return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:[self modelClass]];
 }
+
+- (NSArray *)allModels {
+    return [self folders];
+}
 @end
 
 

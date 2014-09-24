@@ -25,6 +25,10 @@
 + (NSValueTransformer *)revisionsJSONTransformer {
     return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:[self modelClass]];
 }
+
+- (NSArray *)allModels {
+    return [self revisions];
+}
 @end
 
 
