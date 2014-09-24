@@ -7,6 +7,7 @@
 //
 
 #import "LVCNode.h"
+#import "LVCModelCollection.h"
 @class LVCFolder;
 @class LVCFileRevision;
 
@@ -37,6 +38,8 @@ extern NSString *md5ForFileURL(NSURL *fileURL);
  *  LVCFile is a representation of a file on LayerVault.
  */
 @interface LVCFile : LVCNode <MTLJSONSerializing>
+
+@property (nonatomic, copy) NSString *uid;
 
 /**
  *  Last revision number

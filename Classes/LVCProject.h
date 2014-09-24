@@ -8,12 +8,15 @@
 
 #import <Mantle/Mantle.h>
 #import "LVCFolder.h"
+#import "LVCModelCollection.h"
 
 /**
  *  LVCProject is a root level folder. All files and folder must be contained
  *  in a project.
  */
-@interface LVCProject : LVCFolder <MTLJSONSerializing>
+@interface LVCProject : LVCFolder <LVCResourceUniquing, MTLJSONSerializing>
+
+@property (nonatomic, copy) NSString *uid;
 
 /**
  *  YES if user has joined the project, NO if they have not

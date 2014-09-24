@@ -33,6 +33,7 @@
 @end
 
 @implementation LVCUserValue
+
 + (NSDictionary *)JSONKeyPathsByPropertyKey {
     return @{@"uid": @"id",
              @"href": @"href",

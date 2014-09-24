@@ -7,11 +7,14 @@
 //
 
 #import <Mantle/Mantle.h>
+#import "LVCModelCollection.h"
 
 /**
  *  User is a representation of an user on LayerVault.
  */
-@interface LVCUser : MTLModel <MTLJSONSerializing>
+@interface LVCUser : MTLModel <LVCResourceUniquing, MTLJSONSerializing>
+
+@property (nonatomic, copy) NSString *uid;
 
 /**
  *  The numeric ID of the user

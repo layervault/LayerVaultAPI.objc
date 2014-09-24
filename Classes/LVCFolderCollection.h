@@ -13,7 +13,7 @@
 @property (nonatomic, readonly, copy) NSArray *folders;
 @end
 
-@interface LVCFolderValue : MTLModel <MTLJSONSerializing>
+@interface LVCFolderValue : MTLModel <LVCResourceUniquing, MTLJSONSerializing>
 @property (readonly, nonatomic, copy) NSString *uid;
 @property (readonly, nonatomic, copy) NSURL *href;
 @property (readonly, nonatomic, copy) NSDate *dateCreated;

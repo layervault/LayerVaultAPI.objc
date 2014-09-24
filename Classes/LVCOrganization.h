@@ -7,11 +7,14 @@
 //
 
 #import <Mantle/Mantle.h>
+#import "LVCModelCollection.h"
 
 /**
  *  LVCOrganization is a representation of an organization on LayerVault.
  */
-@interface LVCOrganization : MTLModel <MTLJSONSerializing>
+@interface LVCOrganization : MTLModel <LVCResourceUniquing, MTLJSONSerializing>
+
+@property (nonatomic, copy) NSString *uid;
 
 /**
  *  Organization name

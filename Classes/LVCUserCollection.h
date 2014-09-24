@@ -13,7 +13,7 @@
 @property (readonly, nonatomic, copy) NSArray *users;
 @end
 
-@interface LVCUserValue : MTLModel <MTLJSONSerializing>
+@interface LVCUserValue : MTLModel <LVCResourceUniquing, MTLJSONSerializing>
 
 @property (readonly, nonatomic, copy) NSString *uid;
 @property (readonly, nonatomic, copy) NSURL *href;

@@ -14,7 +14,7 @@
 @property (nonatomic, readonly, copy) NSArray *files;
 @end
 
-@interface LVCFileValue : MTLModel <MTLJSONSerializing>
+@interface LVCFileValue : MTLModel <LVCResourceUniquing, MTLJSONSerializing>
 @property (readonly, nonatomic, copy) NSString *uid;
 @property (readonly, nonatomic, copy) NSURL *href;
 @property (readonly, nonatomic, copy) NSDate *dateCreated;

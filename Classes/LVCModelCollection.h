@@ -13,3 +13,7 @@
 + (Class)modelClass;
 - (NSArray *)allModels;
 @end
+
+@protocol LVCResourceUniquing <NSObject>
+@property (nonatomic, readonly, copy) NSString *uid;
+@end

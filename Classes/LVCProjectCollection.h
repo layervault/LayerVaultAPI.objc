@@ -14,7 +14,7 @@
 @property (readonly, nonatomic, copy) NSArray *projects;
 @end
 
-@interface LVCProjectValue : MTLModel <MTLJSONSerializing>
+@interface LVCProjectValue : MTLModel <LVCResourceUniquing, MTLJSONSerializing>
 @property (readonly, nonatomic, copy) NSString *uid;
 @property (readonly, nonatomic, copy) NSURL *href;
 @property (readonly, nonatomic, copy) NSDate *dateCreated;

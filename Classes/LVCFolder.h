@@ -8,11 +8,14 @@
 
 #import "LVCNode.h"
 #import "LVCColorUtils.h"
+#import "LVCModelCollection.h"
 
 /**
  *  Representation of a folder on LayerVaule
  */
-@interface LVCFolder : LVCNode <MTLJSONSerializing>
+@interface LVCFolder : LVCNode <LVCResourceUniquing, MTLJSONSerializing>
+
+@property (nonatomic, copy) NSString *uid;
 
 /**
  *  Color label corresponds to NSURLLabelNumberKey

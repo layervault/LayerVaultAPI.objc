@@ -19,7 +19,7 @@ typedef enum : NSUInteger {
 @property (readonly, nonatomic, copy) NSArray *organizations;
 @end
 
-@interface LVCOrganizationValue : MTLModel <MTLJSONSerializing>
+@interface LVCOrganizationValue : MTLModel <LVCResourceUniquing, MTLJSONSerializing>
 @property (readonly, nonatomic, copy) NSString *uid;
 @property (readonly, nonatomic, copy) NSURL *href;
 @property (readonly, nonatomic, copy) NSDate *dateCreated;
