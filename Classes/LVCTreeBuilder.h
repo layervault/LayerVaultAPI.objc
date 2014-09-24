@@ -14,6 +14,7 @@
 
 - (instancetype)initWithAuthenticationCredential:(AFOAuthCredential *)authenticationCredential;
 
-- (void)buildUserTreeWithCompletion:(void (^)(LVCUser *user, NSError *error))completion;
+- (void)buildUserTreeWithPrevious:(LVCUser *)previousUser
+                       completion:(void (^)(LVCUser *user, NSError *error))completion;
 
 @end

@@ -16,6 +16,7 @@
 #import "LVCFileRevision.h"
 #import "LVCFolder.h"
 #import "LVCFolderCollection.h"
+#import "LVCModelCollection.h"
 #import "LVCOrganization.h"
 #import "LVCOrganizationCollection.h"
 #import "LVCProject.h"
@@ -24,6 +25,11 @@
 #import "LVCUserCollection.h"
 #import "LVCUser.h"
 #import "LVCV2AuthenticatedClient.h"
+
+@interface NSArray (LVCUniqueResource)
+- (id<LVCResourceUniquing>)lvc_uniqueResourceMatching:(id<LVCResourceUniquing>)resource
+                                              ofClass:(Class)class;
+@end
 
 
 @interface LVCTreeBuilder ()
@@ -148,11 +154,15 @@
 //    });
 }
 
-- (void)buildUserTreeWithCompletion:(void (^)(LVCUser *user, NSError *error))completion {
+- (void)buildUserTreeWithPrevious:(LVCUser *)previousUser
+                       completion:(void (^)(LVCUser *user, NSError *error))completion {
     __weak typeof(self) weakSelf = self;
     NSDate *startDate = [NSDate date];
     self.authenticatedClient.me.then(^(LVCUserValue *userValue) {
-        return [weakSelf treeUserFromValue:userValue];
+        Class class = [userValue class];
+        NSAssert([class conformsToProtocol:@protocol(LVCResourceUniquing)], @"does not conform");
+        return [weakSelf userTreeWithPrevious:previousUser
+                                    fromValue:userValue];
     }).then(^(LVCUser *user){
         NSLog(@"completed in: %f", [[NSDate date] timeIntervalSinceDate:startDate]);
         completion(user, nil);
@@ -161,14 +171,22 @@
     });
 }
 
-- (PMKPromise *)treeUserFromValue:(LVCUserValue *)userValue {
+- (PMKPromise *)userTreeWithPrevious:(LVCUser *)previousUser
+                           fromValue:(LVCUserValue *)userValue {
     __weak typeof(self) weakSelf = self;
+
+    NSArray *previousOrganizations = [previousUser.organizations copy];
+
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
         [weakSelf.authenticatedClient organizationsWithIDs:userValue.organizationIDs].then(^(NSArray *organizationValues) {
-            return [weakSelf treeOrganizationsWithUserID:userValue.uid
-                                              fromValues:organizationValues];
+            return [weakSelf organizationsTreesWithPrevious:previousOrganizations
+                                                     userID:userValue.uid
+                                                 fromValues:organizationValues];
         }).then(^(NSArray *organizations) {
+
+            // Note, always create new user
             LVCUser *user = [[LVCUser alloc] init];
+            user.uid = userValue.uid;
             user.userID = (NSUInteger)[userValue.uid integerValue];
             user.email = userValue.email;
             user.firstName = userValue.firstName;
@@ -188,18 +206,23 @@
     }];
 }
 
-- (PMKPromise *)treeOrganizationsWithUserID:(NSString *)userID
-                                 fromValues:(NSArray *)organizationValues {
+- (PMKPromise *)organizationsTreesWithPrevious:(NSArray *)previousOrganizations
+                                        userID:(NSString *)userID
+                                    fromValues:(NSArray *)organizationValues {
     __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
         // Create Organizations with the projects
         NSMutableArray *organizationRequests = @[].mutableCopy;
         for (LVCOrganizationValue *orgValue in organizationValues) {
+
+            LVCOrganization *previousOrganization = (LVCOrganization *)[previousOrganizations lvc_uniqueResourceMatching:orgValue ofClass:[LVCOrganization class]];
+
             if ((orgValue.syncType == LVCSyncTypeLayerVault)
                 && (orgValue.projectIDs.count > 0)
                 && (![orgValue.spectatorIDs containsObject:userID])) {
-                [organizationRequests addObject:[weakSelf treeOrganizationWithUserID:userID
-                                                                           fromValue:orgValue]];
+                [organizationRequests addObject:[weakSelf organizationTreeWithPrevious:previousOrganization
+                                                                                userID:userID
+                                                                             fromValue:orgValue]];
             }
         }
         [PMKPromise when:organizationRequests].then(^(NSArray *organizations) {
@@ -210,59 +233,74 @@
     }];
 }
 
-- (PMKPromise *)treeOrganizationWithUserID:(NSString *)userID
-                                 fromValue:(LVCOrganizationValue *)organizationValue {
+- (PMKPromise *)organizationTreeWithPrevious:(LVCOrganization *)previousOrganization
+                                      userID:(NSString *)userID
+                                   fromValue:(LVCOrganizationValue *)organizationValue {
     __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
 
-        [self.authenticatedClient projectsWithIDs:organizationValue.projectIDs].then(^(NSArray *projectValues) {
-            return [weakSelf treeProjectsWithMember:userID
-                              organizationPermalink:organizationValue.slug
-                                         fromValues:projectValues];
-        }).then(^(NSArray *projects) {
+        // if the organization has not changed, then just return it
+        if ([organizationValue.dateUpdated isEqualToDate:previousOrganization.dateUpdated]) {
+            fulfill(previousOrganization);
+        }
+        else { // Organization has changed, start loading projects
+            [self.authenticatedClient projectsWithIDs:organizationValue.projectIDs].then(^(NSArray *projectValues) {
+
+                return [weakSelf projectTreesWithPrevious:previousOrganization.projects
+                                                   member:userID
+                                    organizationPermalink:organizationValue.slug
+                                               fromValues:projectValues];
+            }).then(^(NSArray *projects) {
 
 #warning - use constants
-            NSString *userRole = @"spectator";
-            if ([organizationValue.editorIDs containsObject:userID]) {
-                userRole = @"editor";
-            } else if ([organizationValue.administratorIDs containsObject:userID]) {
-                userRole = @"admin";
-            }
-            NSString *syncType = @"layervault";
-            if (organizationValue.syncType == LVCSyncTypeDropBox) {
-                syncType = @"dropbox";
-            }
+                NSString *userRole = @"spectator";
+                if ([organizationValue.editorIDs containsObject:userID]) {
+                    userRole = @"editor";
+                } else if ([organizationValue.administratorIDs containsObject:userID]) {
+                    userRole = @"admin";
+                }
+                NSString *syncType = @"layervault";
+                if (organizationValue.syncType == LVCSyncTypeDropBox) {
+                    syncType = @"dropbox";
+                }
 
-            LVCOrganization *organization = [[LVCOrganization alloc] init];
-            organization.name = organizationValue.name;
-            organization.userRole = userRole;
-            organization.permalink = organizationValue.slug;
-            organization.dateDeleted = organizationValue.dateDeleted;
-            organization.dateUpdated = organizationValue.dateUpdated;
-            organization.url = organizationValue.url;
-            organization.syncType = syncType;
-            for (LVCProject *project in projects) {
-                project.organizationPermalink = organization.permalink;
-            }
-            organization.projects = projects;
-            fulfill(organization);
-        }).catch(^(NSError *error) {
-            reject(error);
-        });
+                LVCOrganization *organization = [[LVCOrganization alloc] init];
+                organization.uid = organizationValue.uid;
+                organization.name = organizationValue.name;
+                organization.userRole = userRole;
+                organization.permalink = organizationValue.slug;
+                organization.dateDeleted = organizationValue.dateDeleted;
+                organization.dateUpdated = organizationValue.dateUpdated;
+                organization.url = organizationValue.url;
+                organization.syncType = syncType;
+                for (LVCProject *project in projects) {
+                    project.organizationPermalink = organization.permalink;
+                }
+                organization.projects = projects;
+                fulfill(organization);
+            }).catch(^(NSError *error) {
+                reject(error);
+            });
+        }
     }];
 }
 
-- (PMKPromise *)treeProjectsWithMember:(NSString *)userID
-                 organizationPermalink:(NSString *)organizationPermalink
-                            fromValues:(NSArray *)projectValues {
+- (PMKPromise *)projectTreesWithPrevious:(NSArray *)previousProjects
+                                  member:(NSString *)userID
+                   organizationPermalink:(NSString *)organizationPermalink
+                              fromValues:(NSArray *)projectValues {
     __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
         NSMutableArray *projectRequests = @[].mutableCopy;
-        for (LVCProjectValue *project in projectValues) {
-            if ([project.userIDs containsObject:userID]) {
-                [projectRequests addObject:[weakSelf treeProjectWithMember:userID
-                                                     organizationPermalink:organizationPermalink
-                                                                 fromValue:project]];
+        for (LVCProjectValue *projectValue in projectValues) {
+            if ([projectValue.userIDs containsObject:userID]) {
+
+                LVCProject *previousProject = (LVCProject *)[previousProjects lvc_uniqueResourceMatching:projectValue ofClass:[LVCProject class]];
+
+                [projectRequests addObject:[weakSelf projectTreeWithPrevious:previousProject
+                                                                      member:userID
+                                                       organizationPermalink:organizationPermalink
+                                                                   fromValue:projectValue]];
             }
         }
         [PMKPromise when:projectRequests].then(^(NSArray *projects) {
@@ -273,66 +311,85 @@
     }];
 }
 
-- (PMKPromise *)treeProjectWithMember:(NSString *)userID
-                organizationPermalink:(NSString *)organizationPermalink
-                            fromValue:(LVCProjectValue *)projectValue {
-
-    NSString *currentPath = [[@"~/LayerVault" stringByExpandingTildeInPath] stringByAppendingPathComponent:projectValue.name];
+- (PMKPromise *)projectTreeWithPrevious:(LVCProject *)previousProject
+                                 member:(NSString *)userID
+                  organizationPermalink:(NSString *)organizationPermalink
+                              fromValue:(LVCProjectValue *)projectValue {
 
     __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
 
-        __block NSArray *subFolders = @[];
-        __block NSArray *subFiles = @[];
+        if ([projectValue.dateUpdated isEqualToDate:previousProject.dateUpdated]) {
+            fulfill(previousProject);
+        }
+        else {
 
-        [weakSelf.authenticatedClient foldersWithIDs:projectValue.folderIDs].then(^(NSArray *folderValues) {
-            return [weakSelf treeFoldersWithPathPrefix:currentPath organizationPermalink:organizationPermalink fromValues:folderValues];
-        }).then(^(NSArray *treeFolders) {
-            subFolders = treeFolders;
-            return [weakSelf.authenticatedClient filesWithIDs:projectValue.fileIDs];
-        }).then(^(NSArray *fileValues) {
-            return [weakSelf treeFilesWithPathPrefix:currentPath fromValues:fileValues];
-        }).then(^(NSArray *treeFiles) {
-            subFiles = treeFiles;
+            NSString *currentPath = [[@"~/LayerVault" stringByExpandingTildeInPath] stringByAppendingPathComponent:projectValue.name];
 
-            LVCProject *project = [[LVCProject alloc] init];
-            project.member = [projectValue.userIDs containsObject:userID];
+            __block NSArray *subFolders = @[];
+            __block NSArray *subFiles = @[];
+
+            [weakSelf.authenticatedClient foldersWithIDs:projectValue.folderIDs].then(^(NSArray *folderValues) {
+                
+                return [weakSelf folderTreesWithPrevious:previousProject.folders
+                                              pathPrefix:currentPath
+                                   organizationPermalink:organizationPermalink
+                                              fromValues:folderValues];
+            }).then(^(NSArray *treeFolders) {
+                subFolders = treeFolders;
+                return [weakSelf.authenticatedClient filesWithIDs:projectValue.fileIDs];
+            }).then(^(NSArray *fileValues) {
+                return [weakSelf fileTreesWithPrevious:previousProject.files
+                                            pathPrefix:currentPath
+                                            fromValues:fileValues];
+            }).then(^(NSArray *treeFiles) {
+                subFiles = treeFiles;
+
+                LVCProject *project = [[LVCProject alloc] init];
+                project.uid = projectValue.uid;
+                project.member = [projectValue.userIDs containsObject:userID];
 #warning - deprecate this
-            project.partial = NO; // at this point, we will have everything! \o/
+                project.partial = NO; // at this point, we will have everything! \o/
 #warning - deprecate this
-            project.synced = YES;
-            project.colorLabel = projectValue.colorLabel;
-            project.name = projectValue.name;
+                project.synced = YES;
+                project.colorLabel = projectValue.colorLabel;
+                project.name = projectValue.name;
 #warning - Both?!?!
-            project.path = currentPath;
-            project.fileURL = [NSURL fileURLWithPath:project.path];
-            project.organizationPermalink = organizationPermalink;
-            project.dateUpdated = projectValue.dateUpdated;
-            project.url = projectValue.url;
+                project.path = currentPath;
+                project.fileURL = [NSURL fileURLWithPath:project.path];
+                project.organizationPermalink = organizationPermalink;
+                project.dateUpdated = projectValue.dateUpdated;
+                project.url = projectValue.url;
 #warning - url path is based on slugs. Best way to calculate it? pass in org here?
-//            project.urlPath = organizationValue.slug;
+                //            project.urlPath = organizationValue.slug;
 #warning - Can we actually get dateDeleted?
-//            project.dateDeleted = nil;
-            project.folders = subFolders;
-            project.files = subFiles;
-
-            fulfill(project);
-        }).catch(^(NSError *error) {
-            reject(error);
-        });
+                //            project.dateDeleted = nil;
+                project.folders = subFolders;
+                project.files = subFiles;
+                
+                fulfill(project);
+            }).catch(^(NSError *error) {
+                reject(error);
+            });
+        }
     }];
 }
 
-- (PMKPromise *)treeFoldersWithPathPrefix:(NSString *)pathPrefix
-                    organizationPermalink:(NSString *)organizationPermalink
-                               fromValues:(NSArray *)folderValues {
+- (PMKPromise *)folderTreesWithPrevious:(NSArray *)previousFolders
+                             pathPrefix:(NSString *)pathPrefix
+                  organizationPermalink:(NSString *)organizationPermalink
+                             fromValues:(NSArray *)folderValues {
     __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
         NSMutableArray *foldersRequests = @[].mutableCopy;
-        for (LVCFolderValue *folder in folderValues) {
-            [foldersRequests addObject:[weakSelf treeFolderWithPathPrefix:pathPrefix
-                                                    organizationPermalink:organizationPermalink
-                                                                fromValue:folder]];
+        for (LVCFolderValue *folderValue in folderValues) {
+
+            LVCFolder *previousFolder = (LVCFolder *)[previousFolders lvc_uniqueResourceMatching:folderValue
+                                                                                         ofClass:[LVCFolder class]];
+            [foldersRequests addObject:[weakSelf folderTreeWithPrevious:previousFolder
+                                                             pathPrefix:pathPrefix
+                                                  organizationPermalink:organizationPermalink
+                                                              fromValue:folderValue]];
         }
         [PMKPromise when:foldersRequests].then(^(NSArray *folders) {
             fulfill(folders);
@@ -343,62 +400,80 @@
 }
 
 
-- (PMKPromise *)treeFolderWithPathPrefix:(NSString *)pathPrefix
+- (PMKPromise *)folderTreeWithPrevious:(LVCFolder *)previousFolder
+                            pathPrefix:(NSString *)pathPrefix
                    organizationPermalink:(NSString *)organizationPermalink
-                               fromValue:(LVCFolderValue *)folderValues {
-
-    NSString *currentPath = [pathPrefix stringByAppendingPathComponent:folderValues.name];
+                               fromValue:(LVCFolderValue *)folderValue {
 
     __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
 
-        __block NSArray *subFolders = @[];
-        __block NSArray *subFiles = @[];
+        if ([folderValue.dateUpdated isEqualToDate:previousFolder.dateUpdated]) {
+            fulfill(previousFolder);
+        }
+        else {
+            NSString *currentPath = [pathPrefix stringByAppendingPathComponent:folderValue.name];
 
-        [weakSelf.authenticatedClient foldersWithIDs:folderValues.folderIDs].then(^(NSArray *folderValues) {
-            return [weakSelf treeFoldersWithPathPrefix:currentPath organizationPermalink:organizationPermalink fromValues:folderValues];
-        }).then(^(NSArray *treeFolders) {
-            subFolders = treeFolders;
-            return [weakSelf.authenticatedClient filesWithIDs:folderValues.fileIDs];
-        }).then(^(NSArray *fileValues) {
-            return [weakSelf treeFilesWithPathPrefix:currentPath fromValues:fileValues];
-        }).then(^(NSArray *treeFiles) {
-            subFiles = treeFiles;
+            __block NSArray *subFolders = @[];
+            __block NSArray *subFiles = @[];
 
-            LVCFolder *folder = [[LVCFolder alloc] init];
-            folder.colorLabel = LVCColorWhite;
-            folder.name = folderValues.name;
+            [weakSelf.authenticatedClient foldersWithIDs:folderValue.folderIDs].then(^(NSArray *folderValues) {
+                return [weakSelf folderTreesWithPrevious:previousFolder.folders
+                                              pathPrefix:currentPath
+                                   organizationPermalink:organizationPermalink
+                                              fromValues:folderValues];
+            }).then(^(NSArray *treeFolders) {
+                subFolders = treeFolders;
+                return [weakSelf.authenticatedClient filesWithIDs:folderValue.fileIDs];
+            }).then(^(NSArray *fileValues) {
+                return [weakSelf fileTreesWithPrevious:previousFolder.files
+                                            pathPrefix:currentPath
+                                            fromValues:fileValues];
+            }).then(^(NSArray *treeFiles) {
+                subFiles = treeFiles;
+
+                LVCFolder *folder = [[LVCFolder alloc] init];
+                folder.uid = folderValue.uid;
+                folder.colorLabel = LVCColorWhite;
+                folder.name = folderValue.name;
 #warning - Both?!?!
-            folder.path = currentPath;
-            folder.fileURL = [NSURL fileURLWithPath:folder.path];
-            folder.organizationPermalink = organizationPermalink;
+                folder.path = currentPath;
+                folder.fileURL = [NSURL fileURLWithPath:folder.path];
+                folder.organizationPermalink = organizationPermalink;
 #warning - Pass organization Value?
-//            folder.organizationPermalink = organizationValue.slug;
-            folder.dateUpdated = folderValues.dateUpdated;
-            folder.url = folderValues.url;
+                //            folder.organizationPermalink = organizationValue.slug;
+                folder.dateUpdated = folderValue.dateUpdated;
+                folder.url = folderValue.url;
 #warning - url path is based on slugs. Best way to calculate it? pass in org here?
-//            folder.urlPath = organizationValue.slug;
+                //            folder.urlPath = organizationValue.slug;
 #warning - Can we actually get dateDeleted?
-//            folder.dateDeleted = nil;
-            folder.folders = subFolders;
-            folder.files = subFiles;
-
-            fulfill(folder);
-        }).catch(^(NSError *error) {
-            reject(error);
-        });
+                //            folder.dateDeleted = nil;
+                folder.folders = subFolders;
+                folder.files = subFiles;
+                
+                fulfill(folder);
+            }).catch(^(NSError *error) {
+                reject(error);
+            });
+        }
     }];
 }
 
 
-- (PMKPromise *)treeFilesWithPathPrefix:(NSString *)pathPrefix
-                             fromValues:(NSArray *)fileValues {
+- (PMKPromise *)fileTreesWithPrevious:(NSArray *)previousFiles
+                           pathPrefix:(NSString *)pathPrefix
+                           fromValues:(NSArray *)fileValues {
     __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
         NSMutableArray *filesRequests = @[].mutableCopy;
-        for (LVCFileValue *file in fileValues) {
-            [filesRequests addObject:[weakSelf treeFileWithPathPrefix:pathPrefix
-                                                            fromValue:file]];
+        for (LVCFileValue *fileValue in fileValues) {
+
+            LVCFile *previousFile = (LVCFile *)[previousFiles lvc_uniqueResourceMatching:fileValue
+                                                                                 ofClass:[LVCFile class]];
+
+            [filesRequests addObject:[weakSelf fileTreeWithPrevious:previousFile
+                                                     pathPrefix:pathPrefix
+                                                          fromValue:fileValue]];
         }
         [PMKPromise when:filesRequests].then(^(NSArray *files) {
             fulfill(files);
@@ -409,37 +484,66 @@
 }
 
 
-- (PMKPromise *)treeFileWithPathPrefix:(NSString *)pathPrefix
-                             fromValue:(LVCFileValue *)fileValue {
-
-    NSString *currentPath = [pathPrefix stringByAppendingPathComponent:fileValue.name];
+- (PMKPromise *)fileTreeWithPrevious:(LVCFile *)previousFile
+                          pathPrefix:(NSString *)pathPrefix
+                           fromValue:(LVCFileValue *)fileValue {
 
     __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
-        [weakSelf.authenticatedClient revisionsWithIDs:@[fileValue.lastRevisionID]].then(^(NSArray *revisionValues) {
 
-            if (revisionValues.count > 0) {
-                LVCRevisionValue *revisionValue = revisionValues[0];
-                LVCFile *file = [[LVCFile alloc] init];
-                file.revisionNumber = [NSNumber numberWithInteger:revisionValue.revisionNumber];
+        if ([fileValue.dateUpdated isEqualToDate:previousFile.dateUpdated]) {
+            fulfill(previousFile);
+        }
+        else {
+
+            NSString *currentPath = [pathPrefix stringByAppendingPathComponent:fileValue.name];
+
+            [weakSelf.authenticatedClient revisionsWithIDs:@[fileValue.lastRevisionID]].then(^(NSArray *revisionValues) {
+
+                if (revisionValues.count > 0) {
+                    LVCRevisionValue *revisionValue = revisionValues[0];
+                    LVCFile *file = [[LVCFile alloc] init];
+                    file.uid = fileValue.uid;
+                    file.revisionNumber = [NSNumber numberWithInteger:revisionValue.revisionNumber];
 #warning - deprecate this
-                file.revisions = nil;
+                    file.revisions = nil;
 #warning - both!??!
-                file.dateModified = fileValue.dateUpdated;
-                file.dateUpdated = fileValue.dateUpdated;
-                file.downloadURL = revisionValue.downloadURL;
-                file.name = fileValue.name;
-                file.fileURL = [NSURL fileURLWithPath:currentPath];
-                file.md5 = revisionValue.md5;
+                    file.dateModified = fileValue.dateUpdated;
+                    file.dateUpdated = fileValue.dateUpdated;
+                    file.downloadURL = revisionValue.downloadURL;
+                    file.name = fileValue.name;
+                    file.fileURL = [NSURL fileURLWithPath:currentPath];
+                    file.md5 = revisionValue.md5;
 
-                fulfill(file);
-            } else {
-                reject([NSError errorWithDomain:@"plm" code:987 userInfo:nil]);
-            }
-        }).catch(^(NSError *error) {
-            reject(error);
-        });
+                    fulfill(file);
+                } else {
+                    reject([NSError errorWithDomain:@"plm" code:987 userInfo:nil]);
+                }
+            }).catch(^(NSError *error) {
+                reject(error);
+            });
+        }
     }];
 }
 
 @end
+
+@implementation NSArray (LVCUniqueResource)
+- (id<LVCResourceUniquing>)lvc_uniqueResourceMatching:(id<LVCResourceUniquing>)resource
+                                              ofClass:(Class<LVCResourceUniquing>)class
+{
+    id<LVCResourceUniquing> foundResource = nil;
+    for (id object in self) {
+        // Class doesn't have to conform to protocol... 'cause objc
+        if ([object isKindOfClass:class] && [object conformsToProtocol:@protocol(LVCResourceUniquing)]) {
+            id<LVCResourceUniquing> currentResource = (id<LVCResourceUniquing>)object;
+            if ([currentResource.uid isEqualToString:resource.uid]) {
+                foundResource = currentResource;
+                break;
+            }
+        }
+    }
+    return foundResource;
+}
+@end
+
