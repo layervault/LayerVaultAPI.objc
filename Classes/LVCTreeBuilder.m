@@ -164,9 +164,9 @@
 - (PMKPromise *)treeUserFromValue:(LVCUserValue *)userValue {
     __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
-        [weakSelf.authenticatedClient organizationsWithIDs:userValue.organizationIDs].then(^(LVCOrganizationCollection *organizationCollection) {
+        [weakSelf.authenticatedClient organizationsWithIDs:userValue.organizationIDs].then(^(NSArray *organizationValues) {
             return [weakSelf treeOrganizationsWithUserID:userValue.uid
-                                          fromCollection:organizationCollection];
+                                              fromValues:organizationValues];
         }).then(^(NSArray *organizations) {
             LVCUser *user = [[LVCUser alloc] init];
             user.userID = (NSUInteger)[userValue.uid integerValue];
@@ -189,12 +189,12 @@
 }
 
 - (PMKPromise *)treeOrganizationsWithUserID:(NSString *)userID
-                             fromCollection:(LVCOrganizationCollection *)organizationCollection {
+                                 fromValues:(NSArray *)organizationValues {
     __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
         // Create Organizations with the projects
         NSMutableArray *organizationRequests = @[].mutableCopy;
-        for (LVCOrganizationValue *orgValue in organizationCollection.organizations) {
+        for (LVCOrganizationValue *orgValue in organizationValues) {
             if ((orgValue.syncType == LVCSyncTypeLayerVault)
                 && (orgValue.projectIDs.count > 0)
                 && (![orgValue.spectatorIDs containsObject:userID])) {
@@ -215,10 +215,10 @@
     __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
 
-        [self.authenticatedClient projectsWithIDs:organizationValue.projectIDs].then(^(LVCProjectCollection *projectCollection) {
+        [self.authenticatedClient projectsWithIDs:organizationValue.projectIDs].then(^(NSArray *projectValues) {
             return [weakSelf treeProjectsWithMember:userID
                               organizationPermalink:organizationValue.slug
-                                     fromCollection:projectCollection];
+                                         fromValues:projectValues];
         }).then(^(NSArray *projects) {
 
 #warning - use constants
@@ -254,11 +254,11 @@
 
 - (PMKPromise *)treeProjectsWithMember:(NSString *)userID
                  organizationPermalink:(NSString *)organizationPermalink
-                        fromCollection:(LVCProjectCollection *)projectCollection {
+                            fromValues:(NSArray *)projectValues {
     __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
         NSMutableArray *projectRequests = @[].mutableCopy;
-        for (LVCProjectValue *project in projectCollection.projects) {
+        for (LVCProjectValue *project in projectValues) {
             if ([project.userIDs containsObject:userID]) {
                 [projectRequests addObject:[weakSelf treeProjectWithMember:userID
                                                      organizationPermalink:organizationPermalink
@@ -276,37 +276,24 @@
 - (PMKPromise *)treeProjectWithMember:(NSString *)userID
                 organizationPermalink:(NSString *)organizationPermalink
                             fromValue:(LVCProjectValue *)projectValue {
-    __weak typeof(self) weakSelf = self;
 
     NSString *currentPath = [[@"~/LayerVault" stringByExpandingTildeInPath] stringByAppendingPathComponent:projectValue.name];
 
+    __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
 
-        NSMutableArray *resourceRequests = @[].mutableCopy;
-        if (projectValue.folderIDs.count > 0) {
-            [resourceRequests addObject:[weakSelf.authenticatedClient foldersWithIDs:projectValue.folderIDs]];
-        }
-        if (projectValue.fileIDs.count > 0) {
-            [resourceRequests addObject:[weakSelf.authenticatedClient filesWithIDs:projectValue.fileIDs]];
-        }
+        __block NSArray *subFolders = @[];
+        __block NSArray *subFiles = @[];
 
-        [PMKPromise when:resourceRequests].then(^(NSArray *foldersAndFiles) {
-            NSMutableArray *foldersAndFilesRequests = @[].mutableCopy;
-            for (id foldersOrFiles in foldersAndFiles) {
-                if ([foldersOrFiles isKindOfClass:[LVCFolderCollection class]]) {
-                    LVCFolderCollection *folderCollection = (LVCFolderCollection *)foldersOrFiles;
-                    [foldersAndFilesRequests addObject:[weakSelf treeFoldersWithPathPrefix:currentPath
-                                                                     organizationPermalink:organizationPermalink
-                                                                            fromCollection:folderCollection]];
-                }
-                else if ([foldersOrFiles isKindOfClass:[LVCFileCollection class]]) {
-                    LVCFileCollection *files = (LVCFileCollection *)foldersOrFiles;
-                    [foldersAndFilesRequests addObject:[weakSelf treeFilesWithPathPrefix:currentPath
-                                                                          fromCollection:files]];
-                }
-            }
-            return [PMKPromise when:foldersAndFilesRequests];
-        }).then(^(NSArray *foldersOrFiles) {
+        [weakSelf.authenticatedClient foldersWithIDs:projectValue.folderIDs].then(^(NSArray *folderValues) {
+            return [weakSelf treeFoldersWithPathPrefix:currentPath organizationPermalink:organizationPermalink fromValues:folderValues];
+        }).then(^(NSArray *treeFolders) {
+            subFolders = treeFolders;
+            return [weakSelf.authenticatedClient filesWithIDs:projectValue.fileIDs];
+        }).then(^(NSArray *fileValues) {
+            return [weakSelf treeFilesWithPathPrefix:currentPath fromValues:fileValues];
+        }).then(^(NSArray *treeFiles) {
+            subFiles = treeFiles;
 
             LVCProject *project = [[LVCProject alloc] init];
             project.member = [projectValue.userIDs containsObject:userID];
@@ -326,23 +313,9 @@
 //            project.urlPath = organizationValue.slug;
 #warning - Can we actually get dateDeleted?
 //            project.dateDeleted = nil;
-            for (NSArray *folderOrFileArray in foldersOrFiles) {
-                if ((folderOrFileArray.count > 0)
-                    && [folderOrFileArray[0] isKindOfClass:[LVCFolder class]]) {
-                    NSArray *folders = folderOrFileArray;
-                    for (LVCFolder *currentFolder in folders) {
-                        currentFolder.parentFolder = project;
-                    }
-                    project.folders = folders;
-                } else if ((folderOrFileArray.count > 0)
-                           && [folderOrFileArray[0] isKindOfClass:[LVCFile class]]) {
-                    NSArray *files = folderOrFileArray;
-                    for (LVCFile *file in files) {
-                        file.parentFolder = project;
-                    }
-                    project.files = files;
-                }
-            }
+            project.folders = subFolders;
+            project.files = subFiles;
+
             fulfill(project);
         }).catch(^(NSError *error) {
             reject(error);
@@ -352,11 +325,11 @@
 
 - (PMKPromise *)treeFoldersWithPathPrefix:(NSString *)pathPrefix
                     organizationPermalink:(NSString *)organizationPermalink
-                           fromCollection:(LVCFolderCollection *)folderCollection {
+                               fromValues:(NSArray *)folderValues {
     __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
         NSMutableArray *foldersRequests = @[].mutableCopy;
-        for (LVCFolderValue *folder in folderCollection.folders) {
+        for (LVCFolderValue *folder in folderValues) {
             [foldersRequests addObject:[weakSelf treeFolderWithPathPrefix:pathPrefix
                                                     organizationPermalink:organizationPermalink
                                                                 fromValue:folder]];
@@ -372,71 +345,44 @@
 
 - (PMKPromise *)treeFolderWithPathPrefix:(NSString *)pathPrefix
                    organizationPermalink:(NSString *)organizationPermalink
-                               fromValue:(LVCFolderValue *)folderValue {
+                               fromValue:(LVCFolderValue *)folderValues {
 
-    NSString *currentPath = [pathPrefix stringByAppendingPathComponent:folderValue.name];
+    NSString *currentPath = [pathPrefix stringByAppendingPathComponent:folderValues.name];
 
     __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
 
-        NSMutableArray *resourceRequests = @[].mutableCopy;
-        if (folderValue.folderIDs.count > 0) {
-            [resourceRequests addObject:[weakSelf.authenticatedClient foldersWithIDs:folderValue.folderIDs]];
-        }
-        if (folderValue.fileIDs.count > 0) {
-            [resourceRequests addObject:[weakSelf.authenticatedClient filesWithIDs:folderValue.fileIDs]];
-        }
+        __block NSArray *subFolders = @[];
+        __block NSArray *subFiles = @[];
 
-        [PMKPromise when:resourceRequests].then(^(NSArray *foldersAndFiles) {
-            NSMutableArray *foldersAndFilesRequests = @[].mutableCopy;
-            for (id foldersOrFiles in foldersAndFiles) {
-                if ([foldersOrFiles isKindOfClass:[LVCFolderCollection class]]) {
-                    LVCFolderCollection *folderCollection = (LVCFolderCollection *)foldersOrFiles;
-                    [foldersAndFilesRequests addObject:[weakSelf treeFoldersWithPathPrefix:currentPath
-                                                                     organizationPermalink:organizationPermalink
-                                                                            fromCollection:folderCollection]];
-                }
-                else if ([foldersOrFiles isKindOfClass:[LVCFileCollection class]]) {
-                    LVCFileCollection *files = (LVCFileCollection *)foldersOrFiles;
-                    [foldersAndFilesRequests addObject:[weakSelf treeFilesWithPathPrefix:currentPath
-                                                                          fromCollection:files]];
-                }
-            }
-            return [PMKPromise when:foldersAndFilesRequests];
-        }).then(^(NSArray *foldersOrFiles) {
+        [weakSelf.authenticatedClient foldersWithIDs:folderValues.folderIDs].then(^(NSArray *folderValues) {
+            return [weakSelf treeFoldersWithPathPrefix:currentPath organizationPermalink:organizationPermalink fromValues:folderValues];
+        }).then(^(NSArray *treeFolders) {
+            subFolders = treeFolders;
+            return [weakSelf.authenticatedClient filesWithIDs:folderValues.fileIDs];
+        }).then(^(NSArray *fileValues) {
+            return [weakSelf treeFilesWithPathPrefix:currentPath fromValues:fileValues];
+        }).then(^(NSArray *treeFiles) {
+            subFiles = treeFiles;
 
             LVCFolder *folder = [[LVCFolder alloc] init];
             folder.colorLabel = LVCColorWhite;
-            folder.name = folderValue.name;
+            folder.name = folderValues.name;
 #warning - Both?!?!
             folder.path = currentPath;
             folder.fileURL = [NSURL fileURLWithPath:folder.path];
             folder.organizationPermalink = organizationPermalink;
 #warning - Pass organization Value?
 //            folder.organizationPermalink = organizationValue.slug;
-            folder.dateUpdated = folderValue.dateUpdated;
-            folder.url = folderValue.url;
+            folder.dateUpdated = folderValues.dateUpdated;
+            folder.url = folderValues.url;
 #warning - url path is based on slugs. Best way to calculate it? pass in org here?
 //            folder.urlPath = organizationValue.slug;
 #warning - Can we actually get dateDeleted?
 //            folder.dateDeleted = nil;
-            for (NSArray *folderOrFileArray in foldersOrFiles) {
-                if ((folderOrFileArray.count > 0)
-                    && [folderOrFileArray[0] isKindOfClass:[LVCFolder class]]) {
-                    NSArray *folders = folderOrFileArray;
-                    for (LVCFolder *currentFolder in folders) {
-                        currentFolder.parentFolder = folder;
-                    }
-                    folder.folders = folders;
-                } else if ((folderOrFileArray.count > 0)
-                           && [folderOrFileArray[0] isKindOfClass:[LVCFile class]]) {
-                    NSArray *files = folderOrFileArray;
-                    for (LVCFile *file in files) {
-                        file.parentFolder = folder;
-                    }
-                    folder.files = files;
-                }
-            }
+            folder.folders = subFolders;
+            folder.files = subFiles;
+
             fulfill(folder);
         }).catch(^(NSError *error) {
             reject(error);
@@ -446,11 +392,11 @@
 
 
 - (PMKPromise *)treeFilesWithPathPrefix:(NSString *)pathPrefix
-                     fromCollection:(LVCFileCollection *)fileCollection {
+                             fromValues:(NSArray *)fileValues {
     __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
         NSMutableArray *filesRequests = @[].mutableCopy;
-        for (LVCFileValue *file in fileCollection.files) {
+        for (LVCFileValue *file in fileValues) {
             [filesRequests addObject:[weakSelf treeFileWithPathPrefix:pathPrefix
                                                             fromValue:file]];
         }
@@ -464,16 +410,16 @@
 
 
 - (PMKPromise *)treeFileWithPathPrefix:(NSString *)pathPrefix
-                     fromValue:(LVCFileValue *)fileValue {
+                             fromValue:(LVCFileValue *)fileValue {
 
     NSString *currentPath = [pathPrefix stringByAppendingPathComponent:fileValue.name];
 
     __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
-        [weakSelf.authenticatedClient revisionsWithIDs:@[fileValue.lastRevisionID]].then(^(LVCRevisionCollection *revisionCollection) {
+        [weakSelf.authenticatedClient revisionsWithIDs:@[fileValue.lastRevisionID]].then(^(NSArray *revisionValues) {
 
-            if (revisionCollection.revisions.count > 0) {
-                LVCRevisionValue *revisionValue = revisionCollection.revisions[0];
+            if (revisionValues.count > 0) {
+                LVCRevisionValue *revisionValue = revisionValues[0];
                 LVCFile *file = [[LVCFile alloc] init];
                 file.revisionNumber = [NSNumber numberWithInteger:revisionValue.revisionNumber];
 #warning - deprecate this

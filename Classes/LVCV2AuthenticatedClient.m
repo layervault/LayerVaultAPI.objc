@@ -9,6 +9,8 @@
 #import "LVCV2AuthenticatedClient.h"
 #import <AFNetworking/AFNetworking.h>
 #import <PromiseKit/PromiseKit.h>
+#import <PromiseKit/Promise+When.h>
+#import "LVCModelCollection.h"
 #import "LVCUserCollection.h"
 #import "LVCOrganizationCollection.h"
 #import "LVCProjectCollection.h"
@@ -46,7 +48,9 @@
 {
     NSParameterAssert(completion);
 
-    [self getPath:@"me" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSMutableURLRequest *urlRequest = [self requestWithMethod:@"GET" path:@"me" parameters:nil];
+    urlRequest.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
+    AFHTTPRequestOperation *op = [self HTTPRequestOperationWithRequest:urlRequest success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
         LVCUserValue *userValue = nil;
 
@@ -56,8 +60,8 @@
             if ((users.count == 1) && [users[0] isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *userDict = users[0];
                 userValue = [MTLJSONAdapter modelOfClass:[LVCUserValue class]
-                                         fromJSONDictionary:userDict
-                                                      error:&error];
+                                      fromJSONDictionary:userDict
+                                                   error:&error];
             }
             else {
                 /// TODO: Unable to find users
@@ -71,6 +75,8 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         completion(nil, error, operation);
     }];
+
+    [self enqueueHTTPRequestOperation:op];
 }
 
 - (void)getOrganizationsWithIDs:(NSArray *)organizationIDs
@@ -378,16 +384,16 @@
 
 - (PMKPromise *)organizationsWithIDs:(NSArray *)organizationIDs
 {
-    return [self collectionsOfClass:[LVCOrganizationCollection class]
-                        resourceKey:@"organizations"
-                            withIDs:organizationIDs];
+    return [self objectsOfClass:[LVCOrganizationCollection class]
+                    resourceKey:@"organizations"
+                        withIDs:organizationIDs];
 }
 
 - (PMKPromise *)projectsWithIDs:(NSArray *)projectIDs
 {
-    return [self collectionsOfClass:[LVCProjectCollection class]
-                        resourceKey:@"projects"
-                            withIDs:projectIDs];
+    return [self objectsOfClass:[LVCProjectCollection class]
+                    resourceKey:@"projects"
+                        withIDs:projectIDs];
 }
 
 - (PMKPromise *)createProjectWithName:(NSString *)name
@@ -408,9 +414,9 @@
 
 - (PMKPromise *)foldersWithIDs:(NSArray *)folderIDs
 {
-    return [self collectionsOfClass:[LVCFolderCollection class]
-                        resourceKey:@"folders"
-                            withIDs:folderIDs];
+    return [self objectsOfClass:[LVCFolderCollection class]
+                    resourceKey:@"folders"
+                        withIDs:folderIDs];
 }
 
 - (PMKPromise *)createFolderWithName:(NSString *)name
@@ -443,9 +449,9 @@
 
 - (PMKPromise *)filesWithIDs:(NSArray *)fileIDs
 {
-    return [self collectionsOfClass:[LVCFileCollection class]
-                        resourceKey:@"files"
-                            withIDs:fileIDs];
+    return [self objectsOfClass:[LVCFileCollection class]
+                    resourceKey:@"files"
+                        withIDs:fileIDs];
 }
 
 - (PMKPromise *)createFileWithName:(NSString *)name
@@ -482,9 +488,9 @@
 
 - (PMKPromise *)revisionsWithIDs:(NSArray *)revisionIDs
 {
-    return [self collectionsOfClass:[LVCRevisionCollection class]
-                        resourceKey:@"revisions"
-                            withIDs:revisionIDs];
+    return [self objectsOfClass:[LVCRevisionCollection class]
+                    resourceKey:@"revisions"
+                        withIDs:revisionIDs];
 }
 
 - (PMKPromise *)createRevisionForFileID:(NSString *)fileID
@@ -557,6 +563,49 @@
             }
         }];
     }];
+}
+
+- (PMKPromise *)objectsOfClass:(Class)class
+                   resourceKey:(NSString *)resourceKey
+                       withIDs:(NSArray *)ids
+                     groupSize:(NSUInteger)groupSize
+{
+    NSAssert(groupSize > 0, @"group size must be > 0");
+    NSParameterAssert(resourceKey);
+    NSParameterAssert(ids);
+
+    NSUInteger groupCount = (NSUInteger)ceil((double)ids.count/(double)groupSize);
+
+    NSMutableArray *idGroups = [[NSMutableArray alloc] initWithCapacity:groupCount];
+    for (NSUInteger groupNumber = 0; groupNumber < groupCount; groupNumber++) {
+        NSUInteger start = groupSize * groupNumber;
+        NSUInteger end = MIN(groupSize, ids.count - start);
+        idGroups[groupNumber] = [ids subarrayWithRange:NSMakeRange(start, end)];
+    }
+
+    NSMutableArray *requestGroup = [[NSMutableArray alloc] initWithCapacity:groupCount];
+    for (NSArray *idGroup in idGroups) {
+        [requestGroup addObject:[self collectionsOfClass:class resourceKey:resourceKey withIDs:idGroup]];
+    }
+
+    return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
+        [PMKPromise all:requestGroup].then(^(NSArray *collectionGroup) {
+            NSMutableArray *objects = [[NSMutableArray alloc] initWithCapacity:ids.count];
+            for (id<LVCModelCollection>collection in collectionGroup) {
+                [objects addObjectsFromArray:[collection allModels]];
+            }
+            fulfill(objects);
+        }).catch(^(NSError *error) {
+            reject(error);
+        });
+    }];
+}
+
+- (PMKPromise *)objectsOfClass:(Class)class
+                   resourceKey:(NSString *)resourceKey
+                       withIDs:(NSArray *)ids
+{
+    return [self objectsOfClass:class resourceKey:resourceKey withIDs:ids groupSize:50];
 }
 
 - (NSString *)accessTokenWithError:(NSError * __autoreleasing *)error
