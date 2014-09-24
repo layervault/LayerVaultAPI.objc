@@ -26,6 +26,10 @@
 + (NSValueTransformer *)usersJSONTransformer {
     return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:[self modelClass]];
 }
+
+- (NSArray *)allModels {
+    return [self users];
+}
 @end
 
 @implementation LVCUserValue
