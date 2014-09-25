@@ -9,6 +9,7 @@
 #import "LVCAuthenticatedClient.h"
 #import "LVCUser.h"
 #import "LVCRetryOperationShell.h"
+#import "LVCV2AuthenticatedClient.h"
 #import "NSURLRequest+OAuth2.h"
 #import "NSMutableURLRequest+OAuth2.h"
 #import <AFOAuth2Client/AFOAuth2Client.h>
@@ -29,6 +30,7 @@ NSString * const LVCAuthenticationStateDescription[] = {
 @property (nonatomic) NSOperationQueue *authenticationQueue;
 @property (nonatomic) LVCUser *user;
 @property (nonatomic) NSMutableArray *requestsWhileTokenExpired;
+@property (nonatomic) LVCV2AuthenticatedClient *v2client;
 @end
 
 @implementation LVCAuthenticatedClient
@@ -112,11 +114,14 @@ NSString * const LVCAuthenticationStateDescription[] = {
                                       NSError *error,
                                       AFHTTPRequestOperation *operation))completion
 {
-    __weak typeof(self) weakself = self;
-    [super getMeWithCompletion:^(LVCUser *user,
-                                 NSError *error,
-                                 AFHTTPRequestOperation *operation) {
-        __strong typeof(weakself) strongself = weakself;
+    self.v2client = [[LVCV2AuthenticatedClient alloc] initWithBaseURL:self.baseURL
+                                                      oAuthCredential:self.credential];
+
+    __weak typeof(self) weakSelf = self;
+    [self.v2client getMeWithCompletion:^(LVCUserValue *userValue,
+                                         NSError *error,
+                                         AFHTTPRequestOperation *operation) {
+        LVCUser *user = [LVCUser userFromValue:userValue];
         // 1. We only want to set the user if the credential is valid,
         //    otherwise we will be in an unknown state.
         // 2. If the user was previously set and we are given a nil user, this
@@ -124,14 +129,15 @@ NSString * const LVCAuthenticationStateDescription[] = {
         //    current user is invalid.
         // 3. We do not want a KVO to be called if the actual object did not
         //    change.
-        if (strongself.credential
+        if (weakSelf.credential
             && user
-            && ![user isEqual:strongself.user]) {
-            strongself.user = user;
+            && ![user isEqual:weakSelf.user]) {
+            weakSelf.user = user;
         }
         if (completion) {
             completion(user, error, operation);
         }
+
     }];
 }
 
