@@ -54,34 +54,11 @@ OBJC_EXPORT NSString * const LVCAuthenticationStateDescription[];
  */
 @property (atomic, readonly) AFOAuthCredential *credential;
 
-
-/**
- *  Created an authenticated client with all the options
- *
- *  @param url          URL endpoint we are making calls against (required)
- *  @param clientID     OAuth Client ID (required)
- *  @param secret       OAuth Secret (required)
- *
- *  @return AuthenticatedClient Instance
- *
- *  @note Designated Initializer
- */
 - (instancetype)initWithBaseURL:(NSURL *)url
                        clientID:(NSString *)clientID
-                         secret:(NSString *)secret;
+                         secret:(NSString *)secret
+             persistentStoreURL:(NSURL *)persistentStoreURL;
 
-/**
- *  Creates an authenticated client with default options:
- *    BaseURL                   LVCHTTPClient.defaultBaseURL
- *    authenticationCallback    nil
- *
- *  @param clientID   OAuth 2 Secret Client ID (required)
- *  @param secret     OAuth 2 Secret (required)
- *
- *  @return AuthenticatedClient Instance
- */
-- (instancetype)initWithClientID:(NSString *)clientID
-                          secret:(NSString *)secret;
 
 /**
  *  Authenticates with email/password and a completion

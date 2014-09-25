@@ -38,18 +38,23 @@
 
 @implementation LVCTreeBuilder
 
-- (instancetype)initWithAuthenticationCredential:(AFOAuthCredential *)authenticationCredential
-                              persistentStoreURL:(NSURL *)persistentStoreURL
+- (instancetype)initWithBaseURL:(NSURL *)baseURL
+       authenticationCredential:(AFOAuthCredential *)authenticationCredential
+             persistentStoreURL:(NSURL *)persistentStoreURL
 {
     self = [super init];
     if (self) {
         _persistentStoreURL = [persistentStoreURL copy];
-#warning - Keeping this at beta for now
-        NSURL *url = [NSURL URLWithString:@"https://beta.layervault.com/api/v2/"];
+        NSURL *url = [NSURL URLWithString:@"/api/v2/" relativeToURL:baseURL];
         _authenticatedClient = [[LVCV2AuthenticatedClient alloc] initWithBaseURL:url
                                                                  oAuthCredential:authenticationCredential];
     }
     return self;
+}
+
+- (instancetype)init
+{
+    return [self initWithBaseURL:nil authenticationCredential:nil persistentStoreURL:nil];
 }
 
 - (BOOL)persistentStoreExists {
@@ -168,7 +173,7 @@
     NSDate *startDate = [NSDate date];
     self.authenticatedClient.me.then(^(LVCUserValue *userValue) {
 
-        if (previousUser && [userValue.uid isEqualToString:previousUser.uid]) {
+        if (previousUser && ![userValue.uid isEqualToString:previousUser.uid]) {
             previousUser = nil;
             NSError *removeError;
             BOOL removeSuccess = [[NSFileManager defaultManager] removeItemAtURL:self.persistentStoreURL

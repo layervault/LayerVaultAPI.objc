@@ -31,15 +31,20 @@ NSString * const LVCAuthenticationStateDescription[] = {
 @property (nonatomic) LVCUser *user;
 @property (nonatomic) NSMutableArray *requestsWhileTokenExpired;
 @property (nonatomic) LVCV2AuthenticatedClient *v2client;
+@property (nonatomic, copy) NSURL *persistentStoreURL;
 @end
 
 @implementation LVCAuthenticatedClient
 
 #pragma mark - Object Lifecycle
-- (instancetype)initWithBaseURL:(NSURL *)url clientID:(NSString *)clientID secret:(NSString *)secret
+- (instancetype)initWithBaseURL:(NSURL *)url
+                       clientID:(NSString *)clientID
+                         secret:(NSString *)secret
+             persistentStoreURL:(NSURL *)persistentStoreURL
 {
     self = [super initWithBaseURL:url clientID:clientID secret:secret];
     if (self) {
+        _persistentStoreURL = persistentStoreURL;
         _authenticationState = LVCAuthenticationStateUnauthenticated;
         _authenticationQueue = [[NSOperationQueue alloc] init];
         _authenticationQueue.maxConcurrentOperationCount = 1;
@@ -51,12 +56,14 @@ NSString * const LVCAuthenticationStateDescription[] = {
     return self;
 }
 
-- (instancetype)initWithClientID:(NSString *)clientID
-                          secret:(NSString *)secret
+- (instancetype)initWithBaseURL:(NSURL *)url
+                       clientID:(NSString *)clientID
+                         secret:(NSString *)secret
 {
-    return [self initWithBaseURL:LVCHTTPClient.defaultBaseURL
+    return [self initWithBaseURL:url
                         clientID:clientID
-                          secret:secret];
+                          secret:secret
+              persistentStoreURL:nil];
 }
 
 - (void)dealloc
@@ -114,7 +121,8 @@ NSString * const LVCAuthenticationStateDescription[] = {
                                       NSError *error,
                                       AFHTTPRequestOperation *operation))completion
 {
-    self.v2client = [[LVCV2AuthenticatedClient alloc] initWithBaseURL:self.baseURL
+    NSURL *baseURL = [NSURL URLWithString:@"/api/v2" relativeToURL:self.baseURL];
+    self.v2client = [[LVCV2AuthenticatedClient alloc] initWithBaseURL:baseURL
                                                       oAuthCredential:self.credential];
 
     __weak typeof(self) weakSelf = self;

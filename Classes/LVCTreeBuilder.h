@@ -14,8 +14,9 @@
 @property (nonatomic, readonly) BOOL persistentStoreExists;
 @property (nonatomic, readonly) NSURL *persistentStoreURL;
 
-- (instancetype)initWithAuthenticationCredential:(AFOAuthCredential *)authenticationCredential
-                              persistentStoreURL:(NSURL *)persistentStoreURL;
+- (instancetype)initWithBaseURL:(NSURL *)baseURL
+       authenticationCredential:(AFOAuthCredential *)authenticationCredential
+             persistentStoreURL:(NSURL *)persistentStoreURL;
 
 - (void)buildUserTreeWithCompletion:(void (^)(LVCUser *user, NSError *error))completion;
 
