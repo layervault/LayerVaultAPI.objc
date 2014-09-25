@@ -532,7 +532,6 @@
 #warning - deprecate this
                     file.revisions = nil;
 #warning - both!??!
-                    file.dateModified = fileValue.dateUpdated;
                     file.dateUpdated = fileValue.dateUpdated;
                     file.downloadURL = revisionValue.downloadURL;
                     file.name = fileValue.name;
@@ -559,7 +558,9 @@
     id<LVCResourceUniquing> foundResource = nil;
     for (id object in self) {
         // Class doesn't have to conform to protocol... 'cause objc
-        if ([object isKindOfClass:class] && [object conformsToProtocol:@protocol(LVCResourceUniquing)]) {
+        BOOL isCorrectClass = [object isKindOfClass:class];
+        BOOL isCorrectProtocol = [object conformsToProtocol:@protocol(LVCResourceUniquing)];
+        if (isCorrectClass && isCorrectProtocol) {
             id<LVCResourceUniquing> currentResource = (id<LVCResourceUniquing>)object;
             if ([currentResource.uid isEqualToString:resource.uid]) {
                 foundResource = currentResource;

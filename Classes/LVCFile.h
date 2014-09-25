@@ -52,11 +52,6 @@ extern NSString *md5ForFileURL(NSURL *fileURL);
 @property (nonatomic, copy) NSArray *revisions;
 
 /**
- *  Date the file was last modified
- */
-@property (nonatomic) NSDate *dateModified;
-
-/**
  *  URL to download the latest file revision directly
  */
 @property (nonatomic) NSURL *downloadURL;
