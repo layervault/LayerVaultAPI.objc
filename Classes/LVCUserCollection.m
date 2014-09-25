@@ -55,7 +55,7 @@
     return [NSValueTransformer valueTransformerForName:LVCRFC3339DateTransformerName];
 }
 
-+ (NSValueTransformer *)dateModifiedJSONTransformer {
++ (NSValueTransformer *)dateUpdatedJSONTransformer {
     return [NSValueTransformer valueTransformerForName:LVCRFC3339DateTransformerName];
 }
 @end
