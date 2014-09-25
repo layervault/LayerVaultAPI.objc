@@ -11,10 +11,12 @@
 @class LVCUser;
 
 @interface LVCTreeBuilder : NSObject
+@property (nonatomic, readonly) BOOL persistentStoreExists;
+@property (nonatomic, readonly) NSURL *persistentStoreURL;
 
-- (instancetype)initWithAuthenticationCredential:(AFOAuthCredential *)authenticationCredential;
+- (instancetype)initWithAuthenticationCredential:(AFOAuthCredential *)authenticationCredential
+                              persistentStoreURL:(NSURL *)persistentStoreURL;
 
-- (void)buildUserTreeWithPrevious:(LVCUser *)previousUser
-                       completion:(void (^)(LVCUser *user, NSError *error))completion;
+- (void)buildUserTreeWithCompletion:(void (^)(LVCUser *user, NSError *error))completion;
 
 @end

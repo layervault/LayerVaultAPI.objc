@@ -39,15 +39,21 @@
 @implementation LVCTreeBuilder
 
 - (instancetype)initWithAuthenticationCredential:(AFOAuthCredential *)authenticationCredential
+                              persistentStoreURL:(NSURL *)persistentStoreURL
 {
     self = [super init];
     if (self) {
+        _persistentStoreURL = [persistentStoreURL copy];
 #warning - Keeping this at beta for now
         NSURL *url = [NSURL URLWithString:@"https://beta.layervault.com/api/v2/"];
         _authenticatedClient = [[LVCV2AuthenticatedClient alloc] initWithBaseURL:url
                                                                  oAuthCredential:authenticationCredential];
     }
     return self;
+}
+
+- (BOOL)persistentStoreExists {
+    return [[NSFileManager defaultManager] fileExistsAtPath:self.persistentStoreURL.path];
 }
 
 - (void)playground {
@@ -154,8 +160,10 @@
 //    });
 }
 
-- (void)buildUserTreeWithPrevious:(LVCUser *)previousUser
-                       completion:(void (^)(LVCUser *user, NSError *error))completion {
+- (void)buildUserTreeWithCompletion:(void (^)(LVCUser *user, NSError *error))completion {
+    
+    LVCUser *previousUser = [NSKeyedUnarchiver unarchiveObjectWithFile:self.persistentStoreURL.path];
+
     __weak typeof(self) weakSelf = self;
     NSDate *startDate = [NSDate date];
     self.authenticatedClient.me.then(^(LVCUserValue *userValue) {
@@ -165,6 +173,13 @@
                                     fromValue:userValue];
     }).then(^(LVCUser *user){
         NSLog(@"completed in: %f", [[NSDate date] timeIntervalSinceDate:startDate]);
+        if (user && weakSelf.persistentStoreURL) {
+            BOOL success = [NSKeyedArchiver archiveRootObject:user
+                                                       toFile:self.persistentStoreURL.path];
+            if (!success) {
+                NSLog(@"unable to archive object to %@", self.persistentStoreURL.path);
+            }
+        }
         completion(user, nil);
     }).catch(^(NSError *error) {
         completion(nil, error);
