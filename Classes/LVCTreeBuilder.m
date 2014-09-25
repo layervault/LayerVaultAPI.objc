@@ -162,13 +162,22 @@
 
 - (void)buildUserTreeWithCompletion:(void (^)(LVCUser *user, NSError *error))completion {
     
-    LVCUser *previousUser = [NSKeyedUnarchiver unarchiveObjectWithFile:self.persistentStoreURL.path];
+    __block LVCUser *previousUser = [NSKeyedUnarchiver unarchiveObjectWithFile:self.persistentStoreURL.path];
 
     __weak typeof(self) weakSelf = self;
     NSDate *startDate = [NSDate date];
     self.authenticatedClient.me.then(^(LVCUserValue *userValue) {
-        Class class = [userValue class];
-        NSAssert([class conformsToProtocol:@protocol(LVCResourceUniquing)], @"does not conform");
+
+        if (previousUser && [userValue.uid isEqualToString:previousUser.uid]) {
+            previousUser = nil;
+            NSError *removeError;
+            BOOL removeSuccess = [[NSFileManager defaultManager] removeItemAtURL:self.persistentStoreURL
+                                                                           error:&removeError];
+            if (!removeSuccess) {
+                NSLog(@"Unable to remove file: %@. \t Error: %@", self.persistentStoreURL, removeError);
+            }
+        }
+
         return [weakSelf userTreeWithPrevious:previousUser
                                     fromValue:userValue];
     }).then(^(LVCUser *user){
