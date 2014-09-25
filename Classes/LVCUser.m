@@ -38,4 +38,15 @@
     return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVCProject.class];
 }
 
++ (instancetype)userFromValue:(LVCUserValue *)userValue
+{
+    LVCUser *user = [[LVCUser alloc] init];
+    user.uid = userValue.uid;
+    user.userID = (NSUInteger)[userValue.uid integerValue];
+    user.email = userValue.email;
+    user.firstName = userValue.firstName;
+    user.lastName = userValue.lastName;
+    return user;
+}
+
 @end

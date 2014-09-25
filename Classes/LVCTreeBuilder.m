@@ -209,12 +209,7 @@
         }).then(^(NSArray *organizations) {
 
             // Note, always create new user
-            LVCUser *user = [[LVCUser alloc] init];
-            user.uid = userValue.uid;
-            user.userID = (NSUInteger)[userValue.uid integerValue];
-            user.email = userValue.email;
-            user.firstName = userValue.firstName;
-            user.lastName = userValue.lastName;
+            LVCUser *user = [LVCUser userFromValue:userValue];
             user.organizations = organizations;
             NSMutableArray *projects = @[].mutableCopy;
             for (LVCOrganization *org in organizations) {

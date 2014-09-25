@@ -8,6 +8,7 @@
 
 #import <Mantle/Mantle.h>
 #import "LVCModelCollection.h"
+#import "LVCUserCollection.h"
 
 /**
  *  User is a representation of an user on LayerVault.
@@ -51,4 +52,8 @@
  *  @note They may or may not be a member of these projects
  */
 @property (nonatomic, copy) NSArray *projects;
+
+
+
++ (instancetype)userFromValue:(LVCUserValue *)userValue;
 @end
