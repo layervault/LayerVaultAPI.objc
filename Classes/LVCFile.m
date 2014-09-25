@@ -40,6 +40,7 @@ NSString *md5ForFileURL(NSURL *fileURL)
     NSMutableDictionary *JSONKeyPathsByPropertyKey = [super JSONKeyPathsByPropertyKey].mutableCopy;
     [JSONKeyPathsByPropertyKey addEntriesFromDictionary:@{@"revisionNumber": @"revision_number",
                                                           @"revisions": @"revisions",
+                                                          @"dateCreated": @"created_at",
                                                           @"downloadURL": @"download_url"}];
     return JSONKeyPathsByPropertyKey.copy;
 }
@@ -48,6 +49,12 @@ NSString *md5ForFileURL(NSURL *fileURL)
 + (NSValueTransformer *)revisionsJSONTransformer
 {
     return [NSValueTransformer mtl_JSONArrayTransformerWithModelClass:LVCFileRevision.class];
+}
+
+
++ (NSValueTransformer *)dateCreatedJSONTransformer
+{
+    return [NSValueTransformer valueTransformerForName:LVCRFC3339DateTransformerName];
 }
 
 
