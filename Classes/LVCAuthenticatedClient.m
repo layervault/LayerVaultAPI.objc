@@ -9,7 +9,7 @@
 #import "LVCAuthenticatedClient.h"
 #import "LVCUser.h"
 #import "LVCRetryOperationShell.h"
-#import "LVCV2AuthenticatedClient.h"
+#import "LVCTreeBuilder.h"
 #import "NSURLRequest+OAuth2.h"
 #import "NSMutableURLRequest+OAuth2.h"
 #import <AFOAuth2Client/AFOAuth2Client.h>
@@ -30,7 +30,7 @@ NSString * const LVCAuthenticationStateDescription[] = {
 @property (nonatomic) NSOperationQueue *authenticationQueue;
 @property (nonatomic) LVCUser *user;
 @property (nonatomic) NSMutableArray *requestsWhileTokenExpired;
-@property (nonatomic) LVCV2AuthenticatedClient *v2client;
+@property (nonatomic) LVCTreeBuilder *treeBuilder;
 @property (nonatomic, copy) NSURL *persistentStoreURL;
 @end
 
@@ -121,31 +121,20 @@ NSString * const LVCAuthenticationStateDescription[] = {
                                       NSError *error,
                                       AFHTTPRequestOperation *operation))completion
 {
-    NSURL *baseURL = [NSURL URLWithString:@"/api/v2" relativeToURL:self.baseURL];
-    self.v2client = [[LVCV2AuthenticatedClient alloc] initWithBaseURL:baseURL
-                                                      oAuthCredential:self.credential];
+    self.treeBuilder = [[LVCTreeBuilder alloc] initWithBaseURL:self.baseURL
+                                      authenticationCredential:self.credential
+                                            persistentStoreURL:self.persistentStoreURL];
 
     __weak typeof(self) weakSelf = self;
-    [self.v2client getMeWithCompletion:^(LVCUserValue *userValue,
-                                         NSError *error,
-                                         AFHTTPRequestOperation *operation) {
-        LVCUser *user = [LVCUser userFromValue:userValue];
-        // 1. We only want to set the user if the credential is valid,
-        //    otherwise we will be in an unknown state.
-        // 2. If the user was previously set and we are given a nil user, this
-        //    means that the /me failed for some reason. This does not mean our
-        //    current user is invalid.
-        // 3. We do not want a KVO to be called if the actual object did not
-        //    change.
+    [self.treeBuilder buildUserTreeWithCompletion:^(LVCUser *user, NSError *error) {
         if (weakSelf.credential
             && user
             && ![user isEqual:weakSelf.user]) {
             weakSelf.user = user;
         }
         if (completion) {
-            completion(user, error, operation);
+            completion(user, error, nil);
         }
-
     }];
 }
 
