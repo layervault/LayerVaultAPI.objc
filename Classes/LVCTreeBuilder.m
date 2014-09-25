@@ -531,7 +531,7 @@
                     file.revisionNumber = [NSNumber numberWithInteger:revisionValue.revisionNumber];
 #warning - deprecate this
                     file.revisions = nil;
-#warning - both!??!
+                    file.dateCreated = fileValue.dateCreated;
                     file.dateUpdated = fileValue.dateUpdated;
                     file.downloadURL = revisionValue.downloadURL;
                     file.name = fileValue.name;
