@@ -41,7 +41,7 @@ OBJC_EXPORT NSString * const LVCAuthenticationStateDescription[];
 /**
  *  The authenticated user
  */
-@property (readonly, nonatomic) LVCUser *user;
+@property LVCUser *user;
 
 /**
  *  Returns if the client is unauthenticated, authenticating, authenticated, or 

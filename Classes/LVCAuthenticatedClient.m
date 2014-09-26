@@ -28,7 +28,6 @@ NSString * const LVCAuthenticationStateDescription[] = {
 @property (atomic) AFOAuthCredential *credential;
 @property (nonatomic, getter = isAuthenticated) LVCAuthenticationState authenticationState;
 @property (nonatomic) NSOperationQueue *authenticationQueue;
-@property (nonatomic) LVCUser *user;
 @property (nonatomic) NSMutableArray *requestsWhileTokenExpired;
 @property (nonatomic) LVCTreeBuilder *treeBuilder;
 @property (nonatomic, copy) NSURL *persistentStoreURL;
