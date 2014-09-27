@@ -56,7 +56,7 @@
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
-    NSSortDescriptor *dateModified = [NSSortDescriptor sortDescriptorWithKey:@"dateUpdated"
+    NSSortDescriptor *dateUpdated = [NSSortDescriptor sortDescriptorWithKey:@"dateUpdated"
                                                                    ascending:NO];
     NSArray *children = nil;
     if (item) {
@@ -68,7 +68,7 @@
     else {
         children = [self.project.folders arrayByAddingObjectsFromArray:self.project.files];
     }
-    return [children sortedArrayUsingDescriptors:@[dateModified]][(NSUInteger)index];
+    return [children sortedArrayUsingDescriptors:@[dateUpdated]][(NSUInteger)index];
 }
 
 
