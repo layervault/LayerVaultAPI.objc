@@ -588,17 +588,13 @@
         [requestGroup addObject:[self collectionsOfClass:class resourceKey:resourceKey withIDs:idGroup]];
     }
 
-    return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
-        [PMKPromise all:requestGroup].then(^(NSArray *collectionGroup) {
-            NSMutableArray *objects = [[NSMutableArray alloc] initWithCapacity:ids.count];
-            for (id<LVCModelCollection>collection in collectionGroup) {
-                [objects addObjectsFromArray:[collection allModels]];
-            }
-            fulfill(objects);
-        }).catch(^(NSError *error) {
-            reject(error);
-        });
-    }];
+    return [PMKPromise all:requestGroup].then(^(NSArray *collectionGroup) {
+        NSMutableArray *objects = [[NSMutableArray alloc] initWithCapacity:ids.count];
+        for (id<LVCModelCollection>collection in collectionGroup) {
+            [objects addObjectsFromArray:[collection allModels]];
+        }
+        return objects;
+    });
 }
 
 - (PMKPromise *)objectsOfClass:(Class)class
