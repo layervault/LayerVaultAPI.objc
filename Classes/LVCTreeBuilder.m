@@ -166,8 +166,14 @@
 }
 
 - (void)buildUserTreeWithCompletion:(void (^)(LVCUser *user, NSError *error))completion {
-    
-    __block LVCUser *previousUser = [NSKeyedUnarchiver unarchiveObjectWithFile:self.persistentStoreURL.path];
+
+    __block LVCUser *previousUser = nil;
+    @try {
+        previousUser = [NSKeyedUnarchiver unarchiveObjectWithFile:self.persistentStoreURL.path];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"Unable to unarchive %@. %@", self.persistentStoreURL, exception);
+    }
 
     __weak typeof(self) weakSelf = self;
     NSDate *startDate = [NSDate date];
