@@ -8,6 +8,7 @@
 
 #import "LVCProject.h"
 #import "LVCFile.h"
+#import "NSString+PercentEncoding.h"
 
 
 @implementation LVCProject
@@ -81,7 +82,7 @@
 
 - (NSString *)percentEncodedURLPath
 {
-    return [self.organizationPermalink stringByAppendingPathComponent:[super percentEncodedURLPath]];
+    return [[self.organizationPermalink lv_stringWithFullPercentEncoding] stringByAppendingPathComponent:[super percentEncodedURLPath]];
 }
 
 @end
