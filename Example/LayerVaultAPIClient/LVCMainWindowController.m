@@ -18,6 +18,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <AFOAuth2Client/AFOAuth2Client.h>
 #import <SSKeychain/SSKeychain.h>
+#import "LVCLoginManager.h"
 
 static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 
@@ -42,45 +43,45 @@ NSString *const LVCKeychainService = @"LayerVaultAPIDemoApp";
 {
     self = [super initWithWindow:window];
     if (self) {
-        NSURL *url = [NSURL URLWithString:@"https://api.layervault.com/api/v1/"];
-        _client = [[LVCAuthenticatedClient alloc] initWithBaseURL:url
-                                                         clientID:LVClientID
-                                                           secret:LVClientSecret];
-
-        @weakify(self);
-        [RACObserve(_client, authenticationState) subscribeNext:^(NSNumber *authStateNumber) {
-            @strongify(self);
-            LVCAuthenticationState authenticationState = (LVCAuthenticationState)[authStateNumber integerValue];
-            switch (authenticationState) {
-                case LVCAuthenticationStateUnauthenticated:
-                    NSLog(@"Unauthenticated");
-                    break;
-                case LVCAuthenticationStateAuthenticating:
-                    NSLog(@"Authenticating");
-                    break;
-                case LVCAuthenticationStateAuthenticated:
-                    NSLog(@"Authenticated");
-                    break;
-                case LVCAuthenticationStateTokenExpired:
-                    NSLog(@"Token Expired");
-                    [self loginWithCredentialsFromKeychain];
-                    break;
-            }
-        }];
-
-        _fileRevisionWindow = [[LVCFileRevisionsWindowController alloc] initWithWindowNibName:@"LVCFileRevisionsWindowController"];
-        _fileRevisionWindow.client = _client;
-
-        _projectOutlineViewController = [[LVCProjectOutlineViewController alloc] initWithNibName:@"LVCProjectOutlineViewController" bundle:nil];
-
-        _projectOutlineViewController.fileSelectedHandler = ^(LVCFile *file) {
-            @strongify(self);
-            [self.fileRevisionWindow showWindow:nil];
-            self.fileRevisionWindow.file = file;
-        };
-
-        _organizationsViewController = [[LVCOrganizationsViewController alloc] initWithNibName:@"LVCOrganizationsViewController" bundle:nil];
-
+//        NSURL *url = [NSURL URLWithString:@"https://api.layervault.com/api/v1/"];
+//        _client = [[LVCAuthenticatedClient alloc] initWithBaseURL:url
+//                                                         clientID:LVClientID
+//                                                           secret:LVClientSecret];
+//
+//        @weakify(self);
+//        [RACObserve(_client, authenticationState) subscribeNext:^(NSNumber *authStateNumber) {
+//            @strongify(self);
+//            LVCAuthenticationState authenticationState = (LVCAuthenticationState)[authStateNumber integerValue];
+//            switch (authenticationState) {
+//                case LVCAuthenticationStateUnauthenticated:
+//                    NSLog(@"Unauthenticated");
+//                    break;
+//                case LVCAuthenticationStateAuthenticating:
+//                    NSLog(@"Authenticating");
+//                    break;
+//                case LVCAuthenticationStateAuthenticated:
+//                    NSLog(@"Authenticated");
+//                    break;
+//                case LVCAuthenticationStateTokenExpired:
+//                    NSLog(@"Token Expired");
+//                    [self loginWithCredentialsFromKeychain];
+//                    break;
+//            }
+//        }];
+//
+//        _fileRevisionWindow = [[LVCFileRevisionsWindowController alloc] initWithWindowNibName:@"LVCFileRevisionsWindowController"];
+//        _fileRevisionWindow.client = _client;
+//
+//        _projectOutlineViewController = [[LVCProjectOutlineViewController alloc] initWithNibName:@"LVCProjectOutlineViewController" bundle:nil];
+//
+//        _projectOutlineViewController.fileSelectedHandler = ^(LVCFile *file) {
+//            @strongify(self);
+//            [self.fileRevisionWindow showWindow:nil];
+//            self.fileRevisionWindow.file = file;
+//        };
+//
+//        _organizationsViewController = [[LVCOrganizationsViewController alloc] initWithNibName:@"LVCOrganizationsViewController" bundle:nil];
+//
         _loginViewController = [[LVCLoginViewController alloc]
                                 initWithNibName:@"LVCLoginViewController" bundle:nil];
 
@@ -110,31 +111,31 @@ NSString *const LVCKeychainService = @"LayerVaultAPIDemoApp";
 
 - (void)loginWithEmail:(NSString *)email password:(NSString *)password
 {
-    if (email.length > 0 && password.length > 0) {
-        @weakify(self);
-        [self.client loginWithEmail:email password:password completion:^(BOOL success,
-                                                                         NSError *error) {
-            @strongify(self);
-            if (success) {
-                [SSKeychain setPassword:password
-                             forService:LVCKeychainService
-                                account:email
-                                  error:nil];
-            }
-            else {
-                // Ugh, if the login fails with 401, we should do this.
-                // Otherwise report error and retry.
-                [SSKeychain deletePasswordForService:LVCKeychainService
-                                             account:email];
-                [self.client logout];
-            }
-        }];
-    }
-    else {
-        // This is because the logout might be because of a token expiration
-        // Akward.
-        [self.client logout];
-    }
+//    if (email.length > 0 && password.length > 0) {
+//        @weakify(self);
+//        [self.client loginWithEmail:email password:password completion:^(BOOL success,
+//                                                                         NSError *error) {
+//            @strongify(self);
+//            if (success) {
+//                [SSKeychain setPassword:password
+//                             forService:LVCKeychainService
+//                                account:email
+//                                  error:nil];
+//            }
+//            else {
+//                // Ugh, if the login fails with 401, we should do this.
+//                // Otherwise report error and retry.
+//                [SSKeychain deletePasswordForService:LVCKeychainService
+//                                             account:email];
+//                [self.client logout];
+//            }
+//        }];
+//    }
+//    else {
+//        // This is because the logout might be because of a token expiration
+//        // Akward.
+//        [self.client logout];
+//    }
 }
 
 
@@ -155,69 +156,69 @@ NSString *const LVCKeychainService = @"LayerVaultAPIDemoApp";
 {
     [super windowDidLoad];
 
-    self.contentView.wantsLayer = YES;
-
-    // Place the organizations view controller in the source view container
-    self.organizationsViewController.organizations = self.client.user.organizations;
-    NSView *organizationsView = self.organizationsViewController.view;
-    organizationsView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.sourceViewContainer addSubview:organizationsView];
-    [self.sourceViewContainer addConstraints:[NSLayoutConstraint
-                                              constraintsWithVisualFormat:@"H:|-0-[organizationsView]-0-|"
-                                              options:NSLayoutFormatDirectionLeadingToTrailing
-                                              metrics:nil
-                                              views:NSDictionaryOfVariableBindings(organizationsView)]];
-    [self.sourceViewContainer addConstraints:[NSLayoutConstraint
-                                              constraintsWithVisualFormat:@"V:|-0-[organizationsView]-0-|"
-                                              options:NSLayoutFormatDirectionLeadingToTrailing
-                                              metrics:nil
-                                              views:NSDictionaryOfVariableBindings(organizationsView)]];
-
-
-    // Place the project view controller in the project container
-    NSView *projectView = self.projectOutlineViewController.view;
-    projectView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.projectContainer addSubview:projectView];
-    [self.projectContainer addConstraints:[NSLayoutConstraint
-                                           constraintsWithVisualFormat:@"H:|-0-[projectView]-0-|"
-                                           options:NSLayoutFormatDirectionLeadingToTrailing
-                                           metrics:nil
-                                           views:NSDictionaryOfVariableBindings(projectView)]];
-    [self.projectContainer addConstraints:[NSLayoutConstraint
-                                           constraintsWithVisualFormat:@"V:|-0-[projectView]-0-|"
-                                           options:NSLayoutFormatDirectionLeadingToTrailing
-                                           metrics:nil
-                                           views:NSDictionaryOfVariableBindings(projectView)]];
-
-
-    // Setup Transition
-    CATransition *transition = [CATransition animation];
-    transition.type = kCATransitionFade;
-    self.contentView.animations = @{@"subviews": transition};
-
-    [RACObserve(self, organizationsViewController.selectedProject) subscribeNext:^(LVCProject *project) {
-        if (project) {
-            [self.client getProjectFromPartial:project
-                                    completion:^(LVCProject *fullProject,
-                                                 NSError *error,
-                                                 AFHTTPRequestOperation *operation) {
-                                        self.projectOutlineViewController.project = fullProject;
-                                    }];
-        }
-    }];
-
-    [RACObserve(self.client, user) subscribeNext:^(LVCUser *user) {
-        self.organizationsViewController.organizations = user.organizations;
-        if (user) {
-            self.loggedInField.stringValue = user.email;
-            [self placeUserViewController];
-        }
-        else {
-            [self placeLoginViewController];
-        }
-    }];
-
-    [self loginWithCredentialsFromKeychain];
+//    self.contentView.wantsLayer = YES;
+//
+//    // Place the organizations view controller in the source view container
+//    self.organizationsViewController.organizations = self.client.user.organizations;
+//    NSView *organizationsView = self.organizationsViewController.view;
+//    organizationsView.translatesAutoresizingMaskIntoConstraints = NO;
+//    [self.sourceViewContainer addSubview:organizationsView];
+//    [self.sourceViewContainer addConstraints:[NSLayoutConstraint
+//                                              constraintsWithVisualFormat:@"H:|-0-[organizationsView]-0-|"
+//                                              options:NSLayoutFormatDirectionLeadingToTrailing
+//                                              metrics:nil
+//                                              views:NSDictionaryOfVariableBindings(organizationsView)]];
+//    [self.sourceViewContainer addConstraints:[NSLayoutConstraint
+//                                              constraintsWithVisualFormat:@"V:|-0-[organizationsView]-0-|"
+//                                              options:NSLayoutFormatDirectionLeadingToTrailing
+//                                              metrics:nil
+//                                              views:NSDictionaryOfVariableBindings(organizationsView)]];
+//
+//
+//    // Place the project view controller in the project container
+//    NSView *projectView = self.projectOutlineViewController.view;
+//    projectView.translatesAutoresizingMaskIntoConstraints = NO;
+//    [self.projectContainer addSubview:projectView];
+//    [self.projectContainer addConstraints:[NSLayoutConstraint
+//                                           constraintsWithVisualFormat:@"H:|-0-[projectView]-0-|"
+//                                           options:NSLayoutFormatDirectionLeadingToTrailing
+//                                           metrics:nil
+//                                           views:NSDictionaryOfVariableBindings(projectView)]];
+//    [self.projectContainer addConstraints:[NSLayoutConstraint
+//                                           constraintsWithVisualFormat:@"V:|-0-[projectView]-0-|"
+//                                           options:NSLayoutFormatDirectionLeadingToTrailing
+//                                           metrics:nil
+//                                           views:NSDictionaryOfVariableBindings(projectView)]];
+//
+//
+//    // Setup Transition
+//    CATransition *transition = [CATransition animation];
+//    transition.type = kCATransitionFade;
+//    self.contentView.animations = @{@"subviews": transition};
+//
+//    [RACObserve(self, organizationsViewController.selectedProject) subscribeNext:^(LVCProject *project) {
+//        if (project) {
+//            [self.client getProjectFromPartial:project
+//                                    completion:^(LVCProject *fullProject,
+//                                                 NSError *error,
+//                                                 AFHTTPRequestOperation *operation) {
+//                                        self.projectOutlineViewController.project = fullProject;
+//                                    }];
+//        }
+//    }];
+//
+//    [RACObserve(self.client, user) subscribeNext:^(LVCUser *user) {
+//        self.organizationsViewController.organizations = user.organizations;
+//        if (user) {
+//            self.loggedInField.stringValue = user.email;
+//            [self placeUserViewController];
+//        }
+//        else {
+//            [self placeLoginViewController];
+//        }
+//    }];
+//
+//    [self loginWithCredentialsFromKeychain];
 }
 
 
