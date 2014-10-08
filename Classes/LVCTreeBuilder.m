@@ -247,9 +247,14 @@
 
             LVCOrganization *previousOrganization = (LVCOrganization *)[previousOrganizations lvc_uniqueResourceMatching:orgValue ofClass:[LVCOrganization class]];
 
+            NSDate *now = [NSDate date];
+            NSDate *orgDeletedDate = orgValue.dateDeleted;
+            BOOL orgNotDeleted = !(orgDeletedDate && [now compare:orgDeletedDate] == NSOrderedDescending);
+
             if ((orgValue.syncType == LVCSyncTypeLayerVault)
                 && (orgValue.projectIDs.count > 0)
-                && (![orgValue.spectatorIDs containsObject:userID])) {
+                && (![orgValue.spectatorIDs containsObject:userID])
+                && orgNotDeleted) {
                 [organizationRequests addObject:[weakSelf organizationTreeWithPrevious:previousOrganization
                                                                                 userID:userID
                                                                              fromValue:orgValue]];
