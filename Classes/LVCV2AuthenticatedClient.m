@@ -10,6 +10,7 @@
 #import <AFNetworking/AFNetworking.h>
 #import <PromiseKit/PromiseKit.h>
 #import <PromiseKit/Promise+When.h>
+#import <TransformerKit/TTTDateTransformers.h>
 #import "LVCModelCollection.h"
 #import "LVCUserCollection.h"
 #import "LVCOrganizationCollection.h"
@@ -304,9 +305,9 @@
     AFHTTPRequestOperation *op = [self HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error;
         id resourceResponse = [LVCV2AuthenticatedClient parseCollectionResponse:responseObject
-                                                                      ofClass:class
-                                                                  resourceKey:resourceKey
-                                                                        error:&error];
+                                                                        ofClass:class
+                                                                    resourceKey:resourceKey
+                                                                          error:&error];
         completion(resourceResponse, error, operation);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         completion(nil, error, operation);
@@ -331,9 +332,23 @@
     [self getPath:resourcePath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error = nil;
         id collectionResponse = [LVCV2AuthenticatedClient parseCollectionResponse:responseObject
-                                                                        ofClass:class
-                                                                    resourceKey:resourceKey
-                                                                          error:&error];
+                                                                          ofClass:class
+                                                                      resourceKey:resourceKey
+                                                                            error:&error];
+
+        if ([collectionResponse isKindOfClass:[LVCOrganizationCollection class]]) {
+            LVCOrganizationCollection *orgCollection = (LVCOrganizationCollection *)collectionResponse;
+            NSDate *serverDate = nil;
+            NSString *serverDateString = operation.response.allHeaderFields[@"Date"];
+            if (serverDateString) {
+                NSValueTransformer *rfc2822DateTransformer = [NSValueTransformer valueTransformerForName:TTTRFC2822DateTransformerName];
+                serverDate = [rfc2822DateTransformer reverseTransformedValue:serverDateString];
+            }
+            if (!serverDate) {
+                serverDate = [NSDate date];
+            }
+            orgCollection.currentServerTime = serverDate;
+        }
         completion(collectionResponse, error, operation);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         completion(nil, error, operation);
@@ -380,6 +395,13 @@
             }
         }];
     }];
+}
+
+- (PMKPromise *)organizationCollectionWithIDs:(NSArray *)organizationIDs
+{
+    return [self collectionsOfClass:[LVCOrganizationCollection class]
+                        resourceKey:@"organizations"
+                            withIDs:organizationIDs];
 }
 
 - (PMKPromise *)organizationsWithIDs:(NSArray *)organizationIDs
@@ -617,7 +639,7 @@
                                      code:1
                                  userInfo:@{NSLocalizedDescriptionKey: @"No Access Token Found. Check your authentication Credentials"}];
     }
-
+    
     return accessToken;
 }
 

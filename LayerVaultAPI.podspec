@@ -31,5 +31,6 @@ Pod::Spec.new do |s|
   s.dependency 'AFOAuth2Client', '~> 0.1.2'
   s.dependency 'PromiseKit/Promise', '~> 0.9.18'
   s.dependency 'PromiseKit/When', '~> 0.9.18'
+  s.dependency 'TransformerKit/Date', '0.5.3'
 
 end

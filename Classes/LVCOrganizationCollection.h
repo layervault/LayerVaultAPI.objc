@@ -17,6 +17,7 @@ typedef enum : NSUInteger {
 
 @interface LVCOrganizationCollection : MTLModel <LVCModelCollection, MTLJSONSerializing>
 @property (readonly, nonatomic, copy) NSArray *organizations;
+@property (nonatomic, copy) NSDate *currentServerTime;
 @end
 
 @interface LVCOrganizationValue : MTLModel <LVCResourceUniquing, MTLJSONSerializing>

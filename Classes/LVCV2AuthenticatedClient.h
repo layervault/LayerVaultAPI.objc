@@ -117,6 +117,7 @@
 @interface LVCV2AuthenticatedClient (PromiseKit)
 - (PMKPromise *)me;
 
+- (PMKPromise *)organizationCollectionWithIDs:(NSArray *)organizationIDs;
 - (PMKPromise *)organizationsWithIDs:(NSArray *)organizationIDs;
 
 - (PMKPromise *)projectsWithIDs:(NSArray *)projectIDs;

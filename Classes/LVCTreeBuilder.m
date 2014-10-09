@@ -213,10 +213,11 @@
     NSArray *previousOrganizations = [previousUser.organizations copy];
 
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
-        [weakSelf.authenticatedClient organizationsWithIDs:userValue.organizationIDs].then(^(NSArray *organizationValues) {
+        [weakSelf.authenticatedClient organizationCollectionWithIDs:userValue.organizationIDs].then(^(LVCOrganizationCollection *organizationCollection) {
             return [weakSelf organizationsTreesWithPrevious:previousOrganizations
                                                      userID:userValue.uid
-                                                 fromValues:organizationValues];
+                                                 serverTime:organizationCollection.currentServerTime
+                                                 fromValues:organizationCollection.organizations];
         }).then(^(NSArray *organizations) {
 
             // Note, always create new user
@@ -238,6 +239,7 @@
 
 - (PMKPromise *)organizationsTreesWithPrevious:(NSArray *)previousOrganizations
                                         userID:(NSString *)userID
+                                    serverTime:(NSDate *)serverTime
                                     fromValues:(NSArray *)organizationValues {
     __weak typeof(self) weakSelf = self;
     return [PMKPromise new:^(PMKPromiseFulfiller fulfill, PMKPromiseRejecter reject) {
@@ -247,9 +249,8 @@
 
             LVCOrganization *previousOrganization = (LVCOrganization *)[previousOrganizations lvc_uniqueResourceMatching:orgValue ofClass:[LVCOrganization class]];
 
-            NSDate *now = [NSDate date];
             NSDate *orgDeletedDate = orgValue.dateDeleted;
-            BOOL orgNotDeleted = !(orgDeletedDate && [now compare:orgDeletedDate] == NSOrderedDescending);
+            BOOL orgNotDeleted = !(orgDeletedDate && [serverTime compare:orgDeletedDate] == NSOrderedDescending);
 
             if ((orgValue.syncType == LVCSyncTypeLayerVault)
                 && (orgValue.projectIDs.count > 0)
