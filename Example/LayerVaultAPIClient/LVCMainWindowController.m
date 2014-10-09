@@ -18,7 +18,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <AFOAuth2Client/AFOAuth2Client.h>
 #import <SSKeychain/SSKeychain.h>
-#import "LVCLoginManager.h"
+//#import "LVCLoginManager.h"
 
 static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 
@@ -82,13 +82,13 @@ NSString *const LVCKeychainService = @"LayerVaultAPIDemoApp";
 //
 //        _organizationsViewController = [[LVCOrganizationsViewController alloc] initWithNibName:@"LVCOrganizationsViewController" bundle:nil];
 //
-        _loginViewController = [[LVCLoginViewController alloc]
-                                initWithNibName:@"LVCLoginViewController" bundle:nil];
-
-        _loginViewController.loginHander = ^(NSString *userName, NSString *password) {
-            @strongify(self);
-            [self loginWithEmail:userName password:password];
-        };
+//        _loginViewController = [[LVCLoginViewController alloc]
+//                                initWithNibName:@"LVCLoginViewController" bundle:nil];
+//
+//        _loginViewController.loginHander = ^(NSString *userName, NSString *password) {
+//            @strongify(self);
+//            [self loginWithEmail:userName password:password];
+//        };
     }
     return self;
 }
