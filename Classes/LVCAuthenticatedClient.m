@@ -188,9 +188,6 @@ NSString * const LVCAuthenticationStateDescription[] = {
             if (self.credential) {
                 // Set Authorization Header
                 [self setAuthorizationHeaderWithCredential:self.credential];
-
-                // Get user info
-                [self getMeWithCompletion:nil];
             }
             else {
                 // If the credential gets explicitly set to nil, it means there
