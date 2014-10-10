@@ -24,8 +24,14 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    NSURLCache *sharedCache = [[NSURLCache alloc] initWithMemoryCapacity:0
+                                                            diskCapacity:0
+                                                                diskPath:nil];
+    [NSURLCache setSharedURLCache:sharedCache];
+
     NSURL *baseURL = [NSURL URLWithString:@"https://api.layervault.com/api/v1"];
-    AFOAuthCredential *cred = [[AFOAuthCredential alloc] initWithOAuthToken:@"***REMOVED***" tokenType:@"Bearer"];
+    AFOAuthCredential *cred = [[AFOAuthCredential alloc] initWithOAuthToken:LVOAuthToken
+                                                                  tokenType:@"Bearer"];
     self.treeBuilder = [[LVCTreeBuilder alloc] initWithBaseURL:baseURL authenticationCredential:cred persistentStoreURL:nil];
 
     NSDate *startDate = [NSDate date];
