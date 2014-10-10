@@ -3,3 +3,4 @@ source 'https://github.com/CocoaPods/Specs.git'
 pod 'LayerVaultAPI', :path => "../"
 pod 'ReactiveCocoa', '~> 2.3.1'
 pod 'SSKeychain', '~> 1.2.2'
+pod 'PromiseKit', git: 'https://github.com/codecaffeine/PromiseKit.git', branch: 'reject-until-errors'
