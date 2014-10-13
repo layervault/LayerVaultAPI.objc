@@ -29,9 +29,9 @@ typedef enum : NSUInteger {
 @property (readonly, nonatomic, copy) NSString *name;
 @property (readonly, nonatomic, copy) NSURL *url;
 @property (readonly, nonatomic) BOOL isFree;
-@property (readonly, nonatomic, copy) NSDate *dateDeleted; /// @note exclude dateDeleted?
-@property (readonly, nonatomic, copy) NSDate *dateCancelled; /// @note exclude dateCancelled
-@property (readonly, nonatomic) LVCSyncType syncType;/// @note exclude LVCSyncTypeDropbox
+@property (readonly, nonatomic, copy) NSDate *dateDeleted; /// @note Organization Deleted but account still valid. Organization data destroyed.
+@property (readonly, nonatomic, copy) NSDate *dateCancelled; /// @note Account cancelled but organization data still persists. If they re-activate their account again, they can get their data back.
+@property (readonly, nonatomic) LVCSyncType syncType; /// @note this response _should_ exclude LVCSyncTypeDropbox
 @property (readonly, nonatomic) BOOL isTrialingWithoutPayment;
 @property (readonly, nonatomic, copy) NSDate *dateTrialEnds;
 
