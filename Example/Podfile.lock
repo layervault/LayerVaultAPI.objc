@@ -33,16 +33,12 @@ PODS:
 
 DEPENDENCIES:
   - LayerVaultAPI (from `../`)
-  - PromiseKit (from `https://github.com/codecaffeine/PromiseKit.git`, branch `reject-until-errors`)
   - ReactiveCocoa (~> 2.3.1)
   - SSKeychain (~> 1.2.2)
 
 EXTERNAL SOURCES:
   LayerVaultAPI:
     :path: ../
-  PromiseKit:
-    :branch: reject-until-errors
-    :git: https://github.com/codecaffeine/PromiseKit.git
 
 SPEC CHECKSUMS:
   AFNetworking: 80c4e0652b08eb34e25b9c0ff3c82556fe5967b4
