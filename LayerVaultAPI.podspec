@@ -29,8 +29,9 @@ Pod::Spec.new do |s|
   s.dependency 'AFNetworking', '~> 1.3.4'
   s.dependency 'Mantle', '~> 1.5'
   s.dependency 'AFOAuth2Client', '~> 0.1.2'
-  s.dependency 'PromiseKit/Promise', '~> 0.9.18'
-  s.dependency 'PromiseKit/When', '~> 0.9.18'
+  s.dependency 'PromiseKit/Promise', '~> 0.9.21'
+  s.dependency 'PromiseKit/When', '~> 0.9.21'
+  s.dependency 'PromiseKit/Until', '~> 0.9.21'
   s.dependency 'TransformerKit/Date', '0.5.3'
 
 end
