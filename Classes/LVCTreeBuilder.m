@@ -177,9 +177,13 @@
     }
 
     __weak typeof(self) weakSelf = self;
-    NSDate *startDate = [NSDate date];
-    self.authenticatedClient.me.then(^(LVCUserValue *userValue) {
+    [PMKPromise lvc_attemptPromise:^id{
+        return [weakSelf.authenticatedClient me];
+    }].then(^(LVCUserValue *userValue) {
 
+        // We check and see if the user_id from our previous user matches the
+        // response from the server. If it does not, we trash the previous user.
+        // The probably means the customer logged in with a new username.
         if (previousUser && ![userValue.uid isEqualToString:previousUser.uid]) {
             previousUser = nil;
             NSError *removeError;
@@ -193,7 +197,6 @@
         return [weakSelf userTreeWithPrevious:previousUser
                                     fromValue:userValue];
     }).then(^(LVCUser *user){
-        NSLog(@"completed in: %f", [[NSDate date] timeIntervalSinceDate:startDate]);
         if (user && weakSelf.persistentStoreURL) {
             BOOL success = [NSKeyedArchiver archiveRootObject:user
                                                        toFile:self.persistentStoreURL.path];
