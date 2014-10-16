@@ -15,6 +15,7 @@
 		C93999B719C8C22F006E6D45 /* LVCOrganizationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C93999B619C8C22F006E6D45 /* LVCOrganizationTests.m */; };
 		C9412732184CE47C0065072B /* LVCProjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9412731184CE47C0065072B /* LVCProjectTests.m */; };
 		C941856D18A3D39900E54A2B /* LVCOAuthCredentialStorageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C941856C18A3D39900E54A2B /* LVCOAuthCredentialStorageTests.m */; };
+		C9462B3719EF0CCE0090F44C /* NSTabView+LVCReactiveAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C9462B3619EF0CCE0090F44C /* NSTabView+LVCReactiveAdditions.m */; };
 		C9468117187B047500FAFE58 /* LVCAuthenticatedClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9468116187B047500FAFE58 /* LVCAuthenticatedClientTests.m */; };
 		C9546E97180C366C00C56AC1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9546E96180C366C00C56AC1 /* SystemConfiguration.framework */; };
 		C9546E99180C367500C56AC1 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9546E98180C367500C56AC1 /* CoreServices.framework */; };
@@ -28,6 +29,8 @@
 		C95CD2E2180B5F9500007F9B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C95CD2E1180B5F9500007F9B /* XCTest.framework */; };
 		C95CD2E3180B5F9500007F9B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C95CD2C2180B5F9500007F9B /* Cocoa.framework */; };
 		C95CD2EB180B5F9500007F9B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C95CD2E9180B5F9500007F9B /* InfoPlist.strings */; };
+		C96ACDFA19EEC99200A4EF5C /* MRTAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C96ACDF919EEC99200A4EF5C /* MRTAuthenticationManager.m */; };
+		C96ACDFE19EEF0D500A4EF5C /* NSError+LVCNetworkErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = C96ACDFD19EEF0D500A4EF5C /* NSError+LVCNetworkErrors.m */; };
 		C96C0813180C7D9D000149E3 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C96C0812180C7D9D000149E3 /* MainMenu.xib */; };
 		C96C0815180C7F23000149E3 /* LVCUserTest.m in Sources */ = {isa = PBXBuildFile; fileRef = C96C0814180C7F23000149E3 /* LVCUserTest.m */; };
 		C9829B0318634B9C00FF419B /* LVCAmazonS3ClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9829B0218634B9C00FF419B /* LVCAmazonS3ClientTests.m */; };
@@ -82,6 +85,8 @@
 		C93999B619C8C22F006E6D45 /* LVCOrganizationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCOrganizationTests.m; sourceTree = "<group>"; };
 		C9412731184CE47C0065072B /* LVCProjectTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LVCProjectTests.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		C941856C18A3D39900E54A2B /* LVCOAuthCredentialStorageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCOAuthCredentialStorageTests.m; sourceTree = "<group>"; };
+		C9462B3519EF0CCE0090F44C /* NSTabView+LVCReactiveAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTabView+LVCReactiveAdditions.h"; sourceTree = "<group>"; };
+		C9462B3619EF0CCE0090F44C /* NSTabView+LVCReactiveAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTabView+LVCReactiveAdditions.m"; sourceTree = "<group>"; };
 		C9468116187B047500FAFE58 /* LVCAuthenticatedClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCAuthenticatedClientTests.m; sourceTree = "<group>"; };
 		C9546E96180C366C00C56AC1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		C9546E98180C367500C56AC1 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
@@ -103,6 +108,10 @@
 		C95CD2E1180B5F9500007F9B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		C95CD2E8180B5F9500007F9B /* LayerVaultAPIClientTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LayerVaultAPIClientTests-Info.plist"; sourceTree = "<group>"; };
 		C95CD2EA180B5F9500007F9B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C96ACDF819EEC99200A4EF5C /* MRTAuthenticationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRTAuthenticationManager.h; sourceTree = "<group>"; };
+		C96ACDF919EEC99200A4EF5C /* MRTAuthenticationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRTAuthenticationManager.m; sourceTree = "<group>"; };
+		C96ACDFC19EEF0D500A4EF5C /* NSError+LVCNetworkErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+LVCNetworkErrors.h"; sourceTree = "<group>"; };
+		C96ACDFD19EEF0D500A4EF5C /* NSError+LVCNetworkErrors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+LVCNetworkErrors.m"; sourceTree = "<group>"; };
 		C96C0812180C7D9D000149E3 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		C96C0814180C7F23000149E3 /* LVCUserTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LVCUserTest.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		C9829B0218634B9C00FF419B /* LVCAmazonS3ClientTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LVCAmazonS3ClientTests.m; sourceTree = "<group>"; };
@@ -250,6 +259,12 @@
 				C999722C185E22F500F9372F /* LVCProjectOutlineViewController.xib */,
 				C96C0812180C7D9D000149E3 /* MainMenu.xib */,
 				C95CD2C9180B5F9500007F9B /* Supporting Files */,
+				C96ACDF819EEC99200A4EF5C /* MRTAuthenticationManager.h */,
+				C96ACDF919EEC99200A4EF5C /* MRTAuthenticationManager.m */,
+				C96ACDFC19EEF0D500A4EF5C /* NSError+LVCNetworkErrors.h */,
+				C96ACDFD19EEF0D500A4EF5C /* NSError+LVCNetworkErrors.m */,
+				C9462B3519EF0CCE0090F44C /* NSTabView+LVCReactiveAdditions.h */,
+				C9462B3619EF0CCE0090F44C /* NSTabView+LVCReactiveAdditions.m */,
 			);
 			path = LayerVaultAPIClient;
 			sourceTree = "<group>";
@@ -463,9 +478,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				C99C307F1868BA9000D2C8F8 /* LVCFileRevisionsWindowController.m in Sources */,
+				C96ACDFE19EEF0D500A4EF5C /* NSError+LVCNetworkErrors.m in Sources */,
 				C999722D185E22F500F9372F /* LVCProjectOutlineViewController.m in Sources */,
+				C9462B3719EF0CCE0090F44C /* NSTabView+LVCReactiveAdditions.m in Sources */,
 				C95CD2CF180B5F9500007F9B /* main.m in Sources */,
 				C9AEAB44185E041300E9EC40 /* LVCOrganizationsViewController.m in Sources */,
+				C96ACDFA19EEC99200A4EF5C /* MRTAuthenticationManager.m in Sources */,
 				C9DC2343185CCA4E00F9BE02 /* LVCMainWindowController.m in Sources */,
 				C9FC226218679D1B0030C8B0 /* LVCColorCircleView.m in Sources */,
 				C9C6186018648FF500CF2E40 /* LVCLoginViewController.m in Sources */,

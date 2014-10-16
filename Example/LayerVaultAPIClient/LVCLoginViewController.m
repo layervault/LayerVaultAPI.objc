@@ -8,33 +8,38 @@
 
 #import "LVCLoginViewController.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
-
-NSString *const LVCLoginViewControllerEmailRegEx =
-@"(?:[a-z0-9!#$%\\&'*+/=?\\^_`{|}~-]+(?:\\.[a-z0-9!#$%\\&'*+/=?\\^_`{|}"
-@"~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\"
-@"x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-"
-@"z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5"
-@"]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-"
-@"9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21"
-@"-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
+#import <PromiseKit/PromiseKit.h>
+#import <Mantle/EXTScope.h>
 
 
 @interface LVCLoginViewController ()
 @property (weak) IBOutlet NSButton *loginButton;
 @property (weak) IBOutlet NSSecureTextField *passwordField;
+@property (weak) IBOutlet NSTextField *tokenField;
+@property (weak) IBOutlet NSTabView *tabView;
+@property (weak) IBOutlet NSTabViewItem *emailTab;
+@property (weak) IBOutlet NSTabViewItem *tokenTab;
 @end
 
 @implementation LVCLoginViewController
 
 - (void)loadView {
     [super loadView];
-    NSArray *loginFields = @[self.emailField.rac_textSignal,
-                             self.passwordField.rac_textSignal];
 
+    NSArray *loginFields = @[self.emailField.rac_textSignal,
+                             self.passwordField.rac_textSignal,
+                             self.tokenField.rac_textSignal];
+
+    __weak typeof(self) weakSelf = self;
     RACSignal *loginEnabled = [RACSignal combineLatest:loginFields reduce:^(NSString *email,
-                                                                            NSString *password){
-         BOOL validEmail = [[NSPredicate predicateWithFormat:@"SELF MATCHES %@", LVCLoginViewControllerEmailRegEx] evaluateWithObject:email];
-         return @(validEmail && password.length > 0);
+                                                                            NSString *password,
+                                                                            NSString *token) {
+        if (weakSelf.tabView.selectedTabViewItem == self.emailTab) {
+            return @(email.length > 0 && password.length > 0);
+        } else if (weakSelf.tabView.selectedTabViewItem == self.tokenTab) {
+            return @(token.length > 0);
+        }
+        return @NO;
      }];
     [self.loginButton rac_liftSelector:@selector(setEnabled:) withSignals:loginEnabled, nil];
 }
@@ -43,7 +48,8 @@ NSString *const LVCLoginViewControllerEmailRegEx =
 - (IBAction)loginPressed:(id)sender {
     if (self.loginHander) {
         self.loginHander(self.emailField.stringValue,
-                         self.passwordField.stringValue);
+                         self.passwordField.stringValue,
+                         self.tokenField.stringValue);
     }
 }
 @end

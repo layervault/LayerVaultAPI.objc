@@ -25,16 +25,16 @@ static void *LVCMainWindowControllerContext = &LVCMainWindowControllerContext;
 NSString *const LVCKeychainService = @"LayerVaultAPIDemoApp";
 
 @interface LVCMainWindowController () <NSOutlineViewDataSource, NSOutlineViewDelegate>
-@property (strong) LVCOrganizationsViewController *organizationsViewController;
-@property (strong) LVCProjectOutlineViewController *projectOutlineViewController;
+//@property (strong) LVCOrganizationsViewController *organizationsViewController;
+//@property (strong) LVCProjectOutlineViewController *projectOutlineViewController;
 @property (strong) LVCLoginViewController *loginViewController;
-@property (strong) IBOutlet NSSplitView *userSplitView;
-@property (weak) IBOutlet NSView *contentView;
-@property (weak) IBOutlet NSView *sourceViewContainer;
-@property (weak) IBOutlet NSView *projectContainer;
-@property (weak) IBOutlet NSTextField *loggedInField;
-@property (nonatomic) LVCAuthenticatedClient *client;
-@property (nonatomic) LVCFileRevisionsWindowController *fileRevisionWindow;
+//@property (strong) IBOutlet NSSplitView *userSplitView;
+//@property (weak) IBOutlet NSView *contentView;
+//@property (weak) IBOutlet NSView *sourceViewContainer;
+//@property (weak) IBOutlet NSView *projectContainer;
+//@property (weak) IBOutlet NSTextField *loggedInField;
+//@property (nonatomic) LVCAuthenticatedClient *client;
+//@property (nonatomic) LVCFileRevisionsWindowController *fileRevisionWindow;
 @end
 
 @implementation LVCMainWindowController
@@ -94,23 +94,23 @@ NSString *const LVCKeychainService = @"LayerVaultAPIDemoApp";
 }
 
 
-- (void)loginWithCredentialsFromKeychain
-{
-    NSString *accountEmail = nil;
-    NSString *accountPassword = nil;
-    NSArray *accounts = [SSKeychain accountsForService:LVCKeychainService];
-    if (accounts.count > 0) {
-        accountEmail = accounts[0][kSSKeychainAccountKey];
-        accountPassword = [SSKeychain passwordForService:LVCKeychainService
-                                                 account:accountEmail];
-    }
+//- (void)loginWithCredentialsFromKeychain
+//{
+//    NSString *accountEmail = nil;
+//    NSString *accountPassword = nil;
+//    NSArray *accounts = [SSKeychain accountsForService:LVCKeychainService];
+//    if (accounts.count > 0) {
+//        accountEmail = accounts[0][kSSKeychainAccountKey];
+//        accountPassword = [SSKeychain passwordForService:LVCKeychainService
+//                                                 account:accountEmail];
+//    }
+//
+//    [self loginWithEmail:accountEmail password:accountPassword];
+//}
 
-    [self loginWithEmail:accountEmail password:accountPassword];
-}
 
-
-- (void)loginWithEmail:(NSString *)email password:(NSString *)password
-{
+//- (void)loginWithEmail:(NSString *)email password:(NSString *)password
+//{
 //    if (email.length > 0 && password.length > 0) {
 //        @weakify(self);
 //        [self.client loginWithEmail:email password:password completion:^(BOOL success,
@@ -136,20 +136,20 @@ NSString *const LVCKeychainService = @"LayerVaultAPIDemoApp";
 //        // Akward.
 //        [self.client logout];
 //    }
-}
+//}
 
 
-- (void)logout
-{
-    NSArray *accounts = [SSKeychain accountsForService:LVCKeychainService];
-    if (accounts.count > 0) {
-        NSString *email = accounts[0][kSSKeychainAccountKey];
-        [SSKeychain deletePasswordForService:LVCKeychainService
-                                     account:email];
-    }
-
-    [self.client logout];
-}
+//- (void)logout
+//{
+//    NSArray *accounts = [SSKeychain accountsForService:LVCKeychainService];
+//    if (accounts.count > 0) {
+//        NSString *email = accounts[0][kSSKeychainAccountKey];
+//        [SSKeychain deletePasswordForService:LVCKeychainService
+//                                     account:email];
+//    }
+//
+//    [self.client logout];
+//}
 
 
 - (void)windowDidLoad
@@ -222,64 +222,5 @@ NSString *const LVCKeychainService = @"LayerVaultAPIDemoApp";
 }
 
 
-#pragma mark - Actions
-- (IBAction)logoutPressed:(id)sender {
-    [self.client logout];
-}
-
-
-#pragma mark - Private Methods
-- (void)placeLoginViewController {
-    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-        [self.contentView.animator replaceSubview:self.userSplitView
-                                             with:self.loginViewController.view];
-    } completionHandler:^{
-        [self.window makeFirstResponder:self.loginViewController.emailField];
-    }];
-
-    for (NSView *subview in self.contentView.subviews) {
-        [subview removeFromSuperview];
-    }
-    NSView *loginView = self.loginViewController.view;
-    loginView.translatesAutoresizingMaskIntoConstraints = NO;
-    NSView *superView = self.contentView;
-    NSDictionary *views = NSDictionaryOfVariableBindings(loginView, superView);
-
-    [superView addSubview:loginView];
-    [superView addConstraints:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"V:[superView]-(<=1)-[loginView(>=120.0)]"
-                                             options:NSLayoutFormatAlignAllCenterX
-                                             metrics:nil
-                                               views:views]];
-    [superView addConstraints:
-     [NSLayoutConstraint constraintsWithVisualFormat:@"H:[superView]-(<=1)-[loginView(>=240.0)]"
-                                             options:NSLayoutFormatAlignAllCenterY
-                                             metrics:nil
-                                               views:views]];
-}
-
-
-- (void)placeUserViewController {
-    [NSAnimationContext runAnimationGroup:^(NSAnimationContext *context) {
-        [self.contentView.animator replaceSubview:self.loginViewController.view
-                                             with:self.userSplitView];
-    } completionHandler:^{
-        [self.window makeFirstResponder:self.organizationsViewController.outlineView];
-        NSUInteger row = 1;
-        id itemAtRow = [self.organizationsViewController.outlineView itemAtRow:(NSInteger)row];
-        if ([itemAtRow isKindOfClass:LVCProject.class]) {
-            [self.organizationsViewController.outlineView selectRowIndexes:[NSIndexSet indexSetWithIndex:row]
-                                                      byExtendingSelection:NO];
-        }
-    }];
-
-
-    for (NSView *subview in self.contentView.subviews) {
-        [subview removeFromSuperview];
-    }
-    self.userSplitView.autoresizingMask = NSViewMinXMargin|NSViewWidthSizable|NSViewMaxXMargin|NSViewMinYMargin|NSViewHeightSizable|NSViewMaxYMargin;
-    self.userSplitView.frame = self.contentView.bounds;
-    [self.contentView addSubview:self.userSplitView];
-}
 
 @end

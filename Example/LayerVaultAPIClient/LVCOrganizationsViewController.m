@@ -23,7 +23,6 @@
     if (self) {
         [RACObserve(self, organizations) subscribeNext:^(NSArray *organizations) {
             [self.outlineView reloadData];
-            [self.outlineView expandItem:nil expandChildren:YES];
         }];
     }
     return self;
@@ -33,35 +32,24 @@
 #pragma mark - NSOutlineViewDataSource
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
-    if (item) {
-        if ([item isKindOfClass:LVCOrganization.class]) {
-            LVCOrganization *organization = (LVCOrganization *)item;
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"member = TRUE"];
-            NSArray *filteredArray = [organization.projects filteredArrayUsingPredicate:predicate];
-            return (NSInteger)filteredArray.count;
-        }
-        return 0;
-    }
     return (NSInteger)self.organizations.count;
 }
 
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
-    return [item isKindOfClass:LVCOrganization.class];
+    return [item isKindOfClass:LVCOrganizationValue.class];
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
-    if (item) {
-        if ([item isKindOfClass:LVCOrganization.class]) {
-            LVCOrganization *organization = (LVCOrganization *)item;
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"member = TRUE"];
-            NSArray *filteredArray = [organization.projects filteredArrayUsingPredicate:predicate];
-            return filteredArray[(NSUInteger)index];
-        }
-        return nil;
-    }
+//    if (item) {
+//        if ([item isKindOfClass:LVCOrganizationValue.class]) {
+//            LVCOrganizationValue *organization = (LVCOrganizationValue *)item;
+//            return filteredArray[(NSUInteger)index];
+//        }
+//        return nil;
+//    }
     return self.organizations[(NSUInteger)index];
 }
 
@@ -71,8 +59,8 @@
 {
     NSTableCellView *tableCellView = nil;
     if (item) {
-        if ([item isKindOfClass:LVCOrganization.class]) {
-            LVCOrganization *organization = (LVCOrganization *)item;
+        if ([item isKindOfClass:LVCOrganizationValue.class]) {
+            LVCOrganizationValue *organization = (LVCOrganizationValue *)item;
             tableCellView = [outlineView makeViewWithIdentifier:@"HeaderCell"
                                                           owner:self];
             [tableCellView.textField setStringValue:organization.name];
@@ -83,13 +71,13 @@
                           range:NSMakeRange(0, title.length)];
             button.attributedTitle = title;
         }
-        else if ([item isKindOfClass:LVCProject.class]) {
-            LVCProject *project = (LVCProject *)item;
-            tableCellView = [outlineView makeViewWithIdentifier:@"DataCell"
-                                                          owner:self];
-            [tableCellView.textField setStringValue:project.name];
-            tableCellView.imageView.image = [LVCColorCircleView circleImageWithColorLabel:project.colorLabel];
-        }
+//        else if ([item isKindOfClass:LVCProject.class]) {
+//            LVCProject *project = (LVCProject *)item;
+//            tableCellView = [outlineView makeViewWithIdentifier:@"DataCell"
+//                                                          owner:self];
+//            [tableCellView.textField setStringValue:project.name];
+//            tableCellView.imageView.image = [LVCColorCircleView circleImageWithColorLabel:project.colorLabel];
+//        }
     }
     return tableCellView;
 }
@@ -102,16 +90,17 @@
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
 {
-    return [item isKindOfClass:LVCProject.class];
+//    return [item isKindOfClass:LVCProject.class];
+    return NO;
 }
 
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
-    id selectedItem = [self.outlineView itemAtRow:self.outlineView.selectedRow];
-    NSAssert(selectedItem == nil || [selectedItem isKindOfClass:LVCProject.class],
-             @"selected item can only be project or nil");
-    self.selectedProject = [self.outlineView itemAtRow:self.outlineView.selectedRow];
+//    id selectedItem = [self.outlineView itemAtRow:self.outlineView.selectedRow];
+//    NSAssert(selectedItem == nil || [selectedItem isKindOfClass:LVCProject.class],
+//             @"selected item can only be project or nil");
+//    self.selectedProject = [self.outlineView itemAtRow:self.outlineView.selectedRow];
 }
 
 @end

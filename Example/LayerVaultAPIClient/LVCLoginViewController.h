@@ -7,10 +7,15 @@
 //
 
 #import <Cocoa/Cocoa.h>
+@class PMKPromise;
 
 @interface LVCLoginViewController : NSViewController
 
 @property (weak) IBOutlet NSTextField *emailField;
-@property (nonatomic, copy) void (^loginHander)(NSString *email, NSString *password);
+@property (nonatomic, copy) void (^loginHander)(NSString *email, NSString *password, NSString *token);
+
+- (PMKPromise *)emailPasswordLoginPressed;
+
+- (PMKPromise *)tokenLoginPressed;
 
 @end
