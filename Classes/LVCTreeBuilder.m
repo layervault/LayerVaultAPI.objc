@@ -259,10 +259,7 @@
                 NSDate *orgDeletedDate = orgValue.dateDeleted;
                 BOOL orgNotDeleted = !(orgDeletedDate && [serverTime compare:orgDeletedDate] == NSOrderedDescending);
 
-                if ((orgValue.syncType == LVCSyncTypeLayerVault)
-                    && (orgValue.projectIDs.count > 0)
-                    && (![orgValue.spectatorIDs containsObject:userID])
-                    && orgNotDeleted) {
+                if (orgNotDeleted) {
                     [organizationRequests addObject:[weakSelf organizationTreeWithPrevious:previousOrganization
                                                                                     userID:userID
                                                                                  fromValue:orgValue]];
@@ -289,7 +286,16 @@
                 fulfill(previousOrganization);
             }
             else { // Organization has changed, start loading projects
-                [weakSelf.authenticatedClient projectsWithIDs:organizationValue.projectIDs].then(^(NSArray *projectValues) {
+
+                // We don’t want to load any projects for spectator or
+                // dropbox organizations.
+                NSArray *projectIDs = organizationValue.projectIDs;
+                if ((organizationValue.syncType != LVCSyncTypeLayerVault)
+                    || [organizationValue.spectatorIDs containsObject:userID]) {
+                    projectIDs = @[];
+                }
+
+                [weakSelf.authenticatedClient projectsWithIDs:projectIDs].then(^(NSArray *projectValues) {
 
                     return [weakSelf projectTreesWithPrevious:previousOrganization.projects
                                                        member:userID
