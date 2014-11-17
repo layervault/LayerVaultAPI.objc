@@ -399,9 +399,17 @@
 
 - (PMKPromise *)organizationCollectionWithIDs:(NSArray *)organizationIDs
 {
-    return [self collectionsOfClass:[LVCOrganizationCollection class]
-                        resourceKey:@"organizations"
-                            withIDs:organizationIDs];
+    if (organizationIDs.count > 0) {
+        return [self collectionsOfClass:[LVCOrganizationCollection class]
+                            resourceKey:@"organizations"
+                                withIDs:organizationIDs];
+    } else {
+        LVCOrganizationCollection *orgCollection = [[LVCOrganizationCollection alloc] init];
+        // Since organizations is a readonly property, set it sneakily
+        [orgCollection setValue:@[]
+                         forKey:NSStringFromSelector(@selector(organizations))];
+        return [PMKPromise promiseWithValue:orgCollection];
+    }
 }
 
 - (PMKPromise *)organizationsWithIDs:(NSArray *)organizationIDs
