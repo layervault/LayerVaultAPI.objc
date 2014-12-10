@@ -34,59 +34,61 @@ static void *LVCAppDelegateContext = &LVCAppDelegateContext;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 
-    NSURL *baseURL = [NSURL URLWithString:@"https://api.layervault.com/"];
-    self.authenticationManager = [[MRTAuthenticationManager alloc] initWithBaseURL:baseURL
-                                                                          clientID:LVClientID
-                                                                            secret:LVClientSecret];
-
-    [self.authenticationManager addObserver:self forKeyPath:NSStringFromSelector(@selector(authenticationState)) options:NSKeyValueObservingOptionNew context:LVCAppDelegateContext];
-
-    self.mainWindowController = [[LVCMainWindowController alloc] initWithWindowNibName:@"LVCMainWindowController"];
-
-    self.loginVC = [[LVCLoginViewController alloc] initWithNibName:@"LVCLoginViewController" bundle:nil];
-    __weak typeof(self) weakSelf = self;
-    self.loginVC.loginHander = ^(NSString *email, NSString *password, NSString *token){
-        PMKPromise *promise = nil;
-        if (token.length > 0) {
-            AFOAuthCredential *credential = [AFOAuthCredential credentialWithOAuthToken:token tokenType:@"Bearer"];
-            promise = [weakSelf.authenticationManager authenticateWithCredential:credential];
-        } else if (email.length > 0 && password.length > 0) {
-            promise = [weakSelf.authenticationManager authenticateWithEmail:email password:password];
-        }
-
-        if (promise) {
-            promise.then(^(LVCUserValue *userValue) {
-                [weakSelf showOrganizationsForUser:userValue];
-            }).catch(^(NSError *error) {
-                NSLog(@"Error: %@", error);
-            });
-        }
-
-    };
-    self.mainWindowController.window.contentView = self.loginVC.view;
+//    NSURL *baseURL = [NSURL URLWithString:@"https://api.layervault.com/"];
+//    self.authenticationManager = [[MRTAuthenticationManager alloc] initWithBaseURL:baseURL
+//                                                                          clientID:LVClientID
+//                                                                            secret:LVClientSecret];
+//
+//    [self.authenticationManager addObserver:self forKeyPath:NSStringFromSelector(@selector(authenticationState)) options:NSKeyValueObservingOptionNew context:LVCAppDelegateContext];
+//
+//    self.mainWindowController = [[LVCMainWindowController alloc] initWithWindowNibName:@"LVCMainWindowController"];
+//
+//    self.loginVC = [[LVCLoginViewController alloc] initWithNibName:@"LVCLoginViewController" bundle:nil];
+//    __weak typeof(self) weakSelf = self;
+//    self.loginVC.loginHander = ^(NSString *email, NSString *password, NSString *token){
+//        PMKPromise *promise = nil;
+//        if (token.length > 0) {
+//            AFOAuthCredential *credential = [AFOAuthCredential credentialWithOAuthToken:token tokenType:@"Bearer"];
+//            promise = [weakSelf.authenticationManager authenticateWithCredential:credential];
+//        } else if (email.length > 0 && password.length > 0) {
+//            promise = [weakSelf.authenticationManager authenticateWithEmail:email password:password];
+//        }
+//
+//        if (promise) {
+//            promise.then(^(LVCUserValue *userValue) {
+//                [weakSelf showOrganizationsForUser:userValue];
+//            }).catch(^(NSError *error) {
+//                NSLog(@"Error: %@", error);
+//            });
+//        }
+//
+//    };
+//    self.mainWindowController.window.contentView = self.loginVC.view;
 
 
 //    NSURL *baseURL = [NSURL URLWithString:@"https://api.layervault.com/"];
 //    AFOAuthCredential *cred = [[AFOAuthCredential alloc] initWithOAuthToken:LVOAuthToken
 //                                                                  tokenType:@"Bearer"];
-//    self.authenticationManager = [[MRTAuthenticationManager alloc] initWithBaseURL:baseURL];
+//    self.authenticationManager = [[MRTAuthenticationManager alloc] initWithBaseURL:baseURL
+//                                                                          clientID:LVClientID
+//                                                                            secret:LVClientSecret];
 //    [self.authenticationManager authenticateWithCredential:cred].then(^(LVCUserValue *userValue) {
 //        NSLog(@"Successfully signed in as %@", userValue);
 //    }).catch(^(NSError *error) {
 //        NSLog(@"error: %@", error);
 //    });
 
-//    NSURL *baseURL = [NSURL URLWithString:@"https://api.layervault.com/api/v1"];
-//    AFOAuthCredential *cred = [[AFOAuthCredential alloc] initWithOAuthToken:LVOAuthToken
-//                                                                  tokenType:@"Bearer"];
-//    self.treeBuilder = [[LVCTreeBuilder alloc] initWithBaseURL:baseURL authenticationCredential:cred persistentStoreURL:nil];
-//
-//    NSDate *startDate = [NSDate date];
-//    [self.treeBuilder buildUserTreeWithCompletion:^(LVCUser *user, NSError *error) {
-//        NSLog(@"user: %@", user);
-//        NSLog(@"error: %@", error);
-//        NSLog(@"finished in: %f", [[NSDate date] timeIntervalSinceDate:startDate]);
-//    }];
+    NSURL *baseURL = [NSURL URLWithString:@"https://beta.layervault.com/api/v1"];
+    AFOAuthCredential *cred = [[AFOAuthCredential alloc] initWithOAuthToken:LVOAuthToken
+                                                                  tokenType:@"Bearer"];
+    self.treeBuilder = [[LVCTreeBuilder alloc] initWithBaseURL:baseURL authenticationCredential:cred persistentStoreURL:nil];
+
+    NSDate *startDate = [NSDate date];
+    [self.treeBuilder buildUserTreeWithCompletion:^(LVCUser *user, NSError *error) {
+        NSLog(@"user: %@", user);
+        NSLog(@"error: %@", error);
+        NSLog(@"finished in: %f", [[NSDate date] timeIntervalSinceDate:startDate]);
+    }];
 
 //    NSURL *userFile = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"user.model"];
 //

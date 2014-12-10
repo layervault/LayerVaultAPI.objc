@@ -10,7 +10,7 @@
 #import "LVCOrganizationsViewController.h"
 #import "LVCProjectOutlineViewController.h"
 #import "LVCLoginViewController.h"
-#import "LVConstants.h"
+//#import "LVConstants.h"
 #import "LVCFileRevisionsWindowController.h"
 #import <LayerVaultAPI/LayerVaultAPI.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
