@@ -532,9 +532,13 @@
                 LVCFile *previousFile = (LVCFile *)[previousFiles lvc_uniqueResourceMatching:fileValue
                                                                                      ofClass:[LVCFile class]];
 
-                [filesRequests addObject:[weakSelf fileTreeWithPrevious:previousFile
-                                                             pathPrefix:pathPrefix
-                                                              fromValue:fileValue]];
+                // @note - Important, the fileValue may not have a
+                // lastRevisionID which is required in this method.
+                if (fileValue.lastRevisionID) {
+                    [filesRequests addObject:[weakSelf fileTreeWithPrevious:previousFile
+                                                                 pathPrefix:pathPrefix
+                                                                  fromValue:fileValue]];
+                }
             }
             [PMKPromise when:filesRequests].then(^(NSArray *files) {
                 fulfill(files);
