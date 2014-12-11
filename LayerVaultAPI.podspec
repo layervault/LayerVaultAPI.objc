@@ -32,6 +32,6 @@ Pod::Spec.new do |s|
   s.dependency 'PromiseKit/Promise', '~> 0.9.21'
   s.dependency 'PromiseKit/When', '~> 0.9.21'
   s.dependency 'PromiseKit/Until', '~> 0.9.21'
-  s.dependency 'TransformerKit/Date', '0.5.3'
+  s.dependency 'TransformerKit/Date', '~> 0.5.4'
 
 end
