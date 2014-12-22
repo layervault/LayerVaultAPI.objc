@@ -41,7 +41,7 @@
 }
 
 
-+ (NSValueTransformer *)shortURLJSONTransformer
++ (NSValueTransformer *)webURLJSONTransformer
 {
     return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 }
