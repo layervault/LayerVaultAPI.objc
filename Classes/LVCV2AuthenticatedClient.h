@@ -16,6 +16,7 @@
 @class LVCRevisionCollection;
 @class PMKPromise;
 @class LVCProjectValue;
+@class LVCAmazonS3Client;
 
 @interface LVCV2AuthenticatedClient : AFOAuth2Client
 
@@ -153,6 +154,10 @@
 - (PMKPromise *)generateS3ResourceForPath:(NSString *)path
                                    bucket:(NSString *)bucket
                               maxFileSize:(NSString *)maxFileSize;
+
+- (PMKPromise *)uploadFile:(NSURL *)fileURL
+            amazonS3Client:(LVCAmazonS3Client *)s3Client
+                parameters:(NSDictionary *)parameters;
 
 - (PMKPromise *)uploadFile:(NSURL *)fileURL
                 parameters:(NSDictionary *)parameters;

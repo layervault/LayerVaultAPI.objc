@@ -560,6 +560,7 @@
 
 #pragma mark - Promises
 - (PMKPromise *)uploadFile:(NSURL *)fileURL
+            amazonS3Client:(LVCAmazonS3Client *)s3Client
                 parameters:(NSDictionary *)parameters
 {
     NSError *accessTokenError;
@@ -570,7 +571,11 @@
         if (!accessToken) {
             reject(accessTokenError);
         } else {
-            weakSelf.amazonS3Client = [[LVCAmazonS3Client alloc] init];
+            if (s3Client) {
+                weakSelf.amazonS3Client = s3Client;
+            } else {
+                weakSelf.amazonS3Client = [[LVCAmazonS3Client alloc] init];
+            }
             AFHTTPRequestOperation *s3Op = [weakSelf.amazonS3Client uploadOperationForFile:fileURL parameters:parameters accessToken:accessToken success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 fulfill(responseObject);
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -579,6 +584,12 @@
             [weakSelf enqueueHTTPRequestOperation:s3Op];
         }
     }];
+}
+
+- (PMKPromise *)uploadFile:(NSURL *)fileURL
+                parameters:(NSDictionary *)parameters
+{
+    return [self uploadFile:fileURL amazonS3Client:nil parameters:parameters];
 }
 
 #pragma mark - Private
