@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 OBJC_EXPORT NSString *const LVCRFC3339DateTransformerName;
+OBJC_EXPORT NSString *const LVCNumberStringTransformerName;
 
 /**
  *  Adds a new transformer to be used in valueTransformerForName:

@@ -12,6 +12,7 @@
 #import "NSDateFormatter+RFC3339.h"
 
 NSString *const LVCRFC3339DateTransformerName = @"LVCRFC3339DateTransformerName";
+NSString *const LVCNumberStringTransformerName = @"LVCNumberStringTransformerName";
 
 @implementation NSValueTransformer (LVCPredefinedTransformerAdditions)
 
@@ -28,6 +29,16 @@ NSString *const LVCRFC3339DateTransformerName = @"LVCRFC3339DateTransformerName"
 
 		[NSValueTransformer setValueTransformer:rfc3339DateTransformer
                                         forName:LVCRFC3339DateTransformerName];
+
+        MTLValueTransformer *numberStringTransformer = [MTLValueTransformer reversibleTransformerWithForwardBlock:^NSString *(NSNumber *number) {
+            return [number stringValue];
+        } reverseBlock:^NSNumber *(NSString *numberString) {
+            NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+            return [formatter numberFromString:numberString];
+        }];
+        [NSValueTransformer setValueTransformer:numberStringTransformer
+                                        forName:LVCNumberStringTransformerName];
+
 	}
 }
 
