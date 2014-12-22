@@ -14,7 +14,8 @@
 
 + (NSDictionary *)JSONKeyPathsByPropertyKey
 {
-    return @{@"revision": @"revision_number",
+    return @{@"uid": @"id",
+             @"revision": @"revision_number",
              @"md5": @"md5",
              @"size": @"file_size",
              @"dateCreated": @"created_at",
@@ -24,6 +25,9 @@
              @"shortenedURL": @"shortened_url"};
 }
 
++ (NSValueTransformer *)uidJSONTransformer {
+    return [NSValueTransformer valueTransformerForName:LVCNumberStringTransformerName];
+}
 
 + (NSValueTransformer *)dateCreatedJSONTransformer
 {

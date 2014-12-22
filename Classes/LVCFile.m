@@ -38,13 +38,17 @@ NSString *md5ForFileURL(NSURL *fileURL)
 + (NSDictionary *)JSONKeyPathsByPropertyKey
 {
     NSMutableDictionary *JSONKeyPathsByPropertyKey = [super JSONKeyPathsByPropertyKey].mutableCopy;
-    [JSONKeyPathsByPropertyKey addEntriesFromDictionary:@{@"revisionNumber": @"revision_number",
+    [JSONKeyPathsByPropertyKey addEntriesFromDictionary:@{@"uid": @"id",
+                                                          @"revisionNumber": @"revision_number",
                                                           @"revisions": @"revisions",
                                                           @"dateCreated": @"created_at",
                                                           @"downloadURL": @"download_url"}];
     return JSONKeyPathsByPropertyKey.copy;
 }
 
++ (NSValueTransformer *)uidJSONTransformer {
+    return [NSValueTransformer valueTransformerForName:LVCNumberStringTransformerName];
+}
 
 + (NSValueTransformer *)revisionsJSONTransformer
 {

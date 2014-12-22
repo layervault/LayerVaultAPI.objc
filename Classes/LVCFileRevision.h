@@ -7,12 +7,18 @@
 //
 
 #import <Mantle/Mantle.h>
+#import "LVCModelCollection.h"
 @class LVCFile;
 
 /**
  *  A specific revision of a file that has been uploaded to LayerVault
  */
-@interface LVCFileRevision : MTLModel <MTLJSONSerializing>
+@interface LVCFileRevision : MTLModel <LVCResourceUniquing, MTLJSONSerializing>
+
+/**
+ *  Revision ID
+ */
+@property (readonly, nonatomic) NSString *uid;
 
 /**
  *  Revision number
