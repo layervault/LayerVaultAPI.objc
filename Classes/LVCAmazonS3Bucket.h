@@ -11,6 +11,11 @@
 @interface LVCAmazonS3Bucket : NSObject
 
 /**
+ * Returns the scratch bucket
+ */
++ (NSURL *)omnivoreScratchURL;
+
+/**
  *  @return NSURL for local S3 bucket based on computer timezone
  */
 + (NSURL *)baseURLForLocalTimezone;

@@ -414,6 +414,10 @@ static NSDictionary *timeZoneIDToHost(void)
 
 @implementation LVCAmazonS3Bucket
 
++ (NSURL *)omnivoreScratchURL {
+    return [NSURL URLWithString:[NSString stringWithFormat:@"https://%@.s3.amazonaws.com", LVCAmazonS3BucketDefault]];
+}
+
 + (NSURL *)baseURLForLocalTimezone
 {
     return [self baseURLForTimezone:[NSTimeZone localTimeZone]];
