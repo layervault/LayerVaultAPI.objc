@@ -9,9 +9,9 @@ PODS:
     - PromiseKit/Promise (~> 0.9.21)
     - PromiseKit/Until (~> 0.9.21)
     - PromiseKit/When (~> 0.9.21)
-    - TransformerKit/Date (= 0.5.3)
+    - TransformerKit/Date (~> 0.5.4)
   - Mantle (1.5.1):
-    - Mantle/extobjc
+    - Mantle/extobjc (= 1.5.1)
   - Mantle/extobjc (1.5.1)
   - PromiseKit/Promise (0.9.21)
   - PromiseKit/Until (0.9.21):
@@ -20,15 +20,15 @@ PODS:
   - PromiseKit/When (0.9.21):
     - PromiseKit/Promise
   - ReactiveCocoa (2.3.1):
-    - ReactiveCocoa/UI
+    - ReactiveCocoa/UI (= 2.3.1)
   - ReactiveCocoa/Core (2.3.1):
     - ReactiveCocoa/no-arc
   - ReactiveCocoa/no-arc (2.3.1)
   - ReactiveCocoa/UI (2.3.1):
     - ReactiveCocoa/Core
   - SSKeychain (1.2.2)
-  - TransformerKit/Core (0.5.3)
-  - TransformerKit/Date (0.5.3):
+  - TransformerKit/Core (0.5.4)
+  - TransformerKit/Date (0.5.4):
     - TransformerKit/Core
 
 DEPENDENCIES:
@@ -43,11 +43,11 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AFNetworking: 80c4e0652b08eb34e25b9c0ff3c82556fe5967b4
   AFOAuth2Client: 4f05d29e0a26c7ddf529dd7c4480af6ee1e982c6
-  LayerVaultAPI: 696f27cdb3d317620bee8cd2be987b029ddeda6a
+  LayerVaultAPI: 7c21585df3941b66c925cc7c25f954567beae107
   Mantle: d7c5ac734579ec751c58fecbf56189853056c58c
   PromiseKit: 7dc63509abccf017f77fdccc4eef4bcd5762d9e5
   ReactiveCocoa: dca75777b9d18990c8714a3a6f2149f29b4d1462
   SSKeychain: cc48bd3ad24fcd9125adb9e0d23dd50b8bbd08b9
-  TransformerKit: a8aebc6772d867a727bec50134aa706cf0ce5949
+  TransformerKit: 8ea1db73043c4c05b36dc94ad8d83cc1e8971be8
 
-COCOAPODS: 0.34.2
+COCOAPODS: 0.35.0

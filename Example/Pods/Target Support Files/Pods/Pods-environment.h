@@ -88,11 +88,11 @@
 #define COCOAPODS_POD_AVAILABLE_TransformerKit_Core
 #define COCOAPODS_VERSION_MAJOR_TransformerKit_Core 0
 #define COCOAPODS_VERSION_MINOR_TransformerKit_Core 5
-#define COCOAPODS_VERSION_PATCH_TransformerKit_Core 3
+#define COCOAPODS_VERSION_PATCH_TransformerKit_Core 4
 
 // TransformerKit/Date
 #define COCOAPODS_POD_AVAILABLE_TransformerKit_Date
 #define COCOAPODS_VERSION_MAJOR_TransformerKit_Date 0
 #define COCOAPODS_VERSION_MINOR_TransformerKit_Date 5
-#define COCOAPODS_VERSION_PATCH_TransformerKit_Date 3
+#define COCOAPODS_VERSION_PATCH_TransformerKit_Date 4
 
